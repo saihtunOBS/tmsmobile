@@ -50,6 +50,7 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       body: TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
           controller: _tabController,
           children: [HomePage(), NotificationPage(), ProfilePage()]),
       bottomNavigationBar: Container(
@@ -70,7 +71,6 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicatorPadding: EdgeInsets.only(
                     top: kMargin52, left: kMargin24, right: kMargin24),
-                // indicatorPadding: EdgeInsets.symmetric(horizontal: kMargin24),
                 indicatorWeight: 4.0,
                 indicator: ShapeDecoration(
                   shape: UnderlineInputBorder(),

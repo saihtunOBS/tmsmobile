@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
-import 'package:tmsmobile/extension/extension.dart';
+import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/auth/forgor_password_page.dart';
 import 'package:tmsmobile/pages/nav/nav_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
@@ -53,13 +53,23 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(
               height: 160,
             ),
-            Center(
-              child: SizedBox(
-                height: 120,
-                width: 80,
-                child: Image.asset(
-                  kAppLogoImage,
-                  fit: BoxFit.contain,
+            TweenAnimationBuilder(
+              tween: Tween<double>(begin: 0, end: 1),
+              duration: Duration(seconds: 3),
+              builder: (BuildContext context, value, Widget? child) {
+                return Opacity(
+                  opacity: value,
+                  child: child,
+                );
+              },
+              child: Center(
+                child: SizedBox(
+                  height: 120,
+                  width: 80,
+                  child: Image.asset(
+                    kAppLogoImage,
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ),
             ),
@@ -117,8 +127,12 @@ class _LoginPageState extends State<LoginPage> {
         gradientButton(
             title: isFirstTime == true ? kContinueLabel : kLoginLabel,
             onPress: () {
-              PageNavigator(ctx: context).nextPageOnly(
-                  page: NavPage());
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  createRoute(
+                    NavPage(),
+                  ),
+                  (route) => false);
             }),
       ]),
     );

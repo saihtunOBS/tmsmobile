@@ -1,18 +1,13 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
-class PageNavigator {
-  BuildContext? ctx;
-  PageNavigator({required this.ctx});
+extension Gap on num {
+  SizedBox get vGap => SizedBox(height: toDouble());
+  SizedBox get hGap => SizedBox(width: toDouble());
+}
 
-  //navigate to next page
-  Future nextPage({Widget? page, bool withNav = false}) {
-    return Navigator.push(
-        ctx!, CupertinoPageRoute(builder: ((context) => page!)));
+extension DateFormatting on DateTime {
+  String toFormattedString() {
+    return DateFormat('yyyy-MM-dd').format(this);
   }
-
-  Future nextPageOnly({Widget? page}) {
-    return Navigator.pushAndRemoveUntil(ctx!,
-        CupertinoPageRoute(builder: ((context) => page!)), (route) => false);
-  }
-
 }

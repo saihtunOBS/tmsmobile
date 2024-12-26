@@ -1,0 +1,30 @@
+import 'package:flutter/material.dart';
+import 'package:tmsmobile/extension/route_navigator.dart';
+import 'package:tmsmobile/list_items/contract_list_item.dart';
+import 'package:tmsmobile/pages/home/contract_information_page.dart';
+import 'package:tmsmobile/utils/dimens.dart';
+import 'package:tmsmobile/utils/strings.dart';
+import 'package:tmsmobile/widgets/appbar.dart';
+
+class ContractPage extends StatelessWidget {
+  const ContractPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: PreferredSize(
+          preferredSize: Size(double.infinity, 60),
+          child: GradientAppBar(kContractLabel)),
+      body: ListView.builder(
+          itemCount: 5,
+          padding:
+              EdgeInsets.symmetric(horizontal: kMargin24),
+          itemBuilder: (context, index) {
+            return ContractListItem(
+              onPress: () => PageNavigator(ctx: context)
+                  .nextPage(page: ContractInformationPage()),
+            );
+          }),
+    );
+  }
+}

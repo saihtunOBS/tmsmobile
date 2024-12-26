@@ -1,0 +1,72 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:tmsmobile/utils/colors.dart';
+import 'package:tmsmobile/utils/dimens.dart';
+
+class HomeListItem extends StatelessWidget {
+  const HomeListItem(
+      {super.key,
+      required this.backgroundColor,
+      required this.label,
+      required this.imageLogo});
+  final Color backgroundColor;
+  final String label;
+  final String imageLogo;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.circular(kMargin5)),
+          child: Center(
+            child: Text(
+              label,
+              style: GoogleFonts.crimsonPro(
+                  fontSize: kTextRegular18, color: kWhiteColor,fontWeight: FontWeight.w600),
+            ),
+          ),
+        ),
+        Positioned(
+          top: -40,
+          left: 20,
+          child: Container(
+            height: 60,
+            width: 60,
+            decoration: BoxDecoration(
+                color: kWhiteColor, borderRadius: BorderRadius.circular(40)),
+            child: Center(
+              child: Container(
+                height: kMargin40,
+                width: kMargin40,
+                padding: EdgeInsets.all(kMargin5 + 2),
+                decoration: BoxDecoration(
+                    color: kWhiteColor,
+                    boxShadow: [
+                      BoxShadow(
+                          offset: Offset(
+                            0,
+                            3,
+                          ),
+                          blurRadius: 8.2,
+                          color: kGreyColor)
+                    ],
+                    border: Border.all(color: backgroundColor, width: 2),
+                    shape: BoxShape.circle),
+                child: Image.asset(
+                  imageLogo,
+                  width: kMarginMedium3,
+                  height: kMarginMedium3,
+                ),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}

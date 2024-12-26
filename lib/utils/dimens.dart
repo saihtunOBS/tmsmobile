@@ -4,6 +4,7 @@ const double kTextSmall = 12;
 const double kTextXSmall = 10;
 const double kTextRegularSize = 16;
 const double kTextRegular2x = 16;
+const double kTextRegular13 = 13;
 const double kTextRegular = 14;
 const double kTextRegular18 = 18;
 const double kTextRegular3x = 20;
@@ -16,6 +17,8 @@ const double kTextRegular28 = 28;
 const double kMargin6 = 6;
 const double kMargin5 = 5;
 const double kMarginSmall = 4;
+const double kMarginSmallx = 3;
+
 const double kMarginMedium = 8;
 const double kMargin10 = 10;
 const double kMargin12 = 12;

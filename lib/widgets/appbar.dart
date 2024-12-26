@@ -6,8 +6,8 @@ import "package:tmsmobile/utils/strings.dart";
 class GradientAppBar extends StatelessWidget {
   final String title;
   final double barHeight = 60.0;
-
-  const GradientAppBar(this.title, {super.key});
+  final Widget? action;
+  const GradientAppBar(this.title, {super.key, this.action});
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +24,26 @@ class GradientAppBar extends StatelessWidget {
       child: Center(
         child: Row(
           children: [
-            IconButton(onPressed: (){
-              Navigator.pop(context);
-            }, icon: Icon(title == kCloseLabel ? Icons.close : CupertinoIcons.chevron_back,color: kWhiteColor,)),
+            IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                  title == kCloseLabel
+                      ? Icons.close
+                      : CupertinoIcons.chevron_back,
+                  color: kWhiteColor,
+                )),
             Text(
               title,
               style: TextStyle(
-                  fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
+                  fontSize: 20.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
             ),
+            ///action button
+            Spacer(),
+            action ?? SizedBox()
           ],
         ),
       ),
