@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tmsmobile/extension/extension.dart';
+import 'package:tmsmobile/extension/route_navigator.dart';
+import 'package:tmsmobile/pages/home/submit_complain_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/strings.dart';
 
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
-import '../../widgets/gradient_button.dart';
 
-class InvoiceDetailPage extends StatelessWidget {
-  const InvoiceDetailPage({super.key});
+class MaintenanceQuotationPage extends StatelessWidget {
+  const MaintenanceQuotationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,26 +18,63 @@ class InvoiceDetailPage extends StatelessWidget {
       appBar: PreferredSize(
           preferredSize: Size(double.infinity, 60),
           child: GradientAppBar(
-            kInvoiceDetailLabel,
-            action: _buildDownloadButton(),
+            kDetailLabel,
           )),
       body: _buildBody(),
       bottomNavigationBar: Container(
-        height: kBottomBarHeight,
+          padding: EdgeInsets.symmetric(horizontal: kMarginMedium2),
+          height: kBottomBarHeight,
           decoration: BoxDecoration(color: Colors.white, boxShadow: [
             BoxShadow(offset: Offset(8, 0), blurRadius: 10, color: kGreyColor)
           ]),
-          child: Center(child: gradientButton(title: kMakePaymentLabel, onPress: () {}))),
+          child: Center(child: _buildAcceptRejectButton(context))),
     );
   }
 
-  Widget _buildDownloadButton() {
-    return IconButton(
-        onPressed: () {},
-        icon: Icon(
-          Icons.download,
-          color: kWhiteColor,
-        ));
+  Widget _buildAcceptRejectButton(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        InkWell(
+          onTap: () => PageNavigator(ctx: context).nextPage(page: SubmitComplainPage()),
+          child: Container(
+            height: 45,
+            width: 147,
+            decoration: BoxDecoration(
+                color: kRedColor.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(kMargin6)),
+            child: Center(
+              child: Text(
+                kRejectLabel,
+                style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: kTextRegular18,
+                    color: kRedColor),
+              ),
+            ),
+          ),
+        ),
+        InkWell(
+          onTap: () => Navigator.pop(context),
+          child: Container(
+            height: 45,
+            width: 147,
+            decoration: BoxDecoration(
+                color: kPrimaryColor.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(kMargin6)),
+            child: Center(
+              child: Text(
+                kAcceptLabel,
+                style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: kTextRegular18,
+                    color: kPrimaryColor),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
   }
 
   Widget _buildBody() {
@@ -254,7 +292,6 @@ class InvoiceDetailPage extends StatelessWidget {
                   kElectricFeeLabel,
                   style: GoogleFonts.crimsonPro(
                       fontSize: kTextRegular3x, fontWeight: FontWeight.w600),
-                
                 ),
                 1.vGap
               ],
@@ -263,8 +300,7 @@ class InvoiceDetailPage extends StatelessWidget {
           ListView.builder(
               itemCount: 2,
               shrinkWrap: true,
-              padding: EdgeInsets.symmetric(
-                  horizontal: kTextRegular2x),
+              padding: EdgeInsets.symmetric(horizontal: kTextRegular2x),
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return Column(

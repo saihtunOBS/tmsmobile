@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tmsmobile/extension/extension.dart';
+import 'package:tmsmobile/extension/route_navigator.dart';
+import 'package:tmsmobile/pages/home/maintenance_pending_page.dart';
+import 'package:tmsmobile/pages/home/maintenance_processing_page.dart';
+import 'package:tmsmobile/pages/home/maintenance_quotation_page.dart';
 import 'package:tmsmobile/utils/strings.dart';
 
 import '../../utils/colors.dart';
@@ -7,20 +11,27 @@ import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
 
 class MaintenanceProcessPage extends StatefulWidget {
-  const MaintenanceProcessPage({super.key});
-
+  const MaintenanceProcessPage({super.key, this.status});
+  final String? status;
   @override
   State<MaintenanceProcessPage> createState() => _MaintenanceProcessPageState();
 }
 
 final _surveyKey = GlobalKey();
+
 class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
-  bool isSelectedPending = false;
+  bool isSelectedPending = true;
   bool isSelectedSurvey = false;
   bool isSelectedQuotation = false;
   bool isSelectedAcceptReject = false;
   bool isSelectedProcessing = false;
   bool isSelectedFinish = false;
+
+  @override
+  void initState() {
+    implementStatus(widget.status ?? '');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +43,41 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
           )),
       body: _buildSetpper(),
     );
+  }
+
+  void implementStatus(String status) {
+    switch (status) {
+      case kPendingLabel:
+        isSelectedPending = true;
+      case kSurveyLabel:
+        isSelectedPending = true;
+        isSelectedSurvey = true;
+      case kQuotationLabel:
+        isSelectedPending = true;
+        isSelectedSurvey = true;
+        isSelectedQuotation = true;
+      case kAcceptRejectLabel:
+        isSelectedPending = true;
+        isSelectedSurvey = true;
+        isSelectedQuotation = true;
+        isSelectedAcceptReject = true;
+      case kProcessingLabel:
+        isSelectedPending = true;
+        isSelectedSurvey = true;
+        isSelectedQuotation = true;
+        isSelectedAcceptReject = true;
+        isSelectedProcessing = true;
+      case kFinishLabel:
+        isSelectedPending = true;
+        isSelectedSurvey = true;
+        isSelectedQuotation = true;
+        isSelectedAcceptReject = true;
+        isSelectedProcessing = true;
+        isSelectedFinish = true;
+        break;
+      default: isSelectedPending = false;
+        setState(() {});
+    }
   }
 
   Widget _buildSetpper() {
@@ -51,10 +97,13 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                     children: [
                       _buildDotView(isSelectedIndex: isSelectedPending),
                       _buildDotView(
-                          isSelectedIndex: isSelectedSurvey, isSurvey: true),
+                          isSelectedIndex: isSelectedSurvey,
+                          isSurveyAndProcessing: true),
                       _buildDotView(isSelectedIndex: isSelectedQuotation),
                       _buildDotView(isSelectedIndex: isSelectedAcceptReject),
-                      _buildDotView(isSelectedIndex: isSelectedProcessing),
+                      _buildDotView(
+                          isSelectedIndex: isSelectedProcessing,
+                          isSurveyAndProcessing: true),
                       _buildDotView(
                           isLast: true, isSelectedIndex: isSelectedFinish),
                     ],
@@ -64,59 +113,82 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                   child: Column(
                     spacing: kMarginMedium2,
                     children: [
-                      _buildProcessView(
-                          title: kPendingLabel,
-                          onPressed: () {
-                            setState(() {
-                              isSelectedPending = !isSelectedPending;
-                            });
-                          },
-                          isSelected: isSelectedPending,
-                          color: kBlackColor),
+                      InkWell(
+                        onTap: () => PageNavigator(ctx: context)
+                            .nextPage(page: MaintenancePendingPage()),
+                        child: _buildProcessView(
+                            title: kPendingLabel,
+                            onPressed: () {
+                              setState(() {
+                                isSelectedPending = true;
+                              });
+                            },
+                            label: 'Maintenance Request',
+                            isSelected: isSelectedPending,
+                            color: kBlackColor),
+                      ),
                       _buildProcessView(
                           title: kSurveyLabel,
                           key: _surveyKey,
                           onPressed: () {
                             setState(() {
-                              isSelectedSurvey = !isSelectedSurvey;
+                              if (isSelectedPending == false) return;
+                              isSelectedSurvey = true;
                             });
                           },
+                          label: kSurveyStateLabel,
                           isSelected: isSelectedSurvey,
                           color: kOrangeColor),
-                      _buildProcessView(
-                          title: kQuotationLabel,
-                          onPressed: () {
-                            setState(() {
-                              isSelectedQuotation = !isSelectedQuotation;
-                            });
-                          },
-                          isSelected: isSelectedQuotation,
-                          color: kGreenColor),
+                      InkWell(
+                        onTap: () => PageNavigator(ctx: context)
+                            .nextPage(page: MaintenanceQuotationPage()),
+                        child: _buildProcessView(
+                            title: kQuotationLabel,
+                            onPressed: () {
+                              setState(() {
+                                 if (isSelectedSurvey == false) return;
+                                isSelectedQuotation = true;
+                              });
+                            },
+                            label: kQuotationStateLabel,
+                            isSelected: isSelectedQuotation,
+                            color: kGreenColor),
+                      ),
                       _buildProcessView(
                           title: kAcceptRejectLabel,
                           onPressed: () {
                             setState(() {
-                              isSelectedAcceptReject = !isSelectedAcceptReject;
+                              if (isSelectedQuotation == false) return;
+                              isSelectedAcceptReject = true;
                             });
                           },
+                          label: kDecisionStateLabel,
                           isSelected: isSelectedAcceptReject,
                           color: kBlueColor),
-                      _buildProcessView(
-                          title: kProcessingLabel,
-                          onPressed: () {
-                            setState(() {
-                              isSelectedProcessing = !isSelectedProcessing;
-                            });
-                          },
-                          isSelected: isSelectedProcessing,
-                          color: kYellowColor),
+                      InkWell(
+                        onTap: () => PageNavigator(ctx: context)
+                            .nextPage(page: MaintenanceProcessingPage()),
+                        child: _buildProcessView(
+                            title: kProcessingLabel,
+                            onPressed: () {
+                              setState(() {
+                                if (isSelectedAcceptReject == false) return;
+                                isSelectedProcessing = true;
+                              });
+                            },
+                            label: kProcessingStateLabel,
+                            isSelected: isSelectedProcessing,
+                            color: kYellowColor),
+                      ),
                       _buildProcessView(
                           title: kFinishLabel,
                           onPressed: () {
                             setState(() {
-                              isSelectedFinish = !isSelectedFinish;
+                              if (isSelectedProcessing == false) return;
+                              isSelectedFinish = true;
                             });
                           },
+                          label: kSuccessFinishLabel,
                           isSelected: isSelectedFinish,
                           color: kPurpleColor),
                     ],
@@ -133,6 +205,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
       {required String title,
       required VoidCallback onPressed,
       Key? key,
+      String? label,
       bool? isSelected,
       required Color color}) {
     return Padding(
@@ -144,10 +217,9 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
           InkWell(
             onTap: () {
               onPressed();
-              print(_surveyKey.currentContext?.size?.height);
-            } ,
+            },
             child: Container(
-              key: key,
+                key: key,
                 height: 26,
                 padding: EdgeInsets.symmetric(
                     horizontal: kMargin12, vertical: kMargin5 - 2),
@@ -190,12 +262,12 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                         ),
                         6.vGap,
                         Text(
-                          'Maintenance Request',
+                          label ?? '',
                           style: TextStyle(
                               fontSize: kTextRegular2x,
                               fontWeight: FontWeight.w700),
                         ),
-                        title == kSurveyLabel
+                        title == kSurveyLabel || title == kProcessingLabel
                             ? Text(
                                 'We will arrive to survey within two days..',
                                 style: TextStyle(fontSize: kTextRegular13),
@@ -204,10 +276,10 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                       ],
                     ),
                   ),
-                  title == kSurveyLabel
+                  title == kSurveyLabel || title == kAcceptRejectLabel
                       ? SizedBox()
                       : Positioned(
-                          bottom: - kMarginMedium3,
+                          bottom: -kMarginMedium3,
                           right: 0,
                           child: Container(
                             height: 26,
@@ -238,7 +310,8 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
     );
   }
 
-  Widget _buildDotView({bool? isLast, bool? isSelectedIndex, bool? isSurvey}) {
+  Widget _buildDotView(
+      {bool? isLast, bool? isSelectedIndex, bool? isSurveyAndProcessing}) {
     return Column(
       children: [
         Container(
@@ -255,11 +328,12 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                 child: Container(
                   width: 2,
                   color: isSelectedIndex == true ? kPrimaryColor : kGreyColor,
-                  height: isSelectedIndex == true && isSurvey == true
-                      ? 130
-                      : isSelectedIndex == true
-                          ? 110
-                          : 43,
+                  height:
+                      isSelectedIndex == true && isSurveyAndProcessing == true
+                          ? 130
+                          : isSelectedIndex == true
+                              ? 110
+                              : 43,
                 ),
               ),
       ],

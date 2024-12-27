@@ -22,22 +22,23 @@ class BillingInvoicePage extends StatelessWidget {
             kDetailLabel,
           )),
       body: _buildBody(),
-      bottomNavigationBar: Container(
-          padding: EdgeInsets.only(
-            bottom: kMargin24,
-          ),
-          child: gradientButton(
-              title: kViewInvoiceDetailLabel,
-              onPress: () {
-                PageNavigator(ctx: context).nextPage(page: InvoiceDetailPage());
-              })),
+      bottomNavigationBar: SizedBox(
+          height: kBottomBarHeight,
+          child: Center(
+            child: gradientButton(
+                title: kViewInvoiceDetailLabel,
+                onPress: () {
+                  PageNavigator(ctx: context)
+                      .nextPage(page: InvoiceDetailPage());
+                }),
+          )),
     );
   }
 
   Widget _buildBody() {
     return Container(
       margin: const EdgeInsets.only(
-           left: kMargin24, right: kMargin24, bottom: kMargin12),
+          left: kMargin24, right: kMargin24,),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,10 +112,10 @@ class BillingInvoicePage extends StatelessWidget {
     return Container(
       height: 136,
       padding: EdgeInsets.all(kMargin10),
-      margin: EdgeInsets.only(bottom: kMargin10),
+      margin: EdgeInsets.only(bottom: kMargin6),
       width: double.infinity,
       decoration: BoxDecoration(
-          color: kSecondGreyColor.withValues(alpha: 0.5),
+          color: kGreyColor.withValues(alpha: 0.3),
           borderRadius: BorderRadius.circular(kMargin5 - 1)),
       child: Column(
         spacing: kMargin12,

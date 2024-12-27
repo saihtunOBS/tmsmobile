@@ -35,7 +35,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         extendBody: true,
         appBar: AppBar(
           excludeHeaderSemantics: true,
-          toolbarHeight: 140,
+          toolbarHeight: 160,
           backgroundColor: Colors.transparent,
           surfaceTintColor: kBackgroundColor,
           automaticallyImplyLeading: false,

@@ -5,6 +5,7 @@ import 'package:tmsmobile/data/dummy/dummy.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/list_items/home_list_item.dart';
 import 'package:tmsmobile/pages/home/billing_page.dart';
+import 'package:tmsmobile/pages/home/complain_page.dart';
 import 'package:tmsmobile/pages/home/contract_page.dart';
 import 'package:tmsmobile/pages/home/service_request_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
@@ -52,6 +53,9 @@ class HomePage extends StatelessWidget {
                           case 2:
                             PageNavigator(ctx: context)
                                 .nextPage(page: ServiceRequestPage());
+                          case 3:
+                            PageNavigator(ctx: context)
+                                .nextPage(page: ComplainPage());
                             break;
 
                           default:

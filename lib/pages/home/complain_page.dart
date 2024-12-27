@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
-import 'package:tmsmobile/list_items/service_request_list_item.dart';
-import 'package:tmsmobile/pages/home/maintenance_process_page.dart';
-import 'package:tmsmobile/pages/home/maintenance_request_page.dart';
+import 'package:tmsmobile/list_items/complain_list_item.dart';
+import 'package:tmsmobile/pages/home/complain_detail_page.dart';
+import 'package:tmsmobile/pages/home/submit_complain_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/images.dart';
 import 'package:tmsmobile/utils/strings.dart';
@@ -10,14 +10,14 @@ import 'package:tmsmobile/widgets/appbar.dart';
 
 import '../../utils/dimens.dart';
 
-class ServiceRequestPage extends StatefulWidget {
-  const ServiceRequestPage({super.key});
+class ComplainPage extends StatefulWidget {
+  const ComplainPage({super.key});
 
   @override
-  State<ServiceRequestPage> createState() => _ServiceRequestPageState();
+  State<ComplainPage> createState() => _ComplainPageState();
 }
 
-class _ServiceRequestPageState extends State<ServiceRequestPage>
+class _ComplainPageState extends State<ComplainPage>
     with SingleTickerProviderStateMixin {
   int _currentIndex = 0;
   late TabController _tabController;
@@ -47,7 +47,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
       appBar: PreferredSize(
           preferredSize: Size(double.infinity, 60),
           child: GradientAppBar(
-            kServiceRequestLabel,
+            kCompliantLabel,
           )),
       body: Stack(children: [
         SizedBox(
@@ -77,14 +77,14 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                     ),
                     tabs: [
                       Tab(
-                        child: Text(kMaintenanceLabel,
+                        child: Text(kPendingLabel,
                             style: TextStyle(
                                 fontSize: kTextRegular2x,
                                 fontWeight: FontWeight.w700)),
                       ),
                       Tab(
                         child: Text(
-                          kFillOutLabel,
+                          kSolvedLabel,
                           style: TextStyle(
                               fontSize: kTextRegular2x,
                               fontWeight: FontWeight.w700),
@@ -94,7 +94,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
             Expanded(
               child: TabBarView(
                   controller: _tabController,
-                  children: [_buildMaintenanceTab(), _buildFillOutTab()]),
+                  children: [_buildPendingTab(), _buildSolvedTab()]),
             ),
           ],
         )
@@ -109,37 +109,37 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
             ),
           ),
           onPressed: () {
-            PageNavigator(ctx: context)
-                .nextPage(page: MaintenanceRequestPage());
+            PageNavigator(ctx: context).nextPage(page: SubmitComplainPage());
           }),
     );
   }
 
-  Widget _buildMaintenanceTab() {
+  Widget _buildPendingTab() {
     return ListView.builder(
-        padding: EdgeInsets.symmetric(
-            vertical: kMargin24, horizontal: kMarginMedium2),
+        padding:
+            EdgeInsets.symmetric(vertical: kMargin24, horizontal: kMargin24),
         itemCount: 3,
         itemBuilder: (context, index) {
           return InkWell(
               onTap: () {
-                PageNavigator(ctx: context)
-                    .nextPage(page: MaintenanceProcessPage(status: '',));
+                PageNavigator(ctx: context).nextPage(
+                    page: ComplainDetailPage(
+                ));
               },
-              child: ServiceRequestListItem(statusColor: 0, status: 'Pending'));
+              child: ComplainListItem(
+                isLast: index == 2,
+              ));
         });
   }
 
-  Widget _buildFillOutTab() {
+  Widget _buildSolvedTab() {
     return ListView.builder(
         padding: EdgeInsets.symmetric(
-            vertical: kMargin24, horizontal: kMarginMedium2),
+            vertical: kMargin24, horizontal: kMargin24),
         itemCount: 3,
         itemBuilder: (context, index) {
-          return ServiceRequestListItem(
-            statusColor: 0,
-            status: 'Pending',
-            isFillOut: true,
+          return ComplainListItem(
+            isLast: index == 2,
           );
         });
   }

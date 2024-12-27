@@ -8,7 +8,7 @@ Widget gradientButton({String? title,required VoidCallback? onPress}) {
     onTap: onPress,
     child: Container(
       height: 55,
-      margin: EdgeInsets.symmetric(horizontal: kMargin24),
+      margin: EdgeInsets.symmetric(horizontal: kMarginMedium2),
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(kMarginMedium),

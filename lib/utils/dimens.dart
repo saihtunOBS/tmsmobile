@@ -112,3 +112,4 @@ const double kCircleProfileGreenWidthAndHeight = 100;
 const double kCinemaDetailImageHeight = 200;
 const double kPlayButtonWidthAndHeight = 50;
 
+const double kBottomBarHeight = 77;

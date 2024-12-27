@@ -20,3 +20,4 @@ const kAnnouncementImage = 'assets/images/announcement.png';
 const kContractBorderImage = 'assets/images/contract_border.png';
 const kInvoiceImage = 'assets/images/invoice.png';
 const kBillingBackgroundImage = 'assets/images/billing_background.png';
+const kLogoFrameImage = 'assets/images/logo_frame.png';

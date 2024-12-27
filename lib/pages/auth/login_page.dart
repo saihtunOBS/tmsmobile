@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
       extendBody: true,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        toolbarHeight: 140,
+        toolbarHeight: 160,
         surfaceTintColor: kBackgroundColor,
         backgroundColor: Colors.transparent,
         flexibleSpace: Image.asset(

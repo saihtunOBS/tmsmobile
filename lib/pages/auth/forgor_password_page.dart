@@ -27,7 +27,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       extendBody: true,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        toolbarHeight: 140,
+        toolbarHeight: 160,
         automaticallyImplyLeading: false,
         surfaceTintColor: kBackgroundColor,
         backgroundColor: Colors.transparent,

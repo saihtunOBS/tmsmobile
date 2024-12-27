@@ -66,12 +66,12 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
             ),
           ),
         ),
-        bottomNavigationBar: Container(
-            padding: EdgeInsets.only(
-              bottom: kMargin24,
-            ),
-            child: gradientButton(title: kSendRequestLabel, onPress: () {
-            })),
+        bottomNavigationBar: SizedBox(
+            height: kBottomBarHeight,
+            child: Center(
+              child: gradientButton(title: kSendRequestLabel, onPress: () {
+              }),
+            )),
       ),
     );
   }
