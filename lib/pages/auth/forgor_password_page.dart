@@ -27,7 +27,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       extendBody: true,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        toolbarHeight: 160,
+        toolbarHeight: MediaQuery.of(context).size.height * 0.21,
         automaticallyImplyLeading: false,
         surfaceTintColor: kBackgroundColor,
         backgroundColor: Colors.transparent,
@@ -36,28 +36,28 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           child: Stack(fit: StackFit.expand, children: [
             Image.asset(
               kAppBarTopImage,
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             ),
-            Positioned(top: 45, child: AppbarBackView())
+            Positioned(top: 30, child: AppbarBackView())
           ]),
         ),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(
-              horizontal: kMargin24, vertical: kMargin24),
+              horizontal: kMargin24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 16,
             children: [
-              const SizedBox(
-                height: 160,
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.18,
               ),
               Center(
                 child: SizedBox(
-                  height: 120,
-                  width: 80,
+                  height: 89,
+                  width: 58,
                   child: Image.asset(
                     kAppLogoImage,
                     fit: BoxFit.contain,
@@ -85,14 +85,21 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         ),
       ),
       bottomNavigationBar: Stack(alignment: Alignment.center, children: [
-        Image.asset(
-          kAppBarBottonImage,
-          fit: BoxFit.fill,
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.21,
+          width: double.infinity,
+          child: Image.asset(
+            kAppBarBottonImage,
+            fit: BoxFit.fill,
+          ),
         ),
         gradientButton(
             title: kSendLabel,
             onPress: () {
-              PageNavigator(ctx: context).nextPage(page: OTPPage(phone: '09791602079',));
+              PageNavigator(ctx: context).nextPage(
+                  page: OTPPage(
+                phone: '09791602079',
+              ));
             }),
       ]),
     );

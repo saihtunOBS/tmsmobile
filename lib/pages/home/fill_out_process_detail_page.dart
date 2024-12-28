@@ -3,17 +3,18 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/strings.dart';
-import 'package:tmsmobile/widgets/cache_image.dart';
 
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
 
-class MaintenancePendingPage extends StatelessWidget {
-  const MaintenancePendingPage({super.key});
+class FillOutProcessDetailPage extends StatelessWidget {
+  const FillOutProcessDetailPage({super.key, this.isApproved});
+  final bool? isApproved;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kBackgroundColor,
       appBar: PreferredSize(
           preferredSize: Size(double.infinity, 60),
           child: GradientAppBar(
@@ -33,19 +34,73 @@ class MaintenancePendingPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: kMarginMedium2),
             child: Column(
-              spacing: kMargin12,
               children: [
                 _buildListDetail(title: kIDLabel, value: 'value'),
+                12.vGap,
                 _buildListDetail(title: kDateLabel, value: 'value'),
+                Visibility(
+                  visible: isApproved ?? false,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: kMargin12),
+                    child: _buildListDetail(
+                        title: kServicingDateLabel,
+                        value: '12 Dec, 2024',
+                        isServicingDate: true),
+                  ),
+                ),
+                12.vGap,
                 _buildListDetail(title: kTenantNameLabel, value: 'value'),
+                12.vGap,
                 _buildListDetail(title: kRoomShopNameLabel, value: 'value'),
-                _buildListDetail(title: kTypeOfIssueLabel, value: 'value'),
-                _buildStatusListItem(status: 'Pending'),
-                _buildDescription(context)
+                10.vGap,
+                Visibility(
+                    visible: isApproved ?? false,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: kMargin10),
+                      child: _buildListDetail(
+                          title: kDepositLabel,
+                          value: '50000000 ks',
+                          isDeposit: true),
+                    )),
+                _buildStatusListItem(status: 'Processing'),
+                Visibility(
+                    visible: isApproved == false,
+                    child: _buildDescription(context)),
+                _buildDayExtension(),
               ],
             ),
           ),
           10.vGap
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDayExtension() {
+    return Container(
+      margin: EdgeInsets.only(top: kMarginMedium2),
+      padding: EdgeInsets.all(kMargin12),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(
+            kMargin10,
+          ),
+          color: kNewBlueColor.withValues(alpha: 0.08)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: kMargin12,
+        children: [
+          Text(
+            kDayExtensionDayLabel,
+            style: TextStyle(
+                fontSize: kTextRegular18, fontWeight: FontWeight.w700),
+          ),
+          _buildListDetail(
+              title: kServicingDateLabel,
+              value: '12 Dec, 2024',
+              isServicingDate: true),
+          _buildListDetail(title: kExtensionDayLabel, value: 'value'),
+          _buildListDetail(
+              title: kAmountLabel, value: '50000 ks', isDeposit: true),
         ],
       ),
     );
@@ -59,7 +114,6 @@ class MaintenancePendingPage extends StatelessWidget {
           kStatusLabel,
           style: TextStyle(fontSize: kTextRegular),
         ),
-        40.hGap,
         Container(
           padding: EdgeInsets.symmetric(
               horizontal: kMarginMedium, vertical: kMargin5),
@@ -80,7 +134,11 @@ class MaintenancePendingPage extends StatelessWidget {
     );
   }
 
-  Widget _buildListDetail({required String title, required String value}) {
+  Widget _buildListDetail(
+      {required String title,
+      required String value,
+      bool? isServicingDate,
+      bool? isDeposit}) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -94,8 +152,14 @@ class MaintenancePendingPage extends StatelessWidget {
             value,
             softWrap: true,
             textAlign: TextAlign.end,
-            style:
-                TextStyle(fontSize: kTextRegular, fontWeight: FontWeight.w700),
+            style: TextStyle(
+                fontSize: kTextRegular,
+                fontWeight: FontWeight.w700,
+                color: isServicingDate == true
+                    ? kRedColor
+                    : isDeposit == true
+                        ? kPrimaryColor
+                        : kBlackColor),
           ),
         )
       ],
@@ -109,8 +173,7 @@ class MaintenancePendingPage extends StatelessWidget {
         Text(
           kDescriptionLabel,
           style: GoogleFonts.crimsonPro(
-            fontSize: kTextRegular3x,fontWeight: FontWeight.w700
-          ),
+              fontSize: kTextRegular3x, fontWeight: FontWeight.w700),
         ),
         10.vGap,
         Text(
@@ -118,22 +181,6 @@ class MaintenancePendingPage extends StatelessWidget {
           style: TextStyle(fontSize: kTextRegular),
         ),
         16.vGap,
-        GridView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: 2,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: kMarginMedium2,
-                crossAxisSpacing: kMarginMedium2,
-                mainAxisExtent: 216),
-            itemBuilder: (context, index) {
-              return SizedBox(
-                width: MediaQuery.of(context).size.width / 2.5,
-                child: cacheImage(
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/23rd_St_6th_Av_19_-_Chelsea_Stratus.jpg/640px-23rd_St_6th_Av_19_-_Chelsea_Stratus.jpg'),
-              );
-            })
       ],
     );
   }

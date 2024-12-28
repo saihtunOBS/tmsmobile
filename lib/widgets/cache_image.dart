@@ -7,10 +7,9 @@ Widget cacheImage(String url,) {
   return CachedNetworkImage(
     imageUrl: url,
     fit: BoxFit.cover,
-    // color: color,
     placeholder: (context, url) => CupertinoActivityIndicator(
       animating: true,
-      color: kPrimaryColor,
+      color: kSecondaryColor,
     ),
     errorWidget: (context, url, error) => Image.network(
       'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png',

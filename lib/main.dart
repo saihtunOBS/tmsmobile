@@ -6,6 +6,7 @@ import 'package:tmsmobile/utils/colors.dart';
 
 void main() async {
   await GetStorage.init();
+
   runApp(const TMSMobile());
 }
 
@@ -14,6 +15,7 @@ class TMSMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   
     return MaterialApp(
       title: 'TMS Mobile',
       debugShowCheckedModeBanner: false,

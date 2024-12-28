@@ -43,11 +43,13 @@ class BillingListItem extends StatelessWidget {
                     color: _filterStatusColor(status: statusColor)
                         .withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(kMarginMedium14)),
-                child: Text(
-                  status,
-                  style: TextStyle(
-                      fontSize: kTextSmall,
-                      color: _filterStatusColor(status: statusColor)),
+                child: Center(
+                  child: Text(
+                    status,
+                    style: TextStyle(
+                        fontSize: kTextSmall,
+                        color: _filterStatusColor(status: statusColor)),
+                  ),
                 ),
               )
             ],
@@ -114,6 +116,8 @@ class BillingListItem extends StatelessWidget {
         return kPrimaryColor;
       case 1:
         return kYellowColor;
+      case 2: 
+        return kGreenColor;
       default:
         return kPrimaryColor;
     }

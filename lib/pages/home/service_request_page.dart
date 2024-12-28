@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/list_items/service_request_list_item.dart';
+import 'package:tmsmobile/pages/home/fill_out_process_page.dart';
 import 'package:tmsmobile/pages/home/maintenance_process_page.dart';
 import 'package:tmsmobile/pages/home/maintenance_request_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
@@ -136,10 +137,14 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
             vertical: kMargin24, horizontal: kMarginMedium2),
         itemCount: 3,
         itemBuilder: (context, index) {
-          return ServiceRequestListItem(
-            statusColor: 0,
-            status: 'Pending',
-            isFillOut: true,
+          return InkWell(
+            onTap: ()=> PageNavigator(ctx: context)
+                    .nextPage(page: FillOutProcessPage(status: kApprovedLabel,)),
+            child: ServiceRequestListItem(
+              statusColor: 0,
+              status: 'Pending',
+              isFillOut: true,
+            ),
           );
         });
   }

@@ -46,8 +46,8 @@ class _BillingPageState extends State<BillingPage> {
                 onTap: () => PageNavigator(ctx: context)
                     .nextPage(page: BillingInvoicePage()),
                 child: BillingListItem(
-                  statusColor: 1,
-                  status: 'Unpaid',
+                  statusColor: 2,
+                  status: 'Paid',
                 ),
               );
             }),

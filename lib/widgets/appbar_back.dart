@@ -9,13 +9,11 @@ class AppbarBackView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        InkWell(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: SizedBox(
+    return InkWell(
+      onTap: () => Navigator.pop(context),
+      child: Row(
+        children: [
+          SizedBox(
             height: 50,
             width: 50,
             child: Center(
@@ -25,12 +23,17 @@ class AppbarBackView extends StatelessWidget {
               ),
             ),
           ),
-        ),
-        Text(
-          kBackLabel,
-          style: TextStyle(color: kWhiteColor,fontWeight: FontWeight.bold,fontSize: kTextRegular2x),
-        )
-      ],
+          Text(
+            kBackLabel,
+            style: TextStyle(
+                color: kWhiteColor,
+                fontWeight: FontWeight.bold,
+                fontSize: kTextRegular2x),
+          )
+        ],
+      ),
     );
   }
 }
+
+

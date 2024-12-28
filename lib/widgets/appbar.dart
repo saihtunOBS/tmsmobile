@@ -1,6 +1,7 @@
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:tmsmobile/utils/colors.dart";
+import "package:tmsmobile/utils/images.dart";
 import "package:tmsmobile/utils/strings.dart";
 
 class GradientAppBar extends StatelessWidget {
@@ -41,6 +42,53 @@ class GradientAppBar extends StatelessWidget {
                   color: Colors.white,
                   fontWeight: FontWeight.bold),
             ),
+
+            ///action button
+            Spacer(),
+            action ?? SizedBox()
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ProfileAppbar extends StatelessWidget {
+  final String? title;
+  final double barHeight = 60.0;
+  final Widget? action;
+  final bool? isProfileView;
+  const ProfileAppbar({super.key, this.title,this.action,this.isProfileView});
+
+  @override
+  Widget build(BuildContext context) {
+    final double statusbarHeight = MediaQuery.of(context).padding.top;
+    return Container(
+      padding: EdgeInsets.only(top: statusbarHeight),
+      height: statusbarHeight + barHeight,
+      decoration: BoxDecoration(
+          image: DecorationImage(image: AssetImage(kProfileAppbarImage,),fit: BoxFit.fill)),
+      child: Center(
+        child: isProfileView == true ? SizedBox() : Row(
+          children: [
+            IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                  title == kCloseLabel
+                      ? Icons.close
+                      : CupertinoIcons.chevron_back,
+                  color: kWhiteColor,
+                )),
+            Text(
+              title ?? '',
+              style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+
             ///action button
             Spacer(),
             action ?? SizedBox()

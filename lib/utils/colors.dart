@@ -15,3 +15,4 @@ const Color kOrangeColor = Color(0xFFF86111);
 const Color kPurpleColor = Color(0xFF9747FF);
 const Color kBlueColor = Color(0xFF0057FF);
 const Color kRedColor = Color(0xFFFF0000);
+const Color kNewBlueColor = Color(0xFF012D67);

@@ -17,6 +17,7 @@ class SplashScreenPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kBackgroundColor,
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () {
@@ -52,8 +53,8 @@ class SplashScreenPage extends StatelessWidget {
                 ],
               ),
             ),
-            Positioned(top: -65, child: _buildTopAnimation(context)),
-            Positioned(bottom: -50, child: _buildBottonAnimation(context))
+            _buildTopAnimation(context),
+            Positioned(bottom: 0,child: _buildBottonAnimation(context))
           ],
         ),
       ),
@@ -66,8 +67,8 @@ class SplashScreenPage extends StatelessWidget {
       duration: Duration(milliseconds: 1000),
       builder: (context, value, child) => Opacity(
         opacity: value,
-        child: Padding(
-          padding: EdgeInsets.only(top: value * 50),
+        child: SizedBox(
+          height:  value * MediaQuery.of(context).size.height * 0.24,
           child: child,
         ),
       ),
@@ -75,7 +76,7 @@ class SplashScreenPage extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         child: Image.asset(
           kAppBarTopImage,
-          fit: BoxFit.cover,
+          fit: BoxFit.fill,
         ),
       ),
     );
@@ -87,8 +88,8 @@ class SplashScreenPage extends StatelessWidget {
       duration: Duration(milliseconds: 1000),
       builder: (context, value, child) => Opacity(
         opacity: value,
-        child: Padding(
-          padding: EdgeInsets.only(bottom: value * 50),
+        child: SizedBox(
+          height:  value * MediaQuery.of(context).size.height * 0.21,
           child: child,
         ),
       ),
@@ -96,7 +97,7 @@ class SplashScreenPage extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         child: Image.asset(
           kAppBarBottonImage,
-          fit: BoxFit.cover,
+          fit: BoxFit.fill,
         ),
       ),
     );

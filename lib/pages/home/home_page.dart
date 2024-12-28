@@ -2,9 +2,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:tmsmobile/data/dummy/dummy.dart';
+import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/list_items/home_list_item.dart';
+import 'package:tmsmobile/pages/home/announcement_page.dart';
 import 'package:tmsmobile/pages/home/billing_page.dart';
+import 'package:tmsmobile/pages/home/car_parking_page.dart';
 import 'package:tmsmobile/pages/home/complain_page.dart';
 import 'package:tmsmobile/pages/home/contract_page.dart';
 import 'package:tmsmobile/pages/home/service_request_page.dart';
@@ -12,6 +15,7 @@ import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/images.dart';
 import 'package:tmsmobile/utils/strings.dart';
+import 'package:tmsmobile/widgets/cache_image.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -19,55 +23,69 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
       backgroundColor: kBackgroundColor,
-      body: Column(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        flexibleSpace: Stack(children: [
+          Positioned(bottom: kMargin10 + 4, child: _buildHeader())
+        ]),
+      ),
+      body: Stack(
         children: [
+          GridView.builder(
+              physics: ClampingScrollPhysics(),
+              padding: EdgeInsets.only(
+                  left: kMargin24,
+                  right: kMargin24,
+                  top: MediaQuery.of(context).size.height * 0.435,
+                  bottom: MediaQuery.of(context).size.height * 0.15),
+              shrinkWrap: true,
+              itemCount: 6,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: kMargin45,
+                  crossAxisSpacing: kMarginMedium3,
+                  mainAxisExtent: 75),
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    switch (index) {
+                      case 0:
+                        PageNavigator(ctx: context)
+                            .nextPage(page: ContractPage());
+                      case 1:
+                        PageNavigator(ctx: context)
+                            .nextPage(page: BillingPage());
+                      case 2:
+                        PageNavigator(ctx: context)
+                            .nextPage(page: ServiceRequestPage());
+                      case 3:
+                        PageNavigator(ctx: context)
+                            .nextPage(page: ComplainPage());
+                      case 4:
+                        PageNavigator(ctx: context)
+                            .nextPage(page: CarParkingPage());
+                      case 5:
+                        PageNavigator(ctx: context)
+                            .nextPage(page: AnnouncementPage());
+                        break;
+
+                      default:
+                    }
+                  },
+                  child: HomeListItem(
+                    backgroundColor: _separateColor(index),
+                    label: _separateLabel(index),
+                    imageLogo: _separateLogo(index),
+                  ),
+                );
+              }),
           SizedBox(
-            height: MediaQuery.of(context).size.height / 2.4,
+            height: MediaQuery.of(context).size.height / 2.55,
             width: double.infinity,
             child: _buildBannerView(),
           ),
-          Expanded(
-              child: GridView.builder(
-                  physics: ClampingScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
-                      horizontal: kMargin24, vertical: kMargin30 + 5),
-                  shrinkWrap: true,
-                  itemCount: 6,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: kMargin45,
-                      crossAxisSpacing: kMarginMedium3,
-                      mainAxisExtent: 75),
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {
-                        switch (index) {
-                          case 0:
-                            PageNavigator(ctx: context)
-                                .nextPage(page: ContractPage());
-                          case 1:
-                            PageNavigator(ctx: context)
-                                .nextPage(page: BillingPage());
-                          case 2:
-                            PageNavigator(ctx: context)
-                                .nextPage(page: ServiceRequestPage());
-                          case 3:
-                            PageNavigator(ctx: context)
-                                .nextPage(page: ComplainPage());
-                            break;
-
-                          default:
-                        }
-                      },
-                      child: HomeListItem(
-                        backgroundColor: _separateColor(index),
-                        label: _separateLabel(index),
-                        imageLogo: _separateLogo(index),
-                      ),
-                    );
-                  }))
         ],
       ),
     );
@@ -138,7 +156,6 @@ class HomePage extends StatelessWidget {
       valueListenable: sliderIndex,
       builder: (context, value, child) {
         return Stack(
-          alignment: Alignment.bottomCenter,
           children: [
             SizedBox(
               width: double.infinity,
@@ -148,41 +165,51 @@ class HomePage extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(bottom: kMargin45 + 13),
-              height: MediaQuery.of(context).size.height * 0.21,
-              width: double.infinity,
-              child: CarouselSlider(
-                  carouselController: controller,
-                  items: bannerArray.map((value) {
-                    return Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: kMargin24),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(kMarginMedium),
-                        child: Image.asset(
-                          value,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                  options: CarouselOptions(
-                    autoPlay: true,
-                    viewportFraction: 1,
-                    onPageChanged: (index, reason) => sliderIndex.value = index,
-                  )),
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.1),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.19,
+                      width: double.infinity,
+                      child: CarouselSlider(
+                          carouselController: controller,
+                          items: bannerArray.map((value) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: kMargin24),
+                              child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.circular(kMarginMedium),
+                                child: cacheImage(
+                                    'https://www.rustomjee.com/blog/wp-content/uploads/2024/08/IMAGE_1000-X-374-copy.jpg'),
+                              ),
+                            );
+                          }).toList(),
+                          options: CarouselOptions(
+                            autoPlay: false,
+                            disableCenter: true,
+                            viewportFraction: 1,
+                            onPageChanged: (index, reason) =>
+                                sliderIndex.value = index,
+                          )),
+                    ),
+                  ),
+                  14.vGap,
+                  AnimatedSmoothIndicator(
+                      effect: ExpandingDotsEffect(
+                          dotHeight: kMargin6,
+                          dotWidth: kMargin6,
+                          activeDotColor: kWhiteColor),
+                      activeIndex: sliderIndex.value,
+                      count: bannerArray.length)
+                ],
+              ),
             ),
-            Positioned(
-                bottom: kMargin34 + 4,
-                child: AnimatedSmoothIndicator(
-                    effect: ExpandingDotsEffect(
-                        dotHeight: kMargin6,
-                        dotWidth: kMargin6,
-                        activeDotColor: kWhiteColor),
-                    activeIndex: sliderIndex.value,
-                    count: bannerArray.length)),
-            Positioned(
-                top: kMargin50 + 10, left: kMargin24, child: _buildHeader()),
           ],
         );
       },
@@ -196,6 +223,7 @@ class HomePage extends StatelessWidget {
         Container(
           width: kMargin40,
           height: kMargin40,
+          margin: EdgeInsets.only(left: kMargin24),
           padding: EdgeInsets.all(3),
           decoration: BoxDecoration(
               color: kWhiteColor,

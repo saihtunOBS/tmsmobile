@@ -36,12 +36,12 @@ class _LoginPageState extends State<LoginPage> {
       extendBody: true,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        toolbarHeight: 160,
+        toolbarHeight: MediaQuery.of(context).size.height * 0.21,
         surfaceTintColor: kBackgroundColor,
         backgroundColor: Colors.transparent,
         flexibleSpace: Image.asset(
           kAppBarTopImage,
-          fit: BoxFit.cover,
+          fit: BoxFit.fill,
         ),
       ),
       body: SingleChildScrollView(
@@ -50,12 +50,13 @@ class _LoginPageState extends State<LoginPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 16,
           children: [
-            const SizedBox(
-              height: 160,
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.18,
             ),
             TweenAnimationBuilder(
               tween: Tween<double>(begin: 0, end: 1),
-              duration: Duration(seconds: 3),
+              curve: Curves.fastLinearToSlowEaseIn,
+              duration: Duration(seconds: 5),
               builder: (BuildContext context, value, Widget? child) {
                 return Opacity(
                   opacity: value,
@@ -64,8 +65,8 @@ class _LoginPageState extends State<LoginPage> {
               },
               child: Center(
                 child: SizedBox(
-                  height: 120,
-                  width: 80,
+                  height: 89,
+                  width: 58,
                   child: Image.asset(
                     kAppLogoImage,
                     fit: BoxFit.contain,
@@ -120,19 +121,19 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       bottomNavigationBar: Stack(alignment: Alignment.center, children: [
-        Image.asset(
-          kAppBarBottonImage,
-          fit: BoxFit.fill,
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.21,
+          width: double.infinity,
+          child: Image.asset(
+            kAppBarBottonImage,
+            fit: BoxFit.fill,
+          ),
         ),
         gradientButton(
             title: isFirstTime == true ? kContinueLabel : kLoginLabel,
             onPress: () {
               Navigator.pushAndRemoveUntil(
-                  context,
-                  createRoute(
-                    NavPage(),
-                  ),
-                  (route) => false);
+                  context, createRoute(NavPage()), (_) => false);
             }),
       ]),
     );

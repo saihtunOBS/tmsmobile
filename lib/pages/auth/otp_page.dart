@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
-import 'package:tmsmobile/pages/auth/change_password_page.dart';
+import 'package:tmsmobile/pages/auth/forgor_password_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
@@ -58,7 +59,7 @@ class _OTPPageState extends State<OTPPage> {
       extendBody: true,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        toolbarHeight: 160,
+        toolbarHeight: MediaQuery.of(context).size.height * 0.21,
         automaticallyImplyLeading: false,
         surfaceTintColor: kBackgroundColor,
         backgroundColor: Colors.transparent,
@@ -67,53 +68,47 @@ class _OTPPageState extends State<OTPPage> {
           child: Stack(fit: StackFit.expand, children: [
             Image.asset(
               kAppBarTopImage,
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             ),
-            Positioned(top: 45, child: AppbarBackView())
+            Positioned(top: 30, child: AppbarBackView())
           ]),
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: kMargin24, vertical: kMargin24),
+        padding: const EdgeInsets.symmetric(horizontal: kMargin24),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 16,
             children: [
-              const SizedBox(
-                height: 160,
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.18,
               ),
+              16.vGap,
               Center(
                 child: SizedBox(
-                  height: 120,
-                  width: 80,
+                  height: 89,
+                  width: 58,
                   child: Image.asset(
                     kAppLogoImage,
                     fit: BoxFit.contain,
                   ),
                 ),
               ),
-              const SizedBox(
-                height: kMarginMedium,
-              ),
+              40.vGap,
               Text(
                 kVerificationCodeLabel,
                 style: GoogleFonts.crimsonPro(
                     fontWeight: FontWeight.w600, fontSize: kTextRegular24),
               ),
+              16.vGap,
               Text(
                 kSendCodeToNumberLabel,
                 style: TextStyle(fontSize: kTextRegular2x),
               ),
-              Text(
-                widget.phone?.replaceRange(2, 8, "******") ?? '',
-                style: TextStyle(
-                    fontWeight: FontWeight.w700, fontSize: kTextRegular2x),
-              ),
+              16.vGap,
               _buildPinView(),
-              const SizedBox(),
+              16.vGap,
               Row(
                 spacing: 5,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -133,18 +128,22 @@ class _OTPPageState extends State<OTPPage> {
         ),
       ),
       bottomNavigationBar: Stack(alignment: Alignment.center, children: [
-        Image.asset(
-          kAppBarBottonImage,
-          fit: BoxFit.fill,
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.21,
+          width: double.infinity,
+          child: Image.asset(
+            kAppBarBottonImage,
+            fit: BoxFit.fill,
+          ),
         ),
         gradientButton(onPress: () {
-          PageNavigator(ctx: context).nextPage(
-              page: ChangePasswordPage(
-            isFirstTime: false,
-          ));
+          Navigator.push(
+            context,
+            createRoute(ForgotPasswordPage()),
+          );
         }),
         Positioned(
-          top: 0,
+          top: -10,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

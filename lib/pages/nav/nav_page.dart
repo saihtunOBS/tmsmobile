@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/pages/notification/notification_page.dart';
 import 'package:tmsmobile/pages/profile/profile_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
@@ -48,47 +49,52 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kBackgroundColor,
-      body: TabBarView(
-          physics: const NeverScrollableScrollPhysics(),
-          controller: _tabController,
-          children: [HomePage(), NotificationPage(), ProfilePage()]),
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.only(
-            right: kMargin24, left: kMargin24, bottom: kMargin24),
-        height: 56,
-        width: double.infinity,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(kMarginMedium),
-            boxShadow: [
-              BoxShadow(offset: Offset(0, 5), color: kGreyColor, blurRadius: 10)
-            ]),
-        child: DefaultTabController(
-            length: 3,
-            child: TabBar(
-                controller: _tabController,
-                indicatorSize: TabBarIndicatorSize.tab,
-                indicatorPadding: EdgeInsets.only(
-                    top: kMargin52, left: kMargin24, right: kMargin24),
-                indicatorWeight: 4.0,
-                indicator: ShapeDecoration(
-                  shape: UnderlineInputBorder(),
-                  gradient: LinearGradient(
-                    colors: [kPrimaryColor, kThirdColor],
-                  ),
-                ),
-                tabs: [
-                  Tab(
-                    child: _buildHomeTabWidget(),
-                  ),
-                  Tab(
-                    child: _buildNotiTabWidget(),
-                  ),
-                  Tab(
-                    child: _buildProfileTabWidget(),
-                  ),
-                ])),
+      body: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          TabBarView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: _tabController,
+              children: [HomePage(), NotificationPage(), ProfilePage()]),
+          Container(
+            margin: EdgeInsets.only(
+                bottom: kMargin24, left: kMargin24, right: kMargin24),
+            height: 56,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+                color: kWhiteColor,
+                borderRadius: BorderRadius.circular(kMarginMedium),
+                boxShadow: [
+                  BoxShadow(
+                      offset: Offset(0, 6), color: kGreyColor, blurRadius: 10)
+                ]),
+            child: DefaultTabController(
+                length: 3,
+                child: TabBar(
+                    controller: _tabController,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    indicatorPadding: EdgeInsets.only(
+                        top: kMargin52, left: kMargin24, right: kMargin24),
+                    indicatorWeight: 4.0,
+                    indicator: ShapeDecoration(
+                      shape: UnderlineInputBorder(),
+                      gradient: LinearGradient(
+                        colors: [kPrimaryColor, kThirdColor],
+                      ),
+                    ),
+                    tabs: [
+                      Tab(
+                        child: _buildHomeTabWidget(),
+                      ),
+                      Tab(
+                        child: _buildNotiTabWidget(),
+                      ),
+                      Tab(
+                        child: _buildProfileTabWidget(),
+                      ),
+                    ])),
+          ),
+        ],
       ),
     );
   }
@@ -96,12 +102,18 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
   Widget _buildHomeTabWidget() {
     return Column(
       children: [
+        3.vGap,
         SizedBox(
             height: kMargin24,
             width: kMargin24,
-            child:
-                Image.asset(_currentIndex == 0 ? kHomeSelectIcon : kHomeIcon)),
-        Text(kHomeLabel),
+            child: Image.asset(_currentIndex == 0 ? kHomeIcon : kHomeIcon)),
+        Text(
+          kHomeLabel,
+          style: TextStyle(
+              fontSize: kTextSmall,
+              fontWeight: FontWeight.w600,
+              color: _currentIndex == 0 ? kPrimaryColor : kBlackColor),
+        ),
       ],
     );
   }
@@ -109,12 +121,19 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
   Widget _buildNotiTabWidget() {
     return Column(
       children: [
+        3.vGap,
         SizedBox(
             height: kMargin24,
             width: kMargin24,
             child:
                 Image.asset(_currentIndex == 1 ? kNotiSelectIcon : kNotiIcon)),
-        Text(kNotiLabel),
+        Text(
+          kNotiLabel,
+          style: TextStyle(
+              fontSize: kTextSmall,
+              fontWeight: FontWeight.w600,
+              color: _currentIndex == 1 ? kPrimaryColor : kBlackColor),
+        ),
       ],
     );
   }
@@ -122,12 +141,19 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
   Widget _buildProfileTabWidget() {
     return Column(
       children: [
+        3.vGap,
         SizedBox(
             height: kMargin24,
             width: kMargin24,
             child: Image.asset(
                 _currentIndex == 2 ? kProfileSelectIcon : kProfileIcon)),
-        Text(kProfileLabel),
+        Text(
+          kProfileLabel,
+          style: TextStyle(
+              fontSize: kTextSmall,
+              fontWeight: FontWeight.w600,
+              color: _currentIndex == 2 ? kPrimaryColor : kBlackColor),
+        ),
       ],
     );
   }

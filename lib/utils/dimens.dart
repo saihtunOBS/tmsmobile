@@ -18,7 +18,6 @@ const double kMargin6 = 6;
 const double kMargin5 = 5;
 const double kMarginSmall = 4;
 const double kMarginSmallx = 3;
-
 const double kMarginMedium = 8;
 const double kMargin10 = 10;
 const double kMargin12 = 12;
@@ -39,8 +38,14 @@ const double kMargin50 = 50;
 const double kMargin52 = 52;
 const double kMargin80 = 80;
 const double kMargin24 = 24;
+const double kMargin92 =92;
 const double kMargin94 =94;
+const double kMargin110 = 110;
 const double kMargin154 =154;
+const double kMargin220 = 220;
+const double kMargin195 = 195;
+const double kMargin160 = 160;
+const double kMargin170 = 170;
 
 
 
@@ -112,4 +117,4 @@ const double kCircleProfileGreenWidthAndHeight = 100;
 const double kCinemaDetailImageHeight = 200;
 const double kPlayButtonWidthAndHeight = 50;
 
-const double kBottomBarHeight = 77;
+const double kBottomBarHeight = 90;

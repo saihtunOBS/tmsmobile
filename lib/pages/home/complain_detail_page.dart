@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tmsmobile/extension/extension.dart';
@@ -8,11 +9,12 @@ import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
 
 class ComplainDetailPage extends StatelessWidget {
-  const ComplainDetailPage({super.key});
+  ComplainDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kBackgroundColor,
       appBar: PreferredSize(
           preferredSize: Size(double.infinity, 60),
           child: GradientAppBar(
@@ -122,7 +124,14 @@ class ComplainDetailPage extends StatelessWidget {
     );
   }
 
-  
+  final List<String> ratings = [
+    kSatisfiedLabel,
+    kGoodLabel,
+    kNeutralLabel,
+    kBadlabel,
+    kUnStatisfiedLabel
+  ];
+
   void _showAlertDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -130,38 +139,52 @@ class ComplainDetailPage extends StatelessWidget {
         return Dialog(
           child: Container(
             width: 300, // Set the custom width
-            height: 200, // Set the custom height
+            height: 300, // Set the custom height
             padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: kPrimaryColor,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Stack(
-              
-              children: <Widget>[
-                Text(
-                  'Custom Sized Dialog',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 20),
-                Text(
-                  'This is an alert dialog with custom width and height.',
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop(); // Close the dialog
-                      },
-                      child: Text('Close'),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                alignment: Alignment.center,
+                clipBehavior: Clip.none,
+                children: [
+                  Column(
+                    children: [
+                      Text(
+                        kHowWouldYouRateLabel,
+                        style: TextStyle(
+                            fontSize: kTextRegular, color: kWhiteColor),
+                      ),
+                      16.vGap,
+                      Column(
+                        spacing: kMargin6,
+                        children: ratings.asMap().entries.map((entry) {
+                          return Container(
+                            height: 39,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                color: kWhiteColor,
+                                borderRadius:
+                                    BorderRadius.circular(kMarginMedium)),
+                            child: Center(
+                              child: Text(entry.value),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                      top: -40,
+                      right: -40,
+                      child: IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.cancel,
+                            color: kWhiteColor,size: 26,
+                          )))
+                ]),
           ),
         );
       },

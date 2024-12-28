@@ -22,7 +22,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
           )),
       body: _buildBody(),
       bottomNavigationBar: Container(
-          padding: EdgeInsets.symmetric(horizontal: kMarginMedium2),
+          padding: EdgeInsets.only(left: kMarginMedium2,right: kMarginMedium2,bottom: kMargin12),
           height: kBottomBarHeight,
           decoration: BoxDecoration(color: Colors.white, boxShadow: [
             BoxShadow(offset: Offset(8, 0), blurRadius: 10, color: kGreyColor)

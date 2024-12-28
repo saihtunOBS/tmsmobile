@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/bloc/change_password_bloc.dart';
-import 'package:tmsmobile/pages/auth/term_and_condition_page.dart';
+import 'package:tmsmobile/pages/auth/otp_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
@@ -35,7 +35,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         extendBody: true,
         appBar: AppBar(
           excludeHeaderSemantics: true,
-          toolbarHeight: 160,
+          toolbarHeight: MediaQuery.of(context).size.height * 0.21,
           backgroundColor: Colors.transparent,
           surfaceTintColor: kBackgroundColor,
           automaticallyImplyLeading: false,
@@ -44,9 +44,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             child: Stack(fit: StackFit.expand, children: [
               Image.asset(
                 kAppBarTopImage,
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
               ),
-              Positioned(top: 45, child: AppbarBackView())
+              Positioned(top: 30, child: AppbarBackView())
             ]),
           ),
         ),
@@ -56,13 +56,13 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 16,
             children: [
-              const SizedBox(
-                height: 160,
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.18,
               ),
               Center(
                 child: SizedBox(
-                  height: 120,
-                  width: 80,
+                  height: 89,
+                  width: 58,
                   child: Image.asset(
                     kAppLogoImage,
                     fit: BoxFit.contain,
@@ -95,18 +95,25 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               ),
               _buildCheckPassword(),
               const SizedBox(
-                height: kMargin24,
+                height: kMargin110,
               )
             ],
           ),
         ),
         bottomNavigationBar: Stack(alignment: Alignment.center, children: [
-          Image.asset(
-            kAppBarBottonImage,
-            fit: BoxFit.contain,
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.21,
+            width: double.infinity,
+            child: Image.asset(
+              kAppBarBottonImage,
+              fit: BoxFit.fill,
+            ),
           ),
           gradientButton(onPress: () {
-            PageNavigator(ctx: context).nextPage(page: TermAndConditionPage());
+            Navigator.push(
+              context,
+              createRoute(OTPPage()),
+            );
           }),
         ]),
       ),
