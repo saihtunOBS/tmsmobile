@@ -17,7 +17,7 @@ class BillingInvoicePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 60),
+          preferredSize: Size(double.infinity, kMargin60),
           child: GradientAppBar(
             kDetailLabel,
           )),
@@ -110,7 +110,7 @@ class BillingInvoicePage extends StatelessWidget {
 
   Widget _buidPartiallyPaidHistory() {
     return Container(
-      height: 136,
+      height: kSize136,
       padding: EdgeInsets.all(kMargin10),
       margin: EdgeInsets.only(bottom: kMargin6),
       width: double.infinity,

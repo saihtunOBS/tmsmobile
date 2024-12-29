@@ -67,7 +67,7 @@ class AnnouncementListItem extends StatelessWidget {
                   children: [
                     Spacer(),
                     Container(
-                      height: 28,
+                      height: kSize28,
                       padding: EdgeInsets.symmetric(horizontal: kMargin12),
                       decoration: BoxDecoration(
                           color: kPrimaryColor,

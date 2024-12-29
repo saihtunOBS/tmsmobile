@@ -37,7 +37,7 @@ class BillingListItem extends StatelessWidget {
                 style: TextStyle(fontSize: kTextRegular13, color: kThirdColor),
               ),
               Container(
-                height: 26,
+                height: kSize26,
                 padding: EdgeInsets.symmetric(horizontal: kMargin12),
                 decoration: BoxDecoration(
                     color: _filterStatusColor(status: statusColor)
@@ -91,7 +91,7 @@ class BillingListItem extends StatelessWidget {
                 style: TextStyle(fontSize: kTextRegular13),
               ),
               Container(
-                height: 26,
+                height: kSize26,
                 padding: EdgeInsets.symmetric(horizontal: kMargin12),
                 decoration: BoxDecoration(
                     color: kPrimaryColor,

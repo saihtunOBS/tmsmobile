@@ -70,7 +70,7 @@ class NotificationPage extends StatelessWidget {
   Widget _buildNewNotiBody() {
     return Column(
       children: [
-        16.vGap,
+        kMarginMedium2.vGap,
         Text(
           kNewNotificationLabel,
           style: TextStyle(fontSize: kTextRegular2x, color: kPrimaryColor),

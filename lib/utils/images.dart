@@ -34,3 +34,5 @@ const kHouseholdIcon = 'assets/images/household.png';
 const kEmergencyIcon = 'assets/images/emergency.png';
 const kDeleteAccountIcon = 'assets/images/delete_account.png';
 const kLogoutIcon = 'assets/images/logout.png';
+const kMMIcon = 'assets/images/mm_logo.png';
+const kEngIcon = 'assets/images/en_logo.png';

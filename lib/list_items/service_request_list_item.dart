@@ -45,7 +45,7 @@ class ServiceRequestListItem extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      height: 26,
+                      height: kSize26,
                       padding: EdgeInsets.symmetric(horizontal: kMargin12),
                       decoration: BoxDecoration(
                           color: _filterStatusColor(status: statusColor)
@@ -85,7 +85,7 @@ class ServiceRequestListItem extends StatelessWidget {
                   children: [
                     Spacer(),
                     Container(
-                      height: 28,
+                      height: kSize28,
                       padding: EdgeInsets.symmetric(horizontal: kMargin12),
                       decoration: BoxDecoration(
                           color: kPrimaryColor,

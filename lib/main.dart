@@ -4,6 +4,8 @@ import 'package:tmsmobile/data/app_data/app_data.dart';
 import 'package:tmsmobile/pages/auth/splash_screen_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 
+import 'utils/dimens.dart';
+
 void main() async {
   await GetStorage.init();
 
@@ -15,7 +17,6 @@ class TMSMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   
     return MaterialApp(
       title: 'TMS Mobile',
       debugShowCheckedModeBanner: false,
@@ -24,7 +25,7 @@ class TMSMobile extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: kPrimaryColor),
           useMaterial3: true,
           scaffoldBackgroundColor: kBackgroundColor,
-          appBarTheme: AppBarTheme(toolbarHeight: 60)),
+          appBarTheme: AppBarTheme(toolbarHeight: kMargin60)),
       home: const SplashScreenPage(),
     );
   }

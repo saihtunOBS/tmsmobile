@@ -23,7 +23,7 @@ class _BillingPageState extends State<BillingPage> {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 60),
+          preferredSize: Size(double.infinity, kMargin60),
           child: GradientAppBar(
             kBillingLabel,
             action: _buildDropDown(),
@@ -59,7 +59,7 @@ class _BillingPageState extends State<BillingPage> {
 
   Widget _buildDropDown() {
     return Container(
-        height: 33,
+        height: kSize33,
         //padding: EdgeInsets.symmetric(horizontal: kMargin10),
         margin: EdgeInsets.only(right: kMargin24),
         decoration: BoxDecoration(

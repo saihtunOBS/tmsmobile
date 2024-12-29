@@ -10,7 +10,7 @@ class MaintenanceProcessingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 60),
+          preferredSize: Size(double.infinity, kMargin60),
           child: GradientAppBar(
             kBackLabel,
           )),

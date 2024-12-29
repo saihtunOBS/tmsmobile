@@ -15,7 +15,7 @@ class InvoiceDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 60),
+          preferredSize: Size(double.infinity, kMargin60),
           child: GradientAppBar(
             kInvoiceDetailLabel,
             action: _buildDownloadButton(),
@@ -79,7 +79,7 @@ class InvoiceDetailPage extends StatelessWidget {
           title,
           style: TextStyle(fontSize: kTextRegular),
         ),
-        40.hGap,
+        kSize40.hGap,
         Expanded(
           child: Text(
             value,
@@ -110,7 +110,7 @@ class InvoiceDetailPage extends StatelessWidget {
       child: Column(
         children: [
           Container(
-              height: 46,
+              height: kSize46,
               width: double.infinity,
               padding: EdgeInsets.only(left: kTextRegular2x, top: kMargin10),
               decoration: BoxDecoration(
@@ -213,7 +213,7 @@ class InvoiceDetailPage extends StatelessWidget {
       child: Column(
         children: [
           Container(
-              height: 46,
+              height: kSize46,
               width: double.infinity,
               padding: EdgeInsets.only(left: kTextRegular2x, top: kMargin10),
               decoration: BoxDecoration(

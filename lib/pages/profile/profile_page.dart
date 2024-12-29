@@ -2,6 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tmsmobile/extension/extension.dart';
+import 'package:tmsmobile/extension/route_navigator.dart';
+import 'package:tmsmobile/pages/profile/account_change_language_page.dart';
+import 'package:tmsmobile/pages/profile/account_change_password_page.dart';
+import 'package:tmsmobile/pages/profile/change_profile_page.dart';
+import 'package:tmsmobile/pages/profile/emergency_contact_page.dart';
+import 'package:tmsmobile/pages/profile/household_registration_page.dart';
+import 'package:tmsmobile/pages/profile/account_term_and_condition_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
@@ -38,9 +45,8 @@ class ProfilePage extends StatelessWidget {
                 height: kMargin110,
                 width: MediaQuery.of(context).size.width,
               )),
-          
           Padding(
-            padding: EdgeInsets.only(top: kMargin50 + 5),
+            padding: EdgeInsets.only(top: kMargin80 + 5),
             child: _buildHeader(context),
           ),
         ],
@@ -56,10 +62,11 @@ class ProfilePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            height: 100,
-            width: 100,
+            height: kSize100,
+            width: kSize100,
             padding: EdgeInsets.all(kMargin5 - 1),
             decoration: BoxDecoration(
+              color: kWhiteColor,
               shape: BoxShape.circle,
               gradient: LinearGradient(
                 colors: [kPrimaryColor, kThirdColor],
@@ -67,10 +74,10 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             child: Container(
-              height: 100,
+              height: kSize100,
               decoration:
                   BoxDecoration(color: kWhiteColor, shape: BoxShape.circle),
-              width: 100,
+              width: kSize100,
               child: ClipOval(
                   child: cacheImage(
                       'https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D')),
@@ -84,18 +91,24 @@ class ProfilePage extends StatelessWidget {
           Text(
             '098888888888'.replaceRange(3, 8, '*****'),
           ),
-          Container(
-            height: 28,
-            width: 110,
-            padding: EdgeInsets.symmetric(horizontal: kMargin10),
-            decoration: BoxDecoration(
-                color: kPrimaryColor.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(kMargin12 + 3)),
-            child: Center(
-              child: Text(
-                kViewProfileLabel,
-                style:
-                    TextStyle(fontSize: kTextRegular13, color: kPrimaryColor),
+          InkWell(
+            onTap: () =>
+                PageNavigator(ctx: context).nextPage(page: ChangeProfilePage()),
+            child: Container(
+              height: kSize28,
+              width: kSize110,
+              padding: EdgeInsets.symmetric(horizontal: kMargin10),
+              decoration: BoxDecoration(
+                  color: kPrimaryColor.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(kMarginMedium2)),
+              child: Center(
+                child: Text(
+                  kViewProfileLabel,
+                  style: TextStyle(
+                      fontSize: kTextRegular13,
+                      color: kPrimaryColor,
+                      fontWeight: FontWeight.w600),
+                ),
               ),
             ),
           ),
@@ -163,7 +176,23 @@ class ProfilePage extends StatelessWidget {
                           context: context,
                           builder: (_) =>
                               _buildBottomSheet(isDeleteAccount: true));
+                    case kChangePasswordLabel:
+                      PageNavigator(ctx: context)
+                          .nextPage(page: AccountChangePasswordPage());
+                    case kLanguageLabel:
+                      PageNavigator(ctx: context)
+                          .nextPage(page: AccountChangeLanguagePage());
+                    case kEmergencyContactLabel:
+                      PageNavigator(ctx: context)
+                          .nextPage(page: EmergencyContactPage());
+                    case kHouseholdLabel:
+                      PageNavigator(ctx: context)
+                          .nextPage(page: HouseholdRegistrationPage());
+                    case kTermAndConditionLabel:
+                      PageNavigator(ctx: context)
+                          .nextPage(page: AccountTermAndConditionPage());
                       break;
+
                     default:
                   }
                 },

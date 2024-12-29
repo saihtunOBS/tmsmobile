@@ -14,8 +14,8 @@ class AppbarBackView extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(
-            height: 50,
-            width: 50,
+            height: kSize50,
+            width: kSize50,
             child: Center(
               child: Icon(
                 CupertinoIcons.chevron_back,

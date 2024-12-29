@@ -16,7 +16,7 @@ class ComplainDetailPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 60),
+          preferredSize: Size(double.infinity, kMargin60),
           child: GradientAppBar(
             kDetailLabel,
           )),
@@ -45,13 +45,13 @@ class ComplainDetailPage extends StatelessWidget {
                       children: [
                         Image.asset(
                           kLogoFrameImage,
-                          width: 40,
-                          height: 40,
+                          width: kSize40,
+                          height: kSize40,
                         ),
                         Image.asset(
                           kAppLogoImage,
-                          width: 30,
-                          height: 30,
+                          width: kMargin30,
+                          height: kMargin30,
                         ),
                       ],
                     ),
@@ -78,8 +78,8 @@ class ComplainDetailPage extends StatelessWidget {
               InkWell(
                 onTap: () => _showAlertDialog(context),
                 child: Container(
-                  width: 71,
-                  height: 34,
+                  width: kSize70,
+                  height: kSize34,
                   decoration: BoxDecoration(
                       color: kPrimaryColor,
                       borderRadius: BorderRadius.circular(kMargin6)),
@@ -138,8 +138,8 @@ class ComplainDetailPage extends StatelessWidget {
       builder: (BuildContext context) {
         return Dialog(
           child: Container(
-            width: 300, // Set the custom width
-            height: 300, // Set the custom height
+            width: kSize300, // Set the custom width
+            height: kSize300, // Set the custom height
             padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: kPrimaryColor,
@@ -156,12 +156,12 @@ class ComplainDetailPage extends StatelessWidget {
                         style: TextStyle(
                             fontSize: kTextRegular, color: kWhiteColor),
                       ),
-                      16.vGap,
+                      kMarginMedium2.vGap,
                       Column(
                         spacing: kMargin6,
                         children: ratings.asMap().entries.map((entry) {
                           return Container(
-                            height: 39,
+                            height: kSize40,
                             width: double.infinity,
                             decoration: BoxDecoration(
                                 color: kWhiteColor,
@@ -176,13 +176,14 @@ class ComplainDetailPage extends StatelessWidget {
                     ],
                   ),
                   Positioned(
-                      top: -40,
-                      right: -40,
+                      top: -kSize40,
+                      right: -kSize40,
                       child: IconButton(
                           onPressed: () {},
                           icon: Icon(
                             Icons.cancel,
-                            color: kWhiteColor,size: 26,
+                            color: kWhiteColor,
+                            size: kSize26,
                           )))
                 ]),
           ),

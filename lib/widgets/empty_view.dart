@@ -20,8 +20,8 @@ class EmptyView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
-            width: 120,
-            height: 120,
+            width: kSize120,
+            height: kSize120,
             child: Image.asset(imagePath),
           ),
           Text(
@@ -33,7 +33,7 @@ class EmptyView extends StatelessWidget {
             subTitle,
             style: TextStyle(fontSize: kTextRegular),
           ),
-          SizedBox(height: kMargin80,)
+          SizedBox(height: kSize80,)
         ],
       ),
     );

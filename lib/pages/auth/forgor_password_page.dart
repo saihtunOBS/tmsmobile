@@ -38,7 +38,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               kAppBarTopImage,
               fit: BoxFit.fill,
             ),
-            Positioned(top: 30, child: AppbarBackView())
+            Positioned(top: kMargin30, child: AppbarBackView())
           ]),
         ),
       ),
@@ -49,15 +49,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 16,
+            spacing: kMarginMedium2,
             children: [
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.18,
               ),
               Center(
                 child: SizedBox(
-                  height: 89,
-                  width: 58,
+                  height: kSize89,
+                  width: kSize58,
                   child: Image.asset(
                     kAppLogoImage,
                     fit: BoxFit.contain,
@@ -121,7 +121,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           height: 4,
         ),
         Container(
-          height: 46,
+          height: kSize46,
           padding: EdgeInsets.symmetric(horizontal: kMargin24),
           width: double.infinity,
           decoration: BoxDecoration(

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -36,9 +38,9 @@ class HomePage extends StatelessWidget {
           GridView.builder(
               physics: ClampingScrollPhysics(),
               padding: EdgeInsets.only(
-                  left: kMargin24,
-                  right: kMargin24,
-                  top: MediaQuery.of(context).size.height * 0.435,
+                  left: kMarginXLarge,
+                  right: kMarginXLarge,
+                  top: MediaQuery.of(context).size.height / 2.2,
                   bottom: MediaQuery.of(context).size.height * 0.15),
               shrinkWrap: true,
               itemCount: 6,
@@ -46,7 +48,7 @@ class HomePage extends StatelessWidget {
                   crossAxisCount: 2,
                   mainAxisSpacing: kMargin45,
                   crossAxisSpacing: kMarginMedium3,
-                  mainAxisExtent: 75),
+                  mainAxisExtent: kSize75),
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
@@ -82,7 +84,7 @@ class HomePage extends StatelessWidget {
                 );
               }),
           SizedBox(
-            height: MediaQuery.of(context).size.height / 2.55,
+            height: MediaQuery.of(context).size.height / 2.45,
             width: double.infinity,
             child: _buildBannerView(),
           ),
@@ -164,40 +166,38 @@ class HomePage extends StatelessWidget {
                 fit: BoxFit.fill,
               ),
             ),
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.1),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.19,
-                      width: double.infinity,
-                      child: CarouselSlider(
-                          carouselController: controller,
-                          items: bannerArray.map((value) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: kMargin24),
-                              child: ClipRRect(
-                                borderRadius:
-                                    BorderRadius.circular(kMarginMedium),
-                                child: cacheImage(
-                                    'https://www.rustomjee.com/blog/wp-content/uploads/2024/08/IMAGE_1000-X-374-copy.jpg'),
-                              ),
-                            );
-                          }).toList(),
-                          options: CarouselOptions(
-                            autoPlay: false,
-                            disableCenter: true,
-                            viewportFraction: 1,
-                            onPageChanged: (index, reason) =>
-                                sliderIndex.value = index,
-                          )),
-                    ),
+                  Platform.isAndroid ? kSize50.vGap : kSize80.vGap,
+                  SizedBox(
+                    height: Platform.isAndroid
+                        ? MediaQuery.of(context).size.height / 4.4
+                        : MediaQuery.of(context).size.height / 4.9,
+                    width: double.infinity,
+                    child: CarouselSlider(
+                        carouselController: controller,
+                        items: bannerArray.map((value) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: kMarginMedium2),
+                            child: ClipRRect(
+                              borderRadius:
+                                  BorderRadius.circular(kMarginMedium),
+                              child: cacheImage(
+                                  'https://www.rustomjee.com/blog/wp-content/uploads/2024/08/IMAGE_1000-X-374-copy.jpg'),
+                            ),
+                          );
+                        }).toList(),
+                        options: CarouselOptions(
+                          autoPlay: false,
+                          disableCenter: true,
+                          viewportFraction: 1,
+                          onPageChanged: (index, reason) =>
+                              sliderIndex.value = index,
+                        )),
                   ),
                   14.vGap,
                   AnimatedSmoothIndicator(
@@ -206,7 +206,7 @@ class HomePage extends StatelessWidget {
                           dotWidth: kMargin6,
                           activeDotColor: kWhiteColor),
                       activeIndex: sliderIndex.value,
-                      count: bannerArray.length)
+                      count: bannerArray.length),
                 ],
               ),
             ),
@@ -218,12 +218,12 @@ class HomePage extends StatelessWidget {
 
   Widget _buildHeader() {
     return Row(
-      spacing: 10,
+      spacing: kMargin10,
       children: [
         Container(
           width: kMargin40,
           height: kMargin40,
-          margin: EdgeInsets.only(left: kMargin24),
+          margin: EdgeInsets.only(left: kMarginMedium2),
           padding: EdgeInsets.all(3),
           decoration: BoxDecoration(
               color: kWhiteColor,

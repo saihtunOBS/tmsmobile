@@ -16,7 +16,7 @@ class FillOutProcessDetailPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 60),
+          preferredSize: Size(double.infinity, kMargin60),
           child: GradientAppBar(
             kDetailLabel,
           )),
@@ -36,7 +36,7 @@ class FillOutProcessDetailPage extends StatelessWidget {
             child: Column(
               children: [
                 _buildListDetail(title: kIDLabel, value: 'value'),
-                12.vGap,
+                kMargin12.vGap,
                 _buildListDetail(title: kDateLabel, value: 'value'),
                 Visibility(
                   visible: isApproved ?? false,
@@ -44,13 +44,13 @@ class FillOutProcessDetailPage extends StatelessWidget {
                     padding: const EdgeInsets.only(top: kMargin12),
                     child: _buildListDetail(
                         title: kServicingDateLabel,
-                        value: '12 Dec, 2024',
+                        value: 'kMargin12 Dec, 2024',
                         isServicingDate: true),
                   ),
                 ),
-                12.vGap,
+                kMargin12.vGap,
                 _buildListDetail(title: kTenantNameLabel, value: 'value'),
-                12.vGap,
+                kMargin12.vGap,
                 _buildListDetail(title: kRoomShopNameLabel, value: 'value'),
                 10.vGap,
                 Visibility(
@@ -146,7 +146,7 @@ class FillOutProcessDetailPage extends StatelessWidget {
           title,
           style: TextStyle(fontSize: kTextRegular),
         ),
-        40.hGap,
+        kSize40.hGap,
         Expanded(
           child: Text(
             value,
@@ -180,7 +180,7 @@ class FillOutProcessDetailPage extends StatelessWidget {
           'Lorem ipsum dolor sit amet consectetur. Eget neque gravida tellus vitae quis a. Aliquam a sagittis nibh ipsum. Tincidunt tristique bibendum adipiscing id volutpat lectus. Ullamcorper magna amet nibh venenatis risus. ',
           style: TextStyle(fontSize: kTextRegular),
         ),
-        16.vGap,
+        kMarginMedium2.vGap,
       ],
     );
   }

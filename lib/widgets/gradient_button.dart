@@ -10,27 +10,28 @@ Widget gradientButton(
   return InkWell(
     onTap: onPress,
     child: Container(
-      height: 50,
+      height: 55,
       margin: EdgeInsets.only(
           left: kMarginMedium2, right: kMarginMedium2, bottom: kMargin5),
       width: double.infinity,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(kMarginMedium),
-          gradient: LinearGradient(
-            colors: [kPrimaryColor, kThirdColor],
-            stops: [0.0, 1.0],
-          ),
-          boxShadow: [
-            BoxShadow(offset: Offset(0, 2), color: kGreyColor, blurRadius: 4)
-          ]),
+        borderRadius: BorderRadius.circular(kMarginMedium),
+        gradient: LinearGradient(
+          colors: [kPrimaryColor, kThirdColor],
+          stops: [0.0, 1.0],
+        ),
+      ),
       child: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             isLogout == true
-                ? Icon(CupertinoIcons.square_arrow_right,color: kWhiteColor,)
+                ? Icon(
+                    CupertinoIcons.square_arrow_right,
+                    color: kWhiteColor,
+                  )
                 : SizedBox(),
-            isLogout == true ? 5 .hGap : 0.hGap,
+            isLogout == true ? 5.hGap : 0.hGap,
             Text(
               title ?? kContinueLabel,
               style: TextStyle(

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 
@@ -14,8 +15,8 @@ class CarParkingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
-            preferredSize: Size(double.infinity, 60),
-            child: GradientAppBar(kContractInformationLabel)),
+            preferredSize: Size(double.infinity, kMargin60),
+            child: GradientAppBar(kCarParkingLabel)),
         body: Stack(
           children: [
             SizedBox(
@@ -28,7 +29,7 @@ class CarParkingPage extends StatelessWidget {
             ),
             ListView.builder(
                 padding: EdgeInsets.symmetric(
-                    vertical: kMarginMedium2, horizontal: kMarginMedium2),
+                    vertical: kMarginMedium2, horizontal: kMarginMedium2 + 2),
                 itemCount: 3,
                 itemBuilder: (context, index) {
                   return _buildBody();
@@ -74,6 +75,7 @@ class CarParkingPage extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: kMarginMedium2),
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(kMargin10),
         boxShadow: [
           BoxShadow(
               offset: Offset(
@@ -87,7 +89,7 @@ class CarParkingPage extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: kMarginSmallx),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(kMargin5),
+          borderRadius: BorderRadius.circular(kMargin10),
           gradient: LinearGradient(
             colors: [kPrimaryColor, kThirdColor],
             stops: [0.0, 1.0],
@@ -121,8 +123,10 @@ class CarParkingPage extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                   vertical: kMargin10, horizontal: kMargin10),
               decoration: BoxDecoration(
-                color: kWhiteColor,
-              ),
+                  color: kWhiteColor,
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10))),
               child: Column(
                 spacing: kMargin10,
                 children: [
@@ -134,7 +138,9 @@ class CarParkingPage extends StatelessWidget {
                   _listItem(
                       title: kStatusLabel, value: 'value', isStatus: true),
                   _listItem(title: kVehicleNoLabel, value: 'value'),
-                  _buildParkingInformation()
+                  5.vGap,
+                  _buildParkingInformation(),
+                  
                 ],
               ),
             ),

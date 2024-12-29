@@ -2,27 +2,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/bloc/change_password_bloc.dart';
-import 'package:tmsmobile/pages/auth/term_and_condition_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
-import 'package:tmsmobile/widgets/appbar_back.dart';
+import 'package:tmsmobile/widgets/appbar.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
 import '../../utils/images.dart';
 
-class ResetPasswordPage extends StatefulWidget {
-  const ResetPasswordPage({super.key, required this.isFirstTime});
-  final bool isFirstTime;
+class AccountChangePasswordPage extends StatefulWidget {
+  const AccountChangePasswordPage({super.key});
 
   @override
-  State<ResetPasswordPage> createState() => _ResetPasswordPageState();
+  State<AccountChangePasswordPage> createState() =>
+      _AccountChangePasswordPageState();
 }
 
-class _ResetPasswordPageState extends State<ResetPasswordPage> {
+class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
   final _confirmPasswordController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _oldPasswordController = TextEditingController();
+
   bool isSelected = false;
 
   @override
@@ -32,83 +32,64 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       child: Scaffold(
         backgroundColor: kBackgroundColor,
         extendBodyBehindAppBar: true,
+        resizeToAvoidBottomInset: false,
         extendBody: true,
-        appBar: AppBar(
-          excludeHeaderSemantics: true,
-          toolbarHeight: kMargin160,
-          backgroundColor: Colors.transparent,
-          surfaceTintColor: kBackgroundColor,
-          automaticallyImplyLeading: false,
-          flexibleSpace: SizedBox(
-            width: double.infinity,
-            child: Stack(fit: StackFit.expand, children: [
-              Image.asset(
-                kAppBarTopImage,
-                fit: BoxFit.cover,
+        body: Stack(
+          fit: StackFit.passthrough,
+          children: [
+            SizedBox(
+              height: double.infinity,
+              width: double.infinity,
+              child: Image.asset(
+                kBillingBackgroundImage,
+                fit: BoxFit.fill,
               ),
-              Positioned(top: kSize45, child: AppbarBackView())
-            ]),
-          ),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: kMarginMedium2,
-            children: [
-              const SizedBox(
-                height: kMargin195,
-              ),
-              Center(
-                child: SizedBox(
-                  height: kSize89,
-                  width: kSize58,
-                  child: Image.asset(
-                    kAppLogoImage,
-                    fit: BoxFit.contain,
+            ),
+            SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: kMarginMedium2,
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.16,
                   ),
-                ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: kMargin24),
+                    child: Text(
+                      kChangeYourPasswordLabel,
+                      style: GoogleFonts.crimsonPro(
+                          fontWeight: FontWeight.w600,
+                          fontSize: kTextRegular24),
+                    ),
+                  ),
+                  _buildTextField(
+                      title: kOldPasswordLabel,
+                      icon: Icon(CupertinoIcons.lock),
+                      controller: _oldPasswordController),
+                  _buildTextField(
+                      title: kConfirmPasswordLabel,
+                      icon: Icon(CupertinoIcons.lock),
+                      controller: _passwordController),
+                  _buildTextField(
+                      title: kConfirmPasswordLabel,
+                      icon: Icon(CupertinoIcons.lock),
+                      controller: _confirmPasswordController),
+                  const SizedBox(
+                    height: kMargin5,
+                  ),
+                  _buildCheckPassword(),
+                ],
               ),
-              const SizedBox(
-                height: kMarginMedium,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: kMargin24),
-                child: Text(
-                  widget.isFirstTime == false
-                      ? kResetPassword
-                      : kChangeYourPasswordLabel,
-                  style: GoogleFonts.crimsonPro(
-                      fontWeight: FontWeight.w600, fontSize: kTextRegular24),
-                ),
-              ),
-              _buildTextField(
-                  title: kNewPasswordLabel,
-                  icon: Icon(CupertinoIcons.lock),
-                  controller: _passwordController),
-              _buildTextField(
-                  title: kConfirmPasswordLabel,
-                  icon: Icon(CupertinoIcons.lock),
-                  controller: _confirmPasswordController),
-              const SizedBox(
-                height: kMargin5,
-              ),
-              _buildCheckPassword(),
-              const SizedBox(
-                height: kMargin24,
-              )
-            ],
-          ),
+            ),
+
+            ///appbar
+            Positioned(top: 0, child: ProfileAppbar()),
+          ],
         ),
-        bottomNavigationBar: Stack(alignment: Alignment.center, children: [
-          Image.asset(
-            kAppBarBottonImage,
-            fit: BoxFit.contain,
-          ),
-          gradientButton(onPress: () {
-            PageNavigator(ctx: context).nextPage(page: TermAndConditionPage());
-          }),
-        ]),
+        bottomNavigationBar: SizedBox(
+            height: kBottomBarHeight,
+            child: Center(child: gradientButton(onPress: () {}))),
       ),
     );
   }
@@ -158,13 +139,13 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   Image.asset(
                     kRadioImage,
                     width: kMarginMedium,
-                    height: kMarginMedium,
+                    height: 8,
                   ),
                   Text(kOneOrMoreNumberLabel)
                 ],
               ),
               Row(
-                spacing: kMarginMedium,
+                spacing: 8,
                 children: [
                   Image.asset(
                     kRadioImage,

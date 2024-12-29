@@ -16,7 +16,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 60),
+          preferredSize: Size(double.infinity, kMargin60),
           child: GradientAppBar(
             kDetailLabel,
           )),
@@ -38,8 +38,8 @@ class MaintenanceQuotationPage extends StatelessWidget {
         InkWell(
           onTap: () => PageNavigator(ctx: context).nextPage(page: SubmitComplainPage()),
           child: Container(
-            height: 45,
-            width: 147,
+            height: kSize45,
+            width: kSize147,
             decoration: BoxDecoration(
                 color: kRedColor.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(kMargin6)),
@@ -57,8 +57,8 @@ class MaintenanceQuotationPage extends StatelessWidget {
         InkWell(
           onTap: () => Navigator.pop(context),
           child: Container(
-            height: 45,
-            width: 147,
+            height: kSize45,
+            width: kSize147,
             decoration: BoxDecoration(
                 color: kPrimaryColor.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(kMargin6)),
@@ -117,7 +117,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
           title,
           style: TextStyle(fontSize: kTextRegular),
         ),
-        40.hGap,
+        kSize40.hGap,
         Expanded(
           child: Text(
             value,
@@ -148,7 +148,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
       child: Column(
         children: [
           Container(
-              height: 46,
+              height: kSize46,
               width: double.infinity,
               padding: EdgeInsets.only(left: kTextRegular2x, top: kMargin10),
               decoration: BoxDecoration(
@@ -251,7 +251,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
       child: Column(
         children: [
           Container(
-              height: 46,
+              height: kSize46,
               width: double.infinity,
               padding: EdgeInsets.only(left: kTextRegular2x, top: kMargin10),
               decoration: BoxDecoration(

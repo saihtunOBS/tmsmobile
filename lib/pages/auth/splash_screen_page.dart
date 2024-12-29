@@ -37,14 +37,14 @@ class SplashScreenPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: 120,
-                    width: 80,
+                    height: kSize120,
+                    width: kSize80,
                     child: Image.asset(
                       kAppLogoImage,
                       fit: BoxFit.cover,
                     ),
                   ),
-                  16.vGap,
+                  kMarginMedium2.vGap,
                   GradientText(kAppLabel,
                       style: GoogleFonts.crimsonPro(
                           fontSize: kTextRegular28, height: 1.1),

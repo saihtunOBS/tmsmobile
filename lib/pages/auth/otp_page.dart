@@ -70,7 +70,7 @@ class _OTPPageState extends State<OTPPage> {
               kAppBarTopImage,
               fit: BoxFit.fill,
             ),
-            Positioned(top: 30, child: AppbarBackView())
+            Positioned(top: kMargin30, child: AppbarBackView())
           ]),
         ),
       ),
@@ -84,31 +84,31 @@ class _OTPPageState extends State<OTPPage> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.18,
               ),
-              16.vGap,
+              kMarginMedium2.vGap,
               Center(
                 child: SizedBox(
-                  height: 89,
-                  width: 58,
+                  height: kSize89,
+                  width: kSize58,
                   child: Image.asset(
                     kAppLogoImage,
                     fit: BoxFit.contain,
                   ),
                 ),
               ),
-              40.vGap,
+              kSize40.vGap,
               Text(
                 kVerificationCodeLabel,
                 style: GoogleFonts.crimsonPro(
                     fontWeight: FontWeight.w600, fontSize: kTextRegular24),
               ),
-              16.vGap,
+              kMarginMedium2.vGap,
               Text(
                 kSendCodeToNumberLabel,
                 style: TextStyle(fontSize: kTextRegular2x),
               ),
-              16.vGap,
+              kMarginMedium2.vGap,
               _buildPinView(),
-              16.vGap,
+              kMarginMedium2.vGap,
               Row(
                 spacing: 5,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -171,11 +171,11 @@ class _OTPPageState extends State<OTPPage> {
 
   Widget _buildPinView() {
     final defaultPinTheme = PinTheme(
-      width: 64,
-      height: 60,
+      width: kSize64,
+      height: kMargin60,
       margin: const EdgeInsets.symmetric(horizontal: 1),
       textStyle: const TextStyle(
-        fontSize: 22,
+        fontSize: kTextRegular22,
         color: Colors.black,
       ),
       decoration: BoxDecoration(
@@ -184,11 +184,11 @@ class _OTPPageState extends State<OTPPage> {
       ),
     );
     final submittedPinTheme = PinTheme(
-      width: 64,
-      height: 60,
+      width: kSize64,
+      height: kMargin60,
       margin: const EdgeInsets.symmetric(horizontal: 1),
       textStyle: const TextStyle(
-        fontSize: 22,
+        fontSize: kTextRegular22,
         color: Colors.black,
       ),
       decoration: BoxDecoration(

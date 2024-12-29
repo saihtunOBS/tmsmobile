@@ -14,17 +14,21 @@ class ContractInformationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 60),
+          preferredSize: Size(double.infinity, kMargin60),
           child: GradientAppBar(kContractInformationLabel)),
       body: SingleChildScrollView(
         child: Column(
-          spacing: kMargin12 + 3,
           children: [
             _buildHeader(),
-            _buildBody(),
-            _buildBody(),
-            _buildBody(),
-            kMargin30.vGap
+            ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+                padding: EdgeInsets.symmetric(
+                    vertical: kMarginMedium2, horizontal: kMarginMedium2 + 2),
+                itemCount: 3,
+                itemBuilder: (context, index) {
+                  return _buildBody();
+                })
           ],
         ),
       ),
@@ -33,7 +37,8 @@ class ContractInformationPage extends StatelessWidget {
 
   Widget _buildHeader() {
     return Container(
-      margin: EdgeInsets.only(left: kMargin24,right: kMargin24,top: kMargin24),
+      margin:
+          EdgeInsets.only(left: kMargin24, right: kMargin24, top: kMargin24),
       child: Column(
         spacing: kMarginMedium14,
         children: [
@@ -70,8 +75,9 @@ class ContractInformationPage extends StatelessWidget {
 
   Widget _buildBody() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: kMargin12 + 5),
+      margin: EdgeInsets.only(bottom: kMarginMedium2 + 4),
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(kMargin10),
         boxShadow: [
           BoxShadow(
               offset: Offset(
@@ -85,7 +91,7 @@ class ContractInformationPage extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: kMarginSmallx),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(kMargin5),
+          borderRadius: BorderRadius.circular(kMargin10),
           gradient: LinearGradient(
             colors: [kPrimaryColor, kThirdColor],
             stops: [0.0, 1.0],
@@ -119,8 +125,10 @@ class ContractInformationPage extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                   vertical: kMargin10, horizontal: kMargin10),
               decoration: BoxDecoration(
-                color: kWhiteColor,
-              ),
+                  color: kWhiteColor,
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10))),
               child: Column(
                 spacing: kMargin10,
                 children: [
@@ -131,7 +139,8 @@ class ContractInformationPage extends StatelessWidget {
                   _listItem(title: kRoomTypeLabel, value: 'value'),
                   _listItem(title: kRoomShopNameLabel, value: 'value'),
                   _listItem(title: kTotalAreaLabel, value: 'value'),
-                  _buildParkingInformation()
+                   5.vGap,
+                  _buildParkingInformation(),
                 ],
               ),
             ),

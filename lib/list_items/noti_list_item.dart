@@ -26,7 +26,7 @@ class NotiListItem extends StatelessWidget {
                 child: Icon(
                   CupertinoIcons.wrench,
                   color: kWhiteColor,
-                  size: 16,
+                  size: kMarginMedium2,
                 ),
               ),
             ),
@@ -66,7 +66,7 @@ class NotiListItem extends StatelessWidget {
                       children: [
                         Spacer(),
                         Container(
-                          height: 28,
+                          height: kSize28,
                           padding: EdgeInsets.symmetric(horizontal: kMargin12),
                           decoration: BoxDecoration(
                               color: kPrimaryColor,

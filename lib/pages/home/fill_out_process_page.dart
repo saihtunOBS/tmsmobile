@@ -30,7 +30,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 60),
+          preferredSize: Size(double.infinity, kMargin60),
           child: GradientAppBar(
             kMaintenanceProcessLabel,
           )),
@@ -82,35 +82,31 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                   child: Column(
                     spacing: kMarginMedium2,
                     children: [
-                      InkWell(
-                        onTap: () => PageNavigator(ctx: context)
-                            .nextPage(page: FillOutProcessDetailPage(isApproved: false,)),
-                        child: _buildProcessView(
-                            title: kPendingLabel,
-                            onPressed: () {
-                              setState(() {
-                                isSelectedPending = true;
-                              });
-                            },
-                            label: 'Fill Out Request',
-                            isSelected: isSelectedPending,
-                            color: kBlackColor),
-                      ),
-                      InkWell(
-                        onTap: () => PageNavigator(ctx: context)
-                            .nextPage(page: FillOutProcessDetailPage(isApproved: true,)),
-                        child: _buildProcessView(
-                            title: kApprovedLabel,
-                            onPressed: () {
-                              setState(() {
-                                if (isSelectedPending == false) return;
-                                isSelectedApprove = true;
-                              });
-                            },
-                            label: 'Fill Out Request Approve',
-                            isSelected: isSelectedApprove,
-                            color: kPrimaryColor),
-                      ),
+                      _buildProcessView(
+                          title: kPendingLabel,
+                          onPressDetail: () => PageNavigator(ctx: context)
+                          .nextPage(page: FillOutProcessDetailPage(isApproved: false,)),
+                          onPressed: () {
+                            setState(() {
+                              isSelectedPending = true;
+                            });
+                          },
+                          label: 'Fill Out Request',
+                          isSelected: isSelectedPending,
+                          color: kBlackColor),
+                      _buildProcessView(
+                          title: kApprovedLabel,
+                          onPressDetail: () => PageNavigator(ctx: context)
+                          .nextPage(page: FillOutProcessDetailPage(isApproved: false,)),
+                          onPressed: () {
+                            setState(() {
+                              if (isSelectedPending == false) return;
+                              isSelectedApprove = true;
+                            });
+                          },
+                          label: 'Fill Out Request Approve',
+                          isSelected: isSelectedApprove,
+                          color: kPrimaryColor),
                       _buildProcessView(
                           title: kCloseLabel,
                           onPressed: () {
@@ -137,6 +133,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
       required VoidCallback onPressed,
       Key? key,
       String? label,
+      VoidCallback? onPressDetail,
       bool? isSelected,
       required Color color}) {
     return Padding(
@@ -151,7 +148,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
             },
             child: Container(
                 key: key,
-                height: 26,
+                height: kSize26,
                 padding: EdgeInsets.symmetric(
                     horizontal: kMargin12, vertical: kMargin5 - 2),
                 decoration: BoxDecoration(
@@ -167,66 +164,69 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                 )),
           ),
           10.vGap,
-          AnimatedSize(
-            duration: Duration(milliseconds: 100),
-            child: Container(
-              height: isSelected == true ? null : 0,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: kWhiteColor,
-                  borderRadius: BorderRadius.circular(kMargin6),
-                  boxShadow: [
-                    BoxShadow(
-                        offset: Offset(0, 4), blurRadius: 5, color: kGreyColor)
-                  ]),
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: kMargin10, vertical: kMargin10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Dec 12, 2024',
-                          style: TextStyle(fontSize: kTextRegular13),
-                        ),
-                        6.vGap,
-                        Text(
-                          label ?? '',
-                          style: TextStyle(
-                              fontSize: kTextRegular2x,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ],
+          InkWell(
+            onTap: onPressDetail,
+            child: AnimatedSize(
+              duration: Duration(milliseconds: 100),
+              child: Container(
+                height: isSelected == true ? null : 0,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: kWhiteColor,
+                    borderRadius: BorderRadius.circular(kMargin6),
+                    boxShadow: [
+                      BoxShadow(
+                          offset: Offset(0, 4), blurRadius: 5, color: kGreyColor)
+                    ]),
+                child: Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: kMargin10, vertical: kMargin10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Dec 12, 2024',
+                            style: TextStyle(fontSize: kTextRegular13),
+                          ),
+                          6.vGap,
+                          Text(
+                            label ?? '',
+                            style: TextStyle(
+                                fontSize: kTextRegular2x,
+                                fontWeight: FontWeight.w700),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  title == kSurveyLabel || title == kAcceptRejectLabel
-                      ? SizedBox()
-                      : Positioned(
-                          bottom: -kMarginMedium3,
-                          right: 0,
-                          child: Container(
-                            height: 26,
-                            margin: EdgeInsets.only(bottom: kMarginMedium3),
-                            decoration: BoxDecoration(
-                                color: kPrimaryColor,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(kMargin12),
-                                    bottomRight: Radius.circular(kMargin6))),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: kMarginMedium + 5),
-                            child: Center(
-                              child: Text(
-                                kDetailLabel,
-                                style: TextStyle(
-                                    fontSize: kTextSmall,
-                                    color: kWhiteColor,
-                                    fontWeight: FontWeight.w600),
+                    title == kSurveyLabel || title == kAcceptRejectLabel
+                        ? SizedBox()
+                        : Positioned(
+                            bottom: -kMarginMedium3,
+                            right: 0,
+                            child: Container(
+                              height: kSize26,
+                              margin: EdgeInsets.only(bottom: kMarginMedium3),
+                              decoration: BoxDecoration(
+                                  color: kPrimaryColor,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(kMargin12),
+                                      bottomRight: Radius.circular(kMargin6))),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: kMarginMedium + 5),
+                              child: Center(
+                                child: Text(
+                                  kDetailLabel,
+                                  style: TextStyle(
+                                      fontSize: kTextSmall,
+                                      color: kWhiteColor,
+                                      fontWeight: FontWeight.w600),
+                                ),
                               ),
-                            ),
-                          ))
-                ],
+                            ))
+                  ],
+                ),
               ),
             ),
           )
@@ -255,10 +255,10 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                   color: isSelectedIndex == true ? kPrimaryColor : kGreyColor,
                   height:
                       isSelectedIndex == true && isSurveyAndProcessing == true
-                          ? 130
+                          ? kSize130
                           : isSelectedIndex == true
-                              ? 110
-                              : 43,
+                              ? kSize110
+                              : kSize43,
                 ),
               ),
       ],

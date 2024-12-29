@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: 16,
+          spacing: kMarginMedium2,
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.18,
@@ -65,8 +65,8 @@ class _LoginPageState extends State<LoginPage> {
               },
               child: Center(
                 child: SizedBox(
-                  height: 89,
-                  width: 58,
+                  height: kSize89,
+                  width: kSize58,
                   child: Image.asset(
                     kAppLogoImage,
                     fit: BoxFit.contain,
@@ -179,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
             height: 4,
           ),
           Container(
-            height: 46,
+            height: kSize46,
             padding: EdgeInsets.symmetric(horizontal: kMargin24),
             width: double.infinity,
             decoration: BoxDecoration(

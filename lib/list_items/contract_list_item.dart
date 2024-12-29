@@ -41,20 +41,20 @@ class ContractListItem extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: -43,
+            top: -kSize43,
             left: 20,
             child: Container(
-              height: 60,
-              width: 60,
+              height: kMargin60,
+              width: kMargin60,
               padding: EdgeInsets.only(top: kMargin5),
               decoration: BoxDecoration(
-                  color: kWhiteColor, borderRadius: BorderRadius.circular(40)),
+                  color: kWhiteColor, borderRadius: BorderRadius.circular(kSize40)),
               child: Center(child: Image.asset(kContractBorderImage)),
             ),
           ),
           Positioned(
             top: -kMargin24,
-            left: kMargin50 + 30,
+            left: kMargin50 + kMargin30,
             child: Text(
               'Dec 1, 2024',
               style: TextStyle(fontSize: kTextRegular13),

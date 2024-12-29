@@ -46,7 +46,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 kAppBarTopImage,
                 fit: BoxFit.fill,
               ),
-              Positioned(top: 30, child: AppbarBackView())
+              Positioned(top: kMargin30, child: AppbarBackView())
             ]),
           ),
         ),
@@ -54,15 +54,15 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 16,
+            spacing: kMarginMedium2,
             children: [
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.18,
               ),
               Center(
                 child: SizedBox(
-                  height: 89,
-                  width: 58,
+                  height: kSize89,
+                  width: kSize58,
                   child: Image.asset(
                     kAppLogoImage,
                     fit: BoxFit.contain,
@@ -128,7 +128,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           padding: EdgeInsets.symmetric(horizontal: kMargin24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 8,
+            spacing: kMarginMedium,
             children: [
               Text(
                 kYourPasswordMustContainLabel.toUpperCase(),
@@ -138,45 +138,45 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     fontSize: kTextRegular2x),
               ),
               Row(
-                spacing: 8,
+                spacing: kMarginMedium,
                 children: [
                   Image.asset(
                     kRadioImage,
-                    width: 8,
-                    height: 8,
+                    width: kMarginMedium,
+                    height: kMarginMedium,
                   ),
                   Text(kCharacterLabel)
                 ],
               ),
               Row(
-                spacing: 8,
+                spacing: kMarginMedium,
                 children: [
                   Image.asset(
                     kRadioImage,
-                    width: 8,
-                    height: 8,
+                    width: kMarginMedium,
+                    height: kMarginMedium,
                   ),
                   Text(kUppercaseLetterLabel)
                 ],
               ),
               Row(
-                spacing: 8,
+                spacing: kMarginMedium,
                 children: [
                   Image.asset(
                     kRadioImage,
-                    width: 8,
-                    height: 8,
+                    width: kMarginMedium,
+                    height: kMarginMedium,
                   ),
                   Text(kOneOrMoreNumberLabel)
                 ],
               ),
               Row(
-                spacing: 8,
+                spacing: kMarginMedium,
                 children: [
                   Image.asset(
                     kRadioImage,
-                    width: 8,
-                    height: 8,
+                    width: kMarginMedium,
+                    height: kMarginMedium,
                   ),
                   Text(kOneOrMoreSpecialCharacterLabel)
                 ],
@@ -206,7 +206,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             height: 4,
           ),
           Container(
-            height: 46,
+            height: kSize46,
             padding: EdgeInsets.symmetric(horizontal: kMargin24),
             width: double.infinity,
             decoration: BoxDecoration(

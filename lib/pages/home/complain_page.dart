@@ -45,7 +45,7 @@ class _ComplainPageState extends State<ComplainPage>
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 60),
+          preferredSize: Size(double.infinity, kMargin60),
           child: GradientAppBar(
             kCompliantLabel,
           )),

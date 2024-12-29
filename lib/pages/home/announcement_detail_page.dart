@@ -14,7 +14,7 @@ class AnnouncementDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 60),
+          preferredSize: Size(double.infinity, kMargin60),
           child: GradientAppBar(
             kBackLabel,
           )),
@@ -31,7 +31,7 @@ class AnnouncementDetailPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 180,
+              height: kSize180,
               width: double.infinity,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(kMarginMedium),
@@ -52,12 +52,12 @@ class AnnouncementDetailPage extends StatelessWidget {
                 ),
               ],
             ),
-            16.vGap,
+            kMarginMedium2.vGap,
             Text(
               'New Properties for Rent',
               style: GoogleFonts.crimsonPro(fontSize: kTextRegular24,fontWeight: FontWeight.w700),
             ),
-            16.vGap,
+            kMarginMedium2.vGap,
             Text(
               'Lorem ipsum dolor sit amet consectetur. Eget neque gravida tellus vitae quis a. Aliquam a sagittis nibh ipsum. Tincidunt tristique bibendum adipiscing id volutpat lectus. Ullamcorper magna amet nibh venenatis risus. ',
               style: TextStyle(

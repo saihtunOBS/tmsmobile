@@ -32,13 +32,13 @@ class HomeListItem extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: -40,
+          top: -kSize40,
           left: 20,
           child: Container(
-            height: 60,
-            width: 60,
+            height: kMargin60,
+            width: kMargin60,
             decoration: BoxDecoration(
-                color: kWhiteColor, borderRadius: BorderRadius.circular(40)),
+                color: kWhiteColor, borderRadius: BorderRadius.circular(kSize40)),
             child: Center(
               child: Container(
                 height: kMargin40,

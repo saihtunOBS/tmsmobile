@@ -36,7 +36,7 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
       create: (context) => MaintenanceBloc(),
       child: Scaffold(
         appBar: PreferredSize(
-            preferredSize: Size(double.infinity, 60),
+            preferredSize: Size(double.infinity, kMargin60),
             child: GradientAppBar(
               kMaintenanceRequestLabel,
             )),
@@ -66,7 +66,8 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
             ),
           ),
         ),
-        bottomNavigationBar: SizedBox(
+        bottomNavigationBar: Container(
+          color: kWhiteColor,
             height: kBottomBarHeight,
             child: Center(
               child: gradientButton(title: kSendRequestLabel, onPress: () {
@@ -212,8 +213,8 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
             child: AnimatedSize(
               duration: Duration(seconds: 1),
               child: Container(
-                height: bloc.isUploadImage == true ? 0 : 40,
-                width: 140,
+                height: bloc.isUploadImage == true ? 0 : kSize50 - 10,
+                width: kSize150 - 10,
                 padding: EdgeInsets.symmetric(horizontal: kMarginMedium2),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(kMargin6),
@@ -277,9 +278,9 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                       duration: Duration(milliseconds: 700),
                       curve: Curves.decelerate,
                       child: SizedBox(
-                        height: isUploadImage == false ? 0 : 158,
+                        height: isUploadImage == false ? 0 : kSize158,
                         child: Container(
-                          height: 130,
+                          height: kSize120 + 10,
                           width: double.infinity,
                           decoration: BoxDecoration(
                               borderRadius:
@@ -302,8 +303,8 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                                 builder: (context, bloc, child) => InkWell(
                                   onTap: () => bloc.selectImage(),
                                   child: Container(
-                                    width: 73,
-                                    height: 28,
+                                    width: kSize73,
+                                    height: kSize28,
                                     decoration: BoxDecoration(
                                         color: kPrimaryColor,
                                         borderRadius:
@@ -338,7 +339,7 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
         alignment: AlignmentDirectional.center,
         children: [
           SizedBox(
-              height: 150,
+              height: kSize150,
               width: double.infinity,
               child: Image.file(image, fit: BoxFit.cover)),
           Positioned(
@@ -366,8 +367,8 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                     onTap: () => bloc.selectImage(),
                     child: Center(
                       child: Container(
-                        width: 100,
-                        height: 40,
+                        width: kSize100,
+                        height: kSize40,
                         decoration: BoxDecoration(
                             color: kGreyColor.withValues(alpha: 0.8),
                             borderRadius: BorderRadius.circular(kMargin10)),

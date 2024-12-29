@@ -15,7 +15,7 @@ class MaintenancePendingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 60),
+          preferredSize: Size(double.infinity, kMargin60),
           child: GradientAppBar(
             kDetailLabel,
           )),
@@ -59,7 +59,7 @@ class MaintenancePendingPage extends StatelessWidget {
           kStatusLabel,
           style: TextStyle(fontSize: kTextRegular),
         ),
-        40.hGap,
+        kSize40.hGap,
         Container(
           padding: EdgeInsets.symmetric(
               horizontal: kMarginMedium, vertical: kMargin5),
@@ -88,7 +88,7 @@ class MaintenancePendingPage extends StatelessWidget {
           title,
           style: TextStyle(fontSize: kTextRegular),
         ),
-        40.hGap,
+        kSize40.hGap,
         Expanded(
           child: Text(
             value,
@@ -117,7 +117,7 @@ class MaintenancePendingPage extends StatelessWidget {
           'Lorem ipsum dolor sit amet consectetur. Eget neque gravida tellus vitae quis a. Aliquam a sagittis nibh ipsum. Tincidunt tristique bibendum adipiscing id volutpat lectus. Ullamcorper magna amet nibh venenatis risus. ',
           style: TextStyle(fontSize: kTextRegular),
         ),
-        16.vGap,
+        kMarginMedium2.vGap,
         GridView.builder(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),

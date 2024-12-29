@@ -37,7 +37,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 60),
+          preferredSize: Size(double.infinity, kMargin60),
           child: GradientAppBar(
             kMaintenanceProcessLabel,
           )),
@@ -113,20 +113,18 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                   child: Column(
                     spacing: kMarginMedium2,
                     children: [
-                      InkWell(
-                        onTap: () => PageNavigator(ctx: context)
+                      _buildProcessView(
+                          title: kPendingLabel,
+                          onPressedDetail: () => PageNavigator(ctx: context)
                             .nextPage(page: MaintenancePendingPage()),
-                        child: _buildProcessView(
-                            title: kPendingLabel,
-                            onPressed: () {
-                              setState(() {
-                                isSelectedPending = true;
-                              });
-                            },
-                            label: 'Maintenance Request',
-                            isSelected: isSelectedPending,
-                            color: kBlackColor),
-                      ),
+                          onPressed: () {
+                            setState(() {
+                              isSelectedPending = true;
+                            });
+                          },
+                          label: 'Maintenance Request',
+                          isSelected: isSelectedPending,
+                          color: kBlackColor),
                       _buildProcessView(
                           title: kSurveyLabel,
                           key: _surveyKey,
@@ -139,21 +137,19 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                           label: kSurveyStateLabel,
                           isSelected: isSelectedSurvey,
                           color: kOrangeColor),
-                      InkWell(
-                        onTap: () => PageNavigator(ctx: context)
-                            .nextPage(page: MaintenanceQuotationPage()),
-                        child: _buildProcessView(
-                            title: kQuotationLabel,
-                            onPressed: () {
-                              setState(() {
-                                 if (isSelectedSurvey == false) return;
-                                isSelectedQuotation = true;
-                              });
-                            },
-                            label: kQuotationStateLabel,
-                            isSelected: isSelectedQuotation,
-                            color: kGreenColor),
-                      ),
+                      _buildProcessView(
+                          title: kQuotationLabel,
+                          onPressedDetail: () => PageNavigator(ctx: context)
+                          .nextPage(page: MaintenanceQuotationPage()),
+                          onPressed: () {
+                            setState(() {
+                               if (isSelectedSurvey == false) return;
+                              isSelectedQuotation = true;
+                            });
+                          },
+                          label: kQuotationStateLabel,
+                          isSelected: isSelectedQuotation,
+                          color: kGreenColor),
                       _buildProcessView(
                           title: kAcceptRejectLabel,
                           onPressed: () {
@@ -165,21 +161,18 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                           label: kDecisionStateLabel,
                           isSelected: isSelectedAcceptReject,
                           color: kBlueColor),
-                      InkWell(
-                        onTap: () => PageNavigator(ctx: context)
-                            .nextPage(page: MaintenanceProcessingPage()),
-                        child: _buildProcessView(
-                            title: kProcessingLabel,
-                            onPressed: () {
-                              setState(() {
-                                if (isSelectedAcceptReject == false) return;
-                                isSelectedProcessing = true;
-                              });
-                            },
-                            label: kProcessingStateLabel,
-                            isSelected: isSelectedProcessing,
-                            color: kYellowColor),
-                      ),
+                      _buildProcessView(
+                          title: kProcessingLabel,
+                          onPressedDetail: () => MaintenanceProcessingPage,
+                          onPressed: () {
+                            setState(() {
+                              if (isSelectedAcceptReject == false) return;
+                              isSelectedProcessing = true;
+                            });
+                          },
+                          label: kProcessingStateLabel,
+                          isSelected: isSelectedProcessing,
+                          color: kYellowColor),
                       _buildProcessView(
                           title: kFinishLabel,
                           onPressed: () {
@@ -207,6 +200,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
       Key? key,
       String? label,
       bool? isSelected,
+      VoidCallback? onPressedDetail,
       required Color color}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: kMargin10),
@@ -220,7 +214,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
             },
             child: Container(
                 key: key,
-                height: 26,
+                height: kSize26,
                 padding: EdgeInsets.symmetric(
                     horizontal: kMargin12, vertical: kMargin5 - 2),
                 decoration: BoxDecoration(
@@ -236,72 +230,75 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                 )),
           ),
           10.vGap,
-          AnimatedSize(
-            duration: Duration(milliseconds: 100),
-            child: Container(
-              height: isSelected == true ? null : 0,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: kWhiteColor,
-                  borderRadius: BorderRadius.circular(kMargin6),
-                  boxShadow: [
-                    BoxShadow(
-                        offset: Offset(0, 4), blurRadius: 5, color: kGreyColor)
-                  ]),
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: kMargin10, vertical: kMargin10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Dec 12, 2024',
-                          style: TextStyle(fontSize: kTextRegular13),
-                        ),
-                        6.vGap,
-                        Text(
-                          label ?? '',
-                          style: TextStyle(
-                              fontSize: kTextRegular2x,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        title == kSurveyLabel || title == kProcessingLabel
-                            ? Text(
-                                'We will arrive to survey within two days..',
-                                style: TextStyle(fontSize: kTextRegular13),
-                              )
-                            : SizedBox(),
-                      ],
+          InkWell(
+            onTap: onPressedDetail,
+            child: AnimatedSize(
+              duration: Duration(milliseconds: 100),
+              child: Container(
+                height: isSelected == true ? null : 0,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: kWhiteColor,
+                    borderRadius: BorderRadius.circular(kMargin6),
+                    boxShadow: [
+                      BoxShadow(
+                          offset: Offset(0, 4), blurRadius: 5, color: kGreyColor)
+                    ]),
+                child: Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: kMargin10, vertical: kMargin10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Dec 12, 2024',
+                            style: TextStyle(fontSize: kTextRegular13),
+                          ),
+                          6.vGap,
+                          Text(
+                            label ?? '',
+                            style: TextStyle(
+                                fontSize: kTextRegular2x,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          title == kSurveyLabel || title == kProcessingLabel
+                              ? Text(
+                                  'We will arrive to survey within two days..',
+                                  style: TextStyle(fontSize: kTextRegular13),
+                                )
+                              : SizedBox(),
+                        ],
+                      ),
                     ),
-                  ),
-                  title == kSurveyLabel || title == kAcceptRejectLabel
-                      ? SizedBox()
-                      : Positioned(
-                          bottom: -kMarginMedium3,
-                          right: 0,
-                          child: Container(
-                            height: 26,
-                            margin: EdgeInsets.only(bottom: kMarginMedium3),
-                            decoration: BoxDecoration(
-                                color: kPrimaryColor,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(kMargin12),
-                                    bottomRight: Radius.circular(kMargin6))),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: kMarginMedium + 5),
-                            child: Center(
-                              child: Text(
-                                kDetailLabel,
-                                style: TextStyle(
-                                    fontSize: kTextSmall,
-                                    color: kWhiteColor,
-                                    fontWeight: FontWeight.w600),
+                    title == kSurveyLabel || title == kAcceptRejectLabel
+                        ? SizedBox()
+                        : Positioned(
+                            bottom: -kMarginMedium3,
+                            right: 0,
+                            child: Container(
+                              height: kSize26,
+                              margin: EdgeInsets.only(bottom: kMarginMedium3),
+                              decoration: BoxDecoration(
+                                  color: kPrimaryColor,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(kMargin12),
+                                      bottomRight: Radius.circular(kMargin6))),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: kMarginMedium + 5),
+                              child: Center(
+                                child: Text(
+                                  kDetailLabel,
+                                  style: TextStyle(
+                                      fontSize: kTextSmall,
+                                      color: kWhiteColor,
+                                      fontWeight: FontWeight.w600),
+                                ),
                               ),
-                            ),
-                          ))
-                ],
+                            ))
+                  ],
+                ),
               ),
             ),
           )
@@ -330,10 +327,10 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                   color: isSelectedIndex == true ? kPrimaryColor : kGreyColor,
                   height:
                       isSelectedIndex == true && isSurveyAndProcessing == true
-                          ? 130
+                          ? kSize130
                           : isSelectedIndex == true
-                              ? 110
-                              : 43,
+                              ? kSize110
+                              : kSize43,
                 ),
               ),
       ],
