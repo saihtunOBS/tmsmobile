@@ -13,29 +13,38 @@ class CarParkingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: PreferredSize(
-            preferredSize: Size(double.infinity, kMargin60),
-            child: GradientAppBar(kCarParkingLabel)),
-        body: Stack(
-          children: [
-            SizedBox(
-              height: double.infinity,
-              width: double.infinity,
-              child: Image.asset(
-                kBillingBackgroundImage,
-                fit: BoxFit.fill,
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      decoration: BoxDecoration(
+        color: kBackgroundColor,
+        image: DecorationImage(
+            image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+          appBar: PreferredSize(
+              preferredSize: Size(double.infinity, kMargin60),
+              child: GradientAppBar(kCarParkingLabel)),
+          body: Stack(
+            children: [
+              SizedBox(
+                height: double.infinity,
+                width: double.infinity,
+                child: Image.asset(
+                  kBillingBackgroundImage,
+                  fit: BoxFit.fill,
+                ),
               ),
-            ),
-            ListView.builder(
-                padding: EdgeInsets.symmetric(
-                    vertical: kMarginMedium2, horizontal: kMarginMedium2 + 2),
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return _buildBody();
-                })
-          ],
-        ));
+              ListView.builder(
+                  padding: EdgeInsets.symmetric(
+                      vertical: kMarginMedium2, horizontal: kMarginMedium2 + 2),
+                  itemCount: 3,
+                  itemBuilder: (context, index) {
+                    return _buildBody();
+                  })
+            ],
+          )),
+    );
   }
 
   Widget _listItem(

@@ -110,7 +110,7 @@ class BillingInvoicePage extends StatelessWidget {
 
   Widget _buidPartiallyPaidHistory() {
     return Container(
-      height: kSize136,
+      height: kSize136 + 5,
       padding: EdgeInsets.all(kMargin10),
       margin: EdgeInsets.only(bottom: kMargin6),
       width: double.infinity,

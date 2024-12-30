@@ -29,75 +29,76 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (BuildContext context) => ChangePasswordBloc(),
-      child: Scaffold(
-        backgroundColor: kBackgroundColor,
-        extendBodyBehindAppBar: true,
-        resizeToAvoidBottomInset: false,
-        extendBody: true,
-        body: Stack(
-          fit: StackFit.passthrough,
-          children: [
-            SizedBox(
-              height: double.infinity,
-              width: double.infinity,
-              child: Image.asset(
-                kBillingBackgroundImage,
-                fit: BoxFit.fill,
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+            color: kBackgroundColor,
+            image: DecorationImage(
+                image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          extendBodyBehindAppBar: true,
+          extendBody: true,
+          body: Stack(
+            fit: StackFit.expand,
+            children: [
+              Consumer<ChangePasswordBloc>(
+                builder: (context, bloc, child) => SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: kMarginMedium2,
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.14,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: kMargin24),
+                        child: Text(
+                          kChangeYourPasswordLabel,
+                          style: GoogleFonts.crimsonPro(
+                              fontWeight: FontWeight.w600,
+                              fontSize: kTextRegular24),
+                        ),
+                      ),
+                      _buildTextField(
+                          title: kOldPasswordLabel,
+                          icon: Icon(CupertinoIcons.lock),
+                          controller: _oldPasswordController),
+                      _buildTextField(
+                          title: kNewPasswordLabel,
+                          icon: Icon(CupertinoIcons.lock),
+                          controller: _passwordController,
+                          bloc: bloc),
+                      _buildTextField(
+                          title: kConfirmPasswordLabel,
+                          icon: Icon(CupertinoIcons.lock),
+                          controller: _confirmPasswordController),
+                      const SizedBox(
+                        height: kMargin5,
+                      ),
+                      _buildCheckPassword(),
+                    ],
+                  ),
+                ),
               ),
-            ),
-            SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: kMarginMedium2,
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.16,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: kMargin24),
-                    child: Text(
-                      kChangeYourPasswordLabel,
-                      style: GoogleFonts.crimsonPro(
-                          fontWeight: FontWeight.w600,
-                          fontSize: kTextRegular24),
-                    ),
-                  ),
-                  _buildTextField(
-                      title: kOldPasswordLabel,
-                      icon: Icon(CupertinoIcons.lock),
-                      controller: _oldPasswordController),
-                  _buildTextField(
-                      title: kConfirmPasswordLabel,
-                      icon: Icon(CupertinoIcons.lock),
-                      controller: _passwordController),
-                  _buildTextField(
-                      title: kConfirmPasswordLabel,
-                      icon: Icon(CupertinoIcons.lock),
-                      controller: _confirmPasswordController),
-                  const SizedBox(
-                    height: kMargin5,
-                  ),
-                  _buildCheckPassword(),
-                ],
-              ),
-            ),
 
-            ///appbar
-            Positioned(top: 0, child: ProfileAppbar()),
-          ],
+              ///appbar
+              Positioned(top: 0, child: ProfileAppbar()),
+            ],
+          ),
+          bottomNavigationBar: SizedBox(
+              height: kBottomBarHeight,
+              child: Center(child: gradientButton(onPress: () {}))),
         ),
-        bottomNavigationBar: SizedBox(
-            height: kBottomBarHeight,
-            child: Center(child: gradientButton(onPress: () {}))),
       ),
     );
   }
 
   Widget _buildCheckPassword() {
-    return Selector<ChangePasswordBloc, bool>(
-      selector: (context, bloc) => bloc.isMore8character,
-      builder: (BuildContext context, value, Widget? child) {
+    return Consumer<ChangePasswordBloc>(
+      builder: (BuildContext context, bloc, Widget? child) {
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: kMargin24),
           child: Column(
@@ -114,10 +115,20 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
               Row(
                 spacing: kMarginMedium,
                 children: [
-                  Image.asset(
-                    kRadioImage,
-                    width: kMarginMedium,
-                    height: kMarginMedium,
+                  Container(
+                    width: kMarginMedium14,
+                    height: kMarginMedium14,
+                    padding: EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                            width: bloc.isMore8character == true ? 3.0 : 0.0,
+                            color: bloc.isMore8character == true
+                                ? kSecondaryColor
+                                : kWhiteColor)),
+                    child: Image.asset(
+                      kRadioImage,
+                    ),
                   ),
                   Text(kCharacterLabel)
                 ],
@@ -125,10 +136,20 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
               Row(
                 spacing: kMarginMedium,
                 children: [
-                  Image.asset(
-                    kRadioImage,
-                    width: kMarginMedium,
-                    height: kMarginMedium,
+                  Container(
+                    width: kMarginMedium14,
+                    height: kMarginMedium14,
+                    padding: EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                            width: bloc.isUpperCaseContain == true ? 3.0 : 0.0,
+                            color: bloc.isUpperCaseContain == true
+                                ? kSecondaryColor
+                                : kWhiteColor)),
+                    child: Image.asset(
+                      kRadioImage,
+                    ),
                   ),
                   Text(kUppercaseLetterLabel)
                 ],
@@ -136,10 +157,20 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
               Row(
                 spacing: kMarginMedium,
                 children: [
-                  Image.asset(
-                    kRadioImage,
-                    width: kMarginMedium,
-                    height: 8,
+                  Container(
+                    width: kMarginMedium14,
+                    height: kMarginMedium14,
+                    padding: EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                            width: bloc.isNumberContain == true ? 3.0 : 0.0,
+                            color: bloc.isNumberContain == true
+                                ? kSecondaryColor
+                                : kWhiteColor)),
+                    child: Image.asset(
+                      kRadioImage,
+                    ),
                   ),
                   Text(kOneOrMoreNumberLabel)
                 ],
@@ -147,10 +178,21 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
               Row(
                 spacing: 8,
                 children: [
-                  Image.asset(
-                    kRadioImage,
-                    width: kMarginMedium,
-                    height: kMarginMedium,
+                  Container(
+                    width: kMarginMedium14,
+                    height: kMarginMedium14,
+                    padding: EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                            width:
+                                bloc.isSpecialNumberContain == true ? 3.0 : 0.0,
+                            color: bloc.isSpecialNumberContain == true
+                                ? kSecondaryColor
+                                : kWhiteColor)),
+                    child: Image.asset(
+                      kRadioImage,
+                    ),
                   ),
                   Text(kOneOrMoreSpecialCharacterLabel)
                 ],
@@ -165,7 +207,8 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
   Widget _buildTextField(
       {required String title,
       required Icon icon,
-      required TextEditingController controller}) {
+      required TextEditingController controller,
+      ChangePasswordBloc? bloc}) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: kMargin24),
       child: Column(
@@ -191,6 +234,11 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                 Expanded(
                     child: TextField(
                         controller: controller,
+                        onChanged: (value) {
+                          if (title == kNewPasswordLabel) {
+                            bloc?.passwordValidation(passsword: value);
+                          }
+                        },
                         decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: title,

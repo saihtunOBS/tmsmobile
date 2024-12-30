@@ -35,8 +35,8 @@ class AccountTermAndConditionPage extends StatelessWidget {
               spacing: kMargin6,
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.16,
-                ),
+                      height: MediaQuery.of(context).size.height * 0.14,
+                    ),
                 Text(
                   kAgreementLabel.toUpperCase(),
                   style: TextStyle(

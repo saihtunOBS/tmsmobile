@@ -4,6 +4,7 @@ import 'package:tmsmobile/list_items/announcement_list_item.dart';
 import 'package:tmsmobile/pages/home/announcement_detail_page.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 
+import '../../utils/colors.dart';
 import '../../utils/images.dart';
 import '../../utils/strings.dart';
 import '../../widgets/appbar.dart';
@@ -13,28 +14,37 @@ class AnnouncementPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: Size(double.infinity, kMargin60),
-          child: GradientAppBar(kAnnouncementLabel)),
-      body: Stack(
-        children: [
-          SizedBox(
-          height: double.infinity,
-          width: double.infinity,
-          child: Image.asset(
-            kBillingBackgroundImage,
-            fit: BoxFit.fill,
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      decoration: BoxDecoration(
+        color: kBackgroundColor,
+        image: DecorationImage(
+            image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: PreferredSize(
+            preferredSize: Size(double.infinity, kMargin60),
+            child: GradientAppBar(kAnnouncementLabel)),
+        body: Stack(
+          children: [
+            SizedBox(
+            height: double.infinity,
+            width: double.infinity,
+            child: Image.asset(
+              kBillingBackgroundImage,
+              fit: BoxFit.fill,
+            ),
           ),
+            ListView.builder(
+            padding: EdgeInsets.symmetric(horizontal: kMarginMedium2,vertical: kMarginMedium2),
+            itemCount: 4,
+            itemBuilder: (context,index){
+            return InkWell(
+              onTap: () => PageNavigator(ctx: context).nextPage(page: AnnouncementDetailPage()),
+              child: const AnnouncementListItem());
+          }),]
         ),
-          ListView.builder(
-          padding: EdgeInsets.symmetric(horizontal: kMarginMedium2,vertical: kMarginMedium2),
-          itemCount: 4,
-          itemBuilder: (context,index){
-          return InkWell(
-            onTap: () => PageNavigator(ctx: context).nextPage(page: AnnouncementDetailPage()),
-            child: const AnnouncementListItem());
-        }),]
       ),
     );
   }

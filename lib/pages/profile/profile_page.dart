@@ -12,6 +12,7 @@ import 'package:tmsmobile/pages/profile/account_term_and_condition_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
+import 'package:tmsmobile/widgets/appbar.dart';
 import 'package:tmsmobile/widgets/cache_image.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
 
@@ -39,14 +40,11 @@ class ProfilePage extends StatelessWidget {
           ),
           Positioned(
               top: 0,
-              child: Image.asset(
-                kProfileAppbarImage,
-                fit: BoxFit.fill,
-                height: kMargin110,
-                width: MediaQuery.of(context).size.width,
+              child: ProfileAppbar(
+                isProfile: true,
               )),
           Padding(
-            padding: EdgeInsets.only(top: kMargin80 + 5),
+            padding: EdgeInsets.only(top: kMargin60),
             child: _buildHeader(context),
           ),
         ],

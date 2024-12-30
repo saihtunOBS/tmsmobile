@@ -20,38 +20,46 @@ class _BillingPageState extends State<BillingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      appBar: PreferredSize(
-          preferredSize: Size(double.infinity, kMargin60),
-          child: GradientAppBar(
-            kBillingLabel,
-            action: _buildDropDown(),
-          )),
-      body: Stack(children: [
-        SizedBox(
-          height: double.infinity,
-          width: double.infinity,
-          child: Image.asset(
-            kBillingBackgroundImage,
-            fit: BoxFit.fill,
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      decoration: BoxDecoration(
+        color: kBackgroundColor,
+        image: DecorationImage(
+            image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: PreferredSize(
+            preferredSize: Size(double.infinity, kMargin60),
+            child: GradientAppBar(
+              kBillingLabel,
+              action: _buildDropDown(),
+            )),
+        body: Stack(children: [
+          SizedBox(
+            height: double.infinity,
+            width: double.infinity,
+            child: Image.asset(
+              kBillingBackgroundImage,
+              fit: BoxFit.fill,
+            ),
           ),
-        ),
-        ListView.builder(
-            itemCount: 2,
-            padding: EdgeInsets.symmetric(
-                horizontal: kMargin24 - 2, vertical: kMarginMedium3 - 2),
-            itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () => PageNavigator(ctx: context)
-                    .nextPage(page: BillingInvoicePage()),
-                child: BillingListItem(
-                  statusColor: 2,
-                  status: 'Paid',
-                ),
-              );
-            }),
-      ]),
+          ListView.builder(
+              itemCount: 2,
+              padding: EdgeInsets.symmetric(
+                  horizontal: kMargin24 - 2, vertical: kMarginMedium3 - 2),
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () => PageNavigator(ctx: context)
+                      .nextPage(page: BillingInvoicePage()),
+                  child: BillingListItem(
+                    statusColor: 2,
+                    status: 'Paid',
+                  ),
+                );
+              }),
+        ]),
+      ),
     );
   }
 

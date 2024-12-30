@@ -13,35 +13,33 @@ class NotificationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      appBar: AppBar(
-        foregroundColor: kWhiteColor,
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      decoration: BoxDecoration(
+        color: kBackgroundColor,
+        image: DecorationImage(
+            image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
+      child: Scaffold(
         backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        flexibleSpace: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [kPrimaryColor, kThirdColor],
-              stops: [0.0, 1.0],
+        appBar: AppBar(
+          foregroundColor: kWhiteColor,
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          flexibleSpace: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [kPrimaryColor, kThirdColor],
+                stops: [0.0, 1.0],
+              ),
             ),
-          ),
-          child: Stack(children: [
-            Positioned(bottom: kMargin10 + 4, child: _buildHeader())
-          ]),
-        ),
-      ),
-      body: Stack(children: [
-        SizedBox(
-          height: double.infinity,
-          width: double.infinity,
-          child: Image.asset(
-            kBillingBackgroundImage,
-            fit: BoxFit.fill,
+            child: Stack(children: [
+              Positioned(bottom: kMargin10 + 4, child: _buildHeader())
+            ]),
           ),
         ),
-        SingleChildScrollView(
+        body: SingleChildScrollView(
           child: Column(children: [
             _buildNewNotiBody(),
             ListView.builder(
@@ -62,8 +60,8 @@ class NotificationPage extends StatelessWidget {
                   );
                 }),
           ]),
-        )
-      ]),
+        ),
+      ),
     );
   }
 

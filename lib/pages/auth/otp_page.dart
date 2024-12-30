@@ -56,6 +56,7 @@ class _OTPPageState extends State<OTPPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kBackgroundColor,
       extendBody: true,
       extendBodyBehindAppBar: true,
       appBar: AppBar(

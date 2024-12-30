@@ -39,8 +39,8 @@ class EmergencyContactPage extends StatelessWidget {
               spacing: kMarginMedium2,
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.16,
-                ),
+                      height: MediaQuery.of(context).size.height * 0.14,
+                    ),
                 Padding(
                   padding: EdgeInsets.only(
                       left: kMarginMedium2,

@@ -28,7 +28,7 @@ class GradientAppBar extends StatelessWidget {
         child: Row(
           children: [
             InkWell(
-              onTap: ()=> Navigator.pop(context),
+              onTap: () => Navigator.pop(context),
               child: Row(
                 children: [
                   IconButton(
@@ -65,7 +65,8 @@ class GradientAppBar extends StatelessWidget {
 class ProfileAppbar extends StatelessWidget {
   final String? title;
   final Widget? action;
-  const ProfileAppbar({super.key, this.title, this.action});
+  final bool? isProfile;
+  const ProfileAppbar({super.key, this.title, this.action, this.isProfile});
 
   @override
   Widget build(BuildContext context) {
@@ -76,45 +77,47 @@ class ProfileAppbar extends StatelessWidget {
           Image.asset(
             kProfileAppbarImage,
             fit: BoxFit.fill,
-            height: kMargin110,
+            height: kMargin110 - 30,
             width: MediaQuery.of(context).size.width,
           ),
           Padding(
-            padding: const EdgeInsets.only(top: kMargin60 + 5),
-            child: Center(
-              child: Row(
-                children: [
-                  InkWell(
-                    onTap: () => Navigator.pop(context),
+            padding: EdgeInsets.only(top: kMargin45),
+            child: isProfile == true
+                ? SizedBox()
+                : Center(
                     child: Row(
                       children: [
-                        SizedBox(
-                          height: kSize50,
-                          width: kSize50,
-                          child: Center(
-                            child: Icon(
-                              CupertinoIcons.chevron_back,
-                              color: kWhiteColor,
-                            ),
+                        InkWell(
+                          onTap: () => Navigator.pop(context),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                height: kSize50,
+                                width: kSize50,
+                                child: Center(
+                                  child: Icon(
+                                    CupertinoIcons.chevron_back,
+                                    color: kWhiteColor,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                title ?? kBackLabel,
+                                style: TextStyle(
+                                    fontSize: kTextRegular18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
                           ),
                         ),
-                        Text(
-                          title ?? kBackLabel,
-                          style: TextStyle(
-                              fontSize: kTextRegular18,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600),
-                        ),
+
+                        ///action button
+                        Spacer(),
+                        action ?? SizedBox()
                       ],
                     ),
                   ),
-              
-                  ///action button
-                  Spacer(),
-                  action ?? SizedBox()
-                ],
-              ),
-            ),
           ),
         ],
       ),

@@ -33,11 +33,11 @@ class ChangeProfilePage extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.only(
-                    top: kMargin80 + 5, left: kMargin80, right: kMargin80),
+                    top: kMargin60, left: kMargin80, right: kMargin80),
                 child: _buildHeader(context),
               ),
               kMarginMedium2.vGap,
-            _buildListView()
+              _buildListView()
             ],
           ),
         ],

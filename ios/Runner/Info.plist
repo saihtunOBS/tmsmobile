@@ -28,7 +28,11 @@
 	<string>We need access to your photo library to select images.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>We need access to your camera to take photos.</string>
-
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>my</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

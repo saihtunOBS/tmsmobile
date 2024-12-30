@@ -42,75 +42,83 @@ class _ComplainPageState extends State<ComplainPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      appBar: PreferredSize(
-          preferredSize: Size(double.infinity, kMargin60),
-          child: GradientAppBar(
-            kCompliantLabel,
-          )),
-      body: Stack(children: [
-        SizedBox(
-          height: double.infinity,
-          width: double.infinity,
-          child: Image.asset(
-            kBillingBackgroundImage,
-            fit: BoxFit.fill,
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      decoration: BoxDecoration(
+        color: kBackgroundColor,
+        image: DecorationImage(
+            image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: PreferredSize(
+            preferredSize: Size(double.infinity, kMargin60),
+            child: GradientAppBar(
+              kCompliantLabel,
+            )),
+        body: Stack(children: [
+          SizedBox(
+            height: double.infinity,
+            width: double.infinity,
+            child: Image.asset(
+              kBillingBackgroundImage,
+              fit: BoxFit.fill,
+            ),
           ),
-        ),
-        Column(
-          children: [
-            DefaultTabController(
-                length: 2,
-                child: TabBar(
-                    dividerColor: Colors.transparent,
-                    controller: _tabController,
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    indicatorPadding: EdgeInsets.only(
-                        top: kMargin45, left: kMargin24, right: kMargin24),
-                    indicatorWeight: 4.0,
-                    indicator: ShapeDecoration(
-                      shape: UnderlineInputBorder(),
-                      gradient: LinearGradient(
-                        colors: [kPrimaryColor, kThirdColor],
+          Column(
+            children: [
+              DefaultTabController(
+                  length: 2,
+                  child: TabBar(
+                      dividerColor: Colors.transparent,
+                      controller: _tabController,
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      indicatorPadding: EdgeInsets.only(
+                          top: kMargin45, left: kMargin24, right: kMargin24),
+                      indicatorWeight: 4.0,
+                      indicator: ShapeDecoration(
+                        shape: UnderlineInputBorder(),
+                        gradient: LinearGradient(
+                          colors: [kPrimaryColor, kThirdColor],
+                        ),
                       ),
-                    ),
-                    tabs: [
-                      Tab(
-                        child: Text(kPendingLabel,
+                      tabs: [
+                        Tab(
+                          child: Text(kPendingLabel,
+                              style: TextStyle(
+                                  fontSize: kTextRegular2x,
+                                  fontWeight: FontWeight.w700)),
+                        ),
+                        Tab(
+                          child: Text(
+                            kSolvedLabel,
                             style: TextStyle(
                                 fontSize: kTextRegular2x,
-                                fontWeight: FontWeight.w700)),
-                      ),
-                      Tab(
-                        child: Text(
-                          kSolvedLabel,
-                          style: TextStyle(
-                              fontSize: kTextRegular2x,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      )
-                    ])),
-            Expanded(
-              child: TabBarView(
-                  controller: _tabController,
-                  children: [_buildPendingTab(), _buildSolvedTab()]),
+                                fontWeight: FontWeight.w700),
+                          ),
+                        )
+                      ])),
+              Expanded(
+                child: TabBarView(
+                    controller: _tabController,
+                    children: [_buildPendingTab(), _buildSolvedTab()]),
+              ),
+            ],
+          )
+        ]),
+        floatingActionButton: FloatingActionButton(
+            shape: CircleBorder(),
+            backgroundColor: kPrimaryColor,
+            child: Center(
+              child: Icon(
+                Icons.edit,
+                color: kWhiteColor,
+              ),
             ),
-          ],
-        )
-      ]),
-      floatingActionButton: FloatingActionButton(
-          shape: CircleBorder(),
-          backgroundColor: kPrimaryColor,
-          child: Center(
-            child: Icon(
-              Icons.edit,
-              color: kWhiteColor,
-            ),
-          ),
-          onPressed: () {
-            PageNavigator(ctx: context).nextPage(page: SubmitComplainPage());
-          }),
+            onPressed: () {
+              PageNavigator(ctx: context).nextPage(page: SubmitComplainPage());
+            }),
+      ),
     );
   }
 

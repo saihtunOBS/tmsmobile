@@ -7,7 +7,8 @@ enum PersistenceList {
   isAlreadyLogin,
   isSignedIn,
   authToken,
-  accessToken
+  accessToken,
+  locale
 }
 
 class PersistenceData {
@@ -30,6 +31,10 @@ class PersistenceData {
         .write(PersistenceList.isFirstTime.name, isFirstTime ?? true);
   }
 
+  saveLocale(String? locale) async{
+    await GetStorage().write(PersistenceList.locale.name, locale ?? 'en');
+  }
+
 /// get...
 
   getFirstTimeStatus() {
@@ -46,5 +51,9 @@ class PersistenceData {
 
   getFcmToken() {
     return GetStorage().read(PersistenceList.fCMToken.name);
+  }
+
+  getLocale(){
+    return GetStorage().read(PersistenceList.locale.name);
   }
 }

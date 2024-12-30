@@ -171,10 +171,10 @@ class HomePage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Platform.isAndroid ? kSize50.vGap : kSize80.vGap,
+                  Platform.isAndroid ? kSize64.vGap : kSize80.vGap,
                   SizedBox(
                     height: Platform.isAndroid
-                        ? MediaQuery.of(context).size.height / 4.4
+                        ? MediaQuery.of(context).size.height / 4.7
                         : MediaQuery.of(context).size.height / 4.9,
                     width: double.infinity,
                     child: CarouselSlider(
@@ -192,7 +192,7 @@ class HomePage extends StatelessWidget {
                           );
                         }).toList(),
                         options: CarouselOptions(
-                          autoPlay: false,
+                          autoPlay: true,
                           disableCenter: true,
                           viewportFraction: 1,
                           onPageChanged: (index, reason) =>

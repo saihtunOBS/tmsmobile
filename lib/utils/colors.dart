@@ -19,3 +19,4 @@ const Color kNewBlueColor = Color(0xFF012D67);
 const Color kDarkBlueColor = Color(0xFF012D67);
 const Color kThirdGrayColor = Color(0xffDFDFDF);
 const Color kSkyBlueColor = Color.fromRGBO(217, 223, 232, 1);
+const Color kSecondWhiteColor = Color(0xFFF1F1F1);

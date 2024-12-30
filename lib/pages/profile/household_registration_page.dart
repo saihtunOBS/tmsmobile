@@ -34,54 +34,54 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      extendBodyBehindAppBar: true,
-      extendBody: true,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          SizedBox(
-            height: double.infinity,
-            width: double.infinity,
-            child: Image.asset(
-              kBillingBackgroundImage,
-              fit: BoxFit.fill,
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      decoration: BoxDecoration(
+        color: kBackgroundColor,
+          image: DecorationImage(
+              image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        extendBodyBehindAppBar: true,
+        extendBody: true,
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: kMarginMedium2,
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.14,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: kMarginMedium2,
+                        right: kMarginMedium2,
+                        bottom: kMarginMedium2),
+                    child: _buildRegistrationForm(),
+                  ),
+                ],
+              ),
             ),
-          ),
-          SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: kMarginMedium2,
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.16,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: kMarginMedium2,
-                      right: kMarginMedium2,
-                      bottom: kMarginMedium2),
-                  child: _buildRegistrationForm(),
-                ),
-              ],
-            ),
-          ),
 
-          ///appbar
-          Positioned(
-              top: 0,
-              child: ProfileAppbar(
-                title: kHouseholdLabel,
-              )),
-        ],
+            ///appbar
+            Positioned(
+                top: 0,
+                child: ProfileAppbar(
+                  title: kHouseholdLabel,
+                )),
+          ],
+        ),
+        bottomNavigationBar: Container(
+            color: kWhiteColor,
+            height: kBottomBarHeight,
+            child: Center(
+              child: gradientButton(title: kSubmitLabel, onPress: () {}),
+            )),
       ),
-      bottomNavigationBar: Container(
-          color: kWhiteColor,
-          height: kBottomBarHeight,
-          child: Center(
-            child: gradientButton(title: kSubmitLabel, onPress: () {}),
-          )),
     );
   }
 
@@ -106,135 +106,144 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
     );
   }
 
-  Widget _buildBody(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: kWhiteColor,
-        boxShadow: [
-          BoxShadow(
-              offset: Offset(
-                0,
-                4,
-              ),
-              blurRadius: 10,
-              color: const Color.fromARGB(255, 207, 205, 205))
-        ],
-      ),
-      child: Column(
-        children: [
-          _listItem(title: kRegistrationDateLabel, value: '12 Dec, 2023'),
-          10.vGap,
-          _listItem(title: kMoveInDateLabel, value: '12 Dec, 2023'),
-          18.vGap,
-          Row(
-            children: [
-              Expanded(
-                  flex: 1,
-                  child: Stack(
-                    children: [
-                      Container(
-                        height: kSize43,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            color: kDarkBlueColor,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(kMarginMedium),
-                            )),
-                      ),
-                      kMarginMedium2.vGap,
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: kMargin24, vertical: kMargin10 + 1),
-                        child: Column(
-                          spacing: kMarginMedium2,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: titles.asMap().entries.map((entry) {
-                            return Text(
-                              entry.value,
-                              style: TextStyle(
-                                  color: entry.key == 0
-                                      ? kDarkBlueColor
-                                      : Colors.black,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: kTextRegular),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    ],
-                  )),
-              Expanded(
-                  flex: 1,
-                  child: Stack(
-                    children: [
-                      kMarginMedium2.vGap,
-                      Container(
-                        color: kThirdGrayColor,
-                        height: kSize366,
-                      ),
-                      Container(
-                        height: kSize43,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            color: kDarkBlueColor,
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(kMarginMedium),
-                            )),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: kMargin10 + 1, bottom: kMargin10 + 1),
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              (MediaQuery.of(context).size.width * 0.09).hGap,
-                              Column(
-                                spacing: kMarginMedium2,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: titles.asMap().entries.map((entry) {
-                                  return Text(
-                                    entry.value,
-                                    style: TextStyle(
-                                        color: entry.key == 0
-                                            ? kWhiteColor
-                                            : Colors.black,
-                                        fontWeight: entry.key == 0
-                                            ? FontWeight.w700
-                                            : FontWeight.normal,
-                                        fontSize: kTextRegular),
-                                  );
-                                }).toList(),
-                              ),
-                              kSize40.hGap,
-                              Column(
-                                spacing: kMarginMedium2,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: titles.asMap().entries.map((entry) {
-                                  return Text(
-                                    entry.value,
-                                    style: TextStyle(
-                                        color: entry.key == 0
-                                            ? kWhiteColor
-                                            : Colors.black,
-                                        fontWeight: entry.key == 0
-                                            ? FontWeight.w700
-                                            : FontWeight.normal,
-                                        fontSize: kTextRegular),
-                                  );
-                                }).toList(),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  )),
+  Widget _buildSuccessRegistrationForm(BuildContext context) {
+    return Column(
+      children: [
+        _listItem(title: kRegistrationDateLabel, value: '12 Dec, 2023'),
+        10.vGap,
+        _listItem(title: kMoveInDateLabel, value: '12 Dec, 2023'),
+        kSize18.vGap,
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: kWhiteColor,
+            boxShadow: [
+              BoxShadow(
+                  offset: Offset(
+                    0,
+                    4,
+                  ),
+                  blurRadius: 10,
+                  color: const Color.fromARGB(255, 207, 205, 205))
             ],
-          )
-        ],
-      ),
+          ),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                      flex: 1,
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: kSize43,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                color: kDarkBlueColor,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(kMarginMedium),
+                                )),
+                          ),
+                          kMarginMedium2.vGap,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: kMargin24, vertical: kMargin10 + 1),
+                            child: Column(
+                              spacing: kMarginMedium2,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: titles.asMap().entries.map((entry) {
+                                return Text(
+                                  entry.value,
+                                  style: TextStyle(
+                                      color: entry.key == 0
+                                          ? kDarkBlueColor
+                                          : Colors.black,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: kTextRegular),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ],
+                      )),
+                  Expanded(
+                      flex: 1,
+                      child: Stack(
+                        children: [
+                          kMarginMedium2.vGap,
+                          Container(
+                            color: kThirdGrayColor,
+                            height: kSize366,
+                          ),
+                          Container(
+                            height: kSize43,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                color: kDarkBlueColor,
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(kMarginMedium),
+                                )),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: kMargin10 + 1, bottom: kMargin10 + 1),
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  (MediaQuery.of(context).size.width * 0.09)
+                                      .hGap,
+                                  Column(
+                                    spacing: kMarginMedium2,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children:
+                                        titles.asMap().entries.map((entry) {
+                                      return Text(
+                                        entry.value,
+                                        style: TextStyle(
+                                            color: entry.key == 0
+                                                ? kWhiteColor
+                                                : Colors.black,
+                                            fontWeight: entry.key == 0
+                                                ? FontWeight.w700
+                                                : FontWeight.normal,
+                                            fontSize: kTextRegular),
+                                      );
+                                    }).toList(),
+                                  ),
+                                  kSize40.hGap,
+                                  Column(
+                                    spacing: kMarginMedium2,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children:
+                                        titles.asMap().entries.map((entry) {
+                                      return Text(
+                                        entry.value,
+                                        style: TextStyle(
+                                            color: entry.key == 0
+                                                ? kWhiteColor
+                                                : Colors.black,
+                                            fontWeight: entry.key == 0
+                                                ? FontWeight.w700
+                                                : FontWeight.normal,
+                                            fontSize: kTextRegular),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      )),
+                ],
+              )
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -298,7 +307,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
   }
 
   List<String> genders = ['Male', 'Female'];
-  Widget _buildGenderDropDown() {
+  Widget _buildGenderDropDown({bool? isEditDeleteForm}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -311,7 +320,9 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
         Container(
           padding: EdgeInsets.symmetric(horizontal: kMargin10),
           decoration: BoxDecoration(
-              color: kInputBackgroundColor,
+              color: isEditDeleteForm == true
+                  ? kWhiteColor
+                  : kInputBackgroundColor,
               borderRadius: BorderRadius.circular(kMarginMedium)),
           child: DropdownButton(
               value: _selectedGender,
@@ -383,7 +394,9 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
           width: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: kMarginMedium2),
           decoration: BoxDecoration(
-              color: isEditDeleteForm == true ? kWhiteColor : kGreyColor.withValues(alpha: 0.3),
+              color: isEditDeleteForm == true
+                  ? kWhiteColor
+                  : kGreyColor.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(kMarginMedium)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -404,7 +417,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
     );
   }
 
-  Widget _buildInputField({required title,bool? isEditDeleteForm}) {
+  Widget _buildInputField({required title, bool? isEditDeleteForm}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -419,7 +432,9 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
             width: double.infinity,
             padding: EdgeInsets.symmetric(horizontal: kMarginMedium2),
             decoration: BoxDecoration(
-                color: isEditDeleteForm == true ? kWhiteColor : kGreyColor.withValues(alpha: 0.3),
+                color: isEditDeleteForm == true
+                    ? kWhiteColor
+                    : kGreyColor.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(kMarginMedium)),
             child: TextField(
               decoration:
@@ -603,14 +618,17 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
               spacing: kMarginMedium2,
               children: [
                 1.vGap,
-                _buildInputField(title: kNameLabel,isEditDeleteForm: true),
-                _buildGenderDropDown(),
+                _buildInputField(title: kNameLabel, isEditDeleteForm: true),
+                _buildGenderDropDown(isEditDeleteForm: true),
                 _buildDateOfBirthDatePicker(isEditDeleteForm: true),
-                _buildInputField(title: kRaceLabel,isEditDeleteForm: true),
-                _buildInputField(title: kNationalityLabel,isEditDeleteForm: true),
-                _buildInputField(title: kNRCLabel,isEditDeleteForm: true),
-                _buildInputField(title: kContactNumberLabel,isEditDeleteForm: true),
-                _buildInputField(title: kRelatedToOwnerLabel,isEditDeleteForm: true),              
+                _buildInputField(title: kRaceLabel, isEditDeleteForm: true),
+                _buildInputField(
+                    title: kNationalityLabel, isEditDeleteForm: true),
+                _buildInputField(title: kNRCLabel, isEditDeleteForm: true),
+                _buildInputField(
+                    title: kContactNumberLabel, isEditDeleteForm: true),
+                _buildInputField(
+                    title: kRelatedToOwnerLabel, isEditDeleteForm: true),
                 1.vGap
               ],
             ),

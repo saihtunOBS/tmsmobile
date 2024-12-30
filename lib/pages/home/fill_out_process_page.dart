@@ -29,6 +29,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kBackgroundColor,
       appBar: PreferredSize(
           preferredSize: Size(double.infinity, kMargin60),
           child: GradientAppBar(
@@ -175,7 +176,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                     color: kWhiteColor,
                     borderRadius: BorderRadius.circular(kMargin6),
                     boxShadow: [
-                      BoxShadow(
+                     isSelected == false ? BoxShadow() : BoxShadow(
                           offset: Offset(0, 4), blurRadius: 5, color: kGreyColor)
                     ]),
                 child: Stack(

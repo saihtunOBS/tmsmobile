@@ -35,6 +35,7 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
     return ChangeNotifierProvider(
       create: (context) => MaintenanceBloc(),
       child: Scaffold(
+        backgroundColor: kBackgroundColor,
         appBar: PreferredSize(
             preferredSize: Size(double.infinity, kMargin60),
             child: GradientAppBar(
