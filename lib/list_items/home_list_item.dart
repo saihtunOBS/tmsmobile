@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
+
+import '../data/app_data/app_data.dart';
 
 class HomeListItem extends StatelessWidget {
   const HomeListItem(
@@ -26,7 +27,8 @@ class HomeListItem extends StatelessWidget {
           child: Center(
             child: Text(
               label,
-              style: GoogleFonts.crimsonPro(
+              style: TextStyle(
+                          fontFamily: AppData.shared.fontFamily2,
                   fontSize: kTextRegular18, color: kWhiteColor,fontWeight: FontWeight.w600),
             ),
           ),

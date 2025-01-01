@@ -7,6 +7,7 @@ import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
+import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
 import '../../widgets/appbar_back.dart';
 
@@ -70,7 +71,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               ),
               Text(
                 kForgotPasswordLabel,
-                style: GoogleFonts.crimsonPro(
+                style: TextStyle(
+                          fontFamily: AppData.shared.fontFamily2,
                     fontWeight: FontWeight.w600, fontSize: kTextRegular24),
               ),
               Text(

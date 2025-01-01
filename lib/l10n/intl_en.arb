@@ -1,4 +1,6 @@
+
 {
+    "name": "Your Name",
     "kHomeLabel": "Home",
     "kNotiLabel": "Notification",
     "kProfileLabel": "Profile",
@@ -160,7 +162,7 @@
     "kAreYouSureDeleteAccountLabel": "Are you sure you want to delete permanently?",
     "kCancelLabel": "Cancel",
     "kOkLabel": "Ok",
-    "Choose Language": "Choose Language",
+    "choose_language": "Choose Language",
     "kEnglishlabel": "English",
     "kMyanmarLabel": "Myanmar (Unicode)",
     "kPropertyManagementLabel": "Property Management",

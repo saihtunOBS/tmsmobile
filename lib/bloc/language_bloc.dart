@@ -1,21 +1,20 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
+import 'package:rxdart/rxdart.dart';
 
-class LanguageBloc with ChangeNotifier {
-  BuildContext? context;
-  final Locale _mmLocale = Locale('my', 'MM');
-  final Locale _enLocale = Locale('en', 'US');
+StreamController<String> languageStreamController = BehaviorSubject<String>();
 
-  LanguageBloc({this.context}) {
-    setLocale();
+class LanguageBloc extends ChangeNotifier {
+  Locale locale = Locale('my', 'MM');
+
+  Locale get getLocale => locale;
+
+  LanguageBloc() {
+    updateLocale();
   }
-
-  void setLocale() {
-    PersistenceData.shared.getLocale() == null ||
-            PersistenceData.shared.getLocale() == 'en_US'
-        ? context?.setLocale(_enLocale)
-        : context?.setLocale(_mmLocale);
+  void updateLocale({Locale? newLocale}) {
+    locale = newLocale ?? locale;
     notifyListeners();
   }
 }

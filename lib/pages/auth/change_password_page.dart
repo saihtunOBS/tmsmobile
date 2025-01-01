@@ -10,6 +10,7 @@ import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/appbar_back.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
+import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
 
 class ChangePasswordPage extends StatefulWidget {
@@ -78,7 +79,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   widget.isFirstTime == false
                       ? kResetPassword
                       : kChangeYourPasswordLabel,
-                  style: GoogleFonts.crimsonPro(
+                  style: TextStyle(
+                          fontFamily: AppData.shared.fontFamily2,
                       fontWeight: FontWeight.w600, fontSize: kTextRegular24),
                 ),
               ),

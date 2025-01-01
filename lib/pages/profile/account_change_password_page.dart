@@ -8,6 +8,7 @@ import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
+import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
 
 class AccountChangePasswordPage extends StatefulWidget {
@@ -57,7 +58,8 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                         padding: EdgeInsets.symmetric(horizontal: kMargin24),
                         child: Text(
                           kChangeYourPasswordLabel,
-                          style: GoogleFonts.crimsonPro(
+                          style: TextStyle(
+                          fontFamily: AppData.shared.fontFamily2,
                               fontWeight: FontWeight.w600,
                               fontSize: kTextRegular24),
                         ),

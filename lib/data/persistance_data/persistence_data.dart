@@ -31,8 +31,8 @@ class PersistenceData {
         .write(PersistenceList.isFirstTime.name, isFirstTime ?? true);
   }
 
-  saveLocale(String? locale) async{
-    await GetStorage().write(PersistenceList.locale.name, locale ?? 'en');
+  saveLocale(String locale) async{
+    await GetStorage().write(PersistenceList.locale.name, locale);
   }
 
 /// get...

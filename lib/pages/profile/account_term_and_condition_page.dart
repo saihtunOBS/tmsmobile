@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
 
+import '../../data/app_data/app_data.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimens.dart';
 import '../../utils/images.dart';
@@ -45,7 +45,8 @@ class AccountTermAndConditionPage extends StatelessWidget {
                 ),
                 Text(
                   kTremOfServiceLabel,
-                  style: GoogleFonts.crimsonPro(
+                  style: TextStyle(
+                          fontFamily: AppData.shared.fontFamily2,
                       fontSize: kTextRegular32 - 2, fontWeight: FontWeight.w700),
                 ),
                 Text(

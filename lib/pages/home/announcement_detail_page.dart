@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/cache_image.dart';
+import '../../data/app_data/app_data.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
@@ -57,7 +57,8 @@ class AnnouncementDetailPage extends StatelessWidget {
             kMarginMedium2.vGap,
             Text(
               'New Properties for Rent',
-              style: GoogleFonts.crimsonPro(fontSize: kTextRegular24,fontWeight: FontWeight.w700),
+              style: TextStyle(
+                          fontFamily: AppData.shared.fontFamily2,fontSize: kTextRegular24,fontWeight: FontWeight.w700),
             ),
             kMarginMedium2.vGap,
             Text(

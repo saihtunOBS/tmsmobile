@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/images.dart';
 import 'package:tmsmobile/utils/strings.dart';
+import '../../data/app_data/app_data.dart';
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
 
@@ -109,7 +109,8 @@ class ComplainDetailPage extends StatelessWidget {
         children: [
           Text(
             kCompliantLabel,
-            style: GoogleFonts.crimsonPro(
+            style: TextStyle(
+                          fontFamily: AppData.shared.fontFamily2,
                 fontWeight: FontWeight.w700, fontSize: kTextRegular3x),
           ),
           Text(

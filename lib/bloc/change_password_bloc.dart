@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tmsmobile/extension/route_navigator.dart';
+import 'package:tmsmobile/extension/extension.dart';
 
 class ChangePasswordBloc extends ChangeNotifier {
   bool isMore8character = false;

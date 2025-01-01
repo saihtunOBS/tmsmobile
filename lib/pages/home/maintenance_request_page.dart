@@ -1,6 +1,6 @@
-import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:multi_image_picker_plus/multi_image_picker_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/maintenance_bloc.dart';
 import 'package:tmsmobile/extension/extension.dart';
@@ -333,8 +333,8 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
     );
   }
 
-  Widget _buildImageView({required File image, required int index}) {
-    return Selector<MaintenanceBloc, List<File>>(
+  Widget _buildImageView({required Asset image, required int index}) {
+    return Selector<MaintenanceBloc, List<Asset>>(
       selector: (context, bloc) => bloc.imageArray,
       builder: (context, imageArray, child) => Stack(
         alignment: AlignmentDirectional.center,
@@ -342,7 +342,7 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
           SizedBox(
               height: kSize150,
               width: double.infinity,
-              child: Image.file(image, fit: BoxFit.cover)),
+              child: AssetThumb(asset: image, width: MediaQuery.of(context).size.width.toInt(), height: kSize150.toInt())),
           Positioned(
               right: 0,
               top: 0,

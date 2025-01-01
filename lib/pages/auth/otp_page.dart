@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/auth/forgor_password_page.dart';
@@ -8,6 +7,7 @@ import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
+import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
 import '../../widgets/appbar_back.dart';
 import 'package:pinput/pinput.dart';
@@ -99,7 +99,8 @@ class _OTPPageState extends State<OTPPage> {
               kSize40.vGap,
               Text(
                 kVerificationCodeLabel,
-                style: GoogleFonts.crimsonPro(
+                style: TextStyle(
+                          fontFamily: AppData.shared.fontFamily2,
                     fontWeight: FontWeight.w600, fontSize: kTextRegular24),
               ),
               kMarginMedium2.vGap,

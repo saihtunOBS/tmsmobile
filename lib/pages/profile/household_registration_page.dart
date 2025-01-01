@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
 
+import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
 import '../../utils/strings.dart';
 import '../../widgets/gradient_button.dart';
@@ -255,7 +255,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
         children: [
           Text(
             kHouseholdLabel,
-            style: GoogleFonts.crimsonPro(
+            style: TextStyle(
+                          fontFamily: AppData.shared.fontFamily2,
                 fontWeight: FontWeight.w600, fontSize: kTextRegular24),
           ),
           _buildRegistrationDatePicker(),
@@ -474,7 +475,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                 ),
               ),
               child: Text(kOwnerInformationLabel,
-                  style: GoogleFonts.crimsonPro(
+                  style: TextStyle(
+                          fontFamily: AppData.shared.fontFamily2,
                       fontSize: kTextRegular24,
                       color: kWhiteColor,
                       fontWeight: FontWeight.w600))),
@@ -529,7 +531,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                 ),
               ),
               child: Text(kResidentDataLabel,
-                  style: GoogleFonts.crimsonPro(
+                  style: TextStyle(
+                          fontFamily: AppData.shared.fontFamily2,
                       fontSize: kTextRegular24,
                       color: kWhiteColor,
                       fontWeight: FontWeight.w600))),
@@ -608,7 +611,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                 ),
               ),
               child: Text(kResidentDataLabel,
-                  style: GoogleFonts.crimsonPro(
+                  style: TextStyle(
+                          fontFamily: AppData.shared.fontFamily2,
                       fontSize: kTextRegular24,
                       color: kWhiteColor,
                       fontWeight: FontWeight.w600))),
@@ -647,7 +651,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                 ),
               ),
               child: Text(kResidentDataLabel,
-                  style: GoogleFonts.crimsonPro(
+                  style: TextStyle(
+                          fontFamily: AppData.shared.fontFamily2,
                       fontSize: kTextRegular24,
                       color: kWhiteColor,
                       fontWeight: FontWeight.w600))),

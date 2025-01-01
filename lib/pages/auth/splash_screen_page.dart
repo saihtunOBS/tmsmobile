@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:tmsmobile/data/app_data/app_data.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/auth/login_page.dart';
@@ -46,15 +46,17 @@ class SplashScreenPage extends StatelessWidget {
                   ),
                   kMarginMedium2.vGap,
                   GradientText(kAppLabel,
-                      style: GoogleFonts.crimsonPro(
-                          fontSize: kTextRegular28, height: 1.1),
+                      style: TextStyle(
+                          fontFamily: AppData.shared.fontFamily2,
+                          fontSize: kTextRegular28,
+                          height: 1.1),
                       gradient: LinearGradient(
                           colors: [kPrimaryColor, kSecondaryColor])),
                 ],
               ),
             ),
             _buildTopAnimation(context),
-            Positioned(bottom: 0,child: _buildBottonAnimation(context))
+            Positioned(bottom: 0, child: _buildBottonAnimation(context))
           ],
         ),
       ),
@@ -68,7 +70,7 @@ class SplashScreenPage extends StatelessWidget {
       builder: (context, value, child) => Opacity(
         opacity: value,
         child: SizedBox(
-          height:  value * MediaQuery.of(context).size.height * 0.24,
+          height: value * MediaQuery.of(context).size.height * 0.24,
           child: child,
         ),
       ),
@@ -89,7 +91,7 @@ class SplashScreenPage extends StatelessWidget {
       builder: (context, value, child) => Opacity(
         opacity: value,
         child: SizedBox(
-          height:  value * MediaQuery.of(context).size.height * 0.21,
+          height: value * MediaQuery.of(context).size.height * 0.21,
           child: child,
         ),
       ),

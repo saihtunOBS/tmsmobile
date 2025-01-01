@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/images.dart';
+
+import '../data/app_data/app_data.dart';
 
 class ContractListItem extends StatelessWidget {
   const ContractListItem({
@@ -33,7 +34,8 @@ class ContractListItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(kMargin5)),
               child: Text(
                 'Condo Sale Contract',
-                style: GoogleFonts.crimsonPro(
+                style: TextStyle(
+                          fontFamily: AppData.shared.fontFamily2,
                     fontSize: kTextRegular18,
                     color: kWhiteColor,
                     fontWeight: FontWeight.w600),

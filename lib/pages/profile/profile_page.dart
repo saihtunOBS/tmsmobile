@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/profile/account_change_language_page.dart';
@@ -15,11 +14,13 @@ import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
 import 'package:tmsmobile/widgets/cache_image.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
 
 class ProfilePage extends StatelessWidget {
-  ProfilePage({super.key});
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +84,8 @@ class ProfilePage extends StatelessWidget {
           ),
           Text(
             'Simon',
-            style: GoogleFonts.crimsonPro(
+            style: TextStyle(
+                          fontFamily: AppData.shared.fontFamily2,
                 fontSize: kTextRegular24, fontWeight: FontWeight.w600),
           ),
           Text(
@@ -128,24 +130,23 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  final List<String> settings = [
-    kChangePasswordLabel,
-    kEmergencyContactLabel,
-    kHouseholdLabel,
-    kTermAndConditionLabel,
-    kLanguageLabel,
-    kDeleteAccountLabel
-  ];
-  final List<String> settingIcons = [
-    kPasswordIcon,
-    kEmergencyIcon,
-    kHouseholdIcon,
-    kPrivacyIcon,
-    kLanguageIcon,
-    kDeleteAccountIcon
-  ];
-
   Widget _buildSetting(BuildContext context) {
+    final List<String> settings = [
+      AppLocalizations.of(context)?.kChangePasswordLabel ?? '',
+      AppLocalizations.of(context)?.kEmergencyContactLabel ?? '',
+      AppLocalizations.of(context)?.kHouseholdLabel ?? "",
+      AppLocalizations.of(context)?.kTermAndConditionLabel ?? '',
+      AppLocalizations.of(context)?.kLanguageLabel ?? '',
+      AppLocalizations.of(context)?.kDeleteAccountLabel ?? ''
+    ];
+    final List<String> settingIcons = [
+      kPasswordIcon,
+      kEmergencyIcon,
+      kHouseholdIcon,
+      kPrivacyIcon,
+      kLanguageIcon,
+      kDeleteAccountIcon
+    ];
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(horizontal: kMargin24),
@@ -157,7 +158,8 @@ class ProfilePage extends StatelessWidget {
             padding: const EdgeInsets.only(left: kMargin5),
             child: Text(
               'Setting',
-              style: GoogleFonts.crimsonPro(
+              style: TextStyle(
+                          fontFamily: AppData.shared.fontFamily2,
                   fontSize: kTextRegular24,
                   fontWeight: FontWeight.w600,
                   color: kPrimaryColor),
@@ -168,25 +170,25 @@ class ProfilePage extends StatelessWidget {
             children: settings.asMap().entries.map((entry) {
               return InkWell(
                 onTap: () {
-                  switch (entry.value) {
-                    case kDeleteAccountLabel:
+                  switch (entry.key) {
+                    case 5:
                       showModalBottomSheet(
                           context: context,
                           builder: (_) =>
                               _buildBottomSheet(isDeleteAccount: true));
-                    case kChangePasswordLabel:
+                    case 0:
                       PageNavigator(ctx: context)
                           .nextPage(page: AccountChangePasswordPage());
-                    case kLanguageLabel:
+                    case 4:
                       PageNavigator(ctx: context)
                           .nextPage(page: AccountChangeLanguagePage());
-                    case kEmergencyContactLabel:
+                    case 1:
                       PageNavigator(ctx: context)
                           .nextPage(page: EmergencyContactPage());
-                    case kHouseholdLabel:
+                    case 2:
                       PageNavigator(ctx: context)
                           .nextPage(page: HouseholdRegistrationPage());
-                    case kTermAndConditionLabel:
+                    case 3:
                       PageNavigator(ctx: context)
                           .nextPage(page: AccountTermAndConditionPage());
                       break;
