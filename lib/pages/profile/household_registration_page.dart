@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mm_nrc_kit/mm_nrc_kit.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
@@ -38,13 +39,14 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
-        color: kBackgroundColor,
+          color: kBackgroundColor,
           image: DecorationImage(
               image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         extendBodyBehindAppBar: true,
         extendBody: true,
+        resizeToAvoidBottomInset: true,
         body: Stack(
           fit: StackFit.expand,
           children: [
@@ -239,7 +241,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                         ],
                       )),
                 ],
-              )
+              ),
             ],
           ),
         ),
@@ -256,8 +258,9 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
           Text(
             kHouseholdLabel,
             style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
-                fontWeight: FontWeight.w600, fontSize: kTextRegular24),
+                fontFamily: AppData.shared.fontFamily2,
+                fontWeight: FontWeight.w600,
+                fontSize: kTextRegular24),
           ),
           _buildRegistrationDatePicker(),
           _buildMoveInDatePicker(),
@@ -418,7 +421,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
     );
   }
 
-  Widget _buildInputField({required title, bool? isEditDeleteForm}) {
+  Widget _buildInputField(
+      {required title, bool? isEditDeleteForm, bool? isNRC}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -438,6 +442,17 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                     : kGreyColor.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(kMarginMedium)),
             child: TextField(
+              onTap: () => isNRC == true
+                  ? showDialog(
+                      context: context,
+                      builder: (_) => Dialog(
+                            insetPadding: EdgeInsets.symmetric(
+                                horizontal: kMarginMedium2),
+                            backgroundColor: kBackgroundColor,
+                            child: _buildNRCPickerView(context),
+                          ))
+                  : null,
+              readOnly: isNRC ?? false,
               decoration:
                   InputDecoration(border: InputBorder.none, hintText: title),
             ))
@@ -476,7 +491,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
               ),
               child: Text(kOwnerInformationLabel,
                   style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
+                      fontFamily: AppData.shared.fontFamily2,
                       fontSize: kTextRegular24,
                       color: kWhiteColor,
                       fontWeight: FontWeight.w600))),
@@ -532,7 +547,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
               ),
               child: Text(kResidentDataLabel,
                   style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
+                      fontFamily: AppData.shared.fontFamily2,
                       fontSize: kTextRegular24,
                       color: kWhiteColor,
                       fontWeight: FontWeight.w600))),
@@ -547,7 +562,10 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                 _buildDateOfBirthDatePicker(),
                 _buildInputField(title: kRaceLabel),
                 _buildInputField(title: kNationalityLabel),
-                _buildInputField(title: kNRCLabel),
+                _buildInputField(
+                  title: kNRCLabel,
+                  isNRC: true,
+                ),
                 _buildInputField(title: kContactNumberLabel),
                 _buildInputField(title: kRelatedToOwnerLabel),
 
@@ -583,6 +601,52 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
     );
   }
 
+  Widget _buildNRCPickerView(context) {
+    return Container(
+      height: null,
+      decoration: BoxDecoration(color: kBackgroundColor),
+      margin: EdgeInsets.symmetric(vertical: kMargin24),
+      child: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            NRCField(
+              language: NrcLanguage.english,
+              pickerItemColor: kPrimaryColor,
+              leadingTitleColor: kPrimaryColor,
+              onCompleted: (value) {},
+              onChanged: (value) {
+                debugPrint("onChanged : $value");
+              },
+            ),
+            InkWell(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                height: kSize45,
+                width: double.infinity,
+                margin: EdgeInsets.symmetric(horizontal: kMarginMedium2),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  gradient: LinearGradient(
+                    colors: [kPrimaryColor, kThirdColor],
+                    stops: [0.0, 1.0],
+                  ),
+                ),
+                child: Center(
+                  child: Text(
+                    'Done',
+                    style: TextStyle(
+                        color: kWhiteColor, fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildEditDeleteForm() {
     return Container(
       decoration: BoxDecoration(
@@ -612,7 +676,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
               ),
               child: Text(kResidentDataLabel,
                   style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
+                      fontFamily: AppData.shared.fontFamily2,
                       fontSize: kTextRegular24,
                       color: kWhiteColor,
                       fontWeight: FontWeight.w600))),
@@ -652,7 +716,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
               ),
               child: Text(kResidentDataLabel,
                   style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
+                      fontFamily: AppData.shared.fontFamily2,
                       fontSize: kTextRegular24,
                       color: kWhiteColor,
                       fontWeight: FontWeight.w600))),

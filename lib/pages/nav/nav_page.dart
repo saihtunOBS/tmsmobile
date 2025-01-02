@@ -106,7 +106,7 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
         SizedBox(
             height: kMargin24,
             width: kMargin24,
-            child: Image.asset(_currentIndex == 0 ? kHomeIcon : kHomeIcon)),
+            child: Image.asset(_currentIndex == 0 ? kHomeIcon : kHomeSelectIcon)),
         Text(
           kHomeLabel,
           style: TextStyle(

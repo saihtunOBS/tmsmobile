@@ -1,14 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
+import 'package:provider/provider.dart';
+import 'package:tmsmobile/bloc/login_bloc.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/auth/forgor_password_page.dart';
-import 'package:tmsmobile/pages/nav/nav_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
+import 'package:tmsmobile/widgets/common_dialog.dart';
+import 'package:tmsmobile/widgets/error_dialog_view.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
+import 'package:tmsmobile/widgets/loading_view.dart';
 import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
 
@@ -33,112 +38,132 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      extendBody: true,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        toolbarHeight: MediaQuery.of(context).size.height * 0.21,
-        surfaceTintColor: kBackgroundColor,
-        backgroundColor: Colors.transparent,
-        flexibleSpace: Image.asset(
-          kAppBarTopImage,
-          fit: BoxFit.fill,
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: kMarginMedium2,
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.18,
-            ),
-            TweenAnimationBuilder(
-              tween: Tween<double>(begin: 0, end: 1),
-              curve: Curves.fastLinearToSlowEaseIn,
-              duration: Duration(seconds: 5),
-              builder: (BuildContext context, value, Widget? child) {
-                return Opacity(
-                  opacity: value,
-                  child: child,
-                );
-              },
-              child: Center(
-                child: SizedBox(
-                  height: kSize89,
-                  width: kSize58,
-                  child: Image.asset(
-                    kAppLogoImage,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: kMarginMedium,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: kMargin24),
-              child: Text(
-                kLoginToYourAccountLabel,
-                style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
-                    fontWeight: FontWeight.w600, fontSize: kTextRegular24),
-              ),
-            ),
-            _buildTextField(
-                title: kPhoneNumberLabel,
-                icon: Icon(CupertinoIcons.phone),
-                controller: _phoneController),
-            _buildTextField(
-                title: kPasswordLabel,
-                icon: Icon(CupertinoIcons.lock),
-                controller: _passwordController),
-
-            ///forgot password
-            if (isFirstTime == false)
-              Padding(
-                padding: const EdgeInsets.only(right: kMargin24),
-                child: Row(
-                  children: [
-                    Spacer(),
-                    InkWell(
-                        onTap: () {
-                          PageNavigator(ctx: context)
-                              .nextPage(page: ForgotPasswordPage());
-                        },
-                        child: Text(
-                          kForgotPasswordLabel,
-                          style: TextStyle(
-                              color: kPrimaryColor,
-                              fontSize: kTextRegular2x,
-                              fontWeight: FontWeight.w700),
-                        ))
-                  ],
-                ),
-              ),
-            _buildTermAndCondition()
-          ],
-        ),
-      ),
-      bottomNavigationBar: Stack(alignment: Alignment.center, children: [
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.21,
-          width: double.infinity,
-          child: Image.asset(
-            kAppBarBottonImage,
+    return ChangeNotifierProvider(
+      create: (context) => LoginBloc(),
+      child: Scaffold(
+        backgroundColor: kBackgroundColor,
+        extendBody: true,
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          toolbarHeight: MediaQuery.of(context).size.height * 0.21,
+          surfaceTintColor: kBackgroundColor,
+          backgroundColor: Colors.transparent,
+          flexibleSpace: Image.asset(
+            kAppBarTopImage,
             fit: BoxFit.fill,
           ),
         ),
-        gradientButton(
-            title: isFirstTime == true ? kContinueLabel : kLoginLabel,
-            onPress: () {
-              Navigator.pushAndRemoveUntil(
-                  context, createRoute(NavPage()), (_) => false);
-            }),
-      ]),
+        body: Selector<LoginBloc, bool>(
+          selector: (context, bloc) => bloc.isLoading,
+          builder: (context, isLoading, child) => Stack(children: [
+            SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: kMarginMedium2,
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.18,
+                  ),
+                  TweenAnimationBuilder(
+                    tween: Tween<double>(begin: 0, end: 1),
+                    curve: Curves.fastLinearToSlowEaseIn,
+                    duration: Duration(seconds: 5),
+                    builder: (BuildContext context, value, Widget? child) {
+                      return Opacity(
+                        opacity: value,
+                        child: child,
+                      );
+                    },
+                    child: Center(
+                      child: SizedBox(
+                        height: kSize89,
+                        width: kSize58,
+                        child: Image.asset(
+                          kAppLogoImage,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: kMarginMedium,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: kMargin24),
+                    child: Text(
+                      kLoginToYourAccountLabel,
+                      style: TextStyle(
+                          fontFamily: AppData.shared.fontFamily2,
+                          fontWeight: FontWeight.w600,
+                          fontSize: kTextRegular24),
+                    ),
+                  ),
+                  _buildTextField(
+                      title: kPhoneNumberLabel,
+                      icon: Icon(CupertinoIcons.phone),
+                      controller: _phoneController),
+                  _buildTextField(
+                      title: kPasswordLabel,
+                      icon: Icon(CupertinoIcons.lock),
+                      controller: _passwordController),
+
+                  ///forgot password
+                  if (isFirstTime == false)
+                    Padding(
+                      padding: const EdgeInsets.only(right: kMargin24),
+                      child: Row(
+                        children: [
+                          Spacer(),
+                          InkWell(
+                              onTap: () {
+                                PageNavigator(ctx: context)
+                                    .nextPage(page: ForgotPasswordPage());
+                              },
+                              child: Text(
+                                kForgotPasswordLabel,
+                                style: TextStyle(
+                                    color: kPrimaryColor,
+                                    fontSize: kTextRegular2x,
+                                    fontWeight: FontWeight.w700),
+                              ))
+                        ],
+                      ),
+                    ),
+                  _buildTermAndCondition()
+                ],
+              ),
+            ),
+
+            /// loading
+            if (isLoading)
+              LoadingView(
+                  indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor),
+            
+          ]),
+        ),
+        bottomNavigationBar: Consumer<LoginBloc>(
+          builder: (context, bloc, child) =>
+              Stack(alignment: Alignment.center, children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.21,
+              width: double.infinity,
+              child: Image.asset(
+                kAppBarBottonImage,
+                fit: BoxFit.fill,
+              ),
+            ),
+            gradientButton(
+                title: isFirstTime == true ? kContinueLabel : kLoginLabel,
+                onPress: () {
+                  showCommonDialog(context: context,dialogWidget: ErrorDialogView(errorMessage: 'Error'));
+                  // bloc.onTapSignIn();
+                  // Navigator.pushAndRemoveUntil(
+                  //     context, createRoute(NavPage()), (_) => false);
+                }),
+          ]),
+        ),
+      ),
     );
   }
 

@@ -11,54 +11,61 @@ import 'package:tmsmobile/utils/images.dart';
 import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/gradient_text.dart';
 
-class SplashScreenPage extends StatelessWidget {
+class SplashScreenPage extends StatefulWidget {
   const SplashScreenPage({super.key});
+
+  @override
+  State<SplashScreenPage> createState() => _SplashScreenPageState();
+}
+
+class _SplashScreenPageState extends State<SplashScreenPage> {
+  @override
+  void initState() {
+    Future.delayed(
+        Duration(seconds: 2),
+        () => Navigator.pushAndRemoveUntil(
+            context,
+            createRoute(
+              LoginPage(),
+            ),
+            (route) => false));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBackgroundColor,
-      body: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () {
-          Navigator.pushAndRemoveUntil(
-              context,
-              createRoute(
-                LoginPage(),
-              ),
-              (route) => false);
-        },
-        child: Stack(
-          alignment: Alignment.topCenter,
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: kSize120,
-                    width: kSize80,
-                    child: Image.asset(
-                      kAppLogoImage,
-                      fit: BoxFit.cover,
-                    ),
+      body: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: kSize120,
+                  width: kSize80,
+                  child: Image.asset(
+                    kAppLogoImage,
+                    fit: BoxFit.cover,
                   ),
-                  kMarginMedium2.vGap,
-                  GradientText(kAppLabel,
-                      style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
-                          fontSize: kTextRegular28,
-                          height: 1.1),
-                      gradient: LinearGradient(
-                          colors: [kPrimaryColor, kSecondaryColor])),
-                ],
-              ),
+                ),
+                kMarginMedium2.vGap,
+                GradientText(kAppLabel,
+                    style: TextStyle(
+                        fontFamily: AppData.shared.fontFamily2,
+                        fontSize: kTextRegular28,
+                        height: 1.1),
+                    gradient: LinearGradient(
+                        colors: [kPrimaryColor, kSecondaryColor])),
+              ],
             ),
-            _buildTopAnimation(context),
-            Positioned(bottom: 0, child: _buildBottonAnimation(context))
-          ],
-        ),
+          ),
+          _buildTopAnimation(context),
+          Positioned(bottom: 0, child: _buildBottonAnimation(context))
+        ],
       ),
     );
   }

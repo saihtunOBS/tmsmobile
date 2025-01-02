@@ -42,7 +42,7 @@ class TMSMobile extends StatelessWidget {
             supportedLocales: [Locale('en'), Locale('my')],
             theme: ThemeData(
                 fontFamily: AppData.shared.fontFamily,
-                colorScheme: ColorScheme.fromSeed(seedColor: kPrimaryColor),
+                colorScheme: ColorScheme.fromSeed(seedColor: kPrimaryColor,primary: kPrimaryColor),
                 useMaterial3: true,
                 scaffoldBackgroundColor: kBackgroundColor,
                 appBarTheme: AppBarTheme(toolbarHeight: kMargin60)),

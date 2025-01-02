@@ -28,6 +28,11 @@ dependencies:
   
   rxdart: ^0.28.0
   multi_image_picker_plus: ^0.0.6
+  mm_nrc_kit: ^1.0.3
+  dio: ^5.7.0
+  json_annotation: ^4.9.0
+  build_runner: ^2.4.14
+  loading_indicator: ^3.1.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
