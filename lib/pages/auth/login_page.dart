@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +17,7 @@ import 'package:tmsmobile/widgets/gradient_button.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
 import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
+import '../nav/nav_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -32,6 +34,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
+    timeDilation = 1.5;
     isFirstTime = PersistenceData.shared.getFirstTimeStatus() ?? true;
     super.initState();
   }
@@ -63,22 +66,14 @@ class _LoginPageState extends State<LoginPage> {
                 spacing: kMarginMedium2,
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.18,
+                    height: MediaQuery.of(context).size.height * 0.2,
                   ),
-                  TweenAnimationBuilder(
-                    tween: Tween<double>(begin: 0, end: 1),
-                    curve: Curves.fastLinearToSlowEaseIn,
-                    duration: Duration(seconds: 5),
-                    builder: (BuildContext context, value, Widget? child) {
-                      return Opacity(
-                        opacity: value,
-                        child: child,
-                      );
-                    },
-                    child: Center(
-                      child: SizedBox(
-                        height: kSize89,
-                        width: kSize58,
+                  Center(
+                    child: SizedBox(
+                      height: kSize89,
+                      width: kSize58,
+                      child: Hero(
+                        tag: 'animate',
                         child: Image.asset(
                           kAppLogoImage,
                           fit: BoxFit.contain,
@@ -139,7 +134,6 @@ class _LoginPageState extends State<LoginPage> {
             if (isLoading)
               LoadingView(
                   indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor),
-            
           ]),
         ),
         bottomNavigationBar: Consumer<LoginBloc>(
@@ -156,10 +150,12 @@ class _LoginPageState extends State<LoginPage> {
             gradientButton(
                 title: isFirstTime == true ? kContinueLabel : kLoginLabel,
                 onPress: () {
-                  showCommonDialog(context: context,dialogWidget: ErrorDialogView(errorMessage: 'Error'));
-                  // bloc.onTapSignIn();
-                  // Navigator.pushAndRemoveUntil(
-                  //     context, createRoute(NavPage()), (_) => false);
+                  // showCommonDialog(
+                  //     context: context,
+                  //     dialogWidget: ErrorDialogView(errorMessage: 'Error'));
+                  bloc.onTapSignIn();
+                  Navigator.pushAndRemoveUntil(
+                      context, createRoute(NavPage()), (_) => false);
                 }),
           ]),
         ),

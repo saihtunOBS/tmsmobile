@@ -47,9 +47,12 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
                 SizedBox(
                   height: kSize120,
                   width: kSize80,
-                  child: Image.asset(
-                    kAppLogoImage,
-                    fit: BoxFit.cover,
+                  child: Hero(
+                    tag: 'animate',
+                    child: Image.asset(
+                      kAppLogoImage,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 kMarginMedium2.vGap,

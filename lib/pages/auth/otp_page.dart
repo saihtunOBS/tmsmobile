@@ -83,7 +83,7 @@ class _OTPPageState extends State<OTPPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.18,
+                height: MediaQuery.of(context).size.height * 0.2,
               ),
               kMarginMedium2.vGap,
               Center(

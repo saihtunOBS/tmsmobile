@@ -7,6 +7,7 @@ import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
+import 'package:tmsmobile/widgets/check_password.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
 import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
@@ -59,7 +60,7 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                         child: Text(
                           kChangeYourPasswordLabel,
                           style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
+                              fontFamily: AppData.shared.fontFamily2,
                               fontWeight: FontWeight.w600,
                               fontSize: kTextRegular24),
                         ),
@@ -80,7 +81,9 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                       const SizedBox(
                         height: kMargin5,
                       ),
-                      _buildCheckPassword(),
+
+                      ///check password
+                      CheckPasswordView()
                     ],
                   ),
                 ),
@@ -98,113 +101,113 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
     );
   }
 
-  Widget _buildCheckPassword() {
-    return Consumer<ChangePasswordBloc>(
-      builder: (BuildContext context, bloc, Widget? child) {
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: kMargin24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: kMarginMedium,
-            children: [
-              Text(
-                kYourPasswordMustContainLabel.toUpperCase(),
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: kTextRegular2x),
-              ),
-              Row(
-                spacing: kMarginMedium,
-                children: [
-                  Container(
-                    width: kMarginMedium14,
-                    height: kMarginMedium14,
-                    padding: EdgeInsets.all(1),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                            width: bloc.isMore8character == true ? 3.0 : 0.0,
-                            color: bloc.isMore8character == true
-                                ? kSecondaryColor
-                                : kWhiteColor)),
-                    child: Image.asset(
-                      kRadioImage,
-                    ),
-                  ),
-                  Text(kCharacterLabel)
-                ],
-              ),
-              Row(
-                spacing: kMarginMedium,
-                children: [
-                  Container(
-                    width: kMarginMedium14,
-                    height: kMarginMedium14,
-                    padding: EdgeInsets.all(1),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                            width: bloc.isUpperCaseContain == true ? 3.0 : 0.0,
-                            color: bloc.isUpperCaseContain == true
-                                ? kSecondaryColor
-                                : kWhiteColor)),
-                    child: Image.asset(
-                      kRadioImage,
-                    ),
-                  ),
-                  Text(kUppercaseLetterLabel)
-                ],
-              ),
-              Row(
-                spacing: kMarginMedium,
-                children: [
-                  Container(
-                    width: kMarginMedium14,
-                    height: kMarginMedium14,
-                    padding: EdgeInsets.all(1),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                            width: bloc.isNumberContain == true ? 3.0 : 0.0,
-                            color: bloc.isNumberContain == true
-                                ? kSecondaryColor
-                                : kWhiteColor)),
-                    child: Image.asset(
-                      kRadioImage,
-                    ),
-                  ),
-                  Text(kOneOrMoreNumberLabel)
-                ],
-              ),
-              Row(
-                spacing: 8,
-                children: [
-                  Container(
-                    width: kMarginMedium14,
-                    height: kMarginMedium14,
-                    padding: EdgeInsets.all(1),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                            width:
-                                bloc.isSpecialNumberContain == true ? 3.0 : 0.0,
-                            color: bloc.isSpecialNumberContain == true
-                                ? kSecondaryColor
-                                : kWhiteColor)),
-                    child: Image.asset(
-                      kRadioImage,
-                    ),
-                  ),
-                  Text(kOneOrMoreSpecialCharacterLabel)
-                ],
-              )
-            ],
-          ),
-        );
-      },
-    );
-  }
+  // Widget _buildCheckPassword() {
+  //   return Consumer<ChangePasswordBloc>(
+  //     builder: (BuildContext context, bloc, Widget? child) {
+  //       return Padding(
+  //         padding: EdgeInsets.symmetric(horizontal: kMargin24),
+  //         child: Column(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           spacing: kMarginMedium,
+  //           children: [
+  //             Text(
+  //               kYourPasswordMustContainLabel.toUpperCase(),
+  //               style: TextStyle(
+  //                   color: Colors.black,
+  //                   fontWeight: FontWeight.bold,
+  //                   fontSize: kTextRegular2x),
+  //             ),
+  //             Row(
+  //               spacing: kMarginMedium,
+  //               children: [
+  //                 Container(
+  //                   width: kMarginMedium14,
+  //                   height: kMarginMedium14,
+  //                   padding: EdgeInsets.all(1),
+  //                   decoration: BoxDecoration(
+  //                       shape: BoxShape.circle,
+  //                       border: Border.all(
+  //                           width: bloc.isMore8character == true ? 3.0 : 0.0,
+  //                           color: bloc.isMore8character == true
+  //                               ? kSecondaryColor
+  //                               : kWhiteColor)),
+  //                   child: Image.asset(
+  //                     kRadioImage,
+  //                   ),
+  //                 ),
+  //                 Text(kCharacterLabel)
+  //               ],
+  //             ),
+  //             Row(
+  //               spacing: kMarginMedium,
+  //               children: [
+  //                 Container(
+  //                   width: kMarginMedium14,
+  //                   height: kMarginMedium14,
+  //                   padding: EdgeInsets.all(1),
+  //                   decoration: BoxDecoration(
+  //                       shape: BoxShape.circle,
+  //                       border: Border.all(
+  //                           width: bloc.isUpperCaseContain == true ? 3.0 : 0.0,
+  //                           color: bloc.isUpperCaseContain == true
+  //                               ? kSecondaryColor
+  //                               : kWhiteColor)),
+  //                   child: Image.asset(
+  //                     kRadioImage,
+  //                   ),
+  //                 ),
+  //                 Text(kUppercaseLetterLabel)
+  //               ],
+  //             ),
+  //             Row(
+  //               spacing: kMarginMedium,
+  //               children: [
+  //                 Container(
+  //                   width: kMarginMedium14,
+  //                   height: kMarginMedium14,
+  //                   padding: EdgeInsets.all(1),
+  //                   decoration: BoxDecoration(
+  //                       shape: BoxShape.circle,
+  //                       border: Border.all(
+  //                           width: bloc.isNumberContain == true ? 3.0 : 0.0,
+  //                           color: bloc.isNumberContain == true
+  //                               ? kSecondaryColor
+  //                               : kWhiteColor)),
+  //                   child: Image.asset(
+  //                     kRadioImage,
+  //                   ),
+  //                 ),
+  //                 Text(kOneOrMoreNumberLabel)
+  //               ],
+  //             ),
+  //             Row(
+  //               spacing: 8,
+  //               children: [
+  //                 Container(
+  //                   width: kMarginMedium14,
+  //                   height: kMarginMedium14,
+  //                   padding: EdgeInsets.all(1),
+  //                   decoration: BoxDecoration(
+  //                       shape: BoxShape.circle,
+  //                       border: Border.all(
+  //                           width:
+  //                               bloc.isSpecialNumberContain == true ? 3.0 : 0.0,
+  //                           color: bloc.isSpecialNumberContain == true
+  //                               ? kSecondaryColor
+  //                               : kWhiteColor)),
+  //                   child: Image.asset(
+  //                     kRadioImage,
+  //                   ),
+  //                 ),
+  //                 Text(kOneOrMoreSpecialCharacterLabel)
+  //               ],
+  //             )
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   Widget _buildTextField(
       {required String title,

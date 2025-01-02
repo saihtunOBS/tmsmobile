@@ -57,8 +57,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: kMarginMedium2,
             children: [
-              const SizedBox(
-                height: kMargin195,
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.2,
               ),
               Center(
                 child: SizedBox(

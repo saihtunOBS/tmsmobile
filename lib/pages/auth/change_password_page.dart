@@ -58,7 +58,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             spacing: kMarginMedium2,
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.18,
+                height: MediaQuery.of(context).size.height * 0.2,
               ),
               Center(
                 child: SizedBox(
