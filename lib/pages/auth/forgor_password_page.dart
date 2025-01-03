@@ -40,7 +40,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               kAppBarTopImage,
               fit: BoxFit.fill,
             ),
-            Positioned(top: kMargin30, child: AppbarBackView())
+            Positioned(top: kSize45, child: AppbarBackView())
           ]),
         ),
       ),

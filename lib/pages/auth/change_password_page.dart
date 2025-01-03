@@ -47,7 +47,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 kAppBarTopImage,
                 fit: BoxFit.fill,
               ),
-              Positioned(top: kMargin30, child: AppbarBackView())
+              Positioned(top: kSize45, child: AppbarBackView())
             ]),
           ),
         ),

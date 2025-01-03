@@ -1,22 +1,22 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:multi_image_picker_plus/multi_image_picker_plus.dart';
 
 class MaintenanceBloc extends ChangeNotifier {
-  List<Asset> imageArray = [];
+  List<File> imageArray = [];
   bool isUploadImage = false;
 
   void selectImage() async {
     try {
-      var resultList = await MultiImagePicker.pickImages(
-          selectedAssets: imageArray,
-          androidOptions: AndroidOptions(
-              maxImages: imageArray.isEmpty ? 2 : 1,
-              hasCameraInPickerPage: true),
-          iosOptions: IOSOptions(
-              settings: CupertinoSettings(
-                  selection:
-                      SelectionSetting(max:  2))));
-      imageArray = resultList;
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        allowMultiple: false,
+        type: FileType.custom,
+        allowedExtensions: ['jpg'],
+      );
+
+      imageArray.add(File(result?.paths.first ?? ''));
+
       notifyListeners();
     } catch (e) {
       ///

@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:tmsmobile/extension/extension.dart';
-import 'package:tmsmobile/extension/route_navigator.dart';
-import 'package:tmsmobile/pages/auth/forgor_password_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
@@ -71,7 +69,7 @@ class _OTPPageState extends State<OTPPage> {
               kAppBarTopImage,
               fit: BoxFit.fill,
             ),
-            Positioned(top: kMargin30, child: AppbarBackView())
+            Positioned(top: kSize45, child: AppbarBackView())
           ]),
         ),
       ),
@@ -100,8 +98,9 @@ class _OTPPageState extends State<OTPPage> {
               Text(
                 kVerificationCodeLabel,
                 style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
-                    fontWeight: FontWeight.w600, fontSize: kTextRegular24),
+                    fontFamily: AppData.shared.fontFamily2,
+                    fontWeight: FontWeight.w600,
+                    fontSize: kTextRegular24),
               ),
               kMarginMedium2.vGap,
               Text(
@@ -138,12 +137,7 @@ class _OTPPageState extends State<OTPPage> {
             fit: BoxFit.fill,
           ),
         ),
-        gradientButton(onPress: () {
-          Navigator.push(
-            context,
-            createRoute(ForgotPasswordPage()),
-          );
-        }),
+        gradientButton(onPress: () {}),
         Positioned(
           top: -10,
           child: Row(

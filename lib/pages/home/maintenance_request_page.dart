@@ -1,6 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:multi_image_picker_plus/multi_image_picker_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/maintenance_bloc.dart';
 import 'package:tmsmobile/extension/extension.dart';
@@ -41,38 +42,39 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
             child: GradientAppBar(
               kMaintenanceRequestLabel,
             )),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: kMarginMedium2, vertical: kMarginMedium2),
-            child: Column(
-              spacing: kMargin10,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildTextField(
-                    maxLine: 1,
-                    controller: _nameController,
-                    title: kTenantNameLabel,
-                    hint: 'Naame'),
-                _buildRoomShopNameDropDown(),
-                _buildTypeIssueDropDown(),
-                _buildTextField(
-                    maxLine: 5,
-                    controller: _descriptionController,
-                    title: kDescriptionLabel,
-                    hint: kWriteDescriptionHereLabel),
-                _buildUploadImage(),
-                1.vGap
-              ],
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: kMarginMedium2, vertical: kMarginMedium2),
+              child: Column(
+                spacing: kMargin10,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildTextField(
+                      maxLine: 1,
+                      controller: _nameController,
+                      title: kTenantNameLabel,
+                      hint: 'Naame'),
+                  _buildRoomShopNameDropDown(),
+                  _buildTypeIssueDropDown(),
+                  _buildTextField(
+                      maxLine: 5,
+                      controller: _descriptionController,
+                      title: kDescriptionLabel,
+                      hint: kWriteDescriptionHereLabel),
+                  _buildUploadImage(),
+                  1.vGap
+                ],
+              ),
             ),
           ),
         ),
         bottomNavigationBar: Container(
-          color: kWhiteColor,
+            color: kWhiteColor,
             height: kBottomBarHeight,
             child: Center(
-              child: gradientButton(title: kSendRequestLabel, onPress: () {
-              }),
+              child: gradientButton(title: kSendRequestLabel, onPress: () {}),
             )),
       ),
     );
@@ -207,7 +209,7 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
     return Stack(
       children: [
         Consumer<MaintenanceBloc>(
-          builder: (context, bloc, child) => InkWell(
+          builder: (context, bloc, child) => GestureDetector(
             onTap: () {
               bloc.onTapUploadFile();
             },
@@ -266,11 +268,11 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
             bloc.imageArray.isNotEmpty
                 ? Column(
                     spacing: kMargin10,
-                    children: bloc.imageArray.asMap().entries.map((value) {
+                    children: bloc.imageArray.asMap().entries.map((entry) {
                       return ClipRRect(
                           borderRadius: BorderRadius.circular(kMargin6),
                           child: _buildImageView(
-                              image: value.value, index: value.key));
+                              image: entry.value, index: entry.key));
                     }).toList(),
                   )
                 : Selector<MaintenanceBloc, bool>(
@@ -333,8 +335,8 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
     );
   }
 
-  Widget _buildImageView({required Asset image, required int index}) {
-    return Selector<MaintenanceBloc, List<Asset>>(
+  Widget _buildImageView({required File image, required int index}) {
+    return Selector<MaintenanceBloc, List<File>>(
       selector: (context, bloc) => bloc.imageArray,
       builder: (context, imageArray, child) => Stack(
         alignment: AlignmentDirectional.center,
@@ -342,7 +344,7 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
           SizedBox(
               height: kSize150,
               width: double.infinity,
-              child: AssetThumb(asset: image, width: MediaQuery.of(context).size.width.toInt(), height: kSize150.toInt())),
+              child: Image.file(image)),
           Positioned(
               right: 0,
               top: 0,

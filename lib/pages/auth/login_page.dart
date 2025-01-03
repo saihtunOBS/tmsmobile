@@ -11,8 +11,6 @@ import 'package:tmsmobile/pages/auth/forgor_password_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
-import 'package:tmsmobile/widgets/common_dialog.dart';
-import 'package:tmsmobile/widgets/error_dialog_view.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
 import '../../data/app_data/app_data.dart';
@@ -104,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                       controller: _passwordController),
 
                   ///forgot password
-                  if (isFirstTime == false)
+                  //if (isFirstTime == false)
                     Padding(
                       padding: const EdgeInsets.only(right: kMargin24),
                       child: Row(
@@ -153,9 +151,9 @@ class _LoginPageState extends State<LoginPage> {
                   // showCommonDialog(
                   //     context: context,
                   //     dialogWidget: ErrorDialogView(errorMessage: 'Error'));
-                  bloc.onTapSignIn();
+                  //bloc.onTapSignIn();
                   Navigator.pushAndRemoveUntil(
-                      context, createRoute(NavPage()), (_) => false);
+                      context, createRoute(NavPage(),duration: 500), (_) => false,);
                 }),
           ]),
         ),

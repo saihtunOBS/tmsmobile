@@ -26,7 +26,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
         () => Navigator.pushAndRemoveUntil(
             context,
             createRoute(
-              LoginPage(),
+              LoginPage(),duration: 400
             ),
             (route) => false));
     super.initState();
