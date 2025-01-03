@@ -55,7 +55,7 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
           TabBarView(
               physics: const NeverScrollableScrollPhysics(),
               controller: _tabController,
-              children: [HomePage(), NotificationPage(), ProfilePage()]),
+              children: [HomePage(), Container(), Container()]),
           Container(
             margin: EdgeInsets.only(
                 bottom: kMargin24, left: kMargin24, right: kMargin24),
@@ -106,7 +106,8 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
         SizedBox(
             height: kMargin24,
             width: kMargin24,
-            child: Image.asset(_currentIndex == 0 ? kHomeIcon : kHomeSelectIcon)),
+            child:
+                Image.asset(_currentIndex == 0 ? kHomeSelectIcon : kHomeIcon,)),
         Text(
           kHomeLabel,
           style: TextStyle(

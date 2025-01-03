@@ -130,9 +130,9 @@ class _ComplainPageState extends State<ComplainPage>
         itemBuilder: (context, index) {
           return InkWell(
               onTap: () {
-                PageNavigator(ctx: context).nextPage(
-                    page: ComplainDetailPage(
-                ));
+                // PageNavigator(ctx: context).nextPage(
+                //     page: ComplainDetailPage(
+                // ));
               },
               child: ComplainListItem(
                 isLast: index == 2,

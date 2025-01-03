@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mm_nrc_kit/mm_nrc_kit.dart';
+import 'package:provider/provider.dart';
+import 'package:tmsmobile/bloc/house_hold_bloc.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
@@ -35,54 +37,60 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      decoration: BoxDecoration(
-          color: kBackgroundColor,
-          image: DecorationImage(
-              image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        extendBodyBehindAppBar: true,
-        extendBody: true,
-        resizeToAvoidBottomInset: true,
-        body: Stack(
-          fit: StackFit.expand,
-          children: [
-            SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: kMarginMedium2,
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.14,
+    return ChangeNotifierProvider(
+      create: (context) => HouseHoldBloc(),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+            color: kBackgroundColor,
+            image: DecorationImage(
+                image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
+        child: Consumer<HouseHoldBloc>(
+          builder: (context, value, child) => 
+           Scaffold(
+            backgroundColor: Colors.transparent,
+            extendBodyBehindAppBar: true,
+            extendBody: true,
+            resizeToAvoidBottomInset: true,
+            body: Stack(
+              fit: StackFit.expand,
+              children: [
+                SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: kMarginMedium2,
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.14,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: kMarginMedium2,
+                            right: kMarginMedium2,
+                            bottom: kMarginMedium2),
+                        child: _buildRegistrationForm(),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: kMarginMedium2,
-                        right: kMarginMedium2,
-                        bottom: kMarginMedium2),
-                    child: _buildRegistrationForm(),
-                  ),
-                ],
-              ),
+                ),
+                
+                ///appbar
+                Positioned(
+                    top: 0,
+                    child: ProfileAppbar(
+                      title: kHouseholdLabel,
+                    )),
+              ],
             ),
-
-            ///appbar
-            Positioned(
-                top: 0,
-                child: ProfileAppbar(
-                  title: kHouseholdLabel,
+            bottomNavigationBar: Container(
+                color: kWhiteColor,
+                height: kBottomBarHeight,
+                child: Center(
+                  child: gradientButton(title: kSubmitLabel, onPress: () {}),
                 )),
-          ],
+          ),
         ),
-        bottomNavigationBar: Container(
-            color: kWhiteColor,
-            height: kBottomBarHeight,
-            child: Center(
-              child: gradientButton(title: kSubmitLabel, onPress: () {}),
-            )),
       ),
     );
   }

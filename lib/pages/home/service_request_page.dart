@@ -132,8 +132,8 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
         itemBuilder: (context, index) {
           return InkWell(
               onTap: () {
-                PageNavigator(ctx: context)
-                    .nextPage(page: MaintenanceProcessPage(status: '',));
+                // PageNavigator(ctx: context)
+                //     .nextPage(page: MaintenanceProcessPage(status: '',));
               },
               child: ServiceRequestListItem(statusColor: 0, status: 'Pending'));
         });
@@ -146,8 +146,8 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
         itemCount: 3,
         itemBuilder: (context, index) {
           return InkWell(
-            onTap: ()=> PageNavigator(ctx: context)
-                    .nextPage(page: FillOutProcessPage(status: kApprovedLabel,)),
+            // onTap: ()=> PageNavigator(ctx: context)
+            //         .nextPage(page: FillOutProcessPage(status: kApprovedLabel,)),
             child: ServiceRequestListItem(
               statusColor: 0,
               status: 'Pending',

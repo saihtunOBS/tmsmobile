@@ -72,12 +72,20 @@ class _AccountChangeLanguagePageState extends State<AccountChangeLanguagePage> {
                   spacing: 10,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      AppLocalizations.of(context)?.choose_language ?? '',
-                      style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
-                          fontWeight: FontWeight.w600,
-                          fontSize: kTextRegular24),
+                    SizedBox(
+                      height: 30,
+                      child: Text(
+                        AppLocalizations.of(context)?.choose_language ?? '',
+                        style: TextStyle(
+                            height: PersistenceData.shared.getLocale() == 'my'
+                                ? 1.7
+                                : 1,
+                            fontFamily: AppData.shared.fontFamily2,
+                            fontWeight: FontWeight.w600,
+                            fontSize: PersistenceData.shared.getLocale() == 'my'
+                                ? 20
+                                : kTextRegular24),
+                      ),
                     ),
                     Column(
                       children: languages.asMap().entries.map((entry) {

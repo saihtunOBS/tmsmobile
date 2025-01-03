@@ -139,7 +139,7 @@ class ComplainDetailPage extends StatelessWidget {
         return Dialog(
           child: Container(
             width: kSize300, // Set the custom width
-            height: kSize300, // Set the custom height
+            height: null, // Set the custom height
             padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: kPrimaryColor,
@@ -150,6 +150,7 @@ class ComplainDetailPage extends StatelessWidget {
                 clipBehavior: Clip.none,
                 children: [
                   Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                         kHowWouldYouRateLabel,
