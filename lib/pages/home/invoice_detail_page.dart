@@ -23,11 +23,12 @@ class InvoiceDetailPage extends StatelessWidget {
           )),
       body: _buildBody(),
       bottomNavigationBar: Container(
-        height: kBottomBarHeight,
+          height: kBottomBarHeight,
           decoration: BoxDecoration(color: Colors.white, boxShadow: [
             BoxShadow(offset: Offset(8, 0), blurRadius: 10, color: kGreyColor)
           ]),
-          child: Center(child: gradientButton(title: kMakePaymentLabel, onPress: () {}))),
+          child: Center(
+              child: gradientButton(title: kMakePaymentLabel, onPress: () {}))),
     );
   }
 
@@ -254,9 +255,9 @@ class InvoiceDetailPage extends StatelessWidget {
                 Text(
                   kElectricFeeLabel,
                   style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
-                      fontSize: kTextRegular3x, fontWeight: FontWeight.w600),
-                
+                      fontFamily: AppData.shared.fontFamily2,
+                      fontSize: kTextRegular3x,
+                      fontWeight: FontWeight.w600),
                 ),
                 1.vGap
               ],
@@ -265,8 +266,7 @@ class InvoiceDetailPage extends StatelessWidget {
           ListView.builder(
               itemCount: 2,
               shrinkWrap: true,
-              padding: EdgeInsets.symmetric(
-                  horizontal: kTextRegular2x),
+              padding: EdgeInsets.symmetric(horizontal: kTextRegular2x),
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return Column(

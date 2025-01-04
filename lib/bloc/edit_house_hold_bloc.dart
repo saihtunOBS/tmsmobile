@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tmsmobile/data/vos/resident_vo.dart';
 
-class HouseHoldBloc extends ChangeNotifier {
+class EditHouseHoldBlocc extends ChangeNotifier {
   List<ResidentVo> residentVo = [];
   DateTime selectedDate = DateTime.now();
   BuildContext? context;
@@ -19,7 +19,7 @@ class HouseHoldBloc extends ChangeNotifier {
   String? validationMessage = '';
   bool isValidate = false;
 
-  HouseHoldBloc(this.context) {}
+  EditHouseHoldBlocc(this.context) {}
 
   addResident({required ResidentVo resident}) {
     residentVo.add(resident);

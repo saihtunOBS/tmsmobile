@@ -36,3 +36,5 @@ const kDeleteAccountIcon = 'assets/images/delete_account.png';
 const kLogoutIcon = 'assets/images/logout.png';
 const kMMIcon = 'assets/images/mm_logo.png';
 const kEngIcon = 'assets/images/en_logo.png';
+const kEditIcon = 'assets/images/edit_logo.png';
+const kDeleteIcon = 'assets/images/delete_logo.png';

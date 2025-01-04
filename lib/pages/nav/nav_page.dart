@@ -55,7 +55,7 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
           TabBarView(
               physics: const NeverScrollableScrollPhysics(),
               controller: _tabController,
-              children: [HomePage(), Container(), Container()]),
+              children: [HomePage(), NotificationPage(), ProfilePage()]),
           Container(
             margin: EdgeInsets.only(
                 bottom: kMargin24, left: kMargin24, right: kMargin24),

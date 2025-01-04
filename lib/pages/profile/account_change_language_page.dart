@@ -73,7 +73,7 @@ class _AccountChangeLanguagePageState extends State<AccountChangeLanguagePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: 30,
+                      height: 33,
                       child: Text(
                         AppLocalizations.of(context)?.choose_language ?? '',
                         style: TextStyle(

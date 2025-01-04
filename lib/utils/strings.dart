@@ -204,3 +204,4 @@ const kNoOfPropertyLabel = 'No. of properties';
 const kAgreementLabel = 'Agreement';
 const kTremOfServiceLabel = 'Terms of Service';
 const kLastUpdateOnLabel = 'Last updated on';
+const kEditLabel = "Edit";

@@ -205,5 +205,6 @@
      "kNoOfPropertyLabel" : "No. of properties",
      "kAgreementLabel" : "Agreement",
      "kTremOfServiceLabel" : "Terms of Service",
-     "kLastUpdateOnLabel" : "Last updated on"
+     "kLastUpdateOnLabel" : "Last updated on",
+     "kEditLabel": "ပြင်ဆင်မည်"
     }
