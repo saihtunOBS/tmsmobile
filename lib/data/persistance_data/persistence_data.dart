@@ -1,59 +1,53 @@
 import 'package:get_storage/get_storage.dart';
+import 'package:tmsmobile/data/vos/login_data_vo.dart';
 
-enum PersistenceList {
-  isFirstTime,
-  token,
-  fCMToken,
-  isAlreadyLogin,
-  isSignedIn,
-  authToken,
-  accessToken,
-  locale
-}
+enum PersistenceList { user, locale, isFirstTime, token }
 
 class PersistenceData {
   static var shared = PersistenceData();
 
-  saveAuthStatus(String status) async {
-    await GetStorage().write(PersistenceList.isSignedIn.name, status);
+  saveFirstTime(bool? isFirstTime) async {
+    await GetStorage().write(PersistenceList.isFirstTime.name, isFirstTime);
   }
 
-  saveFcmToken(String token) async {
-    await GetStorage().write(PersistenceList.fCMToken.name, token);
+  saveToken(String token) async {
+    await GetStorage().write(PersistenceList.token.name, token);
   }
 
-  saveAccessToken(String status) async {
-    await GetStorage().write(PersistenceList.accessToken.name, status);
+  Future<void> saveLoginResponse(LoginDataVO userData) async {
+    // Convert LoginDataVO to a JSON map
+    Map<String, dynamic> user = userData.toJson();
+
+    // Save the JSON map to GetStorage
+    await GetStorage().write(PersistenceList.user.name, user);
   }
 
-  saveIsFirstTime(bool? isFirstTime) async {
-    await GetStorage()
-        .write(PersistenceList.isFirstTime.name, isFirstTime ?? true);
-  }
-
-  saveLocale(String locale) async{
+  saveLocale(String locale) async {
     await GetStorage().write(PersistenceList.locale.name, locale);
   }
 
-/// get...
+  /// get...
 
   getFirstTimeStatus() {
     return GetStorage().read(PersistenceList.isFirstTime.name);
   }
 
-  getAuthStatus() {
-    return GetStorage().read(PersistenceList.isSignedIn.name);
+  getToken() {
+    return GetStorage().read(PersistenceList.token.name);
   }
 
-  getAccessToken() {
-    return GetStorage().read(PersistenceList.accessToken.name);
+  Future<LoginDataVO?> getLoginResponse() async {
+    // Retrieve the JSON map from GetStorage
+    Map<String, dynamic>? user = GetStorage().read(PersistenceList.user.name);
+
+    if (user != null) {
+      // Convert JSON map back to LoginDataVO
+      return LoginDataVO.fromJson(user);
+    }
+    return null; // Return null if no data is found
   }
 
-  getFcmToken() {
-    return GetStorage().read(PersistenceList.fCMToken.name);
-  }
-
-  getLocale(){
+  getLocale() {
     return GetStorage().read(PersistenceList.locale.name);
   }
 }

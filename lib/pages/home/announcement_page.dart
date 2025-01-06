@@ -28,14 +28,7 @@ class AnnouncementPage extends StatelessWidget {
             child: GradientAppBar(kAnnouncementLabel)),
         body: Stack(
           children: [
-            SizedBox(
-            height: double.infinity,
-            width: double.infinity,
-            child: Image.asset(
-              kBillingBackgroundImage,
-              fit: BoxFit.fill,
-            ),
-          ),
+            
             ListView.builder(
             padding: EdgeInsets.symmetric(horizontal: kMarginMedium2,vertical: kMarginMedium2),
             itemCount: 4,

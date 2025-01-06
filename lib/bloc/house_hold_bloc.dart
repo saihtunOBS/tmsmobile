@@ -1,6 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
+import 'package:tmsmobile/data/vos/household_vo.dart';
 import 'package:tmsmobile/data/vos/resident_vo.dart';
+
+import '../data/model/tms_model.dart';
+import '../data/model/tms_model_impl.dart';
+import '../data/vos/resident_data_vo.dart';
 
 class HouseHoldBloc extends ChangeNotifier {
   List<ResidentVo> residentVo = [];
@@ -18,8 +24,59 @@ class HouseHoldBloc extends ChangeNotifier {
 
   String? validationMessage = '';
   bool isValidate = false;
+  List<HouseHoldVO> householdList = [];
 
-  HouseHoldBloc(this.context) {}
+  bool isLoading = false;
+  bool isDisposed = false;
+  ResidentDataObject? owner;
+  List<ResidentDataObject> residents = [];
+
+  final TmsModel _tmsModel = TmsModelImpl();
+
+  HouseHoldBloc(this.context) {
+    var token = PersistenceData.shared.getToken();
+    getHouseHoldLists(token);
+  }
+
+  getHouseHoldLists(token) {
+    _showLoading();
+    _tmsModel.getHouseHoldList(token).then((response) {
+      householdList = response;
+
+      // owner = ResidentDataObject(
+      //     'Owner',
+      //     response.first.owner?.ownerName,
+      //     response.first.owner?.gender,
+      //     DateFormatter.formatDate(
+      //         response.first.owner?.dateOfBirth as DateTime),
+      //     response.first.owner?.race,
+      //     response.first.owner?.nationality,
+      //     response.first.owner?.nrc,
+      //     response.first.owner?.contactNumber,
+      //     '-',
+      //     '-');
+      // for (ResidentVO resident in response.first.resident ?? []) {
+      //   residents.add(ResidentDataObject(
+      //       'Owner',
+      //       resident.residentName,
+      //       resident.gender,
+      //       DateFormatter.formatDate(resident.dateOfBirth as DateTime),
+      //       resident.race,
+      //       resident.nationality,
+      //       resident.nrc,
+      //       resident.contactNumber,
+      //       '-',
+      //       '-'));
+      // }
+
+      // print('length....${residents.length}');
+
+      // residents.first = owner;
+
+      _hideLoading();
+    });
+    notifyListeners();
+  }
 
   addResident({required ResidentVo resident}) {
     residentVo.add(resident);
@@ -96,5 +153,27 @@ class HouseHoldBloc extends ChangeNotifier {
         );
       },
     );
+  }
+
+  _showLoading() {
+    isLoading = true;
+    _notifySafely();
+  }
+
+  _hideLoading() {
+    isLoading = false;
+    _notifySafely();
+  }
+
+  void _notifySafely() {
+    if (!isDisposed) {
+      notifyListeners();
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    isDisposed = true;
   }
 }

@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tmsmobile/bloc/profile_bloc.dart';
+import 'package:tmsmobile/data/vos/user_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/profile/account_change_language_page.dart';
@@ -24,108 +27,113 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      body: Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.topCenter,
-        fit: StackFit.expand,
-        children: [
-          SizedBox(
-            height: double.infinity,
-            width: double.infinity,
-            child: Image.asset(
-              kBillingBackgroundImage,
-              fit: BoxFit.fill,
+    return ChangeNotifierProvider(
+      create: (context) => ProfileBloc(),
+      child: Scaffold(
+        backgroundColor: kBackgroundColor,
+        body: Stack(
+          clipBehavior: Clip.none,
+          alignment: Alignment.topCenter,
+          fit: StackFit.expand,
+          children: [
+            SizedBox(
+              height: double.infinity,
+              width: double.infinity,
+              child: Image.asset(
+                kBillingBackgroundImage,
+                fit: BoxFit.fill,
+              ),
             ),
-          ),
-          Positioned(
-              top: 0,
-              child: ProfileAppbar(
-                isProfile: true,
-              )),
-          Padding(
-            padding: EdgeInsets.only(top: kMargin60),
-            child: _buildHeader(context),
-          ),
-        ],
+            Positioned(
+                top: 0,
+                child: ProfileAppbar(
+                  isProfile: true,
+                )),
+            Padding(
+              padding: EdgeInsets.only(top: kMargin60),
+              child: _buildHeader(context),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildHeader(BuildContext context) {
-    return SingleChildScrollView(
-      physics: ClampingScrollPhysics(),
-      child: Column(
-        spacing: kMarginMedium,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            height: kSize100,
-            width: kSize100,
-            padding: EdgeInsets.all(kMargin5 - 1),
-            decoration: BoxDecoration(
-              color: kWhiteColor,
-              shape: BoxShape.circle,
-              gradient: LinearGradient(
-                colors: [kPrimaryColor, kThirdColor],
-                stops: [0.0, 1.0],
+    return Selector<ProfileBloc, UserVO?>(
+      selector: (_, bloc) => bloc.userData,
+      builder: (context, userData, child) => SingleChildScrollView(
+        physics: ClampingScrollPhysics(),
+        child: Column(
+          spacing: kMarginMedium,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              height: kSize100,
+              width: kSize100,
+              padding: EdgeInsets.all(kMargin5 - 1),
+              decoration: BoxDecoration(
+                color: kWhiteColor,
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  colors: [kPrimaryColor, kThirdColor],
+                  stops: [0.0, 1.0],
+                ),
+              ),
+              child: Container(
+                height: kSize100,
+                decoration:
+                    BoxDecoration(color: kWhiteColor, shape: BoxShape.circle),
+                width: kSize100,
+                child: ClipOval(child: cacheImage('')),
               ),
             ),
-            child: Container(
-              height: kSize100,
-              decoration:
-                  BoxDecoration(color: kWhiteColor, shape: BoxShape.circle),
-              width: kSize100,
-              child: ClipOval(
-                  child: cacheImage(
-                      'https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D')),
+            Text(
+              userData?.tenantName ?? '',
+              style: TextStyle(
+                  fontFamily: AppData.shared.fontFamily2,
+                  fontSize: kTextRegular24,
+                  fontWeight: FontWeight.w600),
             ),
-          ),
-          Text(
-            'Simon',
-            style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
-                fontSize: kTextRegular24, fontWeight: FontWeight.w600),
-          ),
-          Text(
-            '098888888888'.replaceRange(3, 8, '*****'),
-          ),
-          InkWell(
-            onTap: () =>
-                PageNavigator(ctx: context).nextPage(page: ChangeProfilePage()),
-            child: Container(
-              height: kSize28,
-              width: kSize110,
-              padding: EdgeInsets.symmetric(horizontal: kMargin10),
-              decoration: BoxDecoration(
-                  color: kPrimaryColor.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(kMarginMedium2)),
-              child: Center(
-                child: Text(
-                  kViewProfileLabel,
-                  style: TextStyle(
-                      fontSize: kTextRegular13,
-                      color: kPrimaryColor,
-                      fontWeight: FontWeight.w600),
+            Text(
+              userData?.phoneNumber?.replaceRange(3, 8, '*****') ?? '',
+            ),
+            InkWell(
+              onTap: () => PageNavigator(ctx: context)
+                  .nextPage(page: ChangeProfilePage(userData: userData,)),
+              child: Container(
+                height: kSize28,
+                width: kSize110,
+                padding: EdgeInsets.symmetric(horizontal: kMargin10),
+                decoration: BoxDecoration(
+                    color: kPrimaryColor.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(kMarginMedium2)),
+                child: Center(
+                  child: Text(
+                    kViewProfileLabel,
+                    style: TextStyle(
+                        fontSize: kTextRegular13,
+                        color: kPrimaryColor,
+                        fontWeight: FontWeight.w600),
+                  ),
                 ),
               ),
             ),
-          ),
-          _buildSetting(context),
+            _buildSetting(context),
 
-          ///logout button
-          gradientButton(
-              onPress: () {
-                showModalBottomSheet(
-                    elevation: 0,
-                    context: context,
-                    builder: (_) => _buildBottomSheet());
-              },
-              isLogout: true,
-              title: kLogoutLabel),
-          kMargin110.vGap
-        ],
+            ///logout button
+            gradientButton(
+                onPress: () {
+                  showModalBottomSheet(
+                      elevation: 0,
+                      context: context,
+                      builder: (_) => _buildBottomSheet());
+                },
+                isLogout: true,
+                title: kLogoutLabel),
+            kMargin110.vGap
+          ],
+        ),
       ),
     );
   }
@@ -159,7 +167,7 @@ class ProfilePage extends StatelessWidget {
             child: Text(
               'Setting',
               style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
+                  fontFamily: AppData.shared.fontFamily2,
                   fontSize: kTextRegular24,
                   fontWeight: FontWeight.w600,
                   color: kPrimaryColor),
@@ -179,9 +187,6 @@ class ProfilePage extends StatelessWidget {
                     case 0:
                       PageNavigator(ctx: context)
                           .nextPage(page: AccountChangePasswordPage());
-                    case 4:
-                      PageNavigator(ctx: context)
-                          .nextPage(page: AccountChangeLanguagePage());
                     case 1:
                       PageNavigator(ctx: context)
                           .nextPage(page: EmergencyContactPage());
@@ -191,6 +196,9 @@ class ProfilePage extends StatelessWidget {
                     case 3:
                       PageNavigator(ctx: context)
                           .nextPage(page: AccountTermAndConditionPage());
+                    case 4:
+                      PageNavigator(ctx: context)
+                          .nextPage(page: AccountChangeLanguagePage());
                       break;
 
                     default:

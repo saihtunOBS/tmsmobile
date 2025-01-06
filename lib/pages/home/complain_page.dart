@@ -46,9 +46,9 @@ class _ComplainPageState extends State<ComplainPage>
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
-        color: kBackgroundColor,
-        image: DecorationImage(
-            image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
+          color: kBackgroundColor,
+          image: DecorationImage(
+              image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: PreferredSize(
@@ -57,14 +57,6 @@ class _ComplainPageState extends State<ComplainPage>
               kCompliantLabel,
             )),
         body: Stack(children: [
-          SizedBox(
-            height: double.infinity,
-            width: double.infinity,
-            child: Image.asset(
-              kBillingBackgroundImage,
-              fit: BoxFit.fill,
-            ),
-          ),
           Column(
             children: [
               DefaultTabController(
@@ -100,6 +92,7 @@ class _ComplainPageState extends State<ComplainPage>
                       ])),
               Expanded(
                 child: TabBarView(
+                    physics: const NeverScrollableScrollPhysics(),
                     controller: _tabController,
                     children: [_buildPendingTab(), _buildSolvedTab()]),
               ),
@@ -132,6 +125,7 @@ class _ComplainPageState extends State<ComplainPage>
               onTap: () {
                 PageNavigator(ctx: context).nextPage(
                     page: ComplainDetailPage(
+                  isPending: true,
                 ));
               },
               child: ComplainListItem(
@@ -142,12 +136,18 @@ class _ComplainPageState extends State<ComplainPage>
 
   Widget _buildSolvedTab() {
     return ListView.builder(
-        padding: EdgeInsets.symmetric(
-            vertical: kMargin24, horizontal: kMargin24),
+        padding:
+            EdgeInsets.symmetric(vertical: kMargin24, horizontal: kMargin24),
         itemCount: 3,
         itemBuilder: (context, index) {
-          return ComplainListItem(
-            isLast: index == 2,
+          return InkWell(
+            onTap: () => PageNavigator(ctx: context).nextPage(
+                page: ComplainDetailPage(
+              isPending: false,
+            )),
+            child: ComplainListItem(
+              isLast: index == 2,
+            ),
           );
         });
   }

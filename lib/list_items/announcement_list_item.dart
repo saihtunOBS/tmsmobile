@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
-import 'package:tmsmobile/utils/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class AnnouncementListItem extends StatelessWidget {
   const AnnouncementListItem({
@@ -76,7 +77,7 @@ class AnnouncementListItem extends StatelessWidget {
                               bottomRight: Radius.circular(kMargin6))),
                       child: Center(
                         child: Text(
-                          kViewDetailLabel,
+                          AppLocalizations.of(context)?.kReadMoreLabel ?? '',
                           style: TextStyle(
                               fontSize: kTextSmall,
                               color: kWhiteColor,

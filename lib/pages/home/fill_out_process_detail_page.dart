@@ -54,7 +54,7 @@ class FillOutProcessDetailPage extends StatelessWidget {
                 _buildListDetail(title: kRoomShopNameLabel, value: 'value'),
                 10.vGap,
                 Visibility(
-                    visible: isApproved ?? false,
+                    visible: isApproved ?? true,
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: kMargin10),
                       child: _buildListDetail(
@@ -63,10 +63,13 @@ class FillOutProcessDetailPage extends StatelessWidget {
                           isDeposit: true),
                     )),
                 _buildStatusListItem(status: 'Processing'),
+                10.vGap,
                 Visibility(
                     visible: isApproved == false,
                     child: _buildDescription(context)),
-                _buildDayExtension(),
+                Visibility(
+                  visible: isApproved == true,
+                  child: _buildDayExtension()),
               ],
             ),
           ),

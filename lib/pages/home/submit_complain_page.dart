@@ -4,6 +4,8 @@ import 'package:tmsmobile/utils/strings.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
+import '../../widgets/gradient_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SubmitComplainPage extends StatelessWidget {
   SubmitComplainPage({super.key});
@@ -16,9 +18,15 @@ class SubmitComplainPage extends StatelessWidget {
       appBar: PreferredSize(
           preferredSize: Size(double.infinity, kMargin60),
           child: GradientAppBar(
-            kBackLabel,
+            AppLocalizations.of(context)?.kSendCompliantLabel ?? '',
           )),
       body: _buildTextField(controller: _complainController),
+      bottomNavigationBar: Container(
+          color: kWhiteColor,
+          height: kBottomBarHeight,
+          child: Center(
+            child: gradientButton(title: kSubmitLabel, onPress: () {}),
+          )),
     );
   }
 
@@ -26,7 +34,8 @@ class SubmitComplainPage extends StatelessWidget {
     required TextEditingController controller,
   }) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: kMarginMedium2,vertical: kMarginMedium2),
+      padding: const EdgeInsets.symmetric(
+          horizontal: kMarginMedium2, vertical: kMarginMedium2),
       child: Column(
         spacing: kMargin5 - 1,
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,36 +1,12 @@
 
 ///Base Url
-const String kBaseUrl = "http://152.42.236.92";
+const String kBaseUrl = "https://tms-b.origin.com.mm/api/v3/mobile";
 
 ///End
-const String kEndPointLogin = "/api/auth/login";
-const String kEndPointRegister = "/api/register";
-const String kEndPointOtpVerify = "/api/auth/otp-verify";
-const String kEndPointOtpRequest = "/api/auth/otp-request";
-const String kEndPointBanners = "/api/banners";
-const String kEndPointProducts = "/api/get/products/list";
-const String kEndPointProductDetails = "/api/get/product/detail";
-const String kEndPointBrandsAndCategories = "/api/get/brands_and_categories";
-const String kEndPointSearchProducts = "/api/get/products/list";
-const String kEndPointSetPassword = "/api/auth/set-password?Accept";
-const String kEndPointProfilesz = "/api/profile";
-const String kEndPointUpdateProfile = "/api/profile/update";
-const String kEndPointCategories = "/api/categories";
-const String kEndPointSubCategoryByCategory = "/api/subcategory-by-category";
-const String kEndPointRating = "/api/rate-product";
-const String kEndPointNewsDetails = "/api/news/detail";
-const String kEndPointNews = "/api/news";
-const String kEndPointAddNewAddress = "/api/store/address";
-const String kEndPointAddressList = "/api/get/address";
-const String kEndPointEditAddress = "/api/edit/address";
-const String kEndPointAddressCategory = "/api/address-categroy";
-const String kEndPointDeleteAddress = "/api/delete/address";
-const String kEndPointStates = "/api/state";
-const String kEndPointTownships = "/api/state";
-const String kEndPointOrder  = '/api/order';
-const String kEndPointOrderList  = '/api/profile/orders';
-const String kEndPointOrderDetails  = '/api/profile/order/detail';
-const String kEndPointPayments  = '/api/payments';
+const String kEndPointLogin = "/auth/login";
+const String kEndPointUserProfile = '/account/view-profile';
+const String kEndPointChangePassword = '/account/change-password';
+const String kEndPointHouseHoldList = '/account/house-hold-registration/list';
 
 ///Parameters
 const String kParamApiKey = "api_key";

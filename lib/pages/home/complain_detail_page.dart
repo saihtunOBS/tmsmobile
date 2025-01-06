@@ -8,7 +8,8 @@ import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
 
 class ComplainDetailPage extends StatelessWidget {
-  ComplainDetailPage({super.key});
+  ComplainDetailPage({super.key, this.isPending});
+  final bool? isPending;
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +20,11 @@ class ComplainDetailPage extends StatelessWidget {
           child: GradientAppBar(
             kDetailLabel,
           )),
-      body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [kMargin24.vGap, _buildHeader(context), _buildBody()]),
+      body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        isPending == true ? 4.vGap : kMargin24.vGap,
+        isPending == true ? SizedBox.shrink() : _buildHeader(context),
+        _buildBody()
+      ]),
     );
   }
 
@@ -110,8 +113,9 @@ class ComplainDetailPage extends StatelessWidget {
           Text(
             kCompliantLabel,
             style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
-                fontWeight: FontWeight.w700, fontSize: kTextRegular3x),
+                fontFamily: AppData.shared.fontFamily2,
+                fontWeight: FontWeight.w700,
+                fontSize: kTextRegular3x),
           ),
           Text(
             'We will arrive within 2 day.....',

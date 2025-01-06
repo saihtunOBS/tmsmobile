@@ -13,7 +13,8 @@ import '../../widgets/appbar.dart';
 import '../../widgets/gradient_button.dart';
 
 class MaintenanceRequestPage extends StatefulWidget {
-  const MaintenanceRequestPage({super.key});
+  const MaintenanceRequestPage({super.key, this.isMaintanence});
+  final bool? isMaintanence;
 
   @override
   State<MaintenanceRequestPage> createState() => _MaintenanceRequestPageState();
@@ -40,7 +41,9 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
         appBar: PreferredSize(
             preferredSize: Size(double.infinity, kMargin60),
             child: GradientAppBar(
-              kMaintenanceRequestLabel,
+              widget.isMaintanence == true
+                  ? kMaintenanceRequestLabel
+                  : kFillOutRequestLabel,
             )),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -57,7 +60,9 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                       title: kTenantNameLabel,
                       hint: 'Naame'),
                   _buildRoomShopNameDropDown(),
-                  _buildTypeIssueDropDown(),
+                  widget.isMaintanence == true
+                      ? _buildTypeIssueDropDown()
+                      : SizedBox.shrink(),
                   _buildTextField(
                       maxLine: 5,
                       controller: _descriptionController,

@@ -98,7 +98,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                       _buildProcessView(
                           title: kApprovedLabel,
                           onPressDetail: () => PageNavigator(ctx: context)
-                          .nextPage(page: FillOutProcessDetailPage(isApproved: false,)),
+                          .nextPage(page: FillOutProcessDetailPage(isApproved: true,)),
                           onPressed: () {
                             setState(() {
                               if (isSelectedPending == false) return;
@@ -111,10 +111,10 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                       _buildProcessView(
                           title: kCloseLabel,
                           onPressed: () {
-                            setState(() {
-                              if (isSelectedApprove == false) return;
-                              isSelectedClose = true;
-                            });
+                            // setState(() {
+                            //   if (isSelectedApprove == false) return;
+                            //   isSelectedClose = true;
+                            // });
                           },
                           label: 'Closed',
                           isSelected: isSelectedClose,

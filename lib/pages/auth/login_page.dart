@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -7,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/login_bloc.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
+import 'package:tmsmobile/pages/auth/change_password_page.dart';
 import 'package:tmsmobile/pages/auth/forgor_password_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
@@ -15,6 +18,8 @@ import 'package:tmsmobile/widgets/gradient_button.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
 import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
+import '../../widgets/common_dialog.dart';
+import '../../widgets/error_dialog_view.dart';
 import '../nav/nav_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -40,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => LoginBloc(),
+      create: (context) => LogInBloc(),
       child: Scaffold(
         backgroundColor: kBackgroundColor,
         extendBody: true,
@@ -54,8 +59,8 @@ class _LoginPageState extends State<LoginPage> {
             fit: BoxFit.fill,
           ),
         ),
-        body: Selector<LoginBloc, bool>(
-          selector: (context, bloc) => bloc.isLoading,
+        body: Selector<LogInBloc?, bool?>(
+          selector: (context, bloc) => bloc?.isLoading,
           builder: (context, isLoading, child) => Stack(children: [
             SingleChildScrollView(
               child: Column(
@@ -102,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                       controller: _passwordController),
 
                   ///forgot password
-                  //if (isFirstTime == false)
+                  if (isFirstTime == false)
                     Padding(
                       padding: const EdgeInsets.only(right: kMargin24),
                       child: Row(
@@ -129,12 +134,12 @@ class _LoginPageState extends State<LoginPage> {
             ),
 
             /// loading
-            if (isLoading)
+            if (isLoading == true)
               LoadingView(
                   indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor),
           ]),
         ),
-        bottomNavigationBar: Consumer<LoginBloc>(
+        bottomNavigationBar: Consumer<LogInBloc?>(
           builder: (context, bloc, child) =>
               Stack(alignment: Alignment.center, children: [
             SizedBox(
@@ -148,12 +153,27 @@ class _LoginPageState extends State<LoginPage> {
             gradientButton(
                 title: isFirstTime == true ? kContinueLabel : kLoginLabel,
                 onPress: () {
-                  // showCommonDialog(
-                  //     context: context,
-                  //     dialogWidget: ErrorDialogView(errorMessage: 'Error'));
-                  //bloc.onTapSignIn();
-                  Navigator.pushAndRemoveUntil(
-                      context, createRoute(NavPage(),duration: 500), (_) => false,);
+                  bloc
+                      ?.onTapSignIn(_phoneController.text.trim(),
+                          _passwordController.text.trim())
+                      .then((value) {
+                    if (value.status == true) {
+                      if (value.data?.verify == 1) {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            createRoute(NavPage(), duration: 200),
+                            (route) => false);
+                      } else {
+                        PageNavigator(ctx: context).nextPage(
+                            page: ChangePasswordPage(isChangePassword: true));
+                      }
+                    }
+                  }).catchError((error) {
+                    showCommonDialog(
+                        context: context,
+                        dialogWidget:
+                            ErrorDialogView(errorMessage: error.toString()));
+                  });
                 }),
           ]),
         ),

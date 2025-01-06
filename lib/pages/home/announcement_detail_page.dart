@@ -18,7 +18,7 @@ class AnnouncementDetailPage extends StatelessWidget {
       appBar: PreferredSize(
           preferredSize: Size(double.infinity, kMargin60),
           child: GradientAppBar(
-            kBackLabel,
+            kCloseLabel,
           )),
       body: _buildBody(),
     );
@@ -49,8 +49,7 @@ class AnnouncementDetailPage extends StatelessWidget {
                 Text(
                   'Dec 12, 2024',
                   style: TextStyle(
-                    fontSize: kTextSmall,fontWeight: FontWeight.w600
-                  ),
+                      fontSize: kTextSmall, fontWeight: FontWeight.w600),
                 ),
               ],
             ),
@@ -58,7 +57,9 @@ class AnnouncementDetailPage extends StatelessWidget {
             Text(
               'New Properties for Rent',
               style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,fontSize: kTextRegular24,fontWeight: FontWeight.w700),
+                  fontFamily: AppData.shared.fontFamily2,
+                  fontSize: kTextRegular24,
+                  fontWeight: FontWeight.w700),
             ),
             kMarginMedium2.vGap,
             Text(

@@ -2,9 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:tmsmobile/data/app_data/app_data.dart';
+import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/auth/login_page.dart';
+import 'package:tmsmobile/pages/nav/nav_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/images.dart';
@@ -21,14 +23,16 @@ class SplashScreenPage extends StatefulWidget {
 class _SplashScreenPageState extends State<SplashScreenPage> {
   @override
   void initState() {
-    Future.delayed(
-        Duration(seconds: 2),
-        () => Navigator.pushAndRemoveUntil(
-            context,
-            createRoute(
-              LoginPage(),duration: 400
-            ),
-            (route) => false));
+
+    Future.delayed(Duration(seconds: 2), () {
+      Navigator.pushAndRemoveUntil(context,
+              createRoute(LoginPage(), duration: 300), (route) => false);
+      PersistenceData.shared.getToken() == null
+          ? Navigator.pushAndRemoveUntil(context,
+              createRoute(LoginPage(), duration: 400), (route) => false)
+          : Navigator.pushAndRemoveUntil(
+              context, createRoute(NavPage(), duration: 400), (route) => false);
+    });
     super.initState();
   }
 

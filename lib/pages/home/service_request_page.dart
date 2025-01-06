@@ -3,7 +3,7 @@ import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/list_items/service_request_list_item.dart';
 import 'package:tmsmobile/pages/home/fill_out_process_page.dart';
 import 'package:tmsmobile/pages/home/maintenance_process_page.dart';
-import 'package:tmsmobile/pages/home/maintenance_request_page.dart';
+import 'package:tmsmobile/pages/home/maintenance_and_fillout_request_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/images.dart';
 import 'package:tmsmobile/utils/strings.dart';
@@ -47,9 +47,9 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
-        color: kBackgroundColor,
-        image: DecorationImage(
-            image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
+          color: kBackgroundColor,
+          image: DecorationImage(
+              image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: PreferredSize(
@@ -58,14 +58,6 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
               kServiceRequestLabel,
             )),
         body: Stack(children: [
-          SizedBox(
-            height: double.infinity,
-            width: double.infinity,
-            child: Image.asset(
-              kBillingBackgroundImage,
-              fit: BoxFit.fill,
-            ),
-          ),
           Column(
             children: [
               DefaultTabController(
@@ -101,6 +93,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                       ])),
               Expanded(
                 child: TabBarView(
+                    physics: const NeverScrollableScrollPhysics(),
                     controller: _tabController,
                     children: [_buildMaintenanceTab(), _buildFillOutTab()]),
               ),
@@ -117,8 +110,10 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
               ),
             ),
             onPressed: () {
-              PageNavigator(ctx: context)
-                  .nextPage(page: MaintenanceRequestPage());
+              PageNavigator(ctx: context).nextPage(
+                  page: MaintenanceRequestPage(
+                isMaintanence: _currentIndex == 0 ? true : false,
+              ));
             }),
       ),
     );
@@ -132,8 +127,10 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
         itemBuilder: (context, index) {
           return InkWell(
               onTap: () {
-                PageNavigator(ctx: context)
-                    .nextPage(page: MaintenanceProcessPage(status: '',));
+                PageNavigator(ctx: context).nextPage(
+                    page: MaintenanceProcessPage(
+                  status: '',
+                ));
               },
               child: ServiceRequestListItem(statusColor: 0, status: 'Pending'));
         });
@@ -146,8 +143,10 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
         itemCount: 3,
         itemBuilder: (context, index) {
           return InkWell(
-            onTap: ()=> PageNavigator(ctx: context)
-                    .nextPage(page: FillOutProcessPage(status: kApprovedLabel,)),
+            onTap: () => PageNavigator(ctx: context).nextPage(
+                page: FillOutProcessPage(
+              status: kApprovedLabel,
+            )),
             child: ServiceRequestListItem(
               statusColor: 0,
               status: 'Pending',

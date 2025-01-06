@@ -201,5 +201,7 @@
     "kAgreementLabel": "Agreement",
     "kTremOfServiceLabel": "Terms of Service",
     "kLastUpdateOnLabel": "Last updated on",
-    "kEditLabel": "Edit"
+    "kEditLabel": "Edit",
+    "kSendCompliantLabel": "Send Complaint",
+    "kReadMoreLabel": "Read More"
 }

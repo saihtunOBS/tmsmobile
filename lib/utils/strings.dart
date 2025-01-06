@@ -36,6 +36,7 @@ const kContractLabel = 'Contracts';
 const kBillingLabel = 'Billing';
 const kMaintenanceLabel = 'Maintenance';
 const kFillOutLabel = 'Fill Out';
+const kFillOutRequestLabel = 'Fill Out Request';
 const kServiceRequestLabel = 'Service Request';
 const kCompliantLabel = 'Compliants';
 const kWriteComplainLabel = 'Write complaint....';

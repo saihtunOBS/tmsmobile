@@ -27,14 +27,7 @@ class CarParkingPage extends StatelessWidget {
               child: GradientAppBar(kCarParkingLabel)),
           body: Stack(
             children: [
-              SizedBox(
-                height: double.infinity,
-                width: double.infinity,
-                child: Image.asset(
-                  kBillingBackgroundImage,
-                  fit: BoxFit.fill,
-                ),
-              ),
+             
               ListView.builder(
                   padding: EdgeInsets.symmetric(
                       vertical: kMarginMedium2, horizontal: kMarginMedium2 + 2),

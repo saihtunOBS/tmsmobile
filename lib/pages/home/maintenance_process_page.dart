@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
+import 'package:tmsmobile/pages/home/invoice_detail_page.dart';
 import 'package:tmsmobile/pages/home/maintenance_pending_page.dart';
 import 'package:tmsmobile/pages/home/maintenance_processing_page.dart';
 import 'package:tmsmobile/pages/home/maintenance_quotation_page.dart';
@@ -164,7 +165,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                           color: kBlueColor),
                       _buildProcessView(
                           title: kProcessingLabel,
-                          onPressedDetail: () => MaintenanceProcessingPage,
+                          onPressedDetail: () => PageNavigator(ctx: context).nextPage(page: MaintenanceProcessingPage()),
                           onPressed: () {
                             setState(() {
                               if (isSelectedAcceptReject == false) return;
@@ -176,6 +177,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                           color: kYellowColor),
                       _buildProcessView(
                           title: kFinishLabel,
+                          onPressedDetail: ()=> PageNavigator(ctx: context).nextPage(page: InvoiceDetailPage()),
                           onPressed: () {
                             setState(() {
                               if (isSelectedProcessing == false) return;

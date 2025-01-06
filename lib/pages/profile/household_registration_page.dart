@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:mm_nrc_kit/mm_nrc_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/house_hold_bloc.dart';
+import 'package:tmsmobile/data/vos/household_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
+import 'package:tmsmobile/extension/route_navigator.dart';
+import 'package:tmsmobile/list_items/resident_list_item.dart';
+import 'package:tmsmobile/pages/profile/edit_resident_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
+import 'package:tmsmobile/widgets/loading_view.dart';
 
 import '../../data/app_data/app_data.dart';
 import '../../data/vos/resident_vo.dart';
@@ -35,6 +41,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
     kEmailAddressLabel,
     kRelatedToOwnerLabel
   ];
+
   int? selected;
 
   @override
@@ -49,7 +56,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
             image: DecorationImage(
                 image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
         child: Consumer<HouseHoldBloc>(
-          builder: (context, value, child) => Scaffold(
+          builder: (context, bloc, child) => Scaffold(
             backgroundColor: Colors.transparent,
             extendBodyBehindAppBar: true,
             extendBody: true,
@@ -57,24 +64,33 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
             body: Stack(
               fit: StackFit.expand,
               children: [
-                SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: kMarginMedium2,
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.14,
+                bloc.isLoading
+                    ? Center(
+                        child: LoadingView(
+                            indicator: Indicator.ballBeat,
+                            indicatorColor: kPrimaryColor),
+                      )
+                    : SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: kMarginMedium2,
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.14,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: kMarginMedium2,
+                                  right: kMarginMedium2,
+                                  bottom: kMarginMedium2),
+                              child: bloc.householdList.isEmpty
+                                  ? _buildRegistrationForm()
+                                  : _buildHouseHoldRegistration(
+                                      context, bloc.householdList,bloc),
+                            ),
+                          ],
+                        ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: kMarginMedium2,
-                            right: kMarginMedium2,
-                            bottom: kMarginMedium2),
-                        child: _buildHouseHoldRegistration(context),
-                      ),
-                    ],
-                  ),
-                ),
 
                 ///appbar
                 Positioned(
@@ -84,12 +100,17 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                     )),
               ],
             ),
-            bottomNavigationBar: Container(
-                color: kWhiteColor,
-                height: kBottomBarHeight,
-                child: Center(
-                  child: gradientButton(title: kSubmitLabel, onPress: () {}),
-                )),
+            bottomNavigationBar: Consumer<HouseHoldBloc>(
+              builder: (context, bloc, child) => bloc.householdList.isNotEmpty
+                  ? SizedBox.shrink()
+                  : Container(
+                      color: kWhiteColor,
+                      height: kBottomBarHeight,
+                      child: Center(
+                        child:
+                            gradientButton(title: kSubmitLabel, onPress: () {}),
+                      )),
+            ),
           ),
         ),
       ),
@@ -117,20 +138,24 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
     );
   }
 
-
-
   /// already registration view
-  Widget _buildHouseHoldRegistration(BuildContext context) {
+  Widget _buildHouseHoldRegistration(
+      BuildContext context, List<HouseHoldVO> houseHoldData, HouseHoldBloc bloc) {
     return Column(
       children: [
-        _listItem(title: kRegistrationDateLabel, value: '12 Dec, 2023'),
+        _listItem(
+            title: kRegistrationDateLabel,
+            value: DateFormatter.formatDate(
+                houseHoldData.first.registerDate as DateTime)),
         10.vGap,
-        _listItem(title: kMoveInDateLabel, value: '12 Dec, 2023'),
+        _listItem(
+            title: kMoveInDateLabel,
+            value:
+                DateFormatter.formatDate(houseHoldData.first.moveInDate as DateTime)),
         kSize18.vGap,
         Container(
           decoration: BoxDecoration(
             color: kWhiteColor,
-            borderRadius: BorderRadius.circular(kMargin10),
             boxShadow: [
               BoxShadow(
                   offset: Offset(
@@ -189,61 +214,25 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                       )),
                   Expanded(
                       flex: 1,
-                      child: Stack(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(bottom: kMargin10),
-                            color: kThirdGrayColor,
-                            child: SingleChildScrollView(
-                              physics: ClampingScrollPhysics(),
+                      child: Container(
+                        padding: EdgeInsets.only(bottom: kMargin10),
+                        color: kThirdGrayColor,
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height / 2.307,
+                          child: ListView.builder(
+                              itemCount: houseHoldData.length,
                               scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children:
-                                    titles.asMap().entries.map((parentEntry) {
-                                  return Column(
-                                    spacing: kMarginMedium2,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children:
-                                        titles.asMap().entries.map((entry) {
-                                      return Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                2.15,
-                                        height: entry.key == 0 ? kSize43 : null,
-                                        decoration: BoxDecoration(
-                                          color: entry.key == 0
-                                              ? kDarkBlueColor
-                                              : null,
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            entry.value,
-                                            style: TextStyle(
-                                                decoration: parentEntry.key != 0
-                                                    ? entry.key == 1
-                                                        ? TextDecoration
-                                                            .underline
-                                                        : TextDecoration.none
-                                                    : TextDecoration.none,
-                                                decorationThickness: 2.0,
-                                                color: entry.key == 0
-                                                    ? kWhiteColor
-                                                    : Colors.black,
-                                                fontWeight: entry.key == 0
-                                                    ? FontWeight.w700
-                                                    : FontWeight.normal,
-                                                fontSize: kTextRegular),
-                                          ),
-                                        ),
-                                      );
-                                    }).toList(),
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                          ),
-                        ],
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: () => PageNavigator(ctx: context).nextPage(page: EditResidentPage(houseHoldData: houseHoldData[index])),
+                                  child: ResidentListItem(
+                                    houseHoldData: houseHoldData[index],
+                                    index: index,
+                                  ),
+                                );
+                              }),
+                        ),
                       )),
                 ],
               ),
@@ -253,6 +242,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
       ],
     );
   }
+
+  //ownerand resident list view
 
   //add new registration view
   Widget _buildRegistrationForm() {
@@ -417,7 +408,6 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
       ],
     );
   }
-
 
   //genre
   List<String> genders = ['Male', 'Female'];

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tmsmobile/data/vos/user_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
+import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
 
@@ -9,7 +11,8 @@ import '../../utils/images.dart';
 import '../../widgets/cache_image.dart';
 
 class ChangeProfilePage extends StatelessWidget {
-  ChangeProfilePage({super.key});
+  ChangeProfilePage({super.key, this.userData});
+  final UserVO? userData;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +40,7 @@ class ChangeProfilePage extends StatelessWidget {
                 child: _buildHeader(context),
               ),
               kMarginMedium2.vGap,
-              _buildListView()
+              _buildListView(userData as UserVO)
             ],
           ),
         ],
@@ -107,13 +110,23 @@ class ChangeProfilePage extends StatelessWidget {
     kAddressLabel,
     kNoOfPropertyLabel
   ];
-  Widget _buildListView() {
-    return Column(
-      spacing: kMargin12,
-      children: listItems.asMap().entries.map((entry) {
-        return _buildListDetail(title: entry.value, value: 'value');
-      }).toList(),
-    );
+  Widget _buildListView(UserVO userData) {
+    return Column(spacing: kMargin12, children: [
+      _buildListDetail(
+          title: kCreatedDateLabel,
+          value:
+              DateFormatter.formatDate(userData.createdDate ?? DateTime.now())),
+      _buildListDetail(title: kNameLabel, value: userData.tenantName ?? ''),
+      _buildListDetail(title: kEmailAddressLabel, value: userData.email ?? ''),
+      _buildListDetail(
+          title: kPhoneNumberLabel, value: userData.phoneNumber ?? ''),
+      _buildListDetail(title: kCityLabel, value: userData.city?.cityName ?? ''),
+      _buildListDetail(
+          title: kTownshipLabel, value: userData.township?.townshipName ?? ''),
+      _buildListDetail(title: kAddressLabel, value: userData.address ?? ''),
+      _buildListDetail(
+          title: kNoOfPropertyLabel, value: '${userData.numberOfShops ?? 0}'),
+    ]);
   }
 
   Widget _buildListDetail({required String title, required String value}) {

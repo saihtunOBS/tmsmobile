@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mm_nrc_kit/mm_nrc_kit.dart';
 import 'package:provider/provider.dart';
-import 'package:tmsmobile/bloc/edit_house_hold_bloc.dart';
+import 'package:tmsmobile/bloc/edit_resident_bloc.dart';
+import 'package:tmsmobile/data/vos/household_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/images.dart';
 
@@ -13,7 +14,8 @@ import '../../widgets/appbar.dart';
 import '../../widgets/gradient_button.dart';
 
 class EditResidentPage extends StatefulWidget {
-  const EditResidentPage({super.key});
+  const EditResidentPage({super.key, required this.houseHoldData});
+  final HouseHoldVO houseHoldData;
 
   @override
   State<EditResidentPage> createState() => _EditResidentPageState();
@@ -24,7 +26,7 @@ class _EditResidentPageState extends State<EditResidentPage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => EditHouseHoldBlocc(context),
+      create: (context) => EditResidentBloc(context,widget.houseHoldData),
       child: Scaffold(
         body: Stack(
           children: [
@@ -75,7 +77,7 @@ class _EditResidentPageState extends State<EditResidentPage> {
   }
 
   Widget _buildEditForm() {
-    return Consumer<EditHouseHoldBlocc>(
+    return Consumer<EditResidentBloc>(
       builder: (context, bloc, child) => SingleChildScrollView(
         child: Column(
           children: [
@@ -232,7 +234,7 @@ class _EditResidentPageState extends State<EditResidentPage> {
         style: TextStyle(fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
       ),
       4.vGap,
-      Consumer<EditHouseHoldBlocc>(
+      Consumer<EditResidentBloc>(
         builder: (context, bloc, child) => Container(
           width: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: kMarginMedium2),

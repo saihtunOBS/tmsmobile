@@ -14,8 +14,8 @@ import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
 
 class ChangePasswordPage extends StatefulWidget {
-  const ChangePasswordPage({super.key, required this.isFirstTime});
-  final bool isFirstTime;
+  const ChangePasswordPage({super.key, required this.isChangePassword});
+  final bool isChangePassword;
 
   @override
   State<ChangePasswordPage> createState() => _ChangePasswordPageState();
@@ -76,7 +76,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: kMargin24),
                 child: Text(
-                  widget.isFirstTime == false
+                  widget.isChangePassword == false
                       ? kResetPassword
                       : kChangeYourPasswordLabel,
                   style: TextStyle(

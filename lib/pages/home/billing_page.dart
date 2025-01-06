@@ -36,14 +36,7 @@ class _BillingPageState extends State<BillingPage> {
               action: _buildDropDown(),
             )),
         body: Stack(children: [
-          SizedBox(
-            height: double.infinity,
-            width: double.infinity,
-            child: Image.asset(
-              kBillingBackgroundImage,
-              fit: BoxFit.fill,
-            ),
-          ),
+         
           ListView.builder(
               itemCount: 2,
               padding: EdgeInsets.symmetric(
