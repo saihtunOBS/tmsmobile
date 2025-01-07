@@ -1,30 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
+import 'package:provider/provider.dart';
+import 'package:tmsmobile/bloc/complaint_bloc.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/images.dart';
 import 'package:tmsmobile/utils/strings.dart';
+import 'package:tmsmobile/widgets/loading_view.dart';
 import '../../data/app_data/app_data.dart';
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
 
 class ComplainDetailPage extends StatelessWidget {
-  ComplainDetailPage({super.key, this.isPending});
+  ComplainDetailPage({super.key, this.isPending, this.complaintId});
   final bool? isPending;
+  final String? complaintId;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      appBar: PreferredSize(
-          preferredSize: Size(double.infinity, kMargin60),
-          child: GradientAppBar(
-            kDetailLabel,
-          )),
-      body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        isPending == true ? 4.vGap : kMargin24.vGap,
-        isPending == true ? SizedBox.shrink() : _buildHeader(context),
-        _buildBody()
-      ]),
+    return ChangeNotifierProvider(
+      create: (context) => ComplaintBloc(complaintId: complaintId,isDetail: true),
+      child: Scaffold(
+        backgroundColor: kBackgroundColor,
+        appBar: PreferredSize(
+            preferredSize: Size(double.infinity, kMargin60),
+            child: GradientAppBar(
+              kDetailLabel,
+            )),
+        body: Selector<ComplaintBloc, bool>(
+          selector: (p0, p1) => p1.isLoading,
+          builder: (context, isLoading, child) => isLoading
+              ? LoadingView(
+                  indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor)
+              : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  isPending == true ? 4.vGap : kMargin24.vGap,
+                  isPending == true ? SizedBox.shrink() : _buildHeader(context),
+                  _buildBody()
+                ]),
+        ),
+      ),
     );
   }
 
@@ -103,27 +117,29 @@ class ComplainDetailPage extends StatelessWidget {
   }
 
   Widget _buildBody() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-          horizontal: kMarginMedium2, vertical: kMargin10),
-      child: Column(
-        spacing: kMargin5 - 1,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            kCompliantLabel,
-            style: TextStyle(
-                fontFamily: AppData.shared.fontFamily2,
-                fontWeight: FontWeight.w700,
-                fontSize: kTextRegular3x),
-          ),
-          Text(
-            'We will arrive within 2 day.....',
-            style: TextStyle(
-              fontSize: kTextRegular,
+    return Consumer<ComplaintBloc>(
+      builder: (context, bloc, child) => Padding(
+        padding: const EdgeInsets.symmetric(
+            horizontal: kMarginMedium2, vertical: kMargin10),
+        child: Column(
+          spacing: kMargin5 - 1,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              kCompliantLabel,
+              style: TextStyle(
+                  fontFamily: AppData.shared.fontFamily2,
+                  fontWeight: FontWeight.w700,
+                  fontSize: kTextRegular3x),
             ),
-          ),
-        ],
+            Text(
+              bloc.complaintDetail?.complaint ?? '',
+              style: TextStyle(
+                fontSize: kTextRegular,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

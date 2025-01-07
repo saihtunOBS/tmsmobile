@@ -18,7 +18,6 @@ class MaintenanceBloc extends ChangeNotifier {
       if (result?.paths.first != null) {
         imageArray.add(File(result?.paths.first ?? ''));
       }
-
       notifyListeners();
     } catch (e) {
       ///

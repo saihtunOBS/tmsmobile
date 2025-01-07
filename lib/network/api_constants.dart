@@ -7,6 +7,10 @@ const String kEndPointLogin = "/auth/login";
 const String kEndPointUserProfile = '/account/view-profile';
 const String kEndPointChangePassword = '/account/change-password';
 const String kEndPointHouseHoldList = '/account/house-hold-registration/list';
+const String kEndPointResetPassword = '/auth/reset-password';
+const String kEndPointComplaint = '/complaint/list';
+const String kEndPointComplaintDetail = '/complaint/edit';
+const String kEndPointComplaintCreate = '/complaint/create';
 
 ///Parameters
 const String kParamApiKey = "api_key";

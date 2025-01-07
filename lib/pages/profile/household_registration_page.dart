@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:mm_nrc_kit/mm_nrc_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/house_hold_bloc.dart';
 import 'package:tmsmobile/data/vos/household_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/list_items/resident_list_item.dart';
+import 'package:tmsmobile/pages/profile/add_resident_page.dart';
 import 'package:tmsmobile/pages/profile/edit_resident_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
+import 'package:tmsmobile/widgets/empty_houldhold.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
+import 'package:tmsmobile/widgets/nrc_view.dart';
 
 import '../../data/app_data/app_data.dart';
 import '../../data/vos/resident_vo.dart';
@@ -43,6 +45,11 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
   ];
 
   int? selected;
+  bool? isClickRegistrationForm = false;
+  String _selectedOption = "Citizen";
+  String _selectedOwnerNRC = 'Citizen';
+  String? ownerGender;
+  String? residentGender;
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +70,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
             resizeToAvoidBottomInset: true,
             body: Stack(
               fit: StackFit.expand,
+              alignment: Alignment.center,
               children: [
                 bloc.isLoading
                     ? Center(
@@ -84,9 +92,39 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                                   right: kMarginMedium2,
                                   bottom: kMarginMedium2),
                               child: bloc.householdList.isEmpty
-                                  ? _buildRegistrationForm()
+                                  ? Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              top: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.16),
+                                          child: Visibility(
+                                            visible: isClickRegistrationForm ==
+                                                false,
+                                            child: EmptyHousehold(onPress: () {
+                                              setState(() {
+                                                isClickRegistrationForm = true;
+                                              });
+                                            }),
+                                          ),
+                                        ),
+                                        Visibility(
+                                            visible: isClickRegistrationForm ??
+                                                false,
+                                            child: _buildRegistrationForm()),
+
+                                        ///loading
+                                        if (bloc.isLoading == true)
+                                          LoadingView(
+                                              indicator: Indicator.ballBeat,
+                                              indicatorColor: kPrimaryColor),
+                                      ],
+                                    )
                                   : _buildHouseHoldRegistration(
-                                      context, bloc.householdList,bloc),
+                                      context, bloc.householdList.first, bloc),
                             ),
                           ],
                         ),
@@ -101,15 +139,18 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
               ],
             ),
             bottomNavigationBar: Consumer<HouseHoldBloc>(
-              builder: (context, bloc, child) => bloc.householdList.isNotEmpty
+              builder: (context, bloc, child) => bloc.isLoading
                   ? SizedBox.shrink()
-                  : Container(
-                      color: kWhiteColor,
-                      height: kBottomBarHeight,
-                      child: Center(
-                        child:
-                            gradientButton(title: kSubmitLabel, onPress: () {}),
-                      )),
+                  : Visibility(
+                      visible: bloc.householdList.isEmpty,
+                      child: Container(
+                          color: kWhiteColor,
+                          height: kBottomBarHeight,
+                          child: Center(
+                            child: gradientButton(
+                                title: kSubmitLabel, onPress: () {}),
+                          )),
+                    ),
             ),
           ),
         ),
@@ -140,130 +181,172 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
 
   /// already registration view
   Widget _buildHouseHoldRegistration(
-      BuildContext context, List<HouseHoldVO> houseHoldData, HouseHoldBloc bloc) {
-    return Column(
-      children: [
-        _listItem(
-            title: kRegistrationDateLabel,
-            value: DateFormatter.formatDate(
-                houseHoldData.first.registerDate as DateTime)),
-        10.vGap,
-        _listItem(
-            title: kMoveInDateLabel,
-            value:
-                DateFormatter.formatDate(houseHoldData.first.moveInDate as DateTime)),
-        kSize18.vGap,
-        Container(
-          decoration: BoxDecoration(
-            color: kWhiteColor,
-            boxShadow: [
-              BoxShadow(
-                  offset: Offset(
-                    0,
-                    4,
-                  ),
-                  blurRadius: 10,
-                  color: const Color.fromARGB(255, 207, 205, 205))
-            ],
-          ),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                      flex: 1,
-                      child: Stack(
-                        children: [
-                          Container(
-                            color: kInputBackgroundColor,
-                            padding: EdgeInsets.only(bottom: kMargin10),
-                            child: SingleChildScrollView(
-                              physics: ClampingScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              child: Column(
-                                spacing: kMarginMedium2,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: titles.asMap().entries.map((entry) {
-                                  return Container(
-                                    padding: EdgeInsets.only(left: kMargin12),
-                                    width: MediaQuery.of(context).size.width /
-                                        2.15,
-                                    height: entry.key == 0 ? kSize43 : null,
-                                    decoration: BoxDecoration(
-                                      color: entry.key == 0
-                                          ? kDarkBlueColor
-                                          : null,
-                                    ),
-                                    child: Text(
-                                      entry.value,
-                                      style: TextStyle(
-                                          color: entry.key == 0
-                                              ? Colors.transparent
-                                              : Colors.black,
-                                          fontWeight: entry.key == 0
-                                              ? FontWeight.w700
-                                              : FontWeight.normal,
-                                          fontSize: kTextRegular),
-                                    ),
-                                  );
-                                }).toList(),
+      BuildContext context, HouseHoldVO houseHoldData, HouseHoldBloc bloc) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          _listItem(
+              title: kRegistrationDateLabel,
+              value: DateFormatter.formatDate(
+                  houseHoldData.registerDate as DateTime)),
+          10.vGap,
+          _listItem(
+              title: kMoveInDateLabel,
+              value: DateFormatter.formatDate(
+                  houseHoldData.moveInDate as DateTime)),
+          kSize18.vGap,
+          Container(
+            decoration: BoxDecoration(
+              color: kWhiteColor,
+              boxShadow: [
+                BoxShadow(
+                    offset: Offset(
+                      0,
+                      4,
+                    ),
+                    blurRadius: 10,
+                    color: const Color.fromARGB(255, 207, 205, 205))
+              ],
+            ),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                        flex: 1,
+                        child: Stack(
+                          children: [
+                            Container(
+                              color: kInputBackgroundColor,
+                              padding: EdgeInsets.only(bottom: kMargin10),
+                              child: SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height / 2.35,
+                                child: Column(
+                                  spacing: kMarginMedium2,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: titles.asMap().entries.map((entry) {
+                                    return Container(
+                                      padding: EdgeInsets.only(left: kMargin12),
+                                      width: MediaQuery.of(context).size.width /
+                                          2.15,
+                                      height: entry.key == 0 ? kSize43 : null,
+                                      decoration: BoxDecoration(
+                                        color: entry.key == 0
+                                            ? kDarkBlueColor
+                                            : null,
+                                      ),
+                                      child: Text(
+                                        entry.value,
+                                        style: TextStyle(
+                                            color: entry.key == 0
+                                                ? Colors.transparent
+                                                : Colors.black,
+                                            fontWeight: entry.key == 0
+                                                ? FontWeight.w700
+                                                : FontWeight.w700,
+                                            fontSize: kTextRegular),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
                               ),
                             ),
+                          ],
+                        )),
+                    Expanded(
+                        flex: 1,
+                        child: Container(
+                          padding: EdgeInsets.only(bottom: kMargin10),
+                          color: kThirdGrayColor,
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height / 2.35,
+                            child: ListView.builder(
+                                physics: ClampingScrollPhysics(),
+                                itemCount: houseHoldData.resident?.length,
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    onTap: () => PageNavigator(ctx: context)
+                                        .nextPage(
+                                            page: EditResidentPage(
+                                                houseHoldData: houseHoldData)),
+                                    child: ResidentListItem(
+                                      houseHoldData: houseHoldData,
+                                      index: index,
+                                    ),
+                                  );
+                                }),
                           ),
-                        ],
-                      )),
-                  Expanded(
-                      flex: 1,
-                      child: Container(
-                        padding: EdgeInsets.only(bottom: kMargin10),
-                        color: kThirdGrayColor,
-                        child: SizedBox(
-                          height: MediaQuery.of(context).size.height / 2.307,
-                          child: ListView.builder(
-                              itemCount: houseHoldData.length,
-                              scrollDirection: Axis.horizontal,
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                return InkWell(
-                                  onTap: () => PageNavigator(ctx: context).nextPage(page: EditResidentPage(houseHoldData: houseHoldData[index])),
-                                  child: ResidentListItem(
-                                    houseHoldData: houseHoldData[index],
-                                    index: index,
-                                  ),
-                                );
-                              }),
-                        ),
-                      )),
-                ],
-              ),
-            ],
+                        )),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+
+          20.vGap,
+
+          ///add resident button
+          Row(
+            children: [
+              Spacer(),
+              InkWell(
+                onTap: () => PageNavigator(ctx: context).nextPage(
+                    page: AddResidentPage()),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: kMargin10),
+                  height: kSize33 - 2,
+                  decoration: BoxDecoration(
+                      color: kDarkBlueColor,
+                      borderRadius: BorderRadius.circular(kMarginMedium)),
+                  child: Center(
+                    child: Text(
+                      '+ Add Resident',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600, color: kWhiteColor),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 
-  //ownerand resident list view
-
   //add new registration view
   Widget _buildRegistrationForm() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: kMarginMedium2,
-      children: [
-        Text(
-          kHouseholdLabel,
-          style: TextStyle(
-              fontFamily: AppData.shared.fontFamily2,
-              fontWeight: FontWeight.w600,
-              fontSize: kTextRegular24),
+    return Consumer<HouseHoldBloc>(
+      builder: (context, bloc, child) => SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: kMarginMedium2,
+          children: [
+            Text(
+              kHouseholdLabel,
+              style: TextStyle(
+                  fontFamily: AppData.shared.fontFamily2,
+                  fontWeight: FontWeight.w600,
+                  fontSize: kTextRegular24),
+            ),
+            InkWell(
+                onTap: () => bloc.showDate(isRegistration: true),
+                child: _buildDatePicker(
+                    kRegistrationDateLabel, bloc.registrationDate ?? '')),
+            InkWell(
+                onTap: () => bloc.showDate(isMoveIn: true),
+                child:
+                    _buildDatePicker(kMoveInDateLabel, bloc.moveInDate ?? '')),
+            _buildInputField(title: kEmergencyContactLabel),
+            _buildOwnerInformation(),
+            _buildResidentInformationForm(context),
+            kSize70.vGap
+          ],
         ),
-        _buildDatePicker(kRegistrationDateLabel, 'Dec 25,2024'),
-        _buildDatePicker(kMoveInDateLabel, 'Dec 22,2024'),
-        _buildOwnerInformation(),
-        _buildResidentInformation(context),
-        kSize70.vGap
-      ],
+      ),
     );
   }
 
@@ -411,7 +494,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
 
   //genre
   List<String> genders = ['Male', 'Female'];
-  Widget _buildGenderDropDown({bool? isEditDeleteForm}) {
+  Widget _buildGenderDropDown({bool? isOwner}) {
     return Consumer<HouseHoldBloc>(
       builder: (_, bloc, child) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -425,12 +508,10 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
           Container(
             padding: EdgeInsets.symmetric(horizontal: kMargin10),
             decoration: BoxDecoration(
-                color: isEditDeleteForm == true
-                    ? kWhiteColor
-                    : kInputBackgroundColor,
+                color: kInputBackgroundColor,
                 borderRadius: BorderRadius.circular(kMarginMedium)),
             child: DropdownButton(
-                value: bloc.gender,
+                value: bloc.residentGender,
                 isExpanded: true,
                 underline: Container(),
                 hint: Text(kSelectGenderLabel),
@@ -438,49 +519,15 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                   return DropdownMenuItem(value: value, child: Text(value));
                 }).toList(),
                 onChanged: ((value) {
-                  bloc.gender = value;
-                  bloc.onSelectGender();
+                  if (isOwner == true) {
+                    bloc.onSelectOwnerGender(value ?? '');
+                  } else {
+                    bloc.onSelectResidentGender(value ?? '');
+                  }
                 })),
           )
         ],
       ),
-    );
-  }
-
-  /// dob picker
-  Widget _buildDateOfBirthDatePicker({String? value}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          kDobLabel,
-          style:
-              TextStyle(fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
-        ),
-        4.vGap,
-        Container(
-          height: kMargin45 + 1,
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: kMarginMedium2),
-          decoration: BoxDecoration(
-              color: kGreyColor.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(kMarginMedium)),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                value ?? kSelectDateLabel,
-                style: TextStyle(fontSize: kTextRegular2x),
-              ),
-              Icon(
-                Icons.calendar_today,
-                size: 22.0,
-              )
-            ],
-          ),
-        )
-      ],
     );
   }
 
@@ -522,63 +569,79 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
 
   ///ower information
   Widget _buildOwnerInformation() {
-    return Container(
-      decoration: BoxDecoration(
-        color: kWhiteColor,
-        borderRadius: BorderRadius.circular(kMargin10),
-        boxShadow: [
-          BoxShadow(
-            offset: Offset(0, 4),
-            blurRadius: 5,
-            color: kGreyColor,
-          )
-        ],
-      ),
-      child: Column(
-        children: [
-          Container(
-              height: kSize46,
-              width: double.infinity,
-              padding: EdgeInsets.only(left: kTextRegular2x, top: kMargin5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(kMargin10),
-                    topRight: Radius.circular(kMargin10)),
-                gradient: LinearGradient(
-                  colors: [kPrimaryColor, kThirdColor],
-                  stops: [0.0, 1.0],
+    return Consumer<HouseHoldBloc>(
+      builder: (context, bloc, child) => Container(
+        decoration: BoxDecoration(
+          color: kWhiteColor,
+          borderRadius: BorderRadius.circular(kMargin10),
+          boxShadow: [
+            BoxShadow(
+              offset: Offset(0, 4),
+              blurRadius: 5,
+              color: kGreyColor,
+            )
+          ],
+        ),
+        child: Column(
+          children: [
+            Container(
+                height: kSize46,
+                width: double.infinity,
+                padding: EdgeInsets.only(left: kTextRegular2x, top: kMargin5),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(kMargin10),
+                      topRight: Radius.circular(kMargin10)),
+                  gradient: LinearGradient(
+                    colors: [kPrimaryColor, kThirdColor],
+                    stops: [0.0, 1.0],
+                  ),
                 ),
+                child: Text(kOwnerInformationLabel,
+                    style: TextStyle(
+                        fontFamily: AppData.shared.fontFamily2,
+                        fontSize: kTextRegular24,
+                        color: kWhiteColor,
+                        fontWeight: FontWeight.w600))),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: kMargin10),
+              child: Column(
+                children: [
+                  12.vGap,
+                  _buildInputField(title: kOwnerNameLabel),
+                  12.vGap,
+                  _buildGenderDropDown(),
+                  12.vGap,
+                  InkWell(
+                      onTap: () => bloc.showDate(isOwner: true),
+                      child: _buildDatePicker(kDobLabel, bloc.ownerDate ?? '')),
+                  12.vGap,
+                  _buildInputField(title: kRaceLabel),
+                  12.vGap,
+                  _buildInputField(title: kNationalityLabel),
+                  12.vGap,
+                  _buildNRCAndPassportRadioButton(isOwner: true),
+                  _selectedOwnerNRC == 'Citizen'
+                      ? _buildNRCPickerView()
+                      : _buildInputField(
+                          title: 'Passport',
+                        ),
+                  12.vGap,
+                  _buildInputField(title: kContactNumberLabel),
+                  12.vGap,
+                  _buildInputField(title: kEmailAddressLabel),
+                  12.vGap,
+                ],
               ),
-              child: Text(kOwnerInformationLabel,
-                  style: TextStyle(
-                      fontFamily: AppData.shared.fontFamily2,
-                      fontSize: kTextRegular24,
-                      color: kWhiteColor,
-                      fontWeight: FontWeight.w600))),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kMargin10),
-            child: Column(
-              spacing: kMarginMedium2,
-              children: [
-                1.vGap,
-                _buildInputField(title: kOwnerNameLabel),
-                _buildGenderDropDown(),
-                _buildDateOfBirthDatePicker(),
-                _buildInputField(title: kRaceLabel),
-                _buildInputField(title: kNationalityLabel),
-                _buildInputField(title: kContactNumberLabel),
-                _buildInputField(title: kEmailAddressLabel),
-                1.vGap
-              ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   ///resident information
-  Widget _buildResidentInformation(BuildContext context) {
+  Widget _buildResidentInformationForm(BuildContext context) {
     return Consumer<HouseHoldBloc>(
       builder: (_, bloc, child) => Container(
         decoration: BoxDecoration(
@@ -617,31 +680,42 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
               padding: const EdgeInsets.symmetric(horizontal: kMargin10),
               child: Consumer<HouseHoldBloc>(
                 builder: (_, bloc, child) => Column(
-                  spacing: kMarginMedium2,
                   children: [
-                    1.vGap,
+                    12.vGap,
                     _buildInputField(
                         title: kNameLabel,
                         controller: bloc.residentNameController),
+                    12.vGap,
                     _buildGenderDropDown(),
+                    12.vGap,
                     InkWell(
-                        onTap: () => bloc.showDate(),
-                        child: _buildDateOfBirthDatePicker(
-                            value:
-                                DateFormatter.formatDate(bloc.selectedDate))),
+                        onTap: () => bloc.showDate(isResident: true),
+                        child: _buildDatePicker(
+                            kDobLabel, bloc.residentDate ?? '')),
+                    12.vGap,
                     _buildInputField(
                         title: kRaceLabel,
                         controller: bloc.residentRaceController),
+                    12.vGap,
                     _buildInputField(
                         title: kNationalityLabel,
                         controller: bloc.residentNationalityController),
-                    _buildNRCPickerView(),
+                    12.vGap,
+                    _buildNRCAndPassportRadioButton(),
+                    _selectedOption == 'Citizen'
+                        ? _buildNRCPickerView()
+                        : _buildInputField(
+                            title: 'Passport',
+                            controller: bloc.residentPassportController),
+                    12.vGap,
                     _buildInputField(
                         title: kContactNumberLabel,
                         controller: bloc.residentContactController),
+                    12.vGap,
                     _buildInputField(
                         title: kRelatedToOwnerLabel,
                         controller: bloc.residentRelatedToController),
+                    12.vGap,
 
                     /// add resident button
                     Row(
@@ -665,9 +739,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                                     relatedTo: bloc
                                         .residentRelatedToController.text
                                         .trim(),
-                                    gender: bloc.gender,
-                                    dob: DateFormatter.formatDate(
-                                        bloc.selectedDate),
+                                    gender: bloc.residentGender,
+                                    dob: bloc.residentDate,
                                     nrc: bloc.nrc));
                             bloc.addResident(resident: residentVo);
                           },
@@ -713,32 +786,78 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
 
   ///nrc picker
   Widget _buildNRCPickerView() {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(
-        kNRCLabel,
-        style: TextStyle(fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+    return Consumer<HouseHoldBloc>(
+      builder: (context, value, child) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'NRC',
+            style: TextStyle(
+                fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+          ),
+          4.vGap,
+          Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(horizontal: kMarginMedium2),
+              decoration: BoxDecoration(
+                  color: kInputBackgroundColor,
+                  borderRadius: BorderRadius.circular(kMarginMedium)),
+              child: NRCView()),
+        ],
       ),
-      4.vGap,
-      Consumer<HouseHoldBloc>(
-        builder: (context, bloc, child) => Container(
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: kMarginMedium2),
-          decoration:
-              BoxDecoration(borderRadius: BorderRadius.circular(kMarginMedium)),
-          child: NRCField(
-            backgroundColor: Colors.transparent,
-            language: NrcLanguage.english,
-            pickerItemColor: Colors.black,
-            leadingTitleColor: Colors.black54,
-            onCompleted: (value) {
-              debugPrint('complete.....$value');
-              bloc.nrc = value;
-              bloc.onChangeNRC();
-            },
-            onChanged: (value) {},
+    );
+  }
+
+  ///radio button
+  Widget _buildNRCAndPassportRadioButton({bool? isOwner}) {
+    return Row(
+      mainAxisAlignment:
+          MainAxisAlignment.start, // Align the items to the start
+      children: [
+        SizedBox(
+          width: 138,
+          child: Theme(
+            data: Theme.of(context).copyWith(
+              listTileTheme: ListTileThemeData(
+                horizontalTitleGap: 4,
+              ),
+            ),
+            child: RadioListTile<String>(
+              title: Text("Citizen"),
+              value: "Citizen",
+              groupValue: isOwner == true ? _selectedOwnerNRC : _selectedOption,
+              onChanged: (value) {
+                setState(() {
+                  isOwner == true
+                      ? _selectedOwnerNRC = value!
+                      : _selectedOption = value!;
+                });
+              },
+            ),
           ),
         ),
-      ),
-    ]);
+        Expanded(
+          child: Theme(
+            data: Theme.of(context).copyWith(
+              listTileTheme: ListTileThemeData(
+                horizontalTitleGap: 4,
+              ),
+            ),
+            child: RadioListTile<String>(
+              title: Text("Foreigner"),
+              value: "Foreigner",
+              groupValue: isOwner == true ? _selectedOwnerNRC : _selectedOption,
+              onChanged: (value) {
+                setState(() {
+                  isOwner == true
+                      ? _selectedOwnerNRC = value!
+                      : _selectedOption = value!;
+                });
+              },
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

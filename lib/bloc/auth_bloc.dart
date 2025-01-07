@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
+import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/network/requests/change_password_request.dart';
+import 'package:tmsmobile/network/requests/reset_password_request.dart';
 
 import '../data/model/tms_model.dart';
 import '../data/model/tms_model_impl.dart';
 
-class ChangePasswordBloc extends ChangeNotifier {
+class AuthBloc extends ChangeNotifier {
   bool isMore8character = false;
   bool isUpperCaseContain = false;
   bool isNumberContain = false;
@@ -14,6 +16,13 @@ class ChangePasswordBloc extends ChangeNotifier {
   bool isLoading = false;
   bool isDisposed = false;
   final TmsModel _tmsModel = TmsModelImpl();
+
+  String token = '';
+
+  AuthBloc() {
+    token = PersistenceData.shared.getToken();
+  }
+
   Future onTapContinue(
       {required String oldPassword, required newPassword}) async {
     _showLoading();
@@ -22,6 +31,15 @@ class ChangePasswordBloc extends ChangeNotifier {
         newPassword: newPassword,
         confirmPassword: newPassword);
     return _tmsModel.changePassword(request).whenComplete(() => _hideLoading());
+  }
+
+  Future onTapResetPassword(
+      {required String newPassword, required confirmPassword}) {
+    _showLoading();
+    var request = ResetPasswordRequest(newPassword, confirmPassword);
+    return _tmsModel
+        .resetPassword(token, request)
+        .whenComplete(() => _hideLoading());
   }
 
   bool checkValidationSuccess() {

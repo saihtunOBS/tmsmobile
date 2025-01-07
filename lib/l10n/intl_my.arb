@@ -208,5 +208,9 @@
      "kLastUpdateOnLabel" : "Last updated on",
      "kEditLabel": "ပြင်ဆင်မည်",
      "kSendCompliantLabel": "Send Complaint",
-     "kReadMoreLabel": "ပိုမိုကြည့်ရှုရန်"
+     "kReadMoreLabel": "ပိုမိုကြည့်ရှုရန်",
+     "kNoRegisterYetLabel": "စာရင်းမသွင်းရသေးပါ။",
+     "kHouseholdRegistrationFormLabel": "အိမ်ထောင်စုစာရင်းပုံစံ",
+     "kEmptyComplaintLabel": "No Complaints.",
+     "kThereIsNoComplaintLabel": "There is no complaints to show."
     }

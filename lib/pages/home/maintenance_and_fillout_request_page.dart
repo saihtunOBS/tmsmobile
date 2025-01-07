@@ -264,7 +264,7 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                       ),
                       Text(
                         '$kLimitedPhotoLabel (${bloc.imageArray.length}/2)',
-                        style: TextStyle(fontSize: kTextSmall),
+                        style: TextStyle(fontSize: kTextSmall,fontWeight: FontWeight.w500),
                       )
                     ],
                   )
@@ -304,7 +304,7 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                                 size: kMargin34,
                               ),
                               Text(
-                                kUploadImageLabel,
+                                '$kUploadImageLabel (jpg)',
                                 style: TextStyle(fontSize: kTextSmall),
                               ),
                               Consumer<MaintenanceBloc>(

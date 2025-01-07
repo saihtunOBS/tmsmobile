@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tmsmobile/bloc/profile_bloc.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/list_items/noti_list_item.dart';
@@ -13,53 +15,56 @@ class NotificationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      decoration: BoxDecoration(
-        color: kBackgroundColor,
-        image: DecorationImage(
-            image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          foregroundColor: kWhiteColor,
+    return ChangeNotifierProvider(
+      create: (context) => ProfileBloc(),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+            color: kBackgroundColor,
+            image: DecorationImage(
+                image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
+        child: Scaffold(
           backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          flexibleSpace: Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [kPrimaryColor, kThirdColor],
-                stops: [0.0, 1.0],
+          appBar: AppBar(
+            foregroundColor: kWhiteColor,
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+            flexibleSpace: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [kPrimaryColor, kThirdColor],
+                  stops: [0.0, 1.0],
+                ),
               ),
+              child: Stack(children: [
+                Positioned(bottom: kMargin10 + 4, child: _buildHeader())
+              ]),
             ),
-            child: Stack(children: [
-              Positioned(bottom: kMargin10 + 4, child: _buildHeader())
+          ),
+          body: SingleChildScrollView(
+            child: Column(children: [
+              _buildNewNotiBody(),
+              ListView.builder(
+                  itemCount: 2,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.symmetric(
+                      vertical: kMarginMedium2, horizontal: kMarginMedium2),
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              bottom: index == 1 ? kMargin75 : kMargin10),
+                          child: NotiListItem(),
+                        ),
+                      ],
+                    );
+                  }),
             ]),
           ),
-        ),
-        body: SingleChildScrollView(
-          child: Column(children: [
-            _buildNewNotiBody(),
-            ListView.builder(
-                itemCount: 2,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                padding: EdgeInsets.symmetric(
-                    vertical: kMarginMedium2, horizontal: kMarginMedium2),
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            bottom: index == 1 ? kMargin75 : kMargin10),
-                        child: NotiListItem(),
-                      ),
-                    ],
-                  );
-                }),
-          ]),
         ),
       ),
     );
@@ -102,37 +107,41 @@ class NotificationPage extends StatelessWidget {
   }
 
   Widget _buildHeader() {
-    return Row(
-      spacing: 10,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Container(
-          width: kMargin40,
-          height: kMargin40,
-          margin: EdgeInsets.only(left: kMargin24),
-          padding: EdgeInsets.all(3),
-          decoration: BoxDecoration(
-              color: kWhiteColor,
-              borderRadius: BorderRadius.circular(kMargin5)),
-          child: Center(
-            child: Image.asset(kAppLogoImage),
-          ),
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Hi, John',
-              style: TextStyle(color: kWhiteColor),
+    return Consumer<ProfileBloc>(
+      builder: (context, bloc, child) => Row(
+        spacing: 10,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            width: kMargin40,
+            height: kMargin40,
+            margin: EdgeInsets.only(left: kMargin24),
+            padding: EdgeInsets.all(3),
+            decoration: BoxDecoration(
+                color: kWhiteColor,
+                borderRadius: BorderRadius.circular(kMargin5)),
+            child: Center(
+              child: Image.asset(kAppLogoImage),
             ),
-            Text(
-              'Good Morning',
-              style: TextStyle(color: kWhiteColor),
-            )
-          ],
-        )
-      ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Hi! ${bloc.userData?.tenantName ?? ''}',
+                style:
+                    TextStyle(color: kWhiteColor, fontWeight: FontWeight.w600),
+              ),
+              Text(
+                'Good Morning',
+                style:
+                    TextStyle(color: kWhiteColor, fontWeight: FontWeight.w600),
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }

@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:tmsmobile/extension/extension.dart';
+import 'package:tmsmobile/extension/route_navigator.dart';
+import 'package:tmsmobile/pages/auth/change_password_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
@@ -137,7 +139,10 @@ class _OTPPageState extends State<OTPPage> {
             fit: BoxFit.fill,
           ),
         ),
-        gradientButton(onPress: () {}),
+        gradientButton(onPress: () {
+          PageNavigator(ctx: context)
+              .nextPage(page: ChangePasswordPage(isChangePassword: false));
+        }),
         Positioned(
           top: -10,
           child: Row(

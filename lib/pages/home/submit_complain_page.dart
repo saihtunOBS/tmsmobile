@@ -1,5 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
+import 'package:provider/provider.dart';
+import 'package:tmsmobile/bloc/complaint_bloc.dart';
 import 'package:tmsmobile/utils/strings.dart';
+import 'package:tmsmobile/widgets/common_dialog.dart';
+import 'package:tmsmobile/widgets/error_dialog_view.dart';
+import 'package:tmsmobile/widgets/loading_view.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/dimens.dart';
@@ -13,20 +21,51 @@ class SubmitComplainPage extends StatelessWidget {
   final _complainController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      appBar: PreferredSize(
-          preferredSize: Size(double.infinity, kMargin60),
-          child: GradientAppBar(
-            AppLocalizations.of(context)?.kSendCompliantLabel ?? '',
-          )),
-      body: _buildTextField(controller: _complainController),
-      bottomNavigationBar: Container(
-          color: kWhiteColor,
-          height: kBottomBarHeight,
-          child: Center(
-            child: gradientButton(title: kSubmitLabel, onPress: () {}),
-          )),
+    return ChangeNotifierProvider(
+      create: (context) => ComplaintBloc(),
+      child: Scaffold(
+        backgroundColor: kBackgroundColor,
+        appBar: PreferredSize(
+            preferredSize: Size(double.infinity, kMargin60),
+            child: GradientAppBar(
+              AppLocalizations.of(context)?.kSendCompliantLabel ?? '',
+            )),
+        body: Selector<ComplaintBloc, bool>(
+          selector: (p0, p1) => p1.isSubmitLoading,
+          builder: (context, isLoading, child) => Stack(children: [
+            _buildTextField(controller: _complainController),
+
+            //loading
+            if (isLoading)
+              Center(
+                child: LoadingView(
+                    indicator: Indicator.ballBeat,
+                    indicatorColor: kPrimaryColor),
+              )
+          ]),
+        ),
+        bottomNavigationBar: Consumer<ComplaintBloc>(
+          builder: (context, bloc, child) => Container(
+              color: kWhiteColor,
+              height: kBottomBarHeight,
+              child: Center(
+                child: gradientButton(
+                    title: kSubmitLabel,
+                    onPress: () {
+                      bloc
+                          .createComplaint(_complainController.text.trim())
+                          .then((_) {
+                        Navigator.pop(context);
+                      }).catchError((error) {
+                        showCommonDialog(
+                            context: context,
+                            dialogWidget: ErrorDialogView(
+                                errorMessage: error.toString()));
+                      });
+                    }),
+              )),
+        ),
+      ),
     );
   }
 

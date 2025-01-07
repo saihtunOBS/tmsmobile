@@ -1,5 +1,4 @@
 PODS:
-  - BSImagePicker (3.3.3)
   - DKImagePickerController/Core (4.3.9):
     - DKImagePickerController/ImageDataManager
     - DKImagePickerController/Resource
@@ -35,9 +34,6 @@ PODS:
     - DKImagePickerController/PhotoGallery
     - Flutter
   - Flutter (1.0.0)
-  - multi_image_picker_plus (0.0.1):
-    - BSImagePicker (~> 3.1)
-    - Flutter
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -52,13 +48,11 @@ PODS:
 DEPENDENCIES:
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
-  - multi_image_picker_plus (from `.symlinks/plugins/multi_image_picker_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
 
 SPEC REPOS:
   trunk:
-    - BSImagePicker
     - DKImagePickerController
     - DKPhotoGallery
     - SDWebImage
@@ -69,20 +63,16 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/file_picker/ios"
   Flutter:
     :path: Flutter
-  multi_image_picker_plus:
-    :path: ".symlinks/plugins/multi_image_picker_plus/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   sqflite_darwin:
     :path: ".symlinks/plugins/sqflite_darwin/darwin"
 
 SPEC CHECKSUMS:
-  BSImagePicker: 57900b323f951711608acaf97d52e9183530cb6d
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
   file_picker: 09aa5ec1ab24135ccd7a1621c46c84134bfd6655
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  multi_image_picker_plus: b95d83279b5019ce4637ef17ca3aa14a557ffea6
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   SDWebImage: 73c6079366fea25fa4bb9640d5fb58f0893facd8
   sqflite_darwin: 5a7236e3b501866c1c9befc6771dfd73ffb8702d

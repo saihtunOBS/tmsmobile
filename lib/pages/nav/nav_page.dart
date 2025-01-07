@@ -24,6 +24,13 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(() {
+      if (_tabController.index != _currentIndex) {
+        setState(() {
+          _currentIndex = _tabController.index;
+        });
+      }
+    });
   }
 
   @override
@@ -99,9 +106,8 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
         SizedBox(
             height: kMargin24,
             width: kMargin24,
-            child: Image.asset(
-              _currentIndex == 0 ? kHomeSelectIcon : kHomeIcon,
-            )),
+            child:
+                Image.asset(_currentIndex == 0 ? kHomeSelectIcon : kHomeIcon,)),
         Text(
           kHomeLabel,
           style: TextStyle(

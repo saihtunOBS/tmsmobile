@@ -23,10 +23,7 @@ class SplashScreenPage extends StatefulWidget {
 class _SplashScreenPageState extends State<SplashScreenPage> {
   @override
   void initState() {
-
     Future.delayed(Duration(seconds: 2), () {
-      Navigator.pushAndRemoveUntil(context,
-              createRoute(LoginPage(), duration: 300), (route) => false);
       PersistenceData.shared.getToken() == null
           ? Navigator.pushAndRemoveUntil(context,
               createRoute(LoginPage(), duration: 400), (route) => false)

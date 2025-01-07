@@ -46,8 +46,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: kMargin24),
+          padding: const EdgeInsets.symmetric(horizontal: kMargin24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,8 +71,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               Text(
                 kForgotPasswordLabel,
                 style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
-                    fontWeight: FontWeight.w600, fontSize: kTextRegular24),
+                    fontFamily: AppData.shared.fontFamily2,
+                    fontWeight: FontWeight.w600,
+                    fontSize: kTextRegular24),
               ),
               Text(
                 kSendOTPTextLabel,
@@ -82,7 +82,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               _buildTextField(
                   title: kPhoneNumberLabel,
                   icon: Icon(CupertinoIcons.phone),
-                  controller: _phoneController),
+                  controller: _phoneController,
+                  isNumber: true),
             ],
           ),
         ),
@@ -111,7 +112,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget _buildTextField(
       {required String title,
       required Icon icon,
-      required TextEditingController controller}) {
+      required TextEditingController controller,
+      bool? isNumber}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -135,6 +137,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               Expanded(
                   child: TextField(
                       controller: controller,
+                      keyboardType: isNumber == true
+                          ? TextInputType.phone
+                          : TextInputType.text,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: title,

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tmsmobile/bloc/edit_resident_bloc.dart';
-import 'package:tmsmobile/data/vos/household_vo.dart';
+import 'package:tmsmobile/bloc/add_resident_bloc.dart';
 import 'package:tmsmobile/extension/extension.dart';
-import 'package:tmsmobile/utils/images.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/date_formatter.dart';
@@ -13,15 +11,14 @@ import '../../widgets/appbar.dart';
 import '../../widgets/gradient_button.dart';
 import '../../widgets/nrc_view.dart';
 
-class EditResidentPage extends StatefulWidget {
-  const EditResidentPage({super.key, required this.houseHoldData});
-  final HouseHoldVO houseHoldData;
+class AddResidentPage extends StatefulWidget {
+  const AddResidentPage({super.key});
 
   @override
-  State<EditResidentPage> createState() => _EditResidentPageState();
+  State<AddResidentPage> createState() => _AddResidentPageState();
 }
 
-class _EditResidentPageState extends State<EditResidentPage> {
+class _AddResidentPageState extends State<AddResidentPage> {
   String? _selectedGender;
   String _selectedOption = "Citizen";
   String _selectedOwnerNRC = 'Citizen';
@@ -29,7 +26,7 @@ class _EditResidentPageState extends State<EditResidentPage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => EditResidentBloc(context, widget.houseHoldData),
+      create: (context) => AddResidentBloc(context),
       child: Scaffold(
         body: Stack(
           children: [
@@ -45,27 +42,7 @@ class _EditResidentPageState extends State<EditResidentPage> {
             Positioned(
                 top: 0,
                 child: ProfileAppbar(
-                  title: kEditLabel,
-                  action: Padding(
-                    padding: const EdgeInsets.only(right: kMargin24),
-                    child: Row(
-                      spacing: kMargin5,
-                      children: [
-                        Image.asset(
-                          kEditIcon,
-                          width: kSize28,
-                          height: kSize28,
-                          fit: BoxFit.fill,
-                        ),
-                        Image.asset(
-                          kDeleteIcon,
-                          width: kSize28,
-                          height: kSize28,
-                          fit: BoxFit.fill,
-                        ),
-                      ],
-                    ),
-                  ),
+                  title: kAddResidentLabel.replaceAll('+', ''),
                 )),
           ],
         ),
@@ -80,7 +57,7 @@ class _EditResidentPageState extends State<EditResidentPage> {
   }
 
   Widget _buildEditForm() {
-    return Consumer<EditResidentBloc>(
+    return Consumer<AddResidentBloc>(
       builder: (context, bloc, child) => SingleChildScrollView(
         child: Column(
           children: [

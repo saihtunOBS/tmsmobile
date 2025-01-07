@@ -1,7 +1,9 @@
 
 {
     "name": "Your Name",
+    "@name": {},
     "kHomeLabel": "Home",
+    "@kHomeLabel": {},
     "kNotiLabel": "Notification",
     "kProfileLabel": "Profile",
     "kAppLabel": "Tenant - Property\nManagement System",
@@ -203,5 +205,9 @@
     "kLastUpdateOnLabel": "Last updated on",
     "kEditLabel": "Edit",
     "kSendCompliantLabel": "Send Complaint",
-    "kReadMoreLabel": "Read More"
+    "kReadMoreLabel": "Read More",
+    "kNoRegisterYetLabel": "You haven't registered yet.",
+    "kHouseholdRegistrationFormLabel": "Household Registration Form",
+    "kEmptyComplaintLabel": "No Complaints.",
+    "kThereIsNoComplaintLabel": "There is no complaints to show."
 }

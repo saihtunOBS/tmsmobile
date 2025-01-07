@@ -1,78 +1,113 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/data/vos/household_vo.dart';
 import 'package:tmsmobile/data/vos/resident_vo.dart';
+import 'package:tmsmobile/utils/date_formatter.dart';
 
 import '../data/model/tms_model.dart';
 import '../data/model/tms_model_impl.dart';
 import '../data/vos/resident_data_vo.dart';
+import '../network/responses/nrc_response.dart';
+import '../utils/json_string.dart';
 
 class HouseHoldBloc extends ChangeNotifier {
   List<ResidentVo> residentVo = [];
-  DateTime selectedDate = DateTime.now();
+
   BuildContext? context;
   String? nrc;
   int selectedExpensionIndex = -1;
-  String? gender;
+  String? residentGender;
+  String? ownerGender;
 
   var residentNameController = TextEditingController();
   var residentRaceController = TextEditingController();
   var residentNationalityController = TextEditingController();
   var residentContactController = TextEditingController();
   var residentRelatedToController = TextEditingController();
+  var residentPassportController = TextEditingController();
 
   String? validationMessage = '';
   bool isValidate = false;
   List<HouseHoldVO> householdList = [];
+
+  String? registrationDate;
+  String? moveInDate;
+  String? ownerDate;
+  String? residentDate;
 
   bool isLoading = false;
   bool isDisposed = false;
   ResidentDataObject? owner;
   List<ResidentDataObject> residents = [];
 
+  final Map<String, dynamic> jsonData = json.decode(kJsonString);
+  final List<String> stateRegionCodes = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+  ];
+  List<NRCData> _townships = [];
+  List<String> selectedTownshipCodes = [];
+  // Define selected values
+  String? selectedStateRegionCode;
+  String? selectedTownshipCode;
+  String? selectedNRCType;
+
   final TmsModel _tmsModel = TmsModelImpl();
 
   HouseHoldBloc(this.context) {
     var token = PersistenceData.shared.getToken();
     getHouseHoldLists(token);
+    registrationDate = DateFormatter.formatDate(DateTime.now());
+    moveInDate = DateFormatter.formatDate(DateTime.now());
+    ownerDate = DateFormatter.formatDate(DateTime.now());
+    residentDate = DateFormatter.formatDate(DateTime.now());
+    final nrcResponse = NRCResponse.fromJson(jsonData);
+    _townships = nrcResponse.data;
+  }
+
+  getTownshipByRegionCode(String code) {
+    selectedStateRegionCode = code;
+    selectedTownshipCodes = _townships
+        .where((data) => data.nrcCode == code) // Filter by nrcCode
+        .map((data) => data.nameEn) // Extract nameEn
+        .toList();
+    notifyListeners();
+  }
+
+  onChangeStateCode(String value) {
+    selectedStateRegionCode = value;
+    notifyListeners();
+  }
+
+  onChangeTownship(String value) {
+    selectedTownshipCode = value;
+    notifyListeners();
+  }
+
+  onChangeType(String value) {
+    selectedNRCType = value;
+    notifyListeners();
   }
 
   getHouseHoldLists(token) {
     _showLoading();
     _tmsModel.getHouseHoldList(token).then((response) {
       householdList = response;
-
-      // owner = ResidentDataObject(
-      //     'Owner',
-      //     response.first.owner?.ownerName,
-      //     response.first.owner?.gender,
-      //     DateFormatter.formatDate(
-      //         response.first.owner?.dateOfBirth as DateTime),
-      //     response.first.owner?.race,
-      //     response.first.owner?.nationality,
-      //     response.first.owner?.nrc,
-      //     response.first.owner?.contactNumber,
-      //     '-',
-      //     '-');
-      // for (ResidentVO resident in response.first.resident ?? []) {
-      //   residents.add(ResidentDataObject(
-      //       'Owner',
-      //       resident.residentName,
-      //       resident.gender,
-      //       DateFormatter.formatDate(resident.dateOfBirth as DateTime),
-      //       resident.race,
-      //       resident.nationality,
-      //       resident.nrc,
-      //       resident.contactNumber,
-      //       '-',
-      //       '-'));
-      // }
-
-      // print('length....${residents.length}');
-
-      // residents.first = owner;
-
       _hideLoading();
     });
     notifyListeners();
@@ -80,7 +115,7 @@ class HouseHoldBloc extends ChangeNotifier {
 
   addResident({required ResidentVo resident}) {
     residentVo.add(resident);
-    gender = null;
+    residentGender = null;
     residentNameController.clear();
     residentRaceController.clear();
     residentNationalityController.clear();
@@ -96,7 +131,13 @@ class HouseHoldBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  onSelectGender() {
+  onSelectResidentGender(String value) {
+    residentGender = value;
+    notifyListeners();
+  }
+
+  onSelectOwnerGender(String value){
+    ownerGender = value;
     notifyListeners();
   }
 
@@ -111,7 +152,7 @@ class HouseHoldBloc extends ChangeNotifier {
   checkValidation() {
     if (residentNameController.text.isEmpty) {
       validationMessage = 'Name is required!';
-    } else if (gender == null) {
+    } else if (residentGender == null) {
       validationMessage = 'Gender is required!';
     } else if (residentRaceController.text.isEmpty) {
       validationMessage = 'Race is required!';
@@ -129,7 +170,11 @@ class HouseHoldBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> showDate() async {
+  Future<void> showDate(
+      {bool? isRegistration,
+      bool? isMoveIn,
+      bool? isOwner,
+      bool? isResident}) async {
     await showCupertinoModalPopup<void>(
       context: context!,
       builder: (_) {
@@ -146,7 +191,16 @@ class HouseHoldBloc extends ChangeNotifier {
           child: CupertinoDatePicker(
             mode: CupertinoDatePickerMode.date,
             onDateTimeChanged: (value) {
-              selectedDate = value;
+              if (isRegistration == true) {
+                registrationDate = DateFormatter.formatDate(value);
+              } else if (isMoveIn == true) {
+                moveInDate = DateFormatter.formatDate(value);
+              } else if (isOwner == true) {
+                ownerDate = DateFormatter.formatDate(value);
+              } else if (isResident == true) {
+                residentDate = DateFormatter.formatDate(value);
+              }
+
               notifyListeners();
             },
           ),

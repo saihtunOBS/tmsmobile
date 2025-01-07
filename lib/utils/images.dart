@@ -23,6 +23,7 @@ const kBillingBackgroundImage = 'assets/images/billing_background.png';
 const kLogoFrameImage = 'assets/images/logo_frame.png';
 const kNoBillingImage = 'assets/images/no_billing_logo.png';
 const kNoAnnouncementImage = 'assets/images/no_announcement_logo.png';
+const kNoComplainImage = 'assets/images/no_complain_logo.png';
 const kNoNotiImage = 'assets/images/no_noti_logo.png';
 const kNoRegistrationImage = 'assets/images/no_registration_logo.png';
 const kNoServiceRequestImage = 'assets/images/no_service_request_logo.png';

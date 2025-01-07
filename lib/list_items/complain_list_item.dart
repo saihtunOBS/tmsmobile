@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:tmsmobile/data/vos/complaint_vo.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
 
 class ComplainListItem extends StatelessWidget {
   const ComplainListItem({
-    super.key, this.isLast,
+    super.key,
+    this.isLast,
+    this.data,
   });
   final bool? isLast;
+  final ComplaintVO? data;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: kMargin12,),
+      padding: const EdgeInsets.only(
+        bottom: kMargin12,
+      ),
       child: Column(
         spacing: kMargin5,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,7 +29,7 @@ class ComplainListItem extends StatelessWidget {
                 fontSize: kTextRegular2x, fontWeight: FontWeight.w700),
           ),
           Text(
-            'Lorem ipsum dolor sit amet consectetur. Eget neque gravida tellus vitae quis ar .....',
+            data?.complaint ?? '',
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
             softWrap: true,

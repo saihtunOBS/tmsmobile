@@ -1,17 +1,25 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:tmsmobile/bloc/auth_bloc.dart';
+import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
-import 'package:tmsmobile/bloc/change_password_bloc.dart';
-import 'package:tmsmobile/pages/auth/otp_page.dart';
+import 'package:tmsmobile/pages/auth/login_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/appbar_back.dart';
+import 'package:tmsmobile/widgets/check_password.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
 import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
+import '../../widgets/common_dialog.dart';
+import '../../widgets/error_dialog_view.dart';
+import '../../widgets/loading_view.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key, required this.isChangePassword});
@@ -29,7 +37,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (BuildContext context) => ChangePasswordBloc(),
+      create: (BuildContext context) => AuthBloc(),
       child: Scaffold(
         backgroundColor: kBackgroundColor,
         extendBodyBehindAppBar: true,
@@ -51,142 +59,117 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             ]),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: kMarginMedium2,
+        body: Selector<AuthBloc, bool>(
+          selector: (p0, p1) => p1.isLoading,
+          builder: (context, isLoading, child) => Stack(
             children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.2,
-              ),
-              Center(
-                child: SizedBox(
-                  height: kSize89,
-                  width: kSize58,
-                  child: Image.asset(
-                    kAppLogoImage,
-                    fit: BoxFit.contain,
-                  ),
+              SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: kMarginMedium2,
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.2,
+                    ),
+                    Center(
+                      child: SizedBox(
+                        height: kSize89,
+                        width: kSize58,
+                        child: Image.asset(
+                          kAppLogoImage,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: kMarginMedium,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: kMargin24),
+                      child: Text(
+                        widget.isChangePassword == false
+                            ? kResetPassword
+                            : kChangeYourPasswordLabel,
+                        style: TextStyle(
+                            fontFamily: AppData.shared.fontFamily2,
+                            fontWeight: FontWeight.w600,
+                            fontSize: kTextRegular24),
+                      ),
+                    ),
+                    _buildTextField(
+                        title: kNewPasswordLabel,
+                        icon: Icon(CupertinoIcons.lock),
+                        controller: _passwordController),
+                    _buildTextField(
+                        title: kConfirmPasswordLabel,
+                        icon: Icon(CupertinoIcons.lock),
+                        controller: _confirmPasswordController),
+                    const SizedBox(
+                      height: kMargin5,
+                    ),
+                    CheckPasswordView(),
+                    const SizedBox(
+                      height: kMargin110,
+                    )
+                  ],
                 ),
               ),
-              const SizedBox(
-                height: kMarginMedium,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: kMargin24),
-                child: Text(
-                  widget.isChangePassword == false
-                      ? kResetPassword
-                      : kChangeYourPasswordLabel,
-                  style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
-                      fontWeight: FontWeight.w600, fontSize: kTextRegular24),
-                ),
-              ),
-              _buildTextField(
-                  title: kNewPasswordLabel,
-                  icon: Icon(CupertinoIcons.lock),
-                  controller: _passwordController),
-              _buildTextField(
-                  title: kConfirmPasswordLabel,
-                  icon: Icon(CupertinoIcons.lock),
-                  controller: _confirmPasswordController),
-              const SizedBox(
-                height: kMargin5,
-              ),
-              _buildCheckPassword(),
-              const SizedBox(
-                height: kMargin110,
-              )
+
+              ///
+              if (isLoading == true)
+                LoadingView(
+                    indicator: Indicator.ballBeat,
+                    indicatorColor: kPrimaryColor),
             ],
           ),
         ),
-        bottomNavigationBar: Stack(alignment: Alignment.center, children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.21,
-            width: double.infinity,
-            child: Image.asset(
-              kAppBarBottonImage,
-              fit: BoxFit.fill,
+        bottomNavigationBar: Consumer<AuthBloc>(
+          builder: (context, bloc, child) =>
+              Stack(alignment: Alignment.center, children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.21,
+              width: double.infinity,
+              child: Image.asset(
+                kAppBarBottonImage,
+                fit: BoxFit.fill,
+              ),
             ),
-          ),
-          gradientButton(onPress: () {
-            Navigator.push(
-              context,
-              createRoute(OTPPage()),
-            );
-          }),
-        ]),
+            gradientButton(onPress: () {
+              bloc.checkValidationSuccess() == true;
+              {
+                if (_passwordController.text.trim() !=
+                    _confirmPasswordController.text.trim()) {
+                  showCommonDialog(
+                      context: context,
+                      dialogWidget: ErrorDialogView(
+                          errorMessage: 'Password does not match!'));
+                } else {
+                  bloc
+                      .onTapResetPassword(
+                    newPassword: _passwordController.text.trim(),
+                    confirmPassword: _confirmPasswordController.text.trim(),
+                  )
+                      .then((_) {
+                    PersistenceData.shared.saveFirstTime(false);
+                    if (widget.isChangePassword == true) {
+                      Navigator.of(context).pop();
+                    } else {
+                      PageNavigator(ctx: context)
+                          .nextPageOnly(page: LoginPage());
+                    }
+                  }).catchError((error) {
+                    showCommonDialog(
+                        context: context,
+                        dialogWidget:
+                            ErrorDialogView(errorMessage: error.toString()));
+                  });
+                }
+              }
+            }),
+          ]),
+        ),
       ),
-    );
-  }
-
-  Widget _buildCheckPassword() {
-    return Selector<ChangePasswordBloc, bool>(
-      selector: (context, bloc) => bloc.isMore8character,
-      builder: (BuildContext context, value, Widget? child) {
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: kMargin24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: kMarginMedium,
-            children: [
-              Text(
-                kYourPasswordMustContainLabel.toUpperCase(),
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: kTextRegular2x),
-              ),
-              Row(
-                spacing: kMarginMedium,
-                children: [
-                  Image.asset(
-                    kRadioImage,
-                    width: kMarginMedium,
-                    height: kMarginMedium,
-                  ),
-                  Text(kCharacterLabel)
-                ],
-              ),
-              Row(
-                spacing: kMarginMedium,
-                children: [
-                  Image.asset(
-                    kRadioImage,
-                    width: kMarginMedium,
-                    height: kMarginMedium,
-                  ),
-                  Text(kUppercaseLetterLabel)
-                ],
-              ),
-              Row(
-                spacing: kMarginMedium,
-                children: [
-                  Image.asset(
-                    kRadioImage,
-                    width: kMarginMedium,
-                    height: kMarginMedium,
-                  ),
-                  Text(kOneOrMoreNumberLabel)
-                ],
-              ),
-              Row(
-                spacing: kMarginMedium,
-                children: [
-                  Image.asset(
-                    kRadioImage,
-                    width: kMarginMedium,
-                    height: kMarginMedium,
-                  ),
-                  Text(kOneOrMoreSpecialCharacterLabel)
-                ],
-              )
-            ],
-          ),
-        );
-      },
     );
   }
 

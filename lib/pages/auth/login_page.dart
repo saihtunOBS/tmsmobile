@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                   _buildTextField(
                       title: kPhoneNumberLabel,
                       icon: Icon(CupertinoIcons.phone),
-                      controller: _phoneController),
+                      controller: _phoneController,isNumber: true),
                   _buildTextField(
                       title: kPasswordLabel,
                       icon: Icon(CupertinoIcons.lock),
@@ -128,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
                     ),
-                  _buildTermAndCondition()
+                  if (isFirstTime == false) _buildTermAndCondition()
                 ],
               ),
             ),
@@ -161,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
                       if (value.data?.verify == 1) {
                         Navigator.pushAndRemoveUntil(
                             context,
-                            createRoute(NavPage(), duration: 200),
+                            createRoute(NavPage(), duration: 400),
                             (route) => false);
                       } else {
                         PageNavigator(ctx: context).nextPage(
@@ -206,7 +206,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildTextField(
       {required String title,
       required Icon icon,
-      required TextEditingController controller}) {
+      required TextEditingController controller,
+      bool? isNumber}) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: kMargin24),
       child: Column(
@@ -231,6 +232,9 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Expanded(
                     child: TextField(
+                        keyboardType: isNumber == true
+                            ? TextInputType.phone
+                            : TextInputType.text,
                         controller: controller,
                         decoration: InputDecoration(
                             border: InputBorder.none,

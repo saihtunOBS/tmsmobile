@@ -6,10 +6,11 @@ class EmptyView extends StatelessWidget {
       {super.key,
       required this.imagePath,
       required this.title,
-      required this.subTitle});
+      required this.subTitle, this.onPress});
   final String imagePath;
   final String title;
   final String subTitle;
+  final VoidCallback? onPress;
 
   @override
   Widget build(BuildContext context) {

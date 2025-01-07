@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../bloc/change_password_bloc.dart';
+import '../bloc/auth_bloc.dart';
 import '../utils/colors.dart';
 import '../utils/dimens.dart';
 import '../utils/images.dart';
@@ -12,7 +12,7 @@ class CheckPasswordView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ChangePasswordBloc>(
+    return Consumer<AuthBloc>(
       builder: (BuildContext context, bloc, Widget? child) {
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: kMargin24),

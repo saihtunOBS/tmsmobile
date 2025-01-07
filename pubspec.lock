@@ -530,22 +530,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
-  mm_nrc_kit:
-    dependency: "direct main"
-    description:
-      name: mm_nrc_kit
-      sha256: "4ea3e433653bbd4fc84e5be3998ade6eb8482ea8ab43368c98764efff1c7a0fd"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.3"
-  multi_image_picker_plus:
-    dependency: "direct main"
-    description:
-      name: multi_image_picker_plus
-      sha256: "3f145929802bb68babd725d54d2f4c226a0599e5caff9a2296860c5972b42970"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.6"
   nested:
     dependency: transitive
     description:

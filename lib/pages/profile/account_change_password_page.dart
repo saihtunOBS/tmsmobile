@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
-import 'package:tmsmobile/bloc/change_password_bloc.dart';
+import 'package:tmsmobile/bloc/auth_bloc.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
@@ -36,7 +36,7 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (BuildContext context) => ChangePasswordBloc(),
+      create: (BuildContext context) => AuthBloc(),
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -44,7 +44,7 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
             color: kBackgroundColor,
             image: DecorationImage(
                 image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
-        child: Selector<ChangePasswordBloc, bool>(
+        child: Selector<AuthBloc, bool>(
           selector: (p0, p1) => p1.isLoading,
           builder: (context, isLoading, child) => Scaffold(
             backgroundColor: Colors.transparent,
@@ -53,7 +53,7 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
             body: Stack(
               fit: StackFit.expand,
               children: [
-                Consumer<ChangePasswordBloc>(
+                Consumer<AuthBloc>(
                   builder: (context, bloc, child) => SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -107,7 +107,7 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                       indicatorColor: kPrimaryColor),
               ],
             ),
-            bottomNavigationBar: Consumer<ChangePasswordBloc>(
+            bottomNavigationBar: Consumer<AuthBloc>(
               builder: (context, bloc, child) => SizedBox(
                   height: kBottomBarHeight,
                   child: Center(child: gradientButton(onPress: () {
@@ -147,7 +147,7 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
       {required String title,
       required Icon icon,
       required TextEditingController controller,
-      ChangePasswordBloc? bloc}) {
+      AuthBloc? bloc}) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: kMargin24),
       child: Column(

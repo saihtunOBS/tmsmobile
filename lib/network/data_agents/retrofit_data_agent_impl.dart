@@ -1,11 +1,14 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:tmsmobile/data/vos/complaint_vo.dart';
 import 'package:tmsmobile/data/vos/household_vo.dart';
 import 'package:tmsmobile/data/vos/user_vo.dart';
 import 'package:tmsmobile/network/data_agents/tms_data_agent.dart';
 import 'package:tmsmobile/network/requests/change_password_request.dart';
+import 'package:tmsmobile/network/requests/complaint_request.dart';
 import 'package:tmsmobile/network/requests/login_request.dart';
+import 'package:tmsmobile/network/requests/reset_password_request.dart';
 import 'package:tmsmobile/network/responses/login_response.dart';
 import 'package:tmsmobile/network/tms_api.dart';
 
@@ -49,6 +52,55 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
         .changePassword(changePasswordRequest)
         .asStream()
         .map((response) => response)
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future resetPassword(
+      String token, ResetPasswordRequest resetPasswordRequest) {
+    return tmsApi
+        .resetPassword('Bearer $token', resetPasswordRequest)
+        .asStream()
+        .map((response) => response)
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future createComplaint(String token, ComplaintRequest request) {
+    return tmsApi
+        .createComplaint('Bearer $token', request)
+        .asStream()
+        .map((response) => response)
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<List<ComplaintVO>> getComplaints(String token) {
+    return tmsApi
+        .getComplaint('Bearer $token')
+        .asStream()
+        .map((response) => response.data ?? [])
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<ComplaintVO> getComplaintDetails(String token,String id) {
+    return tmsApi
+        .getComplaintDetail('Bearer $token',id)
+        .asStream()
+        .map((response) => response.data as ComplaintVO)
         .first
         .catchError((error) {
       throw _createException(error);

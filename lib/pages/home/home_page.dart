@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:tmsmobile/bloc/profile_bloc.dart';
 import 'package:tmsmobile/data/dummy/dummy.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
@@ -24,71 +26,74 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        flexibleSpace: Stack(children: [
-          Positioned(bottom: kMargin10 + 4, child: _buildHeader())
-        ]),
-      ),
-      body: Stack(
-        children: [
-          GridView.builder(
-              physics: ClampingScrollPhysics(),
-              padding: EdgeInsets.only(
-                  left: kMarginXLarge,
-                  right: kMarginXLarge,
-                  top: MediaQuery.of(context).size.height / 2.2,
-                  bottom: MediaQuery.of(context).size.height * 0.15),
-              shrinkWrap: true,
-              itemCount: 6,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: kMargin45,
-                  crossAxisSpacing: kMarginMedium3,
-                  mainAxisExtent: kSize75),
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    switch (index) {
-                      case 0:
-                        PageNavigator(ctx: context)
-                            .nextPage(page: ContractPage());
-                      case 1:
-                        PageNavigator(ctx: context)
-                            .nextPage(page: BillingPage());
-                      case 2:
-                        PageNavigator(ctx: context)
-                            .nextPage(page: ServiceRequestPage());
-                      case 3:
-                        PageNavigator(ctx: context)
-                            .nextPage(page: ComplainPage());
-                      case 4:
-                        PageNavigator(ctx: context)
-                            .nextPage(page: CarParkingPage());
-                      case 5:
-                        PageNavigator(ctx: context)
-                            .nextPage(page: AnnouncementPage());
-                        break;
+    return ChangeNotifierProvider(
+      create: (context) => ProfileBloc(),
+      child: Scaffold(
+        backgroundColor: kBackgroundColor,
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          flexibleSpace: Stack(children: [
+            Positioned(bottom: kMargin10 + 4, child: _buildHeader())
+          ]),
+        ),
+        body: Stack(
+          children: [
+            GridView.builder(
+                physics: ClampingScrollPhysics(),
+                padding: EdgeInsets.only(
+                    left: kMarginXLarge,
+                    right: kMarginXLarge,
+                    top: MediaQuery.of(context).size.height / 2.2,
+                    bottom: MediaQuery.of(context).size.height * 0.15),
+                shrinkWrap: true,
+                itemCount: 6,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: kMargin45,
+                    crossAxisSpacing: kMarginMedium3,
+                    mainAxisExtent: kSize75),
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      switch (index) {
+                        case 0:
+                          PageNavigator(ctx: context)
+                              .nextPage(page: ContractPage());
+                        case 1:
+                          PageNavigator(ctx: context)
+                              .nextPage(page: BillingPage());
+                        case 2:
+                          PageNavigator(ctx: context)
+                              .nextPage(page: ServiceRequestPage());
+                        case 3:
+                          PageNavigator(ctx: context)
+                              .nextPage(page: ComplainPage());
+                        case 4:
+                          PageNavigator(ctx: context)
+                              .nextPage(page: CarParkingPage());
+                        case 5:
+                          PageNavigator(ctx: context)
+                              .nextPage(page: AnnouncementPage());
+                          break;
 
-                      default:
-                    }
-                  },
-                  child: HomeListItem(
-                    backgroundColor: _separateColor(index),
-                    label: _separateLabel(index),
-                    imageLogo: _separateLogo(index),
-                  ),
-                );
-              }),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 2.45,
-            width: double.infinity,
-            child: _buildBannerView(),
-          ),
-        ],
+                        default:
+                      }
+                    },
+                    child: HomeListItem(
+                      backgroundColor: _separateColor(index),
+                      label: _separateLabel(index),
+                      imageLogo: _separateLogo(index),
+                    ),
+                  );
+                }),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 2.45,
+              width: double.infinity,
+              child: _buildBannerView(),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -217,35 +222,37 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildHeader() {
-    return Row(
-      spacing: kMargin10,
-      children: [
-        Container(
-          width: kMargin40,
-          height: kMargin40,
-          margin: EdgeInsets.only(left: kMarginMedium2),
-          padding: EdgeInsets.all(3),
-          decoration: BoxDecoration(
-              color: kWhiteColor,
-              borderRadius: BorderRadius.circular(kMargin5)),
-          child: Center(
-            child: Image.asset(kAppLogoImage),
-          ),
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Hi, John',
-              style: TextStyle(color: kWhiteColor),
+    return Consumer<ProfileBloc>(
+      builder: (context, bloc, child) => Row(
+        spacing: kMargin10,
+        children: [
+          Container(
+            width: kMargin40,
+            height: kMargin40,
+            margin: EdgeInsets.only(left: kMarginMedium2),
+            padding: EdgeInsets.all(3),
+            decoration: BoxDecoration(
+                color: kWhiteColor,
+                borderRadius: BorderRadius.circular(kMargin5)),
+            child: Center(
+              child: Image.asset(kAppLogoImage),
             ),
-            Text(
-              'Good Morning',
-              style: TextStyle(color: kWhiteColor),
-            )
-          ],
-        )
-      ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Hi! ${bloc.userData?.tenantName ?? ''}',
+                style: TextStyle(color: kWhiteColor,fontWeight: FontWeight.w600),
+              ),
+              Text(
+                'Good Morning',
+                style: TextStyle(color: kWhiteColor,fontWeight: FontWeight.w600),
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }

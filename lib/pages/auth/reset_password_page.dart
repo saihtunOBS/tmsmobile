@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
-import 'package:tmsmobile/bloc/change_password_bloc.dart';
+import 'package:tmsmobile/bloc/auth_bloc.dart';
 import 'package:tmsmobile/pages/auth/term_and_condition_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
@@ -29,7 +29,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (BuildContext context) => ChangePasswordBloc(),
+      create: (BuildContext context) => AuthBloc(),
       child: Scaffold(
         backgroundColor: kBackgroundColor,
         extendBodyBehindAppBar: true,
@@ -80,8 +80,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       ? kResetPassword
                       : kChangeYourPasswordLabel,
                   style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
-                      fontWeight: FontWeight.w600, fontSize: kTextRegular24),
+                      fontFamily: AppData.shared.fontFamily2,
+                      fontWeight: FontWeight.w600,
+                      fontSize: kTextRegular24),
                 ),
               ),
               _buildTextField(
@@ -116,7 +117,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   }
 
   Widget _buildCheckPassword() {
-    return Selector<ChangePasswordBloc, bool>(
+    return Selector<AuthBloc, bool>(
       selector: (context, bloc) => bloc.isMore8character,
       builder: (BuildContext context, value, Widget? child) {
         return Padding(
