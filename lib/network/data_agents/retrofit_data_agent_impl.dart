@@ -96,9 +96,9 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
   }
 
   @override
-  Future<ComplaintVO> getComplaintDetails(String token,String id) {
+  Future<ComplaintVO> getComplaintDetails(String token, String id) {
     return tmsApi
-        .getComplaintDetail('Bearer $token',id)
+        .getComplaintDetail('Bearer $token', id)
         .asStream()
         .map((response) => response.data as ComplaintVO)
         .first
@@ -131,37 +131,49 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
     });
   }
 
-  ///custom exception
-  CustomException _createException(dynamic error) {
-    ErrorVO errorVO;
-    if (error is DioException) {
-      errorVO = _parseDioError(error);
-    } else {
-      errorVO = ErrorVO(
-        status: false,
-        message: "UnExcepted error",
-      );
-    }
-    return CustomException(errorVO);
+  @override
+  Future<void> deleteUser(String token) {
+    return tmsApi
+        .deleteUser('Bearer $token')
+        .asStream()
+        .map((response) => response)
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
   }
+}
 
-  ErrorVO _parseDioError(DioException error) {
-    try {
-      if (error.response != null || error.response?.data != null) {
-        var data = error.response?.data;
+///custom exception
+CustomException _createException(dynamic error) {
+  ErrorVO errorVO;
+  if (error is DioException) {
+    errorVO = _parseDioError(error);
+  } else {
+    errorVO = ErrorVO(
+      status: false,
+      message: "UnExcepted error",
+    );
+  }
+  return CustomException(errorVO);
+}
 
-        ///Json string to Map<String,dynamic>
-        if (data is String) {
-          data = jsonDecode(data);
-        }
+ErrorVO _parseDioError(DioException error) {
+  try {
+    if (error.response != null || error.response?.data != null) {
+      var data = error.response?.data;
 
-        ///Map<String,dynamic> to ErrorVO
-        return ErrorVO.fromJson(data);
-      } else {
-        return ErrorVO(status: false, message: "No response data");
+      ///Json string to Map<String,dynamic>
+      if (data is String) {
+        data = jsonDecode(data);
       }
-    } catch (e) {
-      return ErrorVO(status: false, message: "Invalid DioException Format");
+
+      ///Map<String,dynamic> to ErrorVO
+      return ErrorVO.fromJson(data);
+    } else {
+      return ErrorVO(status: false, message: "No response data");
     }
+  } catch (e) {
+    return ErrorVO(status: false, message: "Invalid DioException Format");
   }
 }

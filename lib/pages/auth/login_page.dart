@@ -100,7 +100,8 @@ class _LoginPageState extends State<LoginPage> {
                   _buildTextField(
                       title: kPhoneNumberLabel,
                       icon: Icon(CupertinoIcons.phone),
-                      controller: _phoneController,isNumber: true),
+                      controller: _phoneController,
+                      isNumber: true),
                   _buildTextField(
                       title: kPasswordLabel,
                       icon: Icon(CupertinoIcons.lock),
@@ -128,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
                     ),
-                  if (isFirstTime == false) _buildTermAndCondition()
+                  if (isFirstTime == true) _buildTermAndCondition()
                 ],
               ),
             ),
@@ -153,27 +154,29 @@ class _LoginPageState extends State<LoginPage> {
             gradientButton(
                 title: isFirstTime == true ? kContinueLabel : kLoginLabel,
                 onPress: () {
-                  bloc
-                      ?.onTapSignIn(_phoneController.text.trim(),
-                          _passwordController.text.trim())
-                      .then((value) {
-                    if (value.status == true) {
-                      if (value.data?.verify == 1) {
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            createRoute(NavPage(), duration: 400),
-                            (route) => false);
-                      } else {
-                        PageNavigator(ctx: context).nextPage(
-                            page: ChangePasswordPage(isChangePassword: true));
-                      }
-                    }
-                  }).catchError((error) {
-                    showCommonDialog(
-                        context: context,
-                        dialogWidget:
-                            ErrorDialogView(errorMessage: error.toString()));
-                  });
+                  Navigator.pushAndRemoveUntil(context,
+                      createRoute(NavPage(), duration: 400), (route) => false);
+                  // bloc
+                  //     ?.onTapSignIn(_phoneController.text.trim(),
+                  //         _passwordController.text.trim())
+                  //     .then((value) {
+                  //   if (value.status == true) {
+                  //     if (value.data?.verify == 1) {
+                  //       Navigator.pushAndRemoveUntil(
+                  //           context,
+                  //           createRoute(NavPage(), duration: 400),
+                  //           (route) => false);
+                  //     } else {
+                  //       PageNavigator(ctx: context).nextPage(
+                  //           page: ChangePasswordPage(isChangePassword: true));
+                  //     }
+                  //   }
+                  // }).catchError((error) {
+                  //   showCommonDialog(
+                  //       context: context,
+                  //       dialogWidget:
+                  //           ErrorDialogView(errorMessage: error.toString()));
+                  // });
                 }),
           ]),
         ),

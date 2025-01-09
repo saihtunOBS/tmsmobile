@@ -1,5 +1,6 @@
 
-{
+{   
+    "@@locale": "en",
     "name": "Your Name",
     "@name": {},
     "kHomeLabel": "Home",
@@ -209,5 +210,8 @@
     "kNoRegisterYetLabel": "You haven't registered yet.",
     "kHouseholdRegistrationFormLabel": "Household Registration Form",
     "kEmptyComplaintLabel": "No Complaints.",
-    "kThereIsNoComplaintLabel": "There is no complaints to show."
+    "kThereIsNoComplaintLabel": "There is no complaints to show.",
+    "kEmergencyLabel" : "Emergency Contact",
+    "kResidentInformationLabel": "Resident Information"
+
 }

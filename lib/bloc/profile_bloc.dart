@@ -8,6 +8,8 @@ import '../data/model/tms_model_impl.dart';
 class ProfileBloc extends ChangeNotifier {
   String? token;
   UserVO? userData;
+  bool isLoading = false;
+  bool isDisposed = false;
   final TmsModel _tmsModel = TmsModelImpl();
 
   ProfileBloc() {
@@ -17,5 +19,26 @@ class ProfileBloc extends ChangeNotifier {
       userData = response;
       notifyListeners();
     });
+  }
+
+  Future onTapDelete() {
+    _showLoading();
+    return _tmsModel.deleteUser(token ?? '').whenComplete(() => _hideLoading());
+  }
+
+  _showLoading() {
+    isLoading = true;
+    _notifySafely();
+  }
+
+  _hideLoading() {
+    isLoading = false;
+    _notifySafely();
+  }
+
+  void _notifySafely() {
+    if (!isDisposed) {
+      notifyListeners();
+    }
   }
 }

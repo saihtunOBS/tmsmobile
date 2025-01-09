@@ -29,6 +29,11 @@ abstract class TmsApi {
     @Header(kHeaderAuthorization) String token,
     @Body() ResetPasswordRequest resetPasswordRequest);
 
+  @DELETE(kEndPointDeleteUser)
+  Future<void> deleteUser(
+    @Header(kHeaderAuthorization) String token,
+  );
+
   @POST(kEndPointComplaintCreate)
   Future createComplaint(
     @Header(kHeaderAuthorization) String token,

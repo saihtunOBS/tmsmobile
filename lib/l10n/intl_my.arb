@@ -1,7 +1,8 @@
 {     
-   "name": "your name",
-    "kHomeLabel" : "Home",
-    "kNotiLabel" : "Notification",
+      "@@locale": "my",
+     "name": "your name",
+     "kHomeLabel" : "Home",
+     "kNotiLabel" : "Notification",
      "kProfileLabel" : "Profile",
      "kAppLabel" : "Tenant - Property\nManagement System",
      "kLoginToYourAccountLabel" : "Login to Your Account",
@@ -212,5 +213,8 @@
      "kNoRegisterYetLabel": "စာရင်းမသွင်းရသေးပါ။",
      "kHouseholdRegistrationFormLabel": "အိမ်ထောင်စုစာရင်းပုံစံ",
      "kEmptyComplaintLabel": "No Complaints.",
-     "kThereIsNoComplaintLabel": "There is no complaints to show."
+     "kThereIsNoComplaintLabel": "There is no complaints to show.",
+     "kEmergencyLabel" : "အရေးပေါ်ဖုန်းနံပါတ်",
+     "kResidentInformationLabel": "Resident Information"
+
     }

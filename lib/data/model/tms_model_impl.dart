@@ -74,4 +74,9 @@ class TmsModelImpl extends TmsModel {
   Future<ComplaintVO> getComplaintDetails(String token, String id) {
     return tmsDataAgent.getComplaintDetails(token, id);
   }
+  
+  @override
+  Future<void> deleteUser(String token) {
+    return tmsDataAgent.deleteUser(token);
+  }
 }

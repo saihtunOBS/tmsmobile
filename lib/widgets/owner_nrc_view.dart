@@ -1,38 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tmsmobile/bloc/add_resident_bloc.dart';
-import 'package:tmsmobile/bloc/edit_resident_bloc.dart';
 import 'package:tmsmobile/bloc/house_hold_bloc.dart';
-import 'package:tmsmobile/bloc/nrc_bloc.dart';
+import 'package:tmsmobile/bloc/nrc_bloc%20copy.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
 
-class NRCView extends StatefulWidget {
-  const NRCView({
+class OwnerNrcView extends StatefulWidget {
+  const OwnerNrcView({
     super.key,
-    this.type,
   });
-  final String? type;
   @override
   NRCViewState createState() => NRCViewState();
 }
 
-class NRCViewState extends State<NRCView> {
+class NRCViewState extends State<OwnerNrcView> {
   final List<String> _nrcTypes = ['C', 'N', 'P', 'T'];
   final _nrcTextController = TextEditingController();
 
   @override
   void initState() {
-    var bloc = context.read<NRCBloc>();
+    var bloc = context.read<OwnerNRCBloc>();
     bloc.nrcNumber = null;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<NRCBloc>(
+    return Consumer<OwnerNRCBloc>(
       builder: (context, bloc, child) => InkWell(
         onTap: () => showModalBottomSheet(
             isScrollControlled: true,
@@ -53,8 +49,8 @@ class NRCViewState extends State<NRCView> {
     );
   }
 
-  Widget _nrcBottomsheet(NRCBloc newbloc) {
-    return Consumer<NRCBloc>(
+  Widget _nrcBottomsheet(OwnerNRCBloc newbloc) {
+    return Consumer<OwnerNRCBloc>(
       builder: (context, bloc, child) => SingleChildScrollView(
         child: Padding(
           padding:
@@ -199,7 +195,7 @@ class NRCViewState extends State<NRCView> {
                       ),
                     ),
                     5.vGap,
-                    Consumer<NRCBloc>(builder: (context, bloc, child) {
+                    Consumer<OwnerNRCBloc>(builder: (context, bloc, child) {
                       return AnimatedSize(
                         duration: Duration(milliseconds: 300),
                         child: SizedBox(
@@ -223,21 +219,8 @@ class NRCViewState extends State<NRCView> {
                       bloc.onTapConfirm(
                           '${bloc.selectedStateRegionCode}/${bloc.selectedTownshipCode}(${bloc.selectedNRCType})${_nrcTextController.text.trim()}');
 
-                      switch (widget.type) {
-                        case 'edit':
-                          var editResidentBloc =
-                              context.read<EditResidentBloc>();
-                          editResidentBloc.onChangedNrc(bloc.nrcNumber ?? '');
-                        case 'add':
-                          var addResidentBloc = context.read<AddResidentBloc>();
-                          addResidentBloc.onChangedNrc(bloc.nrcNumber ?? '');
-                        case 'resident':
-                          var houseHoldBloc = context.read<HouseHoldBloc>();
-                          houseHoldBloc
-                              .onChangedNrcResident(bloc.nrcNumber ?? '');
-                          break;
-                        default:
-                      }
+                      var houseHoldBloc = context.read<HouseHoldBloc>();
+                      houseHoldBloc.onChangedNrcOwner(bloc.nrcNumber ?? '');
 
                       _nrcTextController.clear();
                       bloc.isEmptyNrc = true;

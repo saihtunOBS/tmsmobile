@@ -26,13 +26,13 @@ class ErrorDialogView extends StatelessWidget {
               padding: const EdgeInsets.all(kMarginMedium2),
               alignment: Alignment.center,
               decoration: const BoxDecoration(
-                color: Colors.blueAccent,
+                color: Colors.red,
                 shape: BoxShape.circle,
               ),
               child: const Center(
                 child: Icon(
                   Icons.error_outline,
-                  color: Colors.red,
+                  color: Colors.white,
                 ),
               ),
             ),

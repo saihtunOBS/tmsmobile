@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/profile_bloc.dart';
+import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/data/vos/user_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
+import 'package:tmsmobile/pages/auth/login_page.dart';
 import 'package:tmsmobile/pages/profile/account_change_language_page.dart';
 import 'package:tmsmobile/pages/profile/account_change_password_page.dart';
 import 'package:tmsmobile/pages/profile/change_profile_page.dart';
@@ -89,18 +91,20 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             Text(
-              userData?.tenantName ?? '',
+              userData?.tenantName ?? 'TMS',
               style: TextStyle(
                   fontFamily: AppData.shared.fontFamily2,
                   fontSize: kTextRegular24,
                   fontWeight: FontWeight.w600),
             ),
             Text(
-              userData?.phoneNumber?.replaceRange(3, 8, '*****') ?? '',
+              userData?.phoneNumber?.replaceRange(3, 8, '*****') ?? '098888888',
             ),
             InkWell(
-              onTap: () => PageNavigator(ctx: context)
-                  .nextPage(page: ChangeProfilePage(userData: userData,)),
+              onTap: () => PageNavigator(ctx: context).nextPage(
+                  page: ChangeProfilePage(
+                userData: userData ?? UserVO(),
+              )),
               child: Container(
                 height: kSize28,
                 width: kSize110,
@@ -127,7 +131,7 @@ class ProfilePage extends StatelessWidget {
                   showModalBottomSheet(
                       elevation: 0,
                       context: context,
-                      builder: (_) => _buildBottomSheet());
+                      builder: (_) => _buildLogoutBottomSheet(context: context));
                 },
                 isLogout: true,
                 title: kLogoutLabel),
@@ -183,7 +187,7 @@ class ProfilePage extends StatelessWidget {
                       showModalBottomSheet(
                           context: context,
                           builder: (_) =>
-                              _buildBottomSheet(isDeleteAccount: true));
+                              _buildLogoutBottomSheet(isDeleteAccount: true));
                     case 0:
                       PageNavigator(ctx: context)
                           .nextPage(page: AccountChangePasswordPage());
@@ -244,7 +248,7 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomSheet({bool? isDeleteAccount}) {
+  Widget _buildLogoutBottomSheet({bool? isDeleteAccount,BuildContext? context}) {
     return Container(
       height: 233,
       width: double.infinity,
@@ -294,16 +298,21 @@ class ProfilePage extends StatelessWidget {
                   child: Text(kCancelLabel),
                 ),
               ),
-              Container(
-                height: 38,
-                width: 98,
-                decoration: BoxDecoration(
-                    color: kPrimaryColor,
-                    borderRadius: BorderRadius.circular(kMargin6)),
-                child: Center(
-                  child: Text(
-                    kOkLabel,
-                    style: TextStyle(color: kWhiteColor),
+              InkWell(
+                onTap: () {
+                  PersistenceData.shared.saveToken('');
+                   PageNavigator(ctx: context).nextPageOnly(page: LoginPage());},
+                child: Container(
+                  height: 38,
+                  width: 98,
+                  decoration: BoxDecoration(
+                      color: kPrimaryColor,
+                      borderRadius: BorderRadius.circular(kMargin6)),
+                  child: Center(
+                    child: Text(
+                      kOkLabel,
+                      style: TextStyle(color: kWhiteColor),
+                    ),
                   ),
                 ),
               )

@@ -1,80 +1,102 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tmsmobile/data/vos/resident_vo.dart';
+import 'package:tmsmobile/data/vos/household_vo.dart';
 
-import '../data/vos/household_vo.dart';
+String? editNrcNumber;
 
 class EditResidentBloc extends ChangeNotifier {
-  List<ResidentVo> residentVo = [];
-  DateTime selectedDate = DateTime.now();
-  BuildContext? context;
-  String? nrc;
   int selectedExpensionIndex = -1;
   String? gender;
-
-  var residentNameController = TextEditingController();
-  var residentRaceController = TextEditingController();
-  var residentNationalityController = TextEditingController();
-  var residentContactController = TextEditingController();
-  var residentRelatedToController = TextEditingController();
-
-  String? validationMessage = '';
+  BuildContext? context;
+  DateTime selectedDate = DateTime.now();
   bool isValidate = false;
-  HouseHoldVO? houseHoldData;
+  String validationMessage = '';
+  String? type;
 
-  EditResidentBloc(this.context,this.houseHoldData) {
-    // residentNameController.text = house
+  bool isLoading = false;
+  bool isDisposed = false;
+  HouseHoldVO? houseHoldVO;
+
+  EditResidentBloc({this.context, this.houseHoldVO}) {
+    editNrcNumber = null;
   }
 
-  addResident({required ResidentVo resident}) {
-    residentVo.add(resident);
-    gender = null;
-    residentNameController.clear();
-    residentRaceController.clear();
-    residentNationalityController.clear();
-    residentContactController.clear();
-    residentRelatedToController.clear();
+  var nameController = TextEditingController();
+  var raceController = TextEditingController();
+  var nationalityController = TextEditingController();
+  var contactController = TextEditingController();
+  var relatedToController = TextEditingController();
+  var emailAddressController = TextEditingController();
 
+  setUpFormValue(){
+    notifyListeners();
+  }
+  // _showLoading() {
+  //   isLoading = true;
+  //   _notifySafely();
+  // }
+
+  // _hideLoading() {
+  //   isLoading = false;
+  //   _notifySafely();
+  // }
+
+  // void _notifySafely() {
+  //   if (!isDisposed) {
+  //     notifyListeners();
+  //   }
+  // }
+
+  void onChangedNrc(String nrc) {
+    editNrcNumber = nrc;
+    debugPrint("NewNrcNumner>>>>>>>>>>>>$editNrcNumber");
     notifyListeners();
   }
 
-  removeResident({required int index}) {
-    residentVo.removeAt(index);
-    selectedExpensionIndex = -1;
+  void onChangeGender(String value) {
+    gender = value;
     notifyListeners();
   }
 
-  onSelectGender() {
+  void onChangeType(String value) {
+    type = value;
     notifyListeners();
   }
 
-  onChangeNRC() {
-    notifyListeners();
-  }
-
-  changeExpansion() {
-    notifyListeners();
-  }
-
-  checkValidation() {
-    if (residentNameController.text.isEmpty) {
+  String checkResidentValidation() {
+    if (type == null) {
+      validationMessage = 'Type is required!';
+    } else if (nameController.text.isEmpty) {
       validationMessage = 'Name is required!';
     } else if (gender == null) {
       validationMessage = 'Gender is required!';
-    } else if (residentRaceController.text.isEmpty) {
+    } else if (raceController.text.isEmpty) {
       validationMessage = 'Race is required!';
-    } else if (residentNationalityController.text.isEmpty) {
+    } else if (nationalityController.text.isEmpty) {
       validationMessage = 'Nationality is required!';
-    } else if (nrc == null) {
-      validationMessage = 'NRC is required!';
-    } else if (residentContactController.text.isEmpty) {
+    } 
+    // else if (editNrcNumber == null) {
+    //   validationMessage = 'NRC is required!';
+    // } 
+    else if (contactController.text.isEmpty) {
       validationMessage = 'Contact Number is required!';
-    } else if (residentRelatedToController.text.isEmpty) {
-      validationMessage = 'Related to Owner is required!';
     } else {
-      isValidate = true;
+      if (type == 'Owner') {
+        if (emailAddressController.text.isEmpty) {
+          validationMessage = 'Email address is required!';
+        } else {
+          return validationMessage = 'success';
+        }
+      } else {
+        if (relatedToController.text.isEmpty) {
+          validationMessage = 'Related to owner is required!';
+        } else {
+          return validationMessage = 'success';
+        }
+      }
     }
-    notifyListeners();
+
+    return validationMessage;
   }
 
   Future<void> showDate() async {

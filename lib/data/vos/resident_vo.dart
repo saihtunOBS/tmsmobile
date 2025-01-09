@@ -12,7 +12,7 @@ class ResidentDataVo {
   String? dob;
   String? race;
   String? nationality;
-  String? nrc;
+  String? nrcOrpassport;
   String? contactNumber;
   String? relatedTo;
   ResidentDataVo({
@@ -21,7 +21,7 @@ class ResidentDataVo {
      this.dob,
      this.race,
      this.nationality,
-     this.nrc,
+     this.nrcOrpassport,
      this.contactNumber,
      this.relatedTo,
   });

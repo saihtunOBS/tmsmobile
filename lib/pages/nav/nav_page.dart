@@ -16,10 +16,10 @@ class NavPage extends StatefulWidget {
   State<NavPage> createState() => _NavPageState();
 }
 
-int _currentIndex = 0;
-late TabController _tabController;
-
 class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
+  int _currentIndex = 0;
+  late TabController _tabController;
+
   @override
   void initState() {
     super.initState();
@@ -106,8 +106,9 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
         SizedBox(
             height: kMargin24,
             width: kMargin24,
-            child:
-                Image.asset(_currentIndex == 0 ? kHomeSelectIcon : kHomeIcon,)),
+            child: Image.asset(
+              _currentIndex == 0 ? kHomeSelectIcon : kHomeIcon,
+            )),
         Text(
           kHomeLabel,
           style: TextStyle(

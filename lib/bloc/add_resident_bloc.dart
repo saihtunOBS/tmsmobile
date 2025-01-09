@@ -1,14 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+String? addNrcNumber;
+
 class AddResidentBloc extends ChangeNotifier {
-  String? nrc;
   int selectedExpensionIndex = -1;
   String? gender;
   BuildContext? context;
   DateTime selectedDate = DateTime.now();
 
-  AddResidentBloc(this.context){
+  // Define selected values
+  bool isLoading = false;
+  bool isDisposed = false;
+  String validationMessage = '';
+
+  AddResidentBloc({this.context}) {
+    addNrcNumber = null;
   }
 
   var residentNameController = TextEditingController();
@@ -16,6 +23,57 @@ class AddResidentBloc extends ChangeNotifier {
   var residentNationalityController = TextEditingController();
   var residentContactController = TextEditingController();
   var residentRelatedToController = TextEditingController();
+  var passportController = TextEditingController();
+
+  void onChangedNrc(String nrc) {
+    addNrcNumber = nrc;
+    debugPrint("NewNrcNumner>>>>>>>>>>>>$addNrcNumber");
+    notifyListeners();
+  }
+
+  void onChangeGender(String value) {
+    gender = value;
+    notifyListeners();
+  }
+
+  // _showLoading() {
+  //   isLoading = true;
+  //   _notifySafely();
+  // }
+
+  // _hideLoading() {
+  //   isLoading = false;
+  //   _notifySafely();
+  // }
+
+  // void _notifySafely() {
+  //   if (!isDisposed) {
+  //     notifyListeners();
+  //   }
+  // }
+
+  checkResidentValidation() {
+    if (residentNameController.text.isEmpty) {
+      validationMessage = 'Name is required!';
+    } else if (gender == null) {
+      validationMessage = 'Gender is required!';
+    } else if (residentRaceController.text.isEmpty) {
+      validationMessage = 'Race is required!';
+    } else if (residentNationalityController.text.isEmpty) {
+      validationMessage = 'Nationality is required!';
+    } 
+    // else if (addNrcNumber == null) {
+    //   validationMessage = 'NRC is required!';
+    // } 
+    else if (residentContactController.text.isEmpty) {
+      validationMessage = 'Contact Number is required!';
+    } else if (residentRelatedToController.text.isEmpty) {
+      validationMessage = 'Related to Owner is required!';
+    } else {
+      validationMessage = 'success';
+    }
+    notifyListeners();
+  }
 
   Future<void> showDate() async {
     await showCupertinoModalPopup<void>(

@@ -10,6 +10,8 @@ import '../../utils/date_formatter.dart';
 import '../../utils/dimens.dart';
 import '../../utils/strings.dart';
 import '../../widgets/appbar.dart';
+import '../../widgets/common_dialog.dart';
+import '../../widgets/error_dialog_view.dart';
 import '../../widgets/gradient_button.dart';
 import '../../widgets/nrc_view.dart';
 
@@ -22,14 +24,14 @@ class EditResidentPage extends StatefulWidget {
 }
 
 class _EditResidentPageState extends State<EditResidentPage> {
-  String? _selectedGender;
   String _selectedOption = "Citizen";
   String _selectedOwnerNRC = 'Citizen';
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => EditResidentBloc(context, widget.houseHoldData),
+      create: (context) =>
+          EditResidentBloc(context: context, houseHoldVO: widget.houseHoldData),
       child: Scaffold(
         body: Stack(
           children: [
@@ -69,12 +71,26 @@ class _EditResidentPageState extends State<EditResidentPage> {
                 )),
           ],
         ),
-        bottomNavigationBar: Container(
-            color: kWhiteColor,
-            height: kBottomBarHeight,
-            child: Center(
-              child: gradientButton(title: kSubmitLabel, onPress: () {}),
-            )),
+        bottomNavigationBar: Consumer<EditResidentBloc>(
+          builder: (context, bloc, child) => Container(
+              color: kWhiteColor,
+              height: kBottomBarHeight,
+              child: Center(
+                child: gradientButton(
+                    title: kSubmitLabel,
+                    onPress: () {
+                      bloc.checkResidentValidation();
+                      
+                      // print(bloc.isValidate);
+                      bloc.validationMessage != 'success'
+                          ? showCommonDialog(
+                              context: context,
+                              dialogWidget: ErrorDialogView(
+                                  errorMessage: bloc.validationMessage))
+                          : print('success');
+                    }),
+              )),
+        ),
       ),
     );
   }
@@ -93,9 +109,10 @@ class _EditResidentPageState extends State<EditResidentPage> {
                 spacing: kMarginMedium2,
                 children: [
                   1.vGap,
+                  _buildTypeDropDown(),
                   _buildInputField(
                       title: kNameLabel,
-                      controller: bloc.residentNameController),
+                      controller: bloc.nameController),
                   _buildGenderDropDown(),
                   InkWell(
                       onTap: () => bloc.showDate(),
@@ -103,10 +120,10 @@ class _EditResidentPageState extends State<EditResidentPage> {
                           value: DateFormatter.formatDate(bloc.selectedDate))),
                   _buildInputField(
                       title: kRaceLabel,
-                      controller: bloc.residentRaceController),
+                      controller: bloc.raceController),
                   _buildInputField(
                       title: kNationalityLabel,
-                      controller: bloc.residentNationalityController),
+                      controller: bloc.nationalityController),
                   _buildNRCAndPassportRadioButton(isOwner: true),
                   _selectedOwnerNRC == 'Citizen'
                       ? _buildNRCPickerView()
@@ -115,10 +132,15 @@ class _EditResidentPageState extends State<EditResidentPage> {
                         ),
                   _buildInputField(
                       title: kContactNumberLabel,
-                      controller: bloc.residentContactController),
-                  _buildInputField(
-                      title: kRelatedToOwnerLabel,
-                      controller: bloc.residentRelatedToController),
+                      isNumber: true,
+                      controller: bloc.contactController),
+                  bloc.type == 'Owner'
+                      ? _buildInputField(
+                          title: kEmailAddressLabel,
+                          controller: bloc.emailAddressController)
+                      : _buildInputField(
+                          title: kRelatedToOwnerLabel,
+                          controller: bloc.relatedToController),
                 ],
               ),
             ),
@@ -128,39 +150,75 @@ class _EditResidentPageState extends State<EditResidentPage> {
     );
   }
 
+  ///genre dropdown
   List<String> genders = ['Male', 'Female'];
   Widget _buildGenderDropDown({bool? isEditDeleteForm}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          kGenderLabel,
-          style:
-              TextStyle(fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
-        ),
-        4.vGap,
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: kMargin10),
-          decoration: BoxDecoration(
-              color: isEditDeleteForm == true
-                  ? kWhiteColor
-                  : kInputBackgroundColor,
-              borderRadius: BorderRadius.circular(kMarginMedium)),
-          child: DropdownButton(
-              value: _selectedGender,
-              isExpanded: true,
-              underline: Container(),
-              hint: Text(kSelectGenderLabel),
-              items: genders.map((value) {
-                return DropdownMenuItem(value: value, child: Text(value));
-              }).toList(),
-              onChanged: ((value) {
-                setState(() {
-                  _selectedGender = value ?? '';
-                });
-              })),
-        )
-      ],
+    return Consumer<EditResidentBloc>(
+      builder: (context, bloc, child) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            kGenderLabel,
+            style: TextStyle(
+                fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+          ),
+          4.vGap,
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: kMargin10),
+            decoration: BoxDecoration(
+                color: isEditDeleteForm == true
+                    ? kWhiteColor
+                    : kInputBackgroundColor,
+                borderRadius: BorderRadius.circular(kMarginMedium)),
+            child: DropdownButton(
+                value: bloc.gender,
+                isExpanded: true,
+                underline: Container(),
+                hint: Text(kSelectGenderLabel),
+                items: genders.map((value) {
+                  return DropdownMenuItem(value: value, child: Text(value));
+                }).toList(),
+                onChanged: ((value) {
+                  bloc.onChangeGender(value ?? '');
+                })),
+          )
+        ],
+      ),
+    );
+  }
+
+  //type dropdown
+  List<String> types = ['Owner', 'Resident'];
+  Widget _buildTypeDropDown() {
+    return Consumer<EditResidentBloc>(
+      builder: (context, bloc, child) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Type',
+            style: TextStyle(
+                fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+          ),
+          4.vGap,
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: kMargin10),
+            decoration: BoxDecoration(
+                color: kInputBackgroundColor,
+                borderRadius: BorderRadius.circular(kMarginMedium)),
+            child: DropdownButton(
+                value: bloc.type,
+                isExpanded: true,
+                underline: Container(),
+                hint: Text('Type'),
+                items: types.map((value) {
+                  return DropdownMenuItem(value: value, child: Text(value));
+                }).toList(),
+                onChanged: ((value) {
+                  bloc.onChangeType(value ?? '');
+                })),
+          )
+        ],
+      ),
     );
   }
 
@@ -204,34 +262,40 @@ class _EditResidentPageState extends State<EditResidentPage> {
       {required title,
       String? value,
       bool? isReadOnly,
+      bool? isNumber,
       TextEditingController? controller}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style:
-              TextStyle(fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
-        ),
-        4.vGap,
-        Container(
-            height: kMargin45 + 1,
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: kMarginMedium2),
-            decoration: BoxDecoration(
-                color: kGreyColor.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(kMarginMedium)),
-            child: isReadOnly == true
-                ? Padding(
-                    padding: const EdgeInsets.only(top: kMargin12),
-                    child: Text(value ?? ''),
-                  )
-                : TextField(
-                    controller: controller,
-                    decoration: InputDecoration(
-                        border: InputBorder.none, hintText: title),
-                  ))
-      ],
+    return Consumer<EditResidentBloc>(
+      builder: (context, bloc, child) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+                fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+          ),
+          4.vGap,
+          Container(
+              height: kMargin45 + 1,
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(horizontal: kMarginMedium2),
+              decoration: BoxDecoration(
+                  color: kGreyColor.withValues(alpha: 0.3),
+                  borderRadius: BorderRadius.circular(kMarginMedium)),
+              child: isReadOnly == true
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: kMargin12),
+                      child: Text(value ?? ''),
+                    )
+                  : TextField(
+                      controller: controller,
+                      keyboardType: isNumber == true
+                          ? TextInputType.number
+                          : TextInputType.text,
+                      decoration: InputDecoration(
+                          border: InputBorder.none, hintText: title),
+                    ))
+        ],
+      ),
     );
   }
 
@@ -252,7 +316,11 @@ class _EditResidentPageState extends State<EditResidentPage> {
             decoration: BoxDecoration(
                 color: kInputBackgroundColor,
                 borderRadius: BorderRadius.circular(kMarginMedium)),
-            child: NRCView()),
+            child: Consumer<EditResidentBloc>(
+              builder: (context, value, child) => NRCView(
+                type: 'edit',
+              ),
+            )),
       ],
     );
   }
