@@ -7,6 +7,8 @@ import 'package:tmsmobile/data/vos/user_vo.dart';
 import 'package:tmsmobile/network/data_agents/tms_data_agent.dart';
 import 'package:tmsmobile/network/requests/change_password_request.dart';
 import 'package:tmsmobile/network/requests/complaint_request.dart';
+import 'package:tmsmobile/network/requests/household_owner_request.dart';
+import 'package:tmsmobile/network/requests/household_registration_request.dart';
 import 'package:tmsmobile/network/requests/login_request.dart';
 import 'package:tmsmobile/network/requests/reset_password_request.dart';
 import 'package:tmsmobile/network/responses/login_response.dart';
@@ -14,6 +16,7 @@ import 'package:tmsmobile/network/tms_api.dart';
 
 import '../../data/vos/error_vo.dart';
 import '../../exception/custom_exception.dart';
+import '../requests/household_resident_request.dart';
 
 class RetrofitDataAgentImpl extends TmsDataAgent {
   late TmsApi tmsApi;
@@ -135,6 +138,45 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
   Future<void> deleteUser(String token) {
     return tmsApi
         .deleteUser('Bearer $token')
+        .asStream()
+        .map((response) => response)
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<void> createHouseHold(
+      String token, HouseholdRegistrationRequest request) {
+    return tmsApi
+        .createHouseHold('Bearer $token', request)
+        .asStream()
+        .map((response) => response)
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<void> updateHouseHoldOwner(
+      String token, String id, HouseholdOwnerRequest request) {
+    return tmsApi
+        .updateHouseHoldOwner('Bearer $token', id, request)
+        .asStream()
+        .map((response) => response)
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<void> updateHouseHoldResident(
+      String token, String id, HouseholdResidentRequest request) {
+    return tmsApi
+        .updateHouseHoldResident('Bearer $token', id, request)
         .asStream()
         .map((response) => response)
         .first

@@ -97,14 +97,28 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                             fontSize: kTextRegular24),
                       ),
                     ),
-                    _buildTextField(
-                        title: kNewPasswordLabel,
-                        icon: Icon(CupertinoIcons.lock),
-                        controller: _passwordController),
-                    _buildTextField(
-                        title: kConfirmPasswordLabel,
-                        icon: Icon(CupertinoIcons.lock),
-                        controller: _confirmPasswordController),
+                    Consumer<AuthBloc>(
+                      builder: (context, bloc, child) => _buildTextField(
+                          title: kNewPasswordLabel,
+                          icon: bloc.showNewPassword == true
+                              ? Icon(CupertinoIcons.eye)
+                              : Icon(CupertinoIcons.eye_slash),
+                          bloc: bloc,
+                          onTap: bloc.onTapNewPassword,
+                          obseure: !bloc.showNewPassword,
+                          controller: _passwordController),
+                    ),
+                    Consumer<AuthBloc>(
+                      builder: (context, bloc, child) => _buildTextField(
+                          title: kConfirmPasswordLabel,
+                          icon: bloc.showConfirmPassword == true
+                              ? Icon(CupertinoIcons.eye)
+                              : Icon(CupertinoIcons.eye_slash),
+                          bloc: bloc,
+                          onTap: bloc.onTapConfirmPassword,
+                          obseure: !bloc.showConfirmPassword,
+                          controller: _confirmPasswordController),
+                    ),
                     const SizedBox(
                       height: kMargin5,
                     ),
@@ -176,6 +190,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   Widget _buildTextField(
       {required String title,
       required Icon icon,
+      AuthBloc? bloc,
+      bool? obseure,
+      VoidCallback? onTap,
       required TextEditingController controller}) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: kMargin24),
@@ -202,6 +219,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 Expanded(
                     child: TextField(
                         controller: controller,
+                        obscureText: obseure ?? false,
+                        onChanged: (value) {
+                          if (title == kNewPasswordLabel) {
+                            bloc?.passwordValidation(passsword: value);
+                          }
+                        },
                         decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: title,
@@ -211,7 +234,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 ),
 
                 ///icon
-                icon
+                InkWell(onTap: () => onTap!(), child: icon)
               ],
             ),
           ),

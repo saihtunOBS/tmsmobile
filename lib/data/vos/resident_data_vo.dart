@@ -1,24 +1,30 @@
-class ResidentDataObject {
-  final String? owner;
-  final String? name;
-  final String? gender;
-  final String? dob;
-  final String? race;
-  final String? nationality;
-  final String? nrc;
-  final String? contactNumber;
-  final String? relatedTo;
-  final String? emailAddress;
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+class ResidentVo {
+  String name;
+  ResidentDataVo data;
 
-  ResidentDataObject(
-      this.owner,
-      this.name,
-      this.gender,
-      this.dob,
-      this.race,
-      this.nationality,
-      this.nrc,
-      this.contactNumber,
-      this.emailAddress,
-      this.relatedTo);
+  ResidentVo(this.name,this.data);
+}
+
+class ResidentDataVo {
+  String? name;
+  String? gender;
+  String? dob;
+  String? race;
+  String? nationality;
+  String? nrcOrpassport;
+  String? contactNumber;
+  String? relatedTo;
+  ResidentDataVo({
+     this.name,
+     this.gender,
+     this.dob,
+     this.race,
+     this.nationality,
+     this.nrcOrpassport,
+     this.contactNumber,
+     this.relatedTo,
+  });
+
+  
 }

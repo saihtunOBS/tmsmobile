@@ -77,6 +77,9 @@ class OwnerVO {
   @JsonKey(name: "nrc")
   final String? nrc;
 
+  @JsonKey(name: "nrc_type")
+  final int? nrcType;
+
   @JsonKey(name: "contact_number")
   final String? contactNumber;
 
@@ -88,6 +91,7 @@ class OwnerVO {
     this.gender,
     this.dateOfBirth,
     this.race,
+    this.nrcType,
     this.nationality,
     this.nrc,
     this.contactNumber,
@@ -120,6 +124,9 @@ class ResidentVO {
   @JsonKey(name: "nrc")
   final String? nrc;
 
+  @JsonKey(name: "nrc_type")
+  final int? nrcType;
+
   @JsonKey(name: "contact_number")
   final String? contactNumber;
 
@@ -136,6 +143,7 @@ class ResidentVO {
     this.race,
     this.nationality,
     this.nrc,
+    this.nrcType,
     this.contactNumber,
     this.relatedToOwner,
     this.id,

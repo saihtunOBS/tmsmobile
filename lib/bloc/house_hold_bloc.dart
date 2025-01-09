@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/data/vos/household_vo.dart';
-import 'package:tmsmobile/data/vos/resident_vo.dart';
+import 'package:tmsmobile/data/vos/resident_data_vo.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
 
 import '../data/model/tms_model.dart';
 import '../data/model/tms_model_impl.dart';
-import '../data/vos/resident_data_vo.dart';
 import 'nrc_bloc.dart';
 
 String? ownerNrc;
@@ -50,8 +49,8 @@ class HouseHoldBloc extends ChangeNotifier {
 
   bool isLoading = false;
   bool isDisposed = false;
-  ResidentDataObject? owner;
-  List<ResidentDataObject> residents = [];
+  // ResidentDataObject? owner;
+  // List<ResidentDataObject> residents = [];
 
   final TmsModel _tmsModel = TmsModelImpl();
 

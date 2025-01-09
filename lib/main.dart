@@ -18,16 +18,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
-  runApp(MultiProvider(
-    
-    providers: [
-      ChangeNotifierProvider(create: (_)=> NRCBloc()),
-      ChangeNotifierProvider(create: (_)=> OwnerNRCBloc()),
-      ChangeNotifierProvider(create: (_)=> AddResidentBloc()),
-      ChangeNotifierProvider(create: (_)=> EditResidentBloc()),
-      ChangeNotifierProvider(create: (_)=> HouseHoldBloc())
-    ],
-    child: const TMSMobile()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => NRCBloc()),
+    ChangeNotifierProvider(create: (_) => OwnerNRCBloc()),
+    ChangeNotifierProvider(create: (_) => AddResidentBloc()),
+    ChangeNotifierProvider(create: (_) => EditResidentBloc()),
+    ChangeNotifierProvider(create: (_) => HouseHoldBloc())
+  ], child: const TMSMobile()));
 }
 
 class TMSMobile extends StatelessWidget {
@@ -57,7 +54,8 @@ class TMSMobile extends StatelessWidget {
             supportedLocales: [Locale('en'), Locale('my')],
             theme: ThemeData(
                 fontFamily: AppData.shared.fontFamily,
-                colorScheme: ColorScheme.fromSeed(seedColor: kPrimaryColor,primary: kPrimaryColor),
+                colorScheme: ColorScheme.fromSeed(
+                    seedColor: kPrimaryColor, primary: kPrimaryColor),
                 useMaterial3: true,
                 scaffoldBackgroundColor: kBackgroundColor,
                 appBarTheme: AppBarTheme(toolbarHeight: kMargin60)),

@@ -75,16 +75,28 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                         ),
                         _buildTextField(
                             title: kOldPasswordLabel,
-                            icon: Icon(CupertinoIcons.lock),
+                            icon: bloc.showOldPassword == true
+                                ? Icon(CupertinoIcons.eye)
+                                : Icon(CupertinoIcons.eye_slash),
+                            onTap: () => bloc.onTapOldPassword(),
+                            obscure: !bloc.showOldPassword,
                             controller: _oldPasswordController),
                         _buildTextField(
                             title: kNewPasswordLabel,
-                            icon: Icon(CupertinoIcons.lock),
+                            icon: bloc.showNewPassword == true
+                                ? Icon(CupertinoIcons.eye)
+                                : Icon(CupertinoIcons.eye_slash),
                             controller: _passwordController,
+                            obscure: !bloc.showNewPassword,
+                            onTap: () => bloc.onTapNewPassword(),
                             bloc: bloc),
                         _buildTextField(
                             title: kConfirmPasswordLabel,
-                            icon: Icon(CupertinoIcons.lock),
+                            icon: bloc.showConfirmPassword == true
+                                ? Icon(CupertinoIcons.eye)
+                                : Icon(CupertinoIcons.eye_slash),
+                            onTap: () => bloc.onTapConfirmPassword(),
+                            obscure: !bloc.showConfirmPassword,
                             controller: _confirmPasswordController),
                         const SizedBox(
                           height: kMargin5,
@@ -110,32 +122,36 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
             bottomNavigationBar: Consumer<AuthBloc>(
               builder: (context, bloc, child) => SizedBox(
                   height: kBottomBarHeight,
-                  child: Center(child: gradientButton(onPress: () {
-                    bloc.checkValidationSuccess() == true;
-                    {
-                      if (_passwordController.text.trim() !=
-                          _confirmPasswordController.text.trim()) {
-                        showCommonDialog(
-                            context: context,
-                            dialogWidget: ErrorDialogView(
-                                errorMessage: 'Password does not match!'));
-                      } else {
-                        bloc
-                            .onTapContinue(
-                          oldPassword: _oldPasswordController.text.trim(),
-                          newPassword: _passwordController.text.trim(),
-                        )
-                            .then((_) {
-                          Navigator.of(context).pop();
-                        }).catchError((error) {
-                          showCommonDialog(
-                              context: context,
-                              dialogWidget: ErrorDialogView(
-                                  errorMessage: error.toString()));
-                        });
-                      }
-                    }
-                  }))),
+                  child: Center(
+                      child: gradientButton(
+                          title: kConfirmLabel,
+                          onPress: () {
+                            if (bloc.checkValidationSuccess() == true) {
+                              if (_passwordController.text.trim() !=
+                                  _confirmPasswordController.text.trim()) {
+                                showCommonDialog(
+                                    context: context,
+                                    dialogWidget: ErrorDialogView(
+                                        errorMessage:
+                                            'Password does not match!'));
+                              } else {
+                                bloc
+                                    .onTapContinue(
+                                  oldPassword:
+                                      _oldPasswordController.text.trim(),
+                                  newPassword: _passwordController.text.trim(),
+                                )
+                                    .then((_) {
+                                  Navigator.of(context).pop();
+                                }).catchError((error) {
+                                  showCommonDialog(
+                                      context: context,
+                                      dialogWidget: ErrorDialogView(
+                                          errorMessage: error.toString()));
+                                });
+                              }
+                            }
+                          }))),
             ),
           ),
         ),
@@ -147,6 +163,8 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
       {required String title,
       required Icon icon,
       required TextEditingController controller,
+      VoidCallback? onTap,
+      bool? obscure,
       AuthBloc? bloc}) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: kMargin24),
@@ -172,6 +190,7 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
               children: [
                 Expanded(
                     child: TextField(
+                        obscureText: obscure ?? true,
                         controller: controller,
                         onChanged: (value) {
                           if (title == kNewPasswordLabel) {
@@ -187,7 +206,7 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                 ),
 
                 ///icon
-                icon
+                InkWell(onTap: () => onTap!(), child: icon)
               ],
             ),
           ),

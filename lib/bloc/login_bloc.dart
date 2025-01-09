@@ -7,6 +7,7 @@ import 'package:tmsmobile/network/responses/login_response.dart';
 class LogInBloc extends ChangeNotifier {
   bool isLoading = false;
   bool isDisposed = false;
+  bool showPassword = false;
   final TmsModel _tmsModel = TmsModelImpl();
 
   Future<LoginResponse> onTapSignIn(String phone, password) {
@@ -17,6 +18,11 @@ class LogInBloc extends ChangeNotifier {
 
   _showLoading() {
     isLoading = true;
+    _notifySafely();
+  }
+
+  onTapShowPassword(){
+    showPassword = !showPassword;
     _notifySafely();
   }
 

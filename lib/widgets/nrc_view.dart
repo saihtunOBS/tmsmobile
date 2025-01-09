@@ -220,28 +220,35 @@ class NRCViewState extends State<NRCView> {
                 InkWell(
                   onTap: () {
                     if (bloc.isEmptyNrc == false) {
-                      bloc.onTapConfirm(
-                          '${bloc.selectedStateRegionCode}/${bloc.selectedTownshipCode}(${bloc.selectedNRCType})${_nrcTextController.text.trim()}');
+                      if (bloc.selectedStateRegionCode == null &&
+                          bloc.selectedTownshipCode == null &&
+                          bloc.selectedNRCType == null) {
+                        ///alert
+                      } else {
+                        bloc.onTapConfirm(
+                            '${bloc.selectedStateRegionCode}/${bloc.selectedTownshipCode}(${bloc.selectedNRCType})${_nrcTextController.text.trim()}');
 
-                      switch (widget.type) {
-                        case 'edit':
-                          var editResidentBloc =
-                              context.read<EditResidentBloc>();
-                          editResidentBloc.onChangedNrc(bloc.nrcNumber ?? '');
-                        case 'add':
-                          var addResidentBloc = context.read<AddResidentBloc>();
-                          addResidentBloc.onChangedNrc(bloc.nrcNumber ?? '');
-                        case 'resident':
-                          var houseHoldBloc = context.read<HouseHoldBloc>();
-                          houseHoldBloc
-                              .onChangedNrcResident(bloc.nrcNumber ?? '');
-                          break;
-                        default:
+                        switch (widget.type) {
+                          case 'edit':
+                            var editResidentBloc =
+                                context.read<EditResidentBloc>();
+                            editResidentBloc.onChangedNrc(bloc.nrcNumber ?? '');
+                          case 'add':
+                            var addResidentBloc =
+                                context.read<AddResidentBloc>();
+                            addResidentBloc.onChangedNrc(bloc.nrcNumber ?? '');
+                          case 'resident':
+                            var houseHoldBloc = context.read<HouseHoldBloc>();
+                            houseHoldBloc
+                                .onChangedNrcResident(bloc.nrcNumber ?? '');
+                            break;
+                          default:
+                        }
+
+                        _nrcTextController.clear();
+                        bloc.isEmptyNrc = true;
+                        Navigator.pop(context);
                       }
-
-                      _nrcTextController.clear();
-                      bloc.isEmptyNrc = true;
-                      Navigator.pop(context);
                     }
                   },
                   child: Container(

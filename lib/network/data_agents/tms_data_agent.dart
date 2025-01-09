@@ -3,8 +3,11 @@ import 'package:tmsmobile/data/vos/household_vo.dart';
 import 'package:tmsmobile/data/vos/user_vo.dart';
 import 'package:tmsmobile/network/requests/change_password_request.dart';
 import 'package:tmsmobile/network/requests/complaint_request.dart';
+import 'package:tmsmobile/network/requests/household_owner_request.dart';
+import 'package:tmsmobile/network/requests/household_registration_request.dart';
 import 'package:tmsmobile/network/requests/reset_password_request.dart';
 
+import '../requests/household_resident_request.dart';
 import '../requests/login_request.dart';
 import '../responses/login_response.dart';
 
@@ -14,6 +17,9 @@ abstract class TmsDataAgent {
   Future<void> deleteUser(String token);
   Future<UserVO> getUser(String token);
   Future<List<HouseHoldVO>> getHouseHoldList(String token);
+  Future<void> createHouseHold(String token,HouseholdRegistrationRequest request);
+  Future<void> updateHouseHoldOwner(String token,String id,HouseholdOwnerRequest request);
+  Future<void> updateHouseHoldResident(String token,String id,HouseholdResidentRequest request);
   Future resetPassword(String token, ResetPasswordRequest resetPasswordRequest);
   Future createComplaint(String token, ComplaintRequest request);
   Future<List<ComplaintVO>> getComplaints(String token);

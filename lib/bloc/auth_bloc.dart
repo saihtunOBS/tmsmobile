@@ -16,6 +16,9 @@ class AuthBloc extends ChangeNotifier {
   bool isLoading = false;
   bool isDisposed = false;
   final TmsModel _tmsModel = TmsModelImpl();
+  bool showOldPassword = false;
+  bool showNewPassword = false;
+  bool showConfirmPassword = false;
 
   String token = '';
 
@@ -40,6 +43,22 @@ class AuthBloc extends ChangeNotifier {
     return _tmsModel
         .resetPassword(token, request)
         .whenComplete(() => _hideLoading());
+  }
+
+  onTapOldPassword() {
+    print('hello welcome');
+    showOldPassword = !showOldPassword;
+    _notifySafely();
+  }
+
+  onTapNewPassword() {
+    showNewPassword = !showNewPassword;
+    _notifySafely();
+  }
+
+  onTapConfirmPassword() {
+    showConfirmPassword = !showConfirmPassword;
+    _notifySafely();
   }
 
   bool checkValidationSuccess() {

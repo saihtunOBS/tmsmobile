@@ -54,6 +54,7 @@ OwnerVO _$OwnerVOFromJson(Map<String, dynamic> json) => OwnerVO(
           ? null
           : DateTime.parse(json['date_of_birth'] as String),
       race: json['race'] as String?,
+      nrcType: (json['nrc_type'] as num?)?.toInt(),
       nationality: json['nationality'] as String?,
       nrc: json['nrc'] as String?,
       contactNumber: json['contact_number'] as String?,
@@ -67,6 +68,7 @@ Map<String, dynamic> _$OwnerVOToJson(OwnerVO instance) => <String, dynamic>{
       'race': instance.race,
       'nationality': instance.nationality,
       'nrc': instance.nrc,
+      'nrc_type': instance.nrcType,
       'contact_number': instance.contactNumber,
       'email': instance.email,
     };
@@ -80,6 +82,7 @@ ResidentVO _$ResidentVOFromJson(Map<String, dynamic> json) => ResidentVO(
       race: json['race'] as String?,
       nationality: json['nationality'] as String?,
       nrc: json['nrc'] as String?,
+      nrcType: (json['nrc_type'] as num?)?.toInt(),
       contactNumber: json['contact_number'] as String?,
       relatedToOwner: json['related_to_owner'] as String?,
       id: json['_id'] as String?,
@@ -93,6 +96,7 @@ Map<String, dynamic> _$ResidentVOToJson(ResidentVO instance) =>
       'race': instance.race,
       'nationality': instance.nationality,
       'nrc': instance.nrc,
+      'nrc_type': instance.nrcType,
       'contact_number': instance.contactNumber,
       'related_to_owner': instance.relatedToOwner,
       '_id': instance.id,

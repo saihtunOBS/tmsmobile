@@ -101,14 +101,21 @@ class _LoginPageState extends State<LoginPage> {
                       title: kPhoneNumberLabel,
                       icon: Icon(CupertinoIcons.phone),
                       controller: _phoneController,
+                      onTap: (){},
                       isNumber: true),
-                  _buildTextField(
-                      title: kPasswordLabel,
-                      icon: Icon(CupertinoIcons.lock),
-                      controller: _passwordController),
+                  Consumer<LogInBloc>(
+                    builder: (context, bloc, child) => _buildTextField(
+                        title: kPasswordLabel,
+                        onTap: bloc.onTapShowPassword,
+                        icon: bloc.showPassword == true
+                            ? Icon(CupertinoIcons.eye)
+                            : Icon(CupertinoIcons.eye_slash),
+                        obseure: !bloc.showPassword,
+                        controller: _passwordController),
+                  ),
 
                   ///forgot password
-                  if (isFirstTime == false)
+                  if (isFirstTime == true)
                     Padding(
                       padding: const EdgeInsets.only(right: kMargin24),
                       child: Row(
@@ -210,6 +217,8 @@ class _LoginPageState extends State<LoginPage> {
       {required String title,
       required Icon icon,
       required TextEditingController controller,
+      bool? obseure,
+      VoidCallback? onTap,
       bool? isNumber}) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: kMargin24),
@@ -235,6 +244,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Expanded(
                     child: TextField(
+                        obscureText: obseure ?? false,
                         keyboardType: isNumber == true
                             ? TextInputType.phone
                             : TextInputType.text,
@@ -248,7 +258,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
 
                 ///icon
-                icon
+                InkWell(onTap: () => onTap!(), child: icon)
               ],
             ),
           ),

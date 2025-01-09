@@ -22,8 +22,8 @@ class ContractInformationPage extends StatelessWidget {
           children: [
             _buildHeader(),
             ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
                 padding: EdgeInsets.symmetric(
                     vertical: kMarginMedium2, horizontal: kMarginMedium2 + 2),
                 itemCount: 3,
@@ -101,6 +101,8 @@ class ContractInformationPage extends StatelessWidget {
         child: ExpansionTile(
           showTrailingIcon: false,
           shape: Border(),
+          expansionAnimationStyle:
+              AnimationStyle(duration: Duration(milliseconds: 10)),
           collapsedShape: Border(),
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,7 +142,7 @@ class ContractInformationPage extends StatelessWidget {
                   _listItem(title: kRoomTypeLabel, value: 'value'),
                   _listItem(title: kRoomShopNameLabel, value: 'value'),
                   _listItem(title: kTotalAreaLabel, value: 'value'),
-                   5.vGap,
+                  5.vGap,
                   _buildParkingInformation(),
                 ],
               ),
@@ -163,6 +165,8 @@ class ContractInformationPage extends StatelessWidget {
           ),
         ),
         child: ExpansionTile(
+          expansionAnimationStyle:
+              AnimationStyle(duration: Duration(milliseconds: 10)),
           shape: Border(),
           collapsedShape: Border(),
           iconColor: kWhiteColor,

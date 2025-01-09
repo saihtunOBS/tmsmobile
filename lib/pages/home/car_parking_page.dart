@@ -101,6 +101,7 @@ class CarParkingPage extends StatelessWidget {
           showTrailingIcon: false,
           shape: Border(),
           collapsedShape: Border(),
+          expansionAnimationStyle: AnimationStyle(duration: Duration(milliseconds: 10)),
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -165,6 +166,7 @@ class CarParkingPage extends StatelessWidget {
         ),
         child: ExpansionTile(
           shape: Border(),
+          expansionAnimationStyle: AnimationStyle(duration: Duration(milliseconds: 10)),
           collapsedShape: Border(),
           iconColor: kWhiteColor,
           collapsedIconColor: kWhiteColor,

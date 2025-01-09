@@ -7,6 +7,9 @@ import 'package:tmsmobile/network/responses/complaint_response.dart';
 import 'package:tmsmobile/network/responses/household_response.dart';
 
 import 'requests/change_password_request.dart';
+import 'requests/household_owner_request.dart';
+import 'requests/household_registration_request.dart';
+import 'requests/household_resident_request.dart';
 import 'requests/login_request.dart';
 import 'responses/complaint_detail_response.dart';
 import 'responses/login_response.dart';
@@ -55,9 +58,28 @@ abstract class TmsApi {
     @Header(kHeaderAuthorization) String token,
   );
 
-
   @GET(kEndPointHouseHoldList)
   Future<HouseholdResponse> getHouseHoldList(
     @Header(kHeaderAuthorization) String token,
+  );
+
+  @POST(kEndPointHouseHoldCreate)
+  Future<void> createHouseHold(
+     @Header(kHeaderAuthorization) String token,
+     @Body() HouseholdRegistrationRequest request
+  );
+
+  @PATCH('$kEndPointHouseHoldUpdate/{id}')
+  Future<void> updateHouseHoldOwner(
+     @Header(kHeaderAuthorization) String token,
+     @Path() String id,
+     @Body() HouseholdOwnerRequest request
+  );
+
+  @PATCH('$kEndPointHouseHoldUpdate/{id}')
+  Future<void> updateHouseHoldResident(
+     @Header(kHeaderAuthorization) String token,
+     @Path() String id,
+     @Body() HouseholdResidentRequest request
   );
 }
