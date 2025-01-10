@@ -1,4 +1,5 @@
-import 'package:dio/dio.dart';
+import 'dart:io';
+
 import 'package:tmsmobile/data/vos/complaint_vo.dart';
 import 'package:tmsmobile/data/vos/household_vo.dart';
 import 'package:tmsmobile/data/vos/service_request_vo.dart';
@@ -12,6 +13,7 @@ import 'package:tmsmobile/network/requests/reset_password_request.dart';
 import '../requests/household_resident_request.dart';
 import '../requests/login_request.dart';
 import '../responses/login_response.dart';
+import '../responses/service_request_response.dart';
 
 abstract class TmsDataAgent {
   Future<LoginResponse> login(LoginRequest loginRequest);
@@ -25,6 +27,8 @@ abstract class TmsDataAgent {
       String token, String id, HouseholdResidentRequest request);
   Future<void> updateHouseHoldOwner(String token, String houseHoldId,
       String inforId, HouseholdOwnerRequest request);
+  Future<void> deleteHouseHold(String token, String houseHoldId,
+      String inforId);
   Future<void> updateHouseHoldResident(String token, String houseHoldId,
       String inforId, HouseholdResidentRequest request);
   Future resetPassword(String token, ResetPasswordRequest resetPasswordRequest);
@@ -32,6 +36,6 @@ abstract class TmsDataAgent {
   Future<List<ComplaintVO>> getComplaints(String token);
   Future<ComplaintVO> getComplaintDetails(String token, String id);
   Future<List<ServiceRequestVo>> getFillOuts(String token, int page, int limit);
-  Future<void> createFillOut(
-      String token,List<MultipartFile> files, String tenant, String shop, String description);
+  Future<ServiceRequestResponse> createFillOut(
+      String token,List<File> files, String tenant, String shop, String description);
 }

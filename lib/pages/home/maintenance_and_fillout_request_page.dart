@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -41,7 +43,8 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => MaintenanceBloc(tenant: widget.tenant),
+      create: (context) =>
+          MaintenanceBloc(tenant: widget.tenant, context: context),
       child: Material(
         child: InkWell(
           onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
@@ -105,11 +108,11 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                   child: Center(
                     child: gradientButton(
                         title: kSendRequestLabel,
-                        onPress: () async {
+                        onPress: () {
                           bloc.checkFillOutValidation();
                           bloc.filloutValidationMessage == 'success'
-                              ? await bloc.onTapSendRequest()
-                              : await showCommonDialog(
+                              ? bloc.onTapSendRequest()
+                              : showCommonDialog(
                                   context: context,
                                   dialogWidget: ErrorDialogView(
                                       errorMessage:

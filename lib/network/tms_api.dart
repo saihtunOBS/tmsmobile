@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:tmsmobile/network/api_constants.dart';
@@ -98,12 +100,12 @@ abstract class TmsApi {
     @Query("limit") int limit,
   );
 
-  @POST(kEndPointCreateFillOut)
   @MultiPart()
+  @POST(kEndPointCreateFillOut)
   Future<ServiceRequestResponse> createFillOut(
       @Header(kHeaderAuthorization) String token,
-      @Part(name: kFieldPhoto) List<MultipartFile> files,
-      @Field() String tenant,
-      @Field() String shop,
-      @Field() String description);
+      @Part() List<File> photo,
+      @Part() String tenant,
+      @Part() String shop,
+      @Part() String description);
 }

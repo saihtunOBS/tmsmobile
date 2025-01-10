@@ -66,31 +66,36 @@ class _EditResidentPageState extends State<EditResidentPage> {
               ),
 
               ///appbar
-              Positioned(
-                  top: 0,
-                  child: ProfileAppbar(
-                    title: kEditLabel,
-                    action: Padding(
-                      padding: const EdgeInsets.only(right: kMargin24),
-                      child: Row(
-                        spacing: kMargin5,
-                        children: [
-                          Image.asset(
-                            kEditIcon,
-                            width: kSize28,
-                            height: kSize28,
-                            fit: BoxFit.fill,
-                          ),
-                          Image.asset(
-                            kDeleteIcon,
-                            width: kSize28,
-                            height: kSize28,
-                            fit: BoxFit.fill,
-                          ),
-                        ],
+              Consumer<EditResidentBloc>(
+                builder: (context, bloc, child) => Positioned(
+                    top: 0,
+                    child: ProfileAppbar(
+                      title: kEditLabel,
+                      action: Padding(
+                        padding: const EdgeInsets.only(right: kMargin24),
+                        child: Row(
+                          spacing: kMargin5,
+                          children: [
+                            Image.asset(
+                              kEditIcon,
+                              width: kSize28,
+                              height: kSize28,
+                              fit: BoxFit.fill,
+                            ),
+                            InkWell(
+                              onTap: () => bloc.onTapDelete().then((_)=> Navigator.of(context).pop()),
+                              child: Image.asset(
+                                kDeleteIcon,
+                                width: kSize28,
+                                height: kSize28,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  )),
+                    )),
+              ),
 
               ///loading
               if (loading == true)

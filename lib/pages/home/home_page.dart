@@ -179,7 +179,7 @@ class HomePage extends StatelessWidget {
                   Platform.isAndroid ? kSize64.vGap : kSize80.vGap,
                   SizedBox(
                     height: Platform.isAndroid
-                        ? MediaQuery.of(context).size.height / 4.7
+                        ? MediaQuery.of(context).size.height / 4.5
                         : MediaQuery.of(context).size.height / 4.9,
                     width: double.infinity,
                     child: CarouselSlider(

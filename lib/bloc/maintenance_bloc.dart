@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tmsmobile/data/model/tms_model.dart';
@@ -18,22 +17,26 @@ class MaintenanceBloc extends ChangeNotifier {
   String? filloutValidationMessage;
   bool isLoading = false;
   bool isDisposed = false;
+  BuildContext? context;
 
   final TmsModel _tmsModel = TmsModelImpl();
 
-  MaintenanceBloc({this.tenant}) {
+  MaintenanceBloc({this.tenant,this.context}) {
     token = PersistenceData.shared.getToken();
   }
 
-  onTapSendRequest() async {
+ Future onTapSendRequest() async {
     _showLoading();
-    List<MultipartFile> files = await Future.wait(imageArray
-        .map((photo) async => await MultipartFile.fromFile(photo.path))
-        .toList());
-    _tmsModel
+    List<File> files = imageArray
+        .map((photo)  =>  File(photo.path))
+        .toList();
+   return _tmsModel
         .createFillOut(token ?? '', files, tenant?.id ?? '',
             selectedRoomShopName?.id ?? '', description ?? '')
-        .whenComplete(() => _hideLoading());
+        .whenComplete(() {
+          _hideLoading();
+          Navigator.pop(context!);
+        } );
   }
 
   void selectImage() async {

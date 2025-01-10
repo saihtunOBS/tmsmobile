@@ -1,4 +1,5 @@
-import 'package:dio/dio.dart';
+import 'dart:io';
+
 import 'package:tmsmobile/data/model/tms_model.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/data/vos/complaint_vo.dart';
@@ -17,6 +18,7 @@ import 'package:tmsmobile/network/requests/reset_password_request.dart';
 import 'package:tmsmobile/network/responses/login_response.dart';
 
 import '../../network/data_agents/retrofit_data_agent_impl.dart';
+import '../../network/responses/service_request_response.dart';
 
 class TmsModelImpl extends TmsModel {
   static final TmsModelImpl _singleton = TmsModelImpl._internal();
@@ -112,7 +114,7 @@ class TmsModelImpl extends TmsModel {
   }
 
   @override
-  Future<void> createFillOut(String token, List<MultipartFile> files,
+  Future<ServiceRequestResponse> createFillOut(String token, List<File> files,
       String tenant, String shop, String description) {
     return tmsDataAgent.createFillOut(token, files, tenant, shop, description);
   }
@@ -121,5 +123,11 @@ class TmsModelImpl extends TmsModel {
   Future<List<ServiceRequestVo>> getFillOuts(
       String token, int page, int limit) {
     return tmsDataAgent.getFillOuts(token, page, 10);
+  }
+
+  @override
+  Future<void> deleteHouseHold(
+      String token, String houseHoldId, String inforId) {
+    return tmsDataAgent.deleteHouseHold(token, houseHoldId, inforId);
   }
 }

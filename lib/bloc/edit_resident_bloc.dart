@@ -108,6 +108,13 @@ class EditResidentBloc extends ChangeNotifier {
     }
   }
 
+  Future onTapDelete() {
+    _showLoading();
+    return _tmsModel
+        .deleteHouseHold(token, houseHoldId ?? '', houseHoldVO?.id ?? '')
+        .whenComplete(() => _hideLoading());
+  }
+
   _showLoading() {
     isLoading = true;
     _notifySafely();

@@ -520,7 +520,7 @@ class _TmsApi implements TmsApi {
   @override
   Future<ServiceRequestResponse> createFillOut(
     String token,
-    List<MultipartFile> files,
+    List<File> photo,
     String tenant,
     String shop,
     String description,
@@ -529,11 +529,25 @@ class _TmsApi implements TmsApi {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
-    final _data = {
-      'tenant': tenant,
-      'shop': shop,
-      'description': description,
-    };
+    final _data = FormData();
+    _data.files.addAll(photo.map((i) => MapEntry(
+        'photo',
+        MultipartFile.fromFileSync(
+          i.path,
+          filename: i.path.split(Platform.pathSeparator).last,
+        ))));
+    _data.fields.add(MapEntry(
+      'tenant',
+      tenant,
+    ));
+    _data.fields.add(MapEntry(
+      'shop',
+      shop,
+    ));
+    _data.fields.add(MapEntry(
+      'description',
+      description,
+    ));
     final _options = _setStreamType<ServiceRequestResponse>(Options(
       method: 'POST',
       headers: _headers,

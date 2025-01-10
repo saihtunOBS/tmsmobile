@@ -7,6 +7,8 @@ import 'package:tmsmobile/utils/strings.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class FillOutProcessPage extends StatefulWidget {
   const FillOutProcessPage({super.key, this.status});
@@ -33,7 +35,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
       appBar: PreferredSize(
           preferredSize: Size(double.infinity, kMargin60),
           child: GradientAppBar(
-            kMaintenanceProcessLabel,
+            AppLocalizations.of(context)?.kFillOutProcessLabel ?? '',
           )),
       body: _buildSetpper(),
     );

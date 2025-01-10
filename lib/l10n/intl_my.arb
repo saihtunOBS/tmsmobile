@@ -215,6 +215,7 @@
      "kEmptyComplaintLabel": "No Complaints.",
      "kThereIsNoComplaintLabel": "There is no complaints to show.",
      "kEmergencyLabel" : "အရေးပေါ်ဖုန်းနံပါတ်",
-     "kResidentInformationLabel": "Resident Information"
+     "kResidentInformationLabel": "Resident Information",
+     "kFillOutProcessLabel": "Fill Out Process"
 
     }

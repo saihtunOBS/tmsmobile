@@ -135,7 +135,7 @@ class ServiceRequestListItem extends StatelessWidget {
       case 0:
         return kBlackColor;
       case 1:
-        return kOrangeColor;
+        return kBlackColor;
       case 2:
         return kGreenColor;
       case 3:

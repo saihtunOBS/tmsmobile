@@ -10,6 +10,9 @@ class ServiceRequestVo {
   final Tenant? tenant;
   final Shop? shop;
 
+  @JsonKey(name: 'status')
+  final int? status;
+
   final List<String>? photos;
 
   @JsonKey(name: "business_unit")
@@ -28,6 +31,7 @@ class ServiceRequestVo {
     this.id,
     this.tenant,
     this.shop,
+    this.status,
     this.photos,
     this.businessUnit,
     this.createdAt,

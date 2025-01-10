@@ -11,6 +11,7 @@ import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/images.dart';
 import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
+import 'package:tmsmobile/widgets/empty_view.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
 
 import '../../utils/dimens.dart';
@@ -166,24 +167,29 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
           ///loading
           LoadingView(
               indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor)
-          : ListView.builder(
-              padding: EdgeInsets.symmetric(
-                  vertical: kMargin24, horizontal: kMarginMedium2),
-              itemCount: bloc.fillOutLists.length,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () => PageNavigator(ctx: context).nextPage(
-                      page: FillOutProcessPage(
-                    status: kApprovedLabel,
-                  )),
-                  child: ServiceRequestListItem(
-                    statusColor: 0,
-                    status: 'Pending',
-                    isFillOut: true,
-                    data: bloc.fillOutLists[index],
-                  ),
-                );
-              }),
+          : bloc.fillOutLists.isEmpty
+              ? EmptyView(
+                  imagePath: kNoServiceRequestImage,
+                  title: kNoServiceRequestLabel,
+                  subTitle: kThereisNoServiceRequestLabel)
+              : ListView.builder(
+                  padding: EdgeInsets.symmetric(
+                      vertical: kMargin24, horizontal: kMarginMedium2),
+                  itemCount: bloc.fillOutLists.length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () => PageNavigator(ctx: context).nextPage(
+                          page: FillOutProcessPage(
+                        status: kApprovedLabel,
+                      )),
+                      child: ServiceRequestListItem(
+                        statusColor: bloc.fillOutLists[index].status ?? 0,
+                        status: 'Pending',
+                        isFillOut: true,
+                        data: bloc.fillOutLists[index],
+                      ),
+                    );
+                  }),
     );
   }
 }

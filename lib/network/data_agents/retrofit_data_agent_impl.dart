@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:tmsmobile/data/vos/complaint_vo.dart';
@@ -18,6 +19,7 @@ import 'package:tmsmobile/network/tms_api.dart';
 import '../../data/vos/error_vo.dart';
 import '../../exception/custom_exception.dart';
 import '../requests/household_resident_request.dart';
+import '../responses/service_request_response.dart';
 
 class RetrofitDataAgentImpl extends TmsDataAgent {
   late TmsApi tmsApi;
@@ -214,10 +216,23 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
   }
 
   @override
-  Future<void> createFillOut(String token, List<MultipartFile> files,
+  Future<ServiceRequestResponse> createFillOut(String token, List<File> files,
       String tenant, String shop, String description) {
     return tmsApi
         .createFillOut('Bearer $token', files, tenant, shop, description)
+        .asStream()
+        .map((response) => response)
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<void> deleteHouseHold(
+      String token, String houseHoldId, String inforId) {
+    return tmsApi
+        .deleteHouseHold('Bearer $token', houseHoldId, inforId)
         .asStream()
         .map((response) => response)
         .first

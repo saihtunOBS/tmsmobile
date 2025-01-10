@@ -15,6 +15,7 @@ ServiceRequestVo _$ServiceRequestVoFromJson(Map<String, dynamic> json) =>
       shop: json['shop'] == null
           ? null
           : Shop.fromJson(json['shop'] as Map<String, dynamic>),
+      status: (json['status'] as num?)?.toInt(),
       photos:
           (json['photos'] as List<dynamic>?)?.map((e) => e as String).toList(),
       businessUnit: json['business_unit'] as String?,
@@ -32,6 +33,7 @@ Map<String, dynamic> _$ServiceRequestVoToJson(ServiceRequestVo instance) =>
       '_id': instance.id,
       'tenant': instance.tenant,
       'shop': instance.shop,
+      'status': instance.status,
       'photos': instance.photos,
       'business_unit': instance.businessUnit,
       'createdAt': instance.createdAt?.toIso8601String(),
