@@ -74,7 +74,7 @@ class EditResidentBloc extends ChangeNotifier {
               ? editNrcNumber == null
                   ? 2
                   : 1
-              : 2,
+              : passportController.text.isEmpty ? 1 : 2,
           contactNumber: contactController.text.trim(),
           email: emailAddressController.text.trim());
 
@@ -97,7 +97,7 @@ class EditResidentBloc extends ChangeNotifier {
               ? editNrcNumber == null
                   ? 2
                   : 1
-              : 2,
+              : passportController.text.isEmpty ? 1 : 2,
           contactNumber: contactController.text.trim(),
           relatedToOwner: relatedToController.text.trim());
 

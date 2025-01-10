@@ -33,7 +33,9 @@ class AuthBloc extends ChangeNotifier {
         oldPassword: oldPassword,
         newPassword: newPassword,
         confirmPassword: newPassword);
-    return _tmsModel.changePassword(request).whenComplete(() => _hideLoading());
+    return _tmsModel
+        .changePassword(token, request)
+        .whenComplete(() => _hideLoading());
   }
 
   Future onTapResetPassword(

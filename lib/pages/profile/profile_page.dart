@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/profile_bloc.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
@@ -24,6 +25,7 @@ import 'package:tmsmobile/widgets/common_dialog.dart';
 import 'package:tmsmobile/widgets/error_dialog_view.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/widgets/loading_view.dart';
 
 import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
@@ -37,29 +39,59 @@ class ProfilePage extends StatelessWidget {
       create: (context) => ProfileBloc(),
       child: Scaffold(
         backgroundColor: kBackgroundColor,
-        body: Stack(
-          clipBehavior: Clip.none,
-          alignment: Alignment.topCenter,
-          fit: StackFit.expand,
-          children: [
-            SizedBox(
-              height: double.infinity,
-              width: double.infinity,
-              child: Image.asset(
-                kBillingBackgroundImage,
-                fit: BoxFit.fill,
+        body: Consumer<ProfileBloc>(
+          builder: (context, bloc, child) => Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.topCenter,
+            fit: StackFit.expand,
+            children: [
+              SizedBox(
+                height: double.infinity,
+                width: double.infinity,
+                child: Image.asset(
+                  kBillingBackgroundImage,
+                  fit: BoxFit.fill,
+                ),
               ),
-            ),
-            Positioned(
-                top: 0,
-                child: ProfileAppbar(
-                  isProfile: true,
-                )),
-            Padding(
-              padding: EdgeInsets.only(top: kMargin60),
-              child: _buildHeader(context),
-            ),
-          ],
+              Positioned(
+                  top: 0,
+                  child: ProfileAppbar(
+                    isProfile: true,
+                  )),
+              Padding(
+                padding: EdgeInsets.only(top: kMargin60),
+                child: SingleChildScrollView(
+                  physics: ClampingScrollPhysics(),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      spacing: kMarginMedium,
+                      children: [
+                        _buildHeader(context),
+                        _buildSetting(context,bloc),
+
+                        ///logout button
+                        gradientButton(
+                            onPress: () {
+                              showModalBottomSheet(
+                                  elevation: 0,
+                                  context: context,
+                                  builder: (_) => _buildLogoutBottomSheet(
+                                      context: context, bloc: bloc));
+                            },
+                            isLogout: true,
+                            title: kLogoutLabel),
+                        kMargin110.vGap
+                      ]),
+                ),
+              ),
+
+              ///loading
+              if (bloc.isLoading == true)
+                LoadingView(
+                    indicator: Indicator.ballBeat,
+                    indicatorColor: kPrimaryColor)
+            ],
+          ),
         ),
       ),
     );
@@ -68,87 +100,69 @@ class ProfilePage extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {
     return Selector<ProfileBloc, UserVO?>(
       selector: (_, bloc) => bloc.userData,
-      builder: (context, userData, child) => SingleChildScrollView(
-        physics: ClampingScrollPhysics(),
-        child: Column(
-          spacing: kMarginMedium,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
+      builder: (context, userData, child) => Column(
+        spacing: kMarginMedium,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            height: kSize100,
+            width: kSize100,
+            padding: EdgeInsets.all(kMargin5 - 1),
+            decoration: BoxDecoration(
+              color: kWhiteColor,
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                colors: [kPrimaryColor, kThirdColor],
+                stops: [0.0, 1.0],
+              ),
+            ),
+            child: Container(
               height: kSize100,
+              decoration:
+                  BoxDecoration(color: kWhiteColor, shape: BoxShape.circle),
               width: kSize100,
-              padding: EdgeInsets.all(kMargin5 - 1),
+              child: ClipOval(child: cacheImage('')),
+            ),
+          ),
+          Text(
+            userData?.tenantName ?? '****',
+            style: TextStyle(
+                fontFamily: AppData.shared.fontFamily2,
+                fontSize: kTextRegular24,
+                fontWeight: FontWeight.w600),
+          ),
+          Text(
+            userData?.phoneNumber?.replaceRange(3, 8, '*****') ?? '****',
+          ),
+          InkWell(
+            onTap: () => PageNavigator(ctx: context).nextPage(
+                page: ChangeProfilePage(
+              userData: userData ?? UserVO(),
+            )),
+            child: Container(
+              height: kSize28,
+              width: kSize110,
+              padding: EdgeInsets.symmetric(horizontal: kMargin10),
               decoration: BoxDecoration(
-                color: kWhiteColor,
-                shape: BoxShape.circle,
-                gradient: LinearGradient(
-                  colors: [kPrimaryColor, kThirdColor],
-                  stops: [0.0, 1.0],
-                ),
-              ),
-              child: Container(
-                height: kSize100,
-                decoration:
-                    BoxDecoration(color: kWhiteColor, shape: BoxShape.circle),
-                width: kSize100,
-                child: ClipOval(child: cacheImage('')),
-              ),
-            ),
-            Text(
-              userData?.tenantName ?? '****',
-              style: TextStyle(
-                  fontFamily: AppData.shared.fontFamily2,
-                  fontSize: kTextRegular24,
-                  fontWeight: FontWeight.w600),
-            ),
-            Text(
-              userData?.phoneNumber?.replaceRange(3, 8, '*****') ?? '****',
-            ),
-            InkWell(
-              onTap: () => PageNavigator(ctx: context).nextPage(
-                  page: ChangeProfilePage(
-                userData: userData ?? UserVO(),
-              )),
-              child: Container(
-                height: kSize28,
-                width: kSize110,
-                padding: EdgeInsets.symmetric(horizontal: kMargin10),
-                decoration: BoxDecoration(
-                    color: kPrimaryColor.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(kMarginMedium2)),
-                child: Center(
-                  child: Text(
-                    kViewProfileLabel,
-                    style: TextStyle(
-                        fontSize: kTextRegular13,
-                        color: kPrimaryColor,
-                        fontWeight: FontWeight.w600),
-                  ),
+                  color: kPrimaryColor.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(kMarginMedium2)),
+              child: Center(
+                child: Text(
+                  kViewProfileLabel,
+                  style: TextStyle(
+                      fontSize: kTextRegular13,
+                      color: kPrimaryColor,
+                      fontWeight: FontWeight.w600),
                 ),
               ),
             ),
-            _buildSetting(context),
-
-            ///logout button
-            gradientButton(
-                onPress: () {
-                  showModalBottomSheet(
-                      elevation: 0,
-                      context: context,
-                      builder: (_) => _buildLogoutBottomSheet(
-                            context: context,
-                          ));
-                },
-                isLogout: true,
-                title: kLogoutLabel),
-            kMargin110.vGap
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildSetting(BuildContext context) {
+  Widget _buildSetting(BuildContext context,ProfileBloc bloc) {
     final List<String> settings = [
       AppLocalizations.of(context)?.kChangePasswordLabel ?? '',
       AppLocalizations.of(context)?.kEmergencyContactLabel ?? '',
@@ -192,8 +206,8 @@ class ProfilePage extends StatelessWidget {
                     case 5:
                       showModalBottomSheet(
                           context: context,
-                          builder: (_) =>
-                              _buildLogoutBottomSheet(isDeleteAccount: true));
+                          builder: (_) => _buildLogoutBottomSheet(
+                              isDeleteAccount: true, context: context,bloc: bloc));
                     case 0:
                       PageNavigator(ctx: context)
                           .nextPage(page: AccountChangePasswordPage());
@@ -254,94 +268,94 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildLogoutBottomSheet(
-      {bool? isDeleteAccount, BuildContext? context}) {
-    return Consumer<ProfileBloc>(
-      builder: (context, bloc, child) => Container(
-        height: 233,
-        width: double.infinity,
-        decoration: BoxDecoration(
-            color: kWhiteColor,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(kMargin40),
-                topRight: Radius.circular(kMargin40))),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(
-              isDeleteAccount == true ? kDeleteAccountIcon : kLogoutIcon,
-              width: kMargin52 + 2,
-              height: kMargin52 + 2,
-            ),
-            kMarginMedium.vGap,
-            Text(
+  Widget _buildLogoutBottomSheet({
+    bool? isDeleteAccount,
+    ProfileBloc? bloc,
+    BuildContext? context,
+  }) {
+    return Container(
+      height: 233,
+      width: double.infinity,
+      decoration: BoxDecoration(
+          color: kWhiteColor,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(kMargin40),
+              topRight: Radius.circular(kMargin40))),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset(
+            isDeleteAccount == true ? kDeleteAccountIcon : kLogoutIcon,
+            width: kMargin52 + 2,
+            height: kMargin52 + 2,
+          ),
+          kMarginMedium.vGap,
+          Text(
+            isDeleteAccount == true ? kDeleteAccountLabel : kConfirmLogoutLabel,
+            style: TextStyle(
+                fontSize: kTextRegular3x,
+                fontWeight: FontWeight.w600,
+                color: kPrimaryColor),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kMargin24),
+            child: Text(
               isDeleteAccount == true
-                  ? kDeleteAccountLabel
-                  : kConfirmLogoutLabel,
-              style: TextStyle(
-                  fontSize: kTextRegular3x,
-                  fontWeight: FontWeight.w600,
-                  color: kPrimaryColor),
+                  ? kAreYouSureDeleteAccountLabel
+                  : kAreYouSureLogoutLabel,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: kTextRegular2x),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kMargin24),
-              child: Text(
-                isDeleteAccount == true
-                    ? kAreYouSureDeleteAccountLabel
-                    : kAreYouSureLogoutLabel,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: kTextRegular2x),
+          ),
+          kMarginMedium2.vGap,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                height: 38,
+                width: 98,
+                decoration: BoxDecoration(
+                    color: kGreyColor.withValues(alpha: 0.5),
+                    borderRadius: BorderRadius.circular(kMargin6)),
+                child: Center(
+                  child: Text(kCancelLabel),
+                ),
               ),
-            ),
-            kMarginMedium2.vGap,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
+              InkWell(
+                onTap: () {
+                  if (isDeleteAccount == true) {
+                    bloc?.onTapDelete()
+                      .then((_) => PageNavigator(ctx: context)
+                          .nextPageOnly(page: LoginPage()))
+                      .catchError((error) {
+                      showCommonDialog(
+                          context: context!,
+                          dialogWidget: ErrorDialogView(
+                              errorMessage: error.toString()));
+                    });
+                  } else {
+                    PersistenceData.shared.clearToken();
+                    PageNavigator(ctx: context).nextPageOnly(page: LoginPage());
+                  }
+                },
+                child: Container(
                   height: 38,
                   width: 98,
                   decoration: BoxDecoration(
-                      color: kGreyColor.withValues(alpha: 0.5),
+                      color: kPrimaryColor,
                       borderRadius: BorderRadius.circular(kMargin6)),
                   child: Center(
-                    child: Text(kCancelLabel),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    isDeleteAccount == true
-                        ? bloc
-                            .onTapDelete()
-                            .then((_) => PageNavigator(ctx: context)
-                                .nextPageOnly(page: LoginPage()))
-                            .catchError((error) {
-                            showCommonDialog(
-                                context: context,
-                                dialogWidget: ErrorDialogView(
-                                    errorMessage: error.toString()));
-                          })
-                        : PersistenceData.shared.clearToken();
-                    PageNavigator(ctx: context).nextPageOnly(page: LoginPage());
-                  },
-                  child: Container(
-                    height: 38,
-                    width: 98,
-                    decoration: BoxDecoration(
-                        color: kPrimaryColor,
-                        borderRadius: BorderRadius.circular(kMargin6)),
-                    child: Center(
-                      child: Text(
-                        kOkLabel,
-                        style: TextStyle(color: kWhiteColor),
-                      ),
+                    child: Text(
+                      kOkLabel,
+                      style: TextStyle(color: kWhiteColor),
                     ),
                   ),
-                )
-              ],
-            )
-          ],
-        ),
+                ),
+              )
+            ],
+          )
+        ],
       ),
     );
   }

@@ -47,8 +47,8 @@ class TmsModelImpl extends TmsModel {
   }
 
   @override
-  Future changePassword(ChangePasswordRequest changePasswordRequest) {
-    return tmsDataAgent.changePassword(changePasswordRequest);
+  Future changePassword(String token,ChangePasswordRequest changePasswordRequest) {
+    return tmsDataAgent.changePassword(token,changePasswordRequest);
   }
 
   @override

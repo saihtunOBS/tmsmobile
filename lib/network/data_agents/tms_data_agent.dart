@@ -17,7 +17,7 @@ import '../responses/service_request_response.dart';
 
 abstract class TmsDataAgent {
   Future<LoginResponse> login(LoginRequest loginRequest);
-  Future changePassword(ChangePasswordRequest changePasswordRequest);
+  Future changePassword(String token,ChangePasswordRequest changePasswordRequest);
   Future<void> deleteUser(String token);
   Future<UserVO> getUser(String token);
   Future<List<HouseHoldVO>> getHouseHoldList(String token);
@@ -27,8 +27,8 @@ abstract class TmsDataAgent {
       String token, String id, HouseholdResidentRequest request);
   Future<void> updateHouseHoldOwner(String token, String houseHoldId,
       String inforId, HouseholdOwnerRequest request);
-  Future<void> deleteHouseHold(String token, String houseHoldId,
-      String inforId);
+  Future<void> deleteHouseHold(
+      String token, String houseHoldId, String inforId);
   Future<void> updateHouseHoldResident(String token, String houseHoldId,
       String inforId, HouseholdResidentRequest request);
   Future resetPassword(String token, ResetPasswordRequest resetPasswordRequest);
@@ -36,6 +36,6 @@ abstract class TmsDataAgent {
   Future<List<ComplaintVO>> getComplaints(String token);
   Future<ComplaintVO> getComplaintDetails(String token, String id);
   Future<List<ServiceRequestVo>> getFillOuts(String token, int page, int limit);
-  Future<ServiceRequestResponse> createFillOut(
-      String token,List<File> files, String tenant, String shop, String description);
+  Future<ServiceRequestResponse> createFillOut(String token, List<File> files,
+      String tenant, String shop, String description);
 }

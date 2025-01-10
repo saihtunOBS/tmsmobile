@@ -48,15 +48,14 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
         })
         .first
         .catchError((error) {
-          print('your error.....$error');
           throw _createException(error);
         });
   }
 
   @override
-  Future changePassword(ChangePasswordRequest changePasswordRequest) {
+  Future changePassword(String token,ChangePasswordRequest changePasswordRequest) {
     return tmsApi
-        .changePassword(changePasswordRequest)
+        .changePassword('Bearer $token',changePasswordRequest)
         .asStream()
         .map((response) => response)
         .first

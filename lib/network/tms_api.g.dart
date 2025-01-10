@@ -59,10 +59,13 @@ class _TmsApi implements TmsApi {
 
   @override
   Future<LoginResponse> changePassword(
-      ChangePasswordRequest changePasswordRequest) async {
+    String token,
+    ChangePasswordRequest changePasswordRequest,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(changePasswordRequest.toJson());
     final _options = _setStreamType<LoginResponse>(Options(

@@ -16,7 +16,7 @@ import '../vos/service_request_vo.dart';
 
 abstract class TmsModel {
   Future<LoginResponse> login(LoginRequest loginRequest);
-  Future changePassword(ChangePasswordRequest changePasswordRequest);
+  Future changePassword(String token,ChangePasswordRequest changePasswordRequest);
   Future<void> deleteUser(String token);
   Future<UserVO> getUser(String token);
   Future<List<HouseHoldVO>> getHouseHoldList(String token);

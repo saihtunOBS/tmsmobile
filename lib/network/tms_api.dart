@@ -29,6 +29,7 @@ abstract class TmsApi {
 
   @POST(kEndPointChangePassword)
   Future<LoginResponse> changePassword(
+      @Header(kHeaderAuthorization) String token,
       @Body() ChangePasswordRequest changePasswordRequest);
 
   @POST(kEndPointResetPassword)
