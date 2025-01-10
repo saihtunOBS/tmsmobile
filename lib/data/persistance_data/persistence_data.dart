@@ -50,4 +50,9 @@ class PersistenceData {
   getLocale() {
     return GetStorage().read(PersistenceList.locale.name);
   }
+
+  clearToken(){
+    GetStorage().remove(PersistenceList.token.name);
+  }
+
 }

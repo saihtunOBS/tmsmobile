@@ -46,7 +46,6 @@ class AuthBloc extends ChangeNotifier {
   }
 
   onTapOldPassword() {
-    print('hello welcome');
     showOldPassword = !showOldPassword;
     _notifySafely();
   }

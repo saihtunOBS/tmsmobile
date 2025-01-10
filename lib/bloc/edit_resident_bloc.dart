@@ -1,6 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tmsmobile/data/vos/household_vo.dart';
+import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
+import 'package:tmsmobile/network/requests/household_owner_request.dart';
+import 'package:tmsmobile/network/requests/household_registration_request.dart';
+import 'package:tmsmobile/network/requests/household_resident_request.dart';
+import 'package:tmsmobile/utils/date_formatter.dart';
+
+import '../data/model/tms_model.dart';
+import '../data/model/tms_model_impl.dart';
 
 String? editNrcNumber;
 
@@ -12,13 +19,32 @@ class EditResidentBloc extends ChangeNotifier {
   bool isValidate = false;
   String validationMessage = '';
   String? type;
-
+  String? nrcType = '';
+  String? responseNrc;
   bool isLoading = false;
   bool isDisposed = false;
-  HouseHoldVO? houseHoldVO;
+  HouseHoldInformation? houseHoldVO;
+  var token = '';
+  String? houseHoldId;
 
-  EditResidentBloc({this.context, this.houseHoldVO}) {
+  EditResidentBloc({this.context, this.houseHoldVO, this.houseHoldId}) {
+    token = PersistenceData.shared.getToken();
     editNrcNumber = null;
+    responseNrc = houseHoldVO?.nrc;
+    type = houseHoldVO?.type == 1 ? 'Owner' : 'Resident';
+    nrcType = houseHoldVO?.nrcType == 1 ? 'Citizen' : 'Foreigner';
+    gender = houseHoldVO?.gender;
+    nameController.text = houseHoldVO?.name ?? '';
+    selectedDate = houseHoldVO?.dateOfBirth ?? DateTime.now();
+
+    raceController.text = houseHoldVO?.race ?? '';
+    nationalityController.text = houseHoldVO?.nationality ?? '';
+    contactController.text = houseHoldVO?.contactNumber ?? '';
+    relatedToController.text = houseHoldVO?.relatedToOwner ?? '';
+    emailAddressController.text = houseHoldVO?.email ?? '';
+    if (houseHoldVO?.nrcType == 2) {
+      passportController.text = houseHoldVO?.nrc ?? '';
+    }
   }
 
   var nameController = TextEditingController();
@@ -27,30 +53,85 @@ class EditResidentBloc extends ChangeNotifier {
   var contactController = TextEditingController();
   var relatedToController = TextEditingController();
   var emailAddressController = TextEditingController();
+  var passportController = TextEditingController();
 
-  setUpFormValue(){
+  final TmsModel _tmsModel = TmsModelImpl();
+
+  Future onTapSubmit() {
+    _showLoading();
+    if (type == 'Owner') {
+      var request = HouseholdOwnerRequest(
+          type: 1,
+          name: nameController.text.trim(),
+          gender: gender,
+          dateOfBirth: DateFormatter.formatDate(selectedDate),
+          race: raceController.text.trim(),
+          nationality: nationalityController.text.trim(),
+          nrc: nrcType == 'Citizen'
+              ? editNrcNumber ?? responseNrc
+              : passportController.text.trim(),
+          nrcType: nrcType == 'Citizen'
+              ? editNrcNumber == null
+                  ? 2
+                  : 1
+              : 2,
+          contactNumber: contactController.text.trim(),
+          email: emailAddressController.text.trim());
+
+      return _tmsModel
+          .updateHouseHoldOwner(
+              token, houseHoldId ?? '', houseHoldVO?.id ?? '', request)
+          .whenComplete(() => _hideLoading());
+    } else {
+      var request = HouseholdResidentRequest(
+          type: 2,
+          name: nameController.text.trim(),
+          gender: gender,
+          dateOfBirth: DateFormatter.formatDate(selectedDate),
+          race: raceController.text.trim(),
+          nationality: nationalityController.text.trim(),
+          nrc: nrcType == 'Citizen'
+              ? editNrcNumber ?? responseNrc
+              : passportController.text.trim(),
+          nrcType: nrcType == 'Citizen'
+              ? editNrcNumber == null
+                  ? 2
+                  : 1
+              : 2,
+          contactNumber: contactController.text.trim(),
+          relatedToOwner: relatedToController.text.trim());
+
+      return _tmsModel
+          .updateHouseHoldResident(
+              token, houseHoldId ?? '', houseHoldVO?.id ?? '', request)
+          .whenComplete(() => _hideLoading());
+    }
+  }
+
+  _showLoading() {
+    isLoading = true;
+    _notifySafely();
+  }
+
+  _hideLoading() {
+    isLoading = false;
+    _notifySafely();
+  }
+
+  void _notifySafely() {
+    if (!isDisposed) {
+      notifyListeners();
+    }
+  }
+
+  void onChangedNrctype(String nrc) {
+    nrcType = nrc;
     notifyListeners();
   }
-  // _showLoading() {
-  //   isLoading = true;
-  //   _notifySafely();
-  // }
 
-  // _hideLoading() {
-  //   isLoading = false;
-  //   _notifySafely();
-  // }
-
-  // void _notifySafely() {
-  //   if (!isDisposed) {
-  //     notifyListeners();
-  //   }
-  // }
-
-  void onChangedNrc(String nrc) {
+  void onChangedEditNrc(String nrc) {
     editNrcNumber = nrc;
     debugPrint("NewNrcNumner>>>>>>>>>>>>$editNrcNumber");
-    notifyListeners();
   }
 
   void onChangeGender(String value) {
@@ -74,10 +155,10 @@ class EditResidentBloc extends ChangeNotifier {
       validationMessage = 'Race is required!';
     } else if (nationalityController.text.isEmpty) {
       validationMessage = 'Nationality is required!';
-    } 
+    }
     // else if (editNrcNumber == null) {
     //   validationMessage = 'NRC is required!';
-    // } 
+    // }
     else if (contactController.text.isEmpty) {
       validationMessage = 'Contact Number is required!';
     } else {

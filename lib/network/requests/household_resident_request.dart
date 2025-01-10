@@ -7,8 +7,8 @@ class HouseholdResidentRequest {
   @JsonKey(name: "type")
   final int? type;
 
-  @JsonKey(name: "resident_name")
-  final String? ownerName;
+  @JsonKey(name: "name")
+  final String? name;
 
   @JsonKey(name: "gender")
   final String? gender; // Male or Female
@@ -36,7 +36,7 @@ class HouseholdResidentRequest {
 
   HouseholdResidentRequest({
     this.type,
-    this.ownerName,
+    this.name,
     this.gender,
     this.dateOfBirth,
     this.race,

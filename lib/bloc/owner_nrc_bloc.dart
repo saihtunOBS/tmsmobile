@@ -86,9 +86,9 @@ class OwnerNRCBloc extends ChangeNotifier {
 
   onTapConfirm(String nrc) {
     nrcNumber = nrc;
-    selectedTownshipCodes = [];
-    selectedStateRegionCode = null;
-    selectedNRCType = null;
+    // selectedTownshipCodes = [];
+    // selectedStateRegionCode = null;
+    // selectedNRCType = null;
    notifyListeners();
   }
 

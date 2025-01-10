@@ -36,10 +36,15 @@ class NRCBloc extends ChangeNotifier {
   bool isLoading = false;
   bool isDisposed = false;
 
-  NRCBloc() {
+  NRCBloc({String? nrc, int? nrcType}) {
     final nrcResponse = NRCResponse.fromJson(jsonData);
     nrcNumber = null;
     _townships = nrcResponse.data;
+    if (nrcType == 1) {
+      nrcNumber = nrc!;
+    }
+
+    notify();
   }
 
   var residentNameController = TextEditingController();
@@ -57,6 +62,10 @@ class NRCBloc extends ChangeNotifier {
         .toList();
     selectedTownshipCode = selectedTownshipCodes.first;
     isNrcHideLoading();
+  }
+
+  notify() {
+    notifyListeners();
   }
 
   onChangeStateCode(String value) {
@@ -86,10 +95,7 @@ class NRCBloc extends ChangeNotifier {
 
   onTapConfirm(String nrc) {
     nrcNumber = nrc;
-    selectedTownshipCodes = [];
-    selectedStateRegionCode = null;
-    selectedNRCType = null;
-   notifyListeners();
+    notifyListeners();
   }
 
   onChangeNrcNumber(String value) {

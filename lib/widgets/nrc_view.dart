@@ -13,8 +13,10 @@ class NRCView extends StatefulWidget {
   const NRCView({
     super.key,
     this.type,
+    this.editNRC,
   });
   final String? type;
+  final String? editNRC;
   @override
   NRCViewState createState() => NRCViewState();
 }
@@ -26,7 +28,17 @@ class NRCViewState extends State<NRCView> {
   @override
   void initState() {
     var bloc = context.read<NRCBloc>();
-    bloc.nrcNumber = null;
+    bloc.isEmptyNrc = true;
+
+    bloc.selectedTownshipCodes = [];
+    bloc.selectedStateRegionCode = null;
+    bloc.selectedStateRegionCode = null;
+    bloc.selectedNRCType = null;
+    if (widget.type == 'edit') {
+      bloc.nrcNumber = widget.editNRC;
+    } else {
+      bloc.nrcNumber = null;
+    }
     super.initState();
   }
 
@@ -43,7 +55,7 @@ class NRCViewState extends State<NRCView> {
                 )),
         child: Container(
             height: kMargin45 + 1,
-            padding: EdgeInsets.only(left: kMargin10, top: kMargin12),
+            padding: EdgeInsets.only(left: 0, top: kMargin12),
             width: double.infinity,
             child: Text(
               bloc.nrcNumber ?? 'Add NRC number',
@@ -232,7 +244,8 @@ class NRCViewState extends State<NRCView> {
                           case 'edit':
                             var editResidentBloc =
                                 context.read<EditResidentBloc>();
-                            editResidentBloc.onChangedNrc(bloc.nrcNumber ?? '');
+                            editResidentBloc
+                                .onChangedEditNrc(bloc.nrcNumber ?? '');
                           case 'add':
                             var addResidentBloc =
                                 context.read<AddResidentBloc>();
@@ -241,8 +254,6 @@ class NRCViewState extends State<NRCView> {
                             var houseHoldBloc = context.read<HouseHoldBloc>();
                             houseHoldBloc
                                 .onChangedNrcResident(bloc.nrcNumber ?? '');
-                            break;
-                          default:
                         }
 
                         _nrcTextController.clear();

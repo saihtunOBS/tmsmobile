@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/house_hold_bloc.dart';
-import 'package:tmsmobile/bloc/nrc_bloc%20copy.dart';
+import 'package:tmsmobile/bloc/owner_nrc_bloc.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
@@ -23,6 +23,10 @@ class NRCViewState extends State<OwnerNrcView> {
   void initState() {
     var bloc = context.read<OwnerNRCBloc>();
     bloc.nrcNumber = null;
+    bloc.selectedTownshipCodes = [];
+    bloc.selectedStateRegionCode = null;
+    bloc.selectedStateRegionCode = null;
+    bloc.selectedNRCType = null;
     super.initState();
   }
 
@@ -216,15 +220,21 @@ class NRCViewState extends State<OwnerNrcView> {
                 InkWell(
                   onTap: () {
                     if (bloc.isEmptyNrc == false) {
-                      bloc.onTapConfirm(
-                          '${bloc.selectedStateRegionCode}/${bloc.selectedTownshipCode}(${bloc.selectedNRCType})${_nrcTextController.text.trim()}');
+                      if (bloc.selectedStateRegionCode == null &&
+                          bloc.selectedTownshipCode == null &&
+                          bloc.selectedNRCType == null) {
+                        ///alert
+                      } else {
+                        bloc.onTapConfirm(
+                            '${bloc.selectedStateRegionCode}/${bloc.selectedTownshipCode}(${bloc.selectedNRCType})${_nrcTextController.text.trim()}');
 
-                      var houseHoldBloc = context.read<HouseHoldBloc>();
-                      houseHoldBloc.onChangedNrcOwner(bloc.nrcNumber ?? '');
+                        var houseHoldBloc = context.read<HouseHoldBloc>();
+                        houseHoldBloc.onChangedNrcOwner(bloc.nrcNumber ?? '');
 
-                      _nrcTextController.clear();
-                      bloc.isEmptyNrc = true;
-                      Navigator.pop(context);
+                        _nrcTextController.clear();
+                        bloc.isEmptyNrc = true;
+                        Navigator.pop(context);
+                      }
                     }
                   },
                   child: Container(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tmsmobile/data/vos/household_vo.dart';
+import 'package:tmsmobile/network/requests/household_registration_request.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
 
 import '../utils/colors.dart';
@@ -11,7 +11,7 @@ class ResidentListItem extends StatelessWidget {
     required this.houseHoldData,
     required this.index,
   });
-  final HouseHoldVO houseHoldData;
+  final HouseHoldInformation houseHoldData;
   final int index;
 
   @override
@@ -22,11 +22,11 @@ class ResidentListItem extends StatelessWidget {
         children: [
           Container(
             color: kDarkBlueColor,
-            width: MediaQuery.of(context).size.width / 2.15,
+            width: MediaQuery.of(context).size.width / 2,
             height: kSize43,
             child: Center(
               child: Text(
-                'Owner',
+                index == 0 ? 'Owner' : 'Resident',
                 style: TextStyle(
                     decoration: index == 0
                         ? index == 1
@@ -34,49 +34,74 @@ class ResidentListItem extends StatelessWidget {
                             : TextDecoration.none
                         : TextDecoration.none,
                     decorationThickness: 2.0,
-                    color: index == 0 ? kWhiteColor : Colors.black,
-                    fontWeight:
-                        index == 0 ? FontWeight.w700 : FontWeight.normal,
+                    color: index == 0 ? kWhiteColor : Colors.white,
+                    fontWeight: FontWeight.w700,
                     fontSize: kTextRegular),
               ),
             ),
           ),
           Text(
-            (houseHoldData.resident?[index].residentName ?? ''),
-             style: TextStyle(fontWeight: FontWeight.normal,fontSize: kTextRegular),
+            (houseHoldData.name ?? ''),
+            style: TextStyle(
+                decoration: TextDecoration.underline,
+                decorationThickness: 2.0,
+                fontWeight: FontWeight.normal,
+                fontSize: kTextRegular),
           ),
           Text(
-            (houseHoldData.resident?[index].gender ?? ''),
-             style: TextStyle(fontWeight: FontWeight.normal,fontSize: kTextRegular),
+            (houseHoldData.gender ?? ''),
+            style: TextStyle(
+                fontWeight: FontWeight.normal, fontSize: kTextRegular),
           ),
           Text(
             DateFormatter.formatDate(
-                houseHoldData.resident?[index].dateOfBirth as DateTime),
-            style: TextStyle(fontWeight: FontWeight.normal,fontSize: kTextRegular),
+                houseHoldData.dateOfBirth ?? DateTime.now()),
+            style: TextStyle(
+                fontWeight: FontWeight.normal, fontSize: kTextRegular),
           ),
           Text(
-            (houseHoldData.resident?[index].race ?? ''),
-            style: TextStyle(fontWeight: FontWeight.normal,fontSize: kTextRegular),
+            (houseHoldData.race ?? ''),
+            style: TextStyle(
+                fontWeight: FontWeight.normal, fontSize: kTextRegular),
           ),
           Text(
-            (houseHoldData.resident?[index].nationality ?? ''),
-            style: TextStyle(fontWeight: FontWeight.normal,fontSize: kTextRegular),
+            (houseHoldData.nationality ?? ''),
+            style: TextStyle(
+                fontWeight: FontWeight.normal, fontSize: kTextRegular),
           ),
           Text(
-            (houseHoldData.resident?[index].nrc ?? ''),
-            style: TextStyle(fontWeight: FontWeight.normal,fontSize: kTextRegular),
+            (houseHoldData.nrc ?? ''),
+            style: TextStyle(
+                fontWeight: FontWeight.normal, fontSize: kTextRegular),
           ),
           Text(
-            (houseHoldData.resident?[index].contactNumber ?? ''),
-            style: TextStyle(fontWeight: FontWeight.normal,fontSize: kTextRegular),
+            (houseHoldData.contactNumber ?? ''),
+            style: TextStyle(
+                fontWeight: FontWeight.normal, fontSize: kTextRegular),
           ),
-          Text(
-            'test@gmail.com',
-            style: TextStyle(fontWeight: FontWeight.normal,fontSize: kTextRegular),
+          SizedBox(
+            width: MediaQuery.sizeOf(context).width / 2.3,
+            child: Text(
+              houseHoldData.type == 1 ? houseHoldData.email ?? '' : '-',
+              softWrap: true,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontWeight: FontWeight.normal, fontSize: kTextRegular),
+            ),
           ),
-          Text(
-            'Father',
-            style: TextStyle(fontWeight: FontWeight.normal,fontSize: kTextRegular),
+          SizedBox(
+            width: MediaQuery.sizeOf(context).width / 2.3,
+            child: Text(
+              softWrap: true,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              houseHoldData.type == 2
+                  ? houseHoldData.relatedToOwner ?? ''
+                  : '-',
+              style: TextStyle(
+                  fontWeight: FontWeight.normal, fontSize: kTextRegular),
+            ),
           ),
         ],
       ),

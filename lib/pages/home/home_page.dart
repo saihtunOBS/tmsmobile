@@ -242,7 +242,7 @@ class HomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Hi! ${bloc.userData?.tenantName ?? ''}',
+                'Hi, ${bloc.userData?.tenantName ?? ''}',
                 style: TextStyle(color: kWhiteColor,fontWeight: FontWeight.w600),
               ),
               Text(

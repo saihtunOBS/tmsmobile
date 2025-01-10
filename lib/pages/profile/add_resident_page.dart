@@ -1,9 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/add_resident_bloc.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/widgets/common_dialog.dart';
 import 'package:tmsmobile/widgets/error_dialog_view.dart';
+import 'package:tmsmobile/widgets/loading_view.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/date_formatter.dart';
@@ -14,7 +18,8 @@ import '../../widgets/gradient_button.dart';
 import '../../widgets/nrc_view.dart';
 
 class AddResidentPage extends StatefulWidget {
-  const AddResidentPage({super.key});
+  const AddResidentPage({super.key, required this.id});
+  final String id;
 
   @override
   State<AddResidentPage> createState() => _AddResidentPageState();
@@ -22,30 +27,38 @@ class AddResidentPage extends StatefulWidget {
 
 class _AddResidentPageState extends State<AddResidentPage> {
   String _selectedOption = "Citizen";
-  String _selectedOwnerNRC = 'Citizen';
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => AddResidentBloc(),
+      create: (context) => AddResidentBloc(context: context,id: widget.id),
       child: Scaffold(
-        body: Stack(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(
-                left: kMarginMedium2,
-                right: kMarginMedium2,
+        body: Selector<AddResidentBloc, bool?>(
+          selector: (p0, p1) => p1.isLoading,
+          builder: (context, loading, child) => Stack(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  left: kMarginMedium2,
+                  right: kMarginMedium2,
+                ),
+                child: _buildEditForm(),
               ),
-              child: _buildEditForm(),
-            ),
 
-            ///appbar
-            Positioned(
-                top: 0,
-                child: ProfileAppbar(
-                  title: kAddResidentLabel.replaceAll('+', ''),
-                )),
-          ],
+              ///appbar
+              Positioned(
+                  top: 0,
+                  child: ProfileAppbar(
+                    title: kAddResidentLabel.replaceAll('+', ''),
+                  )),
+
+              ///loading
+              if (loading == true)
+                LoadingView(
+                    indicator: Indicator.ballBeat,
+                    indicatorColor: kPrimaryColor)
+            ],
+          ),
         ),
         bottomNavigationBar: Consumer(
           builder: (context, value, child) => Container(
@@ -62,7 +75,14 @@ class _AddResidentPageState extends State<AddResidentPage> {
                               context: context,
                               dialogWidget: ErrorDialogView(
                                   errorMessage: bloc.validationMessage))
-                          : print('success');
+                          : bloc.onTapSubmit().then((_) {
+                              Navigator.pop(context);
+                            }).catchError((error) {
+                              showCommonDialog(
+                                  context: context,
+                                  dialogWidget: ErrorDialogView(
+                                      errorMessage: error.toString()));
+                            });
                     }),
               )),
         ),
@@ -109,7 +129,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
                       controller: bloc.residentNationalityController),
                   12.vGap,
                   _buildNRCAndPassportRadioButton(isOwner: true),
-                  _selectedOwnerNRC == 'Citizen'
+                  _selectedOption == 'Citizen'
                       ? _buildNRCPickerView()
                       : _buildInputField(
                           title: 'Passport',
@@ -266,61 +286,63 @@ class _AddResidentPageState extends State<AddResidentPage> {
             decoration: BoxDecoration(
                 color: kInputBackgroundColor,
                 borderRadius: BorderRadius.circular(kMarginMedium)),
-            child: NRCView(type: 'add',)),
+            child: NRCView(
+              type: 'add',
+            )),
       ],
     );
   }
 
   ///radio button
   Widget _buildNRCAndPassportRadioButton({bool? isOwner}) {
-    return Row(
-      mainAxisAlignment:
-          MainAxisAlignment.start, // Align the items to the start
-      children: [
-        SizedBox(
-          width: 138,
-          child: Theme(
-            data: Theme.of(context).copyWith(
-              listTileTheme: ListTileThemeData(
-                horizontalTitleGap: 4,
+    return Consumer<AddResidentBloc>(
+      builder: (context, bloc, child) => Row(
+        mainAxisAlignment:
+            MainAxisAlignment.start, // Align the items to the start
+        children: [
+          SizedBox(
+            width: 138,
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                listTileTheme: ListTileThemeData(
+                  horizontalTitleGap: 4,
+                ),
+              ),
+              child: RadioListTile<String>(
+                title: Text("Citizen"),
+                value: "Citizen",
+                groupValue: _selectedOption,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedOption = value!;
+                  });
+                  bloc.onChangeNrcType(value ?? '');
+                },
               ),
             ),
-            child: RadioListTile<String>(
-              title: Text("Citizen"),
-              value: "Citizen",
-              groupValue: isOwner == true ? _selectedOwnerNRC : _selectedOption,
-              onChanged: (value) {
-                setState(() {
-                  isOwner == true
-                      ? _selectedOwnerNRC = value!
-                      : _selectedOption = value!;
-                });
-              },
-            ),
           ),
-        ),
-        Expanded(
-          child: Theme(
-            data: Theme.of(context).copyWith(
-              listTileTheme: ListTileThemeData(
-                horizontalTitleGap: 4,
+          Expanded(
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                listTileTheme: ListTileThemeData(
+                  horizontalTitleGap: 4,
+                ),
+              ),
+              child: RadioListTile<String>(
+                title: Text("Foreigner"),
+                value: "Foreigner",
+                groupValue: _selectedOption,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedOption = value!;
+                  });
+                  bloc.onChangeNrcType(value ?? '');
+                },
               ),
             ),
-            child: RadioListTile<String>(
-              title: Text("Foreigner"),
-              value: "Foreigner",
-              groupValue: isOwner == true ? _selectedOwnerNRC : _selectedOption,
-              onChanged: (value) {
-                setState(() {
-                  isOwner == true
-                      ? _selectedOwnerNRC = value!
-                      : _selectedOption = value!;
-                });
-              },
-            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

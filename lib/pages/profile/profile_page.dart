@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +20,8 @@ import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
 import 'package:tmsmobile/widgets/cache_image.dart';
+import 'package:tmsmobile/widgets/common_dialog.dart';
+import 'package:tmsmobile/widgets/error_dialog_view.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -91,14 +95,14 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             Text(
-              userData?.tenantName ?? 'TMS',
+              userData?.tenantName ?? '****',
               style: TextStyle(
                   fontFamily: AppData.shared.fontFamily2,
                   fontSize: kTextRegular24,
                   fontWeight: FontWeight.w600),
             ),
             Text(
-              userData?.phoneNumber?.replaceRange(3, 8, '*****') ?? '098888888',
+              userData?.phoneNumber?.replaceRange(3, 8, '*****') ?? '****',
             ),
             InkWell(
               onTap: () => PageNavigator(ctx: context).nextPage(
@@ -131,7 +135,9 @@ class ProfilePage extends StatelessWidget {
                   showModalBottomSheet(
                       elevation: 0,
                       context: context,
-                      builder: (_) => _buildLogoutBottomSheet(context: context));
+                      builder: (_) => _buildLogoutBottomSheet(
+                            context: context,
+                          ));
                 },
                 isLogout: true,
                 title: kLogoutLabel),
@@ -248,77 +254,94 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildLogoutBottomSheet({bool? isDeleteAccount,BuildContext? context}) {
-    return Container(
-      height: 233,
-      width: double.infinity,
-      decoration: BoxDecoration(
-          color: kWhiteColor,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(kMargin40),
-              topRight: Radius.circular(kMargin40))),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Image.asset(
-            isDeleteAccount == true ? kDeleteAccountIcon : kLogoutIcon,
-            width: kMargin52 + 2,
-            height: kMargin52 + 2,
-          ),
-          kMarginMedium.vGap,
-          Text(
-            isDeleteAccount == true ? kDeleteAccountLabel : kConfirmLogoutLabel,
-            style: TextStyle(
-                fontSize: kTextRegular3x,
-                fontWeight: FontWeight.w600,
-                color: kPrimaryColor),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kMargin24),
-            child: Text(
-              isDeleteAccount == true
-                  ? kAreYouSureDeleteAccountLabel
-                  : kAreYouSureLogoutLabel,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: kTextRegular2x),
+  Widget _buildLogoutBottomSheet(
+      {bool? isDeleteAccount, BuildContext? context}) {
+    return Consumer<ProfileBloc>(
+      builder: (context, bloc, child) => Container(
+        height: 233,
+        width: double.infinity,
+        decoration: BoxDecoration(
+            color: kWhiteColor,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(kMargin40),
+                topRight: Radius.circular(kMargin40))),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(
+              isDeleteAccount == true ? kDeleteAccountIcon : kLogoutIcon,
+              width: kMargin52 + 2,
+              height: kMargin52 + 2,
             ),
-          ),
-          kMarginMedium2.vGap,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                height: 38,
-                width: 98,
-                decoration: BoxDecoration(
-                    color: kGreyColor.withValues(alpha: 0.5),
-                    borderRadius: BorderRadius.circular(kMargin6)),
-                child: Center(
-                  child: Text(kCancelLabel),
-                ),
+            kMarginMedium.vGap,
+            Text(
+              isDeleteAccount == true
+                  ? kDeleteAccountLabel
+                  : kConfirmLogoutLabel,
+              style: TextStyle(
+                  fontSize: kTextRegular3x,
+                  fontWeight: FontWeight.w600,
+                  color: kPrimaryColor),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: kMargin24),
+              child: Text(
+                isDeleteAccount == true
+                    ? kAreYouSureDeleteAccountLabel
+                    : kAreYouSureLogoutLabel,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: kTextRegular2x),
               ),
-              InkWell(
-                onTap: () {
-                  PersistenceData.shared.saveToken('');
-                   PageNavigator(ctx: context).nextPageOnly(page: LoginPage());},
-                child: Container(
+            ),
+            kMarginMedium2.vGap,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
                   height: 38,
                   width: 98,
                   decoration: BoxDecoration(
-                      color: kPrimaryColor,
+                      color: kGreyColor.withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(kMargin6)),
                   child: Center(
-                    child: Text(
-                      kOkLabel,
-                      style: TextStyle(color: kWhiteColor),
-                    ),
+                    child: Text(kCancelLabel),
                   ),
                 ),
-              )
-            ],
-          )
-        ],
+                InkWell(
+                  onTap: () {
+                    isDeleteAccount == true
+                        ? bloc
+                            .onTapDelete()
+                            .then((_) => PageNavigator(ctx: context)
+                                .nextPageOnly(page: LoginPage()))
+                            .catchError((error) {
+                            showCommonDialog(
+                                context: context,
+                                dialogWidget: ErrorDialogView(
+                                    errorMessage: error.toString()));
+                          })
+                        : PersistenceData.shared.clearToken();
+                    PageNavigator(ctx: context).nextPageOnly(page: LoginPage());
+                  },
+                  child: Container(
+                    height: 38,
+                    width: 98,
+                    decoration: BoxDecoration(
+                        color: kPrimaryColor,
+                        borderRadius: BorderRadius.circular(kMargin6)),
+                    child: Center(
+                      child: Text(
+                        kOkLabel,
+                        style: TextStyle(color: kWhiteColor),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

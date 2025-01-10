@@ -2,19 +2,27 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/maintenance_bloc.dart';
+import 'package:tmsmobile/data/vos/service_request_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
+import 'package:tmsmobile/widgets/common_dialog.dart';
+import 'package:tmsmobile/widgets/error_dialog_view.dart';
+import 'package:tmsmobile/widgets/loading_view.dart';
 
 import '../../widgets/appbar.dart';
 import '../../widgets/gradient_button.dart';
 
 class MaintenanceRequestPage extends StatefulWidget {
-  const MaintenanceRequestPage({super.key, this.isMaintanence});
+  const MaintenanceRequestPage(
+      {super.key, this.isMaintanence, this.shops, this.tenant});
   final bool? isMaintanence;
+  final List<Shop>? shops;
+  final Tenant? tenant;
 
   @override
   State<MaintenanceRequestPage> createState() => _MaintenanceRequestPageState();
@@ -22,148 +30,186 @@ class MaintenanceRequestPage extends StatefulWidget {
 
 class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
   final _nameController = TextEditingController();
-  final _descriptionController = TextEditingController();
-  String? _selectedRoomShopName;
   String? _selectedTypeIssue;
 
   @override
   void initState() {
-    _nameController.text = 'Simon';
+    _nameController.text = widget.tenant?.tenantName ?? '';
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => MaintenanceBloc(),
-      child: Scaffold(
-        backgroundColor: kBackgroundColor,
-        appBar: PreferredSize(
-            preferredSize: Size(double.infinity, kMargin60),
-            child: GradientAppBar(
-              widget.isMaintanence == true
-                  ? kMaintenanceRequestLabel
-                  : kFillOutRequestLabel,
-            )),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: kMarginMedium2, vertical: kMarginMedium2),
-              child: Column(
-                spacing: kMargin10,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildTextField(
-                      maxLine: 1,
-                      controller: _nameController,
-                      title: kTenantNameLabel,
-                      hint: 'Naame'),
-                  _buildRoomShopNameDropDown(),
+      create: (context) => MaintenanceBloc(tenant: widget.tenant),
+      child: Material(
+        child: InkWell(
+          onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+          child: Scaffold(
+            backgroundColor: kBackgroundColor,
+            appBar: PreferredSize(
+                preferredSize: Size(double.infinity, kMargin60),
+                child: GradientAppBar(
                   widget.isMaintanence == true
-                      ? _buildTypeIssueDropDown()
-                      : SizedBox.shrink(),
-                  _buildTextField(
-                      maxLine: 5,
-                      controller: _descriptionController,
-                      title: kDescriptionLabel,
-                      hint: kWriteDescriptionHereLabel),
-                  _buildUploadImage(),
-                  1.vGap
-                ],
+                      ? kMaintenanceRequestLabel
+                      : kFillOutRequestLabel,
+                )),
+            body: SafeArea(
+              child: Selector<MaintenanceBloc, bool?>(
+                selector: (p0, p1) => p1.isLoading,
+                builder: (context, loading, child) => Stack(
+                  children: [
+                    SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: kMarginMedium2,
+                            vertical: kMarginMedium2),
+                        child: Column(
+                          spacing: kMargin10,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildTextField(
+                                maxLine: 1,
+                                controller: _nameController,
+                                isReadOnly: true,
+                                title: kTenantNameLabel,
+                                hint: 'Name'),
+                            _buildRoomShopNameDropDown(),
+                            widget.isMaintanence == true
+                                ? _buildTypeIssueDropDown()
+                                : SizedBox.shrink(),
+                            _buildTextField(
+                                maxLine: 5,
+                                title: kDescriptionLabel,
+                                hint: kWriteDescriptionHereLabel),
+                            _buildUploadImage(),
+                            1.vGap
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    ///loading
+                    if (loading == true)
+                      LoadingView(
+                          indicator: Indicator.ballBeat,
+                          indicatorColor: kPrimaryColor)
+                  ],
+                ),
               ),
+            ),
+            bottomNavigationBar: Consumer<MaintenanceBloc>(
+              builder: (context, bloc, child) => Container(
+                  color: kWhiteColor,
+                  height: kBottomBarHeight,
+                  child: Center(
+                    child: gradientButton(
+                        title: kSendRequestLabel,
+                        onPress: () async {
+                          bloc.checkFillOutValidation();
+                          bloc.filloutValidationMessage == 'success'
+                              ? await bloc.onTapSendRequest()
+                              : await showCommonDialog(
+                                  context: context,
+                                  dialogWidget: ErrorDialogView(
+                                      errorMessage:
+                                          bloc.filloutValidationMessage ?? ''));
+                        }),
+                  )),
             ),
           ),
         ),
-        bottomNavigationBar: Container(
-            color: kWhiteColor,
-            height: kBottomBarHeight,
-            child: Center(
-              child: gradientButton(title: kSendRequestLabel, onPress: () {}),
-            )),
       ),
     );
   }
 
   Widget _buildTextField(
       {required int maxLine,
-      required TextEditingController controller,
+      TextEditingController? controller,
+      bool? isReadOnly,
       required String title,
       required String hint}) {
-    return Column(
-      spacing: kMargin5 - 1,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          spacing: 3,
-          children: [
-            Text(
-              title,
-              style: TextStyle(
-                  fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
-            ),
-            Text(
-              '*',
-              style: TextStyle(color: Colors.red, fontSize: kTextRegular3x),
-            )
-          ],
-        ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: kMargin10),
-          decoration: BoxDecoration(
-              color: kInputBackgroundColor,
-              borderRadius: BorderRadius.circular(kMarginMedium)),
-          child: TextField(
-            maxLines: maxLine,
-            controller: controller,
-            decoration:
-                InputDecoration(border: InputBorder.none, hintText: hint),
+    return Consumer<MaintenanceBloc>(
+      builder: (context, bloc, child) => Column(
+        spacing: kMargin5 - 1,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            spacing: 3,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                    fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+              ),
+              Text(
+                '*',
+                style: TextStyle(color: Colors.red, fontSize: kTextRegular3x),
+              )
+            ],
           ),
-        )
-      ],
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: kMargin10),
+            decoration: BoxDecoration(
+                color: kInputBackgroundColor,
+                borderRadius: BorderRadius.circular(kMarginMedium)),
+            child: TextField(
+              maxLines: maxLine,
+              controller: controller,
+              onChanged: (value) {
+                bloc.onChangeDescription(value);
+              },
+              readOnly: isReadOnly ?? false,
+              decoration:
+                  InputDecoration(border: InputBorder.none, hintText: hint),
+            ),
+          )
+        ],
+      ),
     );
   }
 
-  List<String> rooms = ['#C001', '#C002', '#C003'];
+  /// shopname
   Widget _buildRoomShopNameDropDown() {
-    return Column(
-      spacing: kMargin5 - 1,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          spacing: 3,
-          children: [
-            Text(
-              kRoomShopNameLabel,
-              style: TextStyle(
-                  fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
-            ),
-            Text(
-              '*',
-              style: TextStyle(color: Colors.red, fontSize: kTextRegular3x),
-            )
-          ],
-        ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: kMargin10),
-          decoration: BoxDecoration(
-              color: kInputBackgroundColor,
-              borderRadius: BorderRadius.circular(kMarginMedium)),
-          child: DropdownButton(
-              value: _selectedRoomShopName,
-              isExpanded: true,
-              underline: Container(),
-              hint: Text(kSelectRoomShopLabel),
-              items: rooms.map((value) {
-                return DropdownMenuItem(value: value, child: Text(value));
-              }).toList(),
-              onChanged: ((value) {
-                setState(() {
-                  _selectedRoomShopName = value ?? '';
-                });
-              })),
-        )
-      ],
+    return Consumer<MaintenanceBloc>(
+      builder: (context, bloc, child) => Column(
+        spacing: kMargin5 - 1,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            spacing: 3,
+            children: [
+              Text(
+                kRoomShopNameLabel,
+                style: TextStyle(
+                    fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+              ),
+              Text(
+                '*',
+                style: TextStyle(color: Colors.red, fontSize: kTextRegular3x),
+              )
+            ],
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: kMargin10),
+            decoration: BoxDecoration(
+                color: kInputBackgroundColor,
+                borderRadius: BorderRadius.circular(kMarginMedium)),
+            child: DropdownButton(
+                value: bloc.selectedRoomShopName,
+                isExpanded: true,
+                underline: Container(),
+                hint: Text(kSelectRoomShopLabel),
+                items: widget.shops?.map((value) {
+                  return DropdownMenuItem(
+                      value: value, child: Text(value.name ?? ''));
+                }).toList(),
+                onChanged: ((value) {
+                  bloc.onTapRoomShopName(value as Shop);
+                })),
+          )
+        ],
+      ),
     );
   }
 
@@ -264,7 +310,8 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                       ),
                       Text(
                         '$kLimitedPhotoLabel (${bloc.imageArray.length}/2)',
-                        style: TextStyle(fontSize: kTextSmall,fontWeight: FontWeight.w500),
+                        style: TextStyle(
+                            fontSize: kTextSmall, fontWeight: FontWeight.w500),
                       )
                     ],
                   )

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/data/vos/household_vo.dart';
 import 'package:tmsmobile/data/vos/resident_data_vo.dart';
+import 'package:tmsmobile/network/requests/household_registration_request.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
 
 import '../data/model/tms_model.dart';
@@ -45,32 +46,85 @@ class HouseHoldBloc extends ChangeNotifier {
   String? registrationDate;
   String? moveInDate;
   String? ownerDob;
-  String? residentDate;
+  String? residentDob;
 
+  bool isSubmitLoading = false;
   bool isLoading = false;
   bool isDisposed = false;
-  // ResidentDataObject? owner;
-  // List<ResidentDataObject> residents = [];
+  var token = '';
+
+  String ownerNrcType = '';
+  String residentNrcType = '';
 
   final TmsModel _tmsModel = TmsModelImpl();
 
   HouseHoldBloc({this.context}) {
     ownerNrc = null;
     residentNrc = null;
-    var token = PersistenceData.shared.getToken();
-    getHouseHoldLists(token);
+    token = PersistenceData.shared.getToken();
+    getHouseHoldLists();
     registrationDate = DateFormatter.formatDate(DateTime.now());
     moveInDate = DateFormatter.formatDate(DateTime.now());
     ownerDob = DateFormatter.formatDate(DateTime.now());
-    residentDate = DateFormatter.formatDate(DateTime.now());
+    residentDob = DateFormatter.formatDate(DateTime.now());
   }
 
-  getHouseHoldLists(token) {
+  getHouseHoldLists() {
     _showLoading();
     _tmsModel.getHouseHoldList(token).then((response) {
       householdList = response;
       _hideLoading();
     });
+    notifyListeners();
+  }
+
+  createHousehold() {
+    _showSubmitLoading();
+    var request = HouseholdRegistrationRequest(
+        registrationDate, moveInDate, emergencyController.text.trim(), [
+      HouseHoldInformation(
+        type: 1,
+        name: ownerNameController.text.trim(),
+        gender: ownerGender ?? 'mail',
+        dateOfBirth: DateTime.parse(ownerDob ?? ''),
+        race: ownerRaceController.text.trim(),
+        nationality: ownerNationalityController.text.trim(),
+        nrc: ownerNrcType == 'Citizen'
+            ? ownerNrc ?? '-'
+            : ownerPassportController.text.trim(),
+        nrcType: ownerNrcType == 'Citizen' ? 1 : 2,
+        contactNumber: ownerContactController.text.trim(),
+        email: ownerEmailAddressController.text.trim(),
+      ),
+      residentValidationMessage == 'success'
+          ? HouseHoldInformation(
+              type: 2,
+              name: residentNameController.text.trim(),
+              gender: residentGender ?? 'male',
+              dateOfBirth: DateTime.parse(residentDob ?? ''),
+              race: residentRaceController.text.trim(),
+              nationality: residentNationalityController.text.trim(),
+              nrc: residentNrcType == 'Citizen'
+                  ? residentNrc ?? '-'
+                  : residentPassportController.text.trim(),
+              nrcType: residentNrcType == 'Citizen' ? 1 : 2,
+              contactNumber: residentContactController.text.trim(),
+              relatedToOwner: residentRelatedToController.text.trim(),
+            )
+          : HouseHoldInformation(),
+    ]);
+    _tmsModel
+        .createHouseHold(token, request)
+        .whenComplete(() => _hideSubmitLoading());
+  }
+
+  onChangeOwnerNRCType(value) {
+    ownerNrcType = value;
+    notifyListeners();
+  }
+
+  onChangeResidentNRCType(value) {
+    residentNrcType = value;
     notifyListeners();
   }
 
@@ -107,6 +161,16 @@ class HouseHoldBloc extends ChangeNotifier {
 
   changeExpansion() {
     notifyListeners();
+  }
+
+  _showSubmitLoading() {
+    isSubmitLoading = true;
+    _notifySafely();
+  }
+
+  _hideSubmitLoading() {
+    isSubmitLoading = false;
+    _notifySafely();
   }
 
   void onChangedNrcOwner(String nrc) {
@@ -194,7 +258,7 @@ class HouseHoldBloc extends ChangeNotifier {
               } else if (isOwner == true) {
                 ownerDob = DateFormatter.formatDate(value);
               } else if (isResident == true) {
-                residentDate = DateFormatter.formatDate(value);
+                residentDob = DateFormatter.formatDate(value);
               }
 
               notifyListeners();

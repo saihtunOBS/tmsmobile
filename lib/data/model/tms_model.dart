@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:tmsmobile/data/vos/user_vo.dart';
 import 'package:tmsmobile/network/responses/login_response.dart';
 
@@ -10,6 +11,7 @@ import '../../network/requests/login_request.dart';
 import '../../network/requests/reset_password_request.dart';
 import '../vos/complaint_vo.dart';
 import '../vos/household_vo.dart';
+import '../vos/service_request_vo.dart';
 
 abstract class TmsModel {
   Future<LoginResponse> login(LoginRequest loginRequest);
@@ -17,12 +19,19 @@ abstract class TmsModel {
   Future<void> deleteUser(String token);
   Future<UserVO> getUser(String token);
   Future<List<HouseHoldVO>> getHouseHoldList(String token);
+  Future<void> addResident(
+      String token, String id, HouseholdResidentRequest request);
   Future<void> createHouseHold(
       String token, HouseholdRegistrationRequest request);
-  Future<void> updateHouseHoldOwner(String token,String id,HouseholdOwnerRequest request);
-  Future<void> updateHouseHoldResident(String token,String id,HouseholdResidentRequest request);
+  Future<void> updateHouseHoldOwner(String token, String houseHoldId,
+      String inforId, HouseholdOwnerRequest request);
+  Future<void> updateHouseHoldResident(String token, String houseHoldId,
+      String inforId, HouseholdResidentRequest request);
   Future resetPassword(String token, ResetPasswordRequest resetPasswordRequest);
   Future createComplaint(String token, ComplaintRequest request);
   Future<List<ComplaintVO>> getComplaints(String token);
   Future<ComplaintVO> getComplaintDetails(String token, String id);
+  Future<List<ServiceRequestVo>> getFillOuts(String token, int page, int limit);
+  Future<void> createFillOut(String token, List<MultipartFile> files,
+      String tenant, String shop, String description);
 }

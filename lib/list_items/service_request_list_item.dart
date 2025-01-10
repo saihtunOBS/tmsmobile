@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:tmsmobile/data/vos/service_request_vo.dart';
+import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
+import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
 
 class ServiceRequestListItem extends StatelessWidget {
   const ServiceRequestListItem(
-      {super.key, required this.statusColor, required this.status, this.isFillOut});
+      {super.key,
+      required this.statusColor,
+      required this.status,
+      this.isFillOut, this.data});
   final int statusColor;
   final String status;
   final bool? isFillOut;
+  final ServiceRequestVo? data;
 
   @override
   Widget build(BuildContext context) {
@@ -37,13 +44,17 @@ class ServiceRequestListItem extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'ID #12345',
-                      style: TextStyle(
-                        fontSize: kTextRegular2x,
-                        fontWeight: FontWeight.w700,
+                    Expanded(
+                      child: Text(
+                        'ID #${data?.id}',
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: kTextRegular2x,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
+                    40.hGap,
                     Container(
                       height: kSize26,
                       padding: EdgeInsets.symmetric(horizontal: kMargin12),
@@ -75,7 +86,7 @@ class ServiceRequestListItem extends StatelessWidget {
                       fontSize: kTextRegular2x, fontWeight: FontWeight.w700),
                 ),
                 Text(
-                  'Lorem ipsum dolor sit amet consectetur. Eget neque gravida tellus vitae quis ar .....',
+                  data?.shop?.name ?? 'Something',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   softWrap: true,
@@ -109,7 +120,7 @@ class ServiceRequestListItem extends StatelessWidget {
             children: [
               Spacer(),
               Text(
-                'Dec 12, 2024',
+                DateFormatter.formatDate(data?.createdAt ?? DateTime.now()),
                 style: TextStyle(fontSize: kTextRegular13),
               )
             ],

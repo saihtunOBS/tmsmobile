@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:tmsmobile/data/vos/complaint_vo.dart';
 import 'package:tmsmobile/data/vos/household_vo.dart';
+import 'package:tmsmobile/data/vos/service_request_vo.dart';
 import 'package:tmsmobile/data/vos/user_vo.dart';
 import 'package:tmsmobile/network/data_agents/tms_data_agent.dart';
 import 'package:tmsmobile/network/requests/change_password_request.dart';
@@ -45,6 +46,7 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
         })
         .first
         .catchError((error) {
+          print('your error.....$error');
           throw _createException(error);
         });
   }
@@ -160,10 +162,10 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
   }
 
   @override
-  Future<void> updateHouseHoldOwner(
-      String token, String id, HouseholdOwnerRequest request) {
+  Future<void> updateHouseHoldOwner(String token, String houseHoldId,
+      String inforId, HouseholdOwnerRequest request) {
     return tmsApi
-        .updateHouseHoldOwner('Bearer $token', id, request)
+        .updateHouseHoldOwner('Bearer $token', houseHoldId, inforId, request)
         .asStream()
         .map((response) => response)
         .first
@@ -173,10 +175,49 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
   }
 
   @override
-  Future<void> updateHouseHoldResident(
+  Future<void> updateHouseHoldResident(String token, String houseHoldId,
+      String inforId, HouseholdResidentRequest request) {
+    return tmsApi
+        .updateHouseHoldResident('Bearer $token', houseHoldId, inforId, request)
+        .asStream()
+        .map((response) => response)
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<void> addResident(
       String token, String id, HouseholdResidentRequest request) {
     return tmsApi
-        .updateHouseHoldResident('Bearer $token', id, request)
+        .addResident('Bearer $token', id, request)
+        .asStream()
+        .map((response) => response)
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<List<ServiceRequestVo>> getFillOuts(
+      String token, int page, int limit) {
+    return tmsApi
+        .getFilOut('Bearer $token', page, limit)
+        .asStream()
+        .map((response) => response.data ?? [])
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<void> createFillOut(String token, List<MultipartFile> files,
+      String tenant, String shop, String description) {
+    return tmsApi
+        .createFillOut('Bearer $token', files, tenant, shop, description)
         .asStream()
         .map((response) => response)
         .first

@@ -5,6 +5,7 @@ import 'package:tmsmobile/network/requests/complaint_request.dart';
 import 'package:tmsmobile/network/requests/reset_password_request.dart';
 import 'package:tmsmobile/network/responses/complaint_response.dart';
 import 'package:tmsmobile/network/responses/household_response.dart';
+import 'package:tmsmobile/network/responses/service_request_response.dart';
 
 import 'requests/change_password_request.dart';
 import 'requests/household_owner_request.dart';
@@ -25,12 +26,12 @@ abstract class TmsApi {
   Future<LoginResponse> login(@Body() LoginRequest loginRequest);
 
   @POST(kEndPointChangePassword)
-  Future<LoginResponse> changePassword(@Body() ChangePasswordRequest changePasswordRequest);
+  Future<LoginResponse> changePassword(
+      @Body() ChangePasswordRequest changePasswordRequest);
 
   @POST(kEndPointResetPassword)
-  Future resetPassword(
-    @Header(kHeaderAuthorization) String token,
-    @Body() ResetPasswordRequest resetPasswordRequest);
+  Future resetPassword(@Header(kHeaderAuthorization) String token,
+      @Body() ResetPasswordRequest resetPasswordRequest);
 
   @DELETE(kEndPointDeleteUser)
   Future<void> deleteUser(
@@ -38,9 +39,8 @@ abstract class TmsApi {
   );
 
   @POST(kEndPointComplaintCreate)
-  Future createComplaint(
-    @Header(kHeaderAuthorization) String token,
-    @Body() ComplaintRequest request);
+  Future createComplaint(@Header(kHeaderAuthorization) String token,
+      @Body() ComplaintRequest request);
 
   @GET(kEndPointComplaint)
   Future<ComplaintResponse> getComplaint(
@@ -49,9 +49,8 @@ abstract class TmsApi {
 
   @GET('$kEndPointComplaintDetail/{id}')
   Future<ComplaintDetailResponse> getComplaintDetail(
-    @Header(kHeaderAuthorization) String token,
-    @Path('id') String complaintId
-  );
+      @Header(kHeaderAuthorization) String token,
+      @Path('id') String complaintId);
 
   @GET(kEndPointUserProfile)
   Future<UserResponse> getUser(
@@ -64,22 +63,47 @@ abstract class TmsApi {
   );
 
   @POST(kEndPointHouseHoldCreate)
-  Future<void> createHouseHold(
-     @Header(kHeaderAuthorization) String token,
-     @Body() HouseholdRegistrationRequest request
-  );
+  Future<void> createHouseHold(@Header(kHeaderAuthorization) String token,
+      @Body() HouseholdRegistrationRequest request);
 
-  @PATCH('$kEndPointHouseHoldUpdate/{id}')
+  @PATCH('$kEndPointHouseHoldUpdate/{house_hold_id}/{inforId}')
   Future<void> updateHouseHoldOwner(
-     @Header(kHeaderAuthorization) String token,
-     @Path() String id,
-     @Body() HouseholdOwnerRequest request
+      @Header(kHeaderAuthorization) String token,
+      @Path() String house_hold_id,
+      @Path() String inforId,
+      @Body() HouseholdOwnerRequest request);
+
+  @PATCH('$kEndPointHouseHoldUpdate/{house_hold_id}/{inforId}')
+  Future<void> updateHouseHoldResident(
+      @Header(kHeaderAuthorization) String token,
+      @Path() String house_hold_id,
+      @Path() String inforId,
+      @Body() HouseholdResidentRequest request);
+
+  @DELETE('$kEndPointHouseHoldDelete/{house_hold_id}/{inforId}')
+  Future<void> deleteHouseHold(
+    @Header(kHeaderAuthorization) String token,
+    @Path() String house_hold_id,
+    @Path() String inforId,
   );
 
-  @PATCH('$kEndPointHouseHoldUpdate/{id}')
-  Future<void> updateHouseHoldResident(
-     @Header(kHeaderAuthorization) String token,
-     @Path() String id,
-     @Body() HouseholdResidentRequest request
+  @POST('$kEndPointAddResident/{id}')
+  Future<void> addResident(@Header(kHeaderAuthorization) String token,
+      @Path() String id, @Body() HouseholdResidentRequest request);
+
+  @GET(kEndPointFilOutRequest)
+  Future<ServiceRequestResponse> getFilOut(
+    @Header(kHeaderAuthorization) String token,
+    @Query("page") int page,
+    @Query("limit") int limit,
   );
+
+  @POST(kEndPointCreateFillOut)
+  @MultiPart()
+  Future<ServiceRequestResponse> createFillOut(
+      @Header(kHeaderAuthorization) String token,
+      @Part(name: kFieldPhoto) List<MultipartFile> files,
+      @Field() String tenant,
+      @Field() String shop,
+      @Field() String description);
 }

@@ -28,8 +28,10 @@ class HomeListItem extends StatelessWidget {
             child: Text(
               label,
               style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
-                  fontSize: kTextRegular18, color: kWhiteColor,fontWeight: FontWeight.w600),
+                  fontFamily: AppData.shared.fontFamily2,
+                  fontSize: kTextRegular18,
+                  color: kWhiteColor,
+                  fontWeight: FontWeight.w600),
             ),
           ),
         ),
@@ -40,7 +42,8 @@ class HomeListItem extends StatelessWidget {
             height: kMargin60,
             width: kMargin60,
             decoration: BoxDecoration(
-                color: kWhiteColor, borderRadius: BorderRadius.circular(kSize40)),
+                color: kWhiteColor,
+                borderRadius: BorderRadius.circular(kSize40)),
             child: Center(
               child: Container(
                 height: kMargin40,

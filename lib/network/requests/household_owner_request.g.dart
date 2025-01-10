@@ -10,7 +10,7 @@ HouseholdOwnerRequest _$HouseholdOwnerRequestFromJson(
         Map<String, dynamic> json) =>
     HouseholdOwnerRequest(
       type: (json['type'] as num?)?.toInt(),
-      ownerName: json['owner_name'] as String?,
+      name: json['name'] as String?,
       gender: json['gender'] as String?,
       dateOfBirth: json['date_of_birth'] as String?,
       race: json['race'] as String?,
@@ -25,7 +25,7 @@ Map<String, dynamic> _$HouseholdOwnerRequestToJson(
         HouseholdOwnerRequest instance) =>
     <String, dynamic>{
       'type': instance.type,
-      'owner_name': instance.ownerName,
+      'name': instance.name,
       'gender': instance.gender,
       'date_of_birth': instance.dateOfBirth,
       'race': instance.race,

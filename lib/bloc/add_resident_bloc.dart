@@ -1,5 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
+import 'package:tmsmobile/network/requests/household_resident_request.dart';
+import 'package:tmsmobile/utils/date_formatter.dart';
+
+import '../data/model/tms_model.dart';
+import '../data/model/tms_model_impl.dart';
 
 String? addNrcNumber;
 
@@ -13,9 +19,14 @@ class AddResidentBloc extends ChangeNotifier {
   bool isLoading = false;
   bool isDisposed = false;
   String validationMessage = '';
+  var token = '';
+  String? id;
+  String nrcType = 'Citizen';
 
-  AddResidentBloc({this.context}) {
+  AddResidentBloc({this.context, this.id}) {
     addNrcNumber = null;
+    id = id;
+    token = PersistenceData.shared.getToken();
   }
 
   var residentNameController = TextEditingController();
@@ -25,10 +36,33 @@ class AddResidentBloc extends ChangeNotifier {
   var residentRelatedToController = TextEditingController();
   var passportController = TextEditingController();
 
+  final TmsModel _tmsModel = TmsModelImpl();
+
   void onChangedNrc(String nrc) {
     addNrcNumber = nrc;
     debugPrint("NewNrcNumner>>>>>>>>>>>>$addNrcNumber");
     notifyListeners();
+  }
+
+  Future onTapSubmit() {
+    _showLoading();
+    var request = HouseholdResidentRequest(
+        type: 2,
+        name: residentNameController.text.trim(),
+        gender: gender,
+        dateOfBirth: DateFormatter.formatDate(selectedDate),
+        race: residentRaceController.text.trim(),
+        nationality: residentNationalityController.text.trim(),
+        nrc: nrcType == 'Citizen'
+            ? addNrcNumber
+            : passportController.text.trim(),
+        nrcType: nrcType == 'Citizen' ? 1 : 2,
+        contactNumber: residentContactController.text.trim(),
+        relatedToOwner: residentRelatedToController.text.trim());
+
+    return _tmsModel
+        .addResident(token, id ?? '', request)
+        .whenComplete(() => _hideLoading());
   }
 
   void onChangeGender(String value) {
@@ -36,21 +70,26 @@ class AddResidentBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  // _showLoading() {
-  //   isLoading = true;
-  //   _notifySafely();
-  // }
+  _showLoading() {
+    isLoading = true;
+    _notifySafely();
+  }
 
-  // _hideLoading() {
-  //   isLoading = false;
-  //   _notifySafely();
-  // }
+  _hideLoading() {
+    isLoading = false;
+    _notifySafely();
+  }
 
-  // void _notifySafely() {
-  //   if (!isDisposed) {
-  //     notifyListeners();
-  //   }
-  // }
+  void _notifySafely() {
+    if (!isDisposed) {
+      notifyListeners();
+    }
+  }
+
+  onChangeNrcType(String value) {
+    nrcType = value;
+    notifyListeners();
+  }
 
   checkResidentValidation() {
     if (residentNameController.text.isEmpty) {
@@ -61,10 +100,10 @@ class AddResidentBloc extends ChangeNotifier {
       validationMessage = 'Race is required!';
     } else if (residentNationalityController.text.isEmpty) {
       validationMessage = 'Nationality is required!';
-    } 
+    }
     // else if (addNrcNumber == null) {
     //   validationMessage = 'NRC is required!';
-    // } 
+    // }
     else if (residentContactController.text.isEmpty) {
       validationMessage = 'Contact Number is required!';
     } else if (residentRelatedToController.text.isEmpty) {

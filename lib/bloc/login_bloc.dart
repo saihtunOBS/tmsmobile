@@ -21,7 +21,7 @@ class LogInBloc extends ChangeNotifier {
     _notifySafely();
   }
 
-  onTapShowPassword(){
+  onTapShowPassword() {
     showPassword = !showPassword;
     _notifySafely();
   }

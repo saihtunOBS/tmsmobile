@@ -1,8 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:tmsmobile/data/model/tms_model.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/data/vos/complaint_vo.dart';
 import 'package:tmsmobile/data/vos/household_vo.dart';
 import 'package:tmsmobile/data/vos/login_data_vo.dart';
+import 'package:tmsmobile/data/vos/service_request_vo.dart';
 import 'package:tmsmobile/data/vos/user_vo.dart';
 import 'package:tmsmobile/network/data_agents/tms_data_agent.dart';
 import 'package:tmsmobile/network/requests/change_password_request.dart';
@@ -90,14 +92,34 @@ class TmsModelImpl extends TmsModel {
   }
 
   @override
-  Future<void> updateHouseHoldOwner(
-      String token, String id, HouseholdOwnerRequest request) {
-    return tmsDataAgent.updateHouseHoldOwner(token, id, request);
+  Future<void> updateHouseHoldOwner(String token, String houseHoldId,
+      String inforId, HouseholdOwnerRequest request) {
+    return tmsDataAgent.updateHouseHoldOwner(
+        token, houseHoldId, inforId, request);
   }
 
   @override
-  Future<void> updateHouseHoldResident(
+  Future<void> updateHouseHoldResident(String token, String houseHoldId,
+      String inforId, HouseholdResidentRequest request) {
+    return tmsDataAgent.updateHouseHoldResident(
+        token, houseHoldId, inforId, request);
+  }
+
+  @override
+  Future<void> addResident(
       String token, String id, HouseholdResidentRequest request) {
-    return tmsDataAgent.updateHouseHoldResident(token, id, request);
+    return tmsDataAgent.addResident(token, id, request);
+  }
+
+  @override
+  Future<void> createFillOut(String token, List<MultipartFile> files,
+      String tenant, String shop, String description) {
+    return tmsDataAgent.createFillOut(token, files, tenant, shop, description);
+  }
+
+  @override
+  Future<List<ServiceRequestVo>> getFillOuts(
+      String token, int page, int limit) {
+    return tmsDataAgent.getFillOuts(token, page, 10);
   }
 }

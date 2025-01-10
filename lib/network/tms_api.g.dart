@@ -354,7 +354,8 @@ class _TmsApi implements TmsApi {
   @override
   Future<void> updateHouseHoldOwner(
     String token,
-    String id,
+    String house_hold_id,
+    String inforId,
     HouseholdOwnerRequest request,
   ) async {
     final _extra = <String, dynamic>{};
@@ -370,7 +371,7 @@ class _TmsApi implements TmsApi {
     )
         .compose(
           _dio.options,
-          '/account/house-hold-registration/update/owner//${id}',
+          '/account/house-hold-registration/update/${house_hold_id}/${inforId}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -385,7 +386,8 @@ class _TmsApi implements TmsApi {
   @override
   Future<void> updateHouseHoldResident(
     String token,
-    String id,
+    String house_hold_id,
+    String inforId,
     HouseholdResidentRequest request,
   ) async {
     final _extra = <String, dynamic>{};
@@ -401,7 +403,7 @@ class _TmsApi implements TmsApi {
     )
         .compose(
           _dio.options,
-          '/account/house-hold-registration/update/owner//${id}',
+          '/account/house-hold-registration/update/${house_hold_id}/${inforId}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -411,6 +413,153 @@ class _TmsApi implements TmsApi {
           baseUrl,
         )));
     await _dio.fetch<void>(_options);
+  }
+
+  @override
+  Future<void> deleteHouseHold(
+    String token,
+    String house_hold_id,
+    String inforId,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<void>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/account/house-hold-registration/delete/${house_hold_id}/${inforId}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    await _dio.fetch<void>(_options);
+  }
+
+  @override
+  Future<void> addResident(
+    String token,
+    String id,
+    HouseholdResidentRequest request,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    final _options = _setStreamType<void>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/account/house-hold-registration/add-information/${id}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    await _dio.fetch<void>(_options);
+  }
+
+  @override
+  Future<ServiceRequestResponse> getFilOut(
+    String token,
+    int page,
+    int limit,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'page': page,
+      r'limit': limit,
+    };
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<ServiceRequestResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/home/service/fill-out-request/list',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ServiceRequestResponse _value;
+    try {
+      _value = ServiceRequestResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<ServiceRequestResponse> createFillOut(
+    String token,
+    List<MultipartFile> files,
+    String tenant,
+    String shop,
+    String description,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = {
+      'tenant': tenant,
+      'shop': shop,
+      'description': description,
+    };
+    final _options = _setStreamType<ServiceRequestResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'multipart/form-data',
+    )
+        .compose(
+          _dio.options,
+          '/home/service/fill-out-request/create',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ServiceRequestResponse _value;
+    try {
+      _value = ServiceRequestResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

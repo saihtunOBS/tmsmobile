@@ -6,7 +6,7 @@ import 'package:tmsmobile/bloc/add_resident_bloc.dart';
 import 'package:tmsmobile/bloc/edit_resident_bloc.dart';
 import 'package:tmsmobile/bloc/house_hold_bloc.dart';
 import 'package:tmsmobile/bloc/language_bloc.dart';
-import 'package:tmsmobile/bloc/nrc_bloc%20copy.dart';
+import 'package:tmsmobile/bloc/owner_nrc_bloc.dart';
 import 'package:tmsmobile/bloc/nrc_bloc.dart';
 import 'package:tmsmobile/data/app_data/app_data.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
