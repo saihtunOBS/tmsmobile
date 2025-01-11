@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tmsmobile/bloc/invoice_detai_bloc.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/strings.dart';
@@ -9,36 +11,76 @@ import '../../widgets/appbar.dart';
 import '../../widgets/gradient_button.dart';
 
 class InvoiceDetailPage extends StatelessWidget {
-  const InvoiceDetailPage({super.key});
+  InvoiceDetailPage({super.key});
 
+  final GlobalKey contentKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      appBar: PreferredSize(
-          preferredSize: Size(double.infinity, kMargin60),
-          child: GradientAppBar(
-            kInvoiceDetailLabel,
-            action: _buildDownloadButton(),
-          )),
-      body: _buildBody(),
-      bottomNavigationBar: Container(
-          height: kBottomBarHeight,
-          decoration: BoxDecoration(color: Colors.white, boxShadow: [
-            BoxShadow(offset: Offset(8, 0), blurRadius: 10, color: kGreyColor)
-          ]),
-          child: Center(
-              child: gradientButton(title: kMakePaymentLabel, onPress: () {}))),
+    return ChangeNotifierProvider(
+      create: (context) => InvoiceDetaiBloc(),
+      child: Scaffold(
+        backgroundColor: kBackgroundColor,
+        appBar: PreferredSize(
+            preferredSize: Size(double.infinity, kMargin60),
+            child: GradientAppBar(
+              kInvoiceDetailLabel,
+              action: _buildDownloadButton(context),
+            )),
+        body: Consumer<InvoiceDetaiBloc>(
+          builder: (context, bloc, child) => Stack(
+            children: [
+              SingleChildScrollView(
+                  child: RepaintBoundary(key: contentKey, child: _buildBody())),
+
+              ///download progress loading
+              bloc.isDownloadLoading == true
+                  ? Center(
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(kMarginMedium2),
+                          color: kBlackColor.withValues(alpha: 0.6),
+                        ),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            value: bloc.progress,
+                            strokeWidth: 3.0,
+                            valueColor: AlwaysStoppedAnimation(kWhiteColor),
+                          ),
+                        ),
+                      ),
+                    )
+                  : SizedBox.shrink()
+            ],
+          ),
+        ),
+        bottomNavigationBar: Consumer<InvoiceDetaiBloc>(
+          builder: (context, bloc, child) => Container(
+              height: kBottomBarHeight,
+              decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                BoxShadow(
+                    offset: Offset(8, 0), blurRadius: 10, color: kGreyColor)
+              ]),
+              child: Center(
+                  child: gradientButton(
+                      title: kMakePaymentLabel, onPress: () {}))),
+        ),
+      ),
     );
   }
 
-  Widget _buildDownloadButton() {
-    return IconButton(
-        onPressed: () {},
-        icon: Icon(
-          Icons.download,
-          color: kWhiteColor,
-        ));
+  Widget _buildDownloadButton(BuildContext context) {
+    return Consumer<InvoiceDetaiBloc>(
+      builder: (context, bloc, child) => IconButton(
+          onPressed: () {
+            bloc.savePdf(context, contentKey);
+          },
+          icon: Icon(
+            Icons.download,
+            color: kWhiteColor,
+          )),
+    );
   }
 
   Widget _buildBody() {

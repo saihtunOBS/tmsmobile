@@ -13,6 +13,7 @@ import 'package:tmsmobile/data/app_data/app_data.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/pages/auth/splash_screen_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
+import 'bloc/invoice_detai_bloc.dart';
 import 'utils/dimens.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -26,6 +27,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => EditResidentBloc()),
     ChangeNotifierProvider(create: (_) => HouseHoldBloc()),
     ChangeNotifierProvider(create: (_) => ServiceRequestBloc()),
+    ChangeNotifierProvider(create: (_) => InvoiceDetaiBloc()),
   ], child: const TMSMobile()));
 }
 
