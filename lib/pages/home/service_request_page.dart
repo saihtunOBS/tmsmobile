@@ -221,7 +221,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                           if (index == bloc.fillOutLists.length &&
                               bloc.isLoadMore) {
                             return LoadingView(
-                              bgColor: kBackgroundColor,
+                              bgColor: Colors.transparent,
                               indicator: Indicator.ballBeat,
                               indicatorColor: kPrimaryColor,
                             );

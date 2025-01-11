@@ -171,49 +171,46 @@ class HomePage extends StatelessWidget {
                 fit: BoxFit.fill,
               ),
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Platform.isAndroid ? kSize64.vGap : kSize80.vGap,
-                  SizedBox(
-                    height: Platform.isAndroid
-                        ? MediaQuery.of(context).size.height / 4.5
-                        : MediaQuery.of(context).size.height / 4.9,
-                    width: double.infinity,
-                    child: CarouselSlider(
-                        carouselController: controller,
-                        items: bannerArray.map((value) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: kMarginMedium2),
-                            child: ClipRRect(
-                              borderRadius:
-                                  BorderRadius.circular(kMarginMedium),
-                              child: cacheImage(
-                                  'https://www.rustomjee.com/blog/wp-content/uploads/2024/08/IMAGE_1000-X-374-copy.jpg'),
-                            ),
-                          );
-                        }).toList(),
-                        options: CarouselOptions(
-                          autoPlay: true,
-                          disableCenter: true,
-                          viewportFraction: 1,
-                          onPageChanged: (index, reason) =>
-                              sliderIndex.value = index,
-                        )),
-                  ),
-                  14.vGap,
-                  AnimatedSmoothIndicator(
-                      effect: ExpandingDotsEffect(
-                          dotHeight: kMargin6,
-                          dotWidth: kMargin6,
-                          activeDotColor: kWhiteColor),
-                      activeIndex: sliderIndex.value,
-                      count: bannerArray.length),
-                ],
-              ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Platform.isAndroid ? kSize64.vGap : kSize80.vGap,
+                SizedBox(
+                  height: Platform.isAndroid
+                      ? MediaQuery.of(context).size.height / 4.6
+                      : MediaQuery.of(context).size.height / 4.9,
+                  width: double.infinity,
+                  child: CarouselSlider(
+                      carouselController: controller,
+                      items: bannerArray.map((value) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: kMarginMedium2),
+                          child: ClipRRect(
+                            borderRadius:
+                                BorderRadius.circular(kMarginMedium),
+                            child: cacheImage(
+                                'https://hanoirealestate.com.vn/images/products/modern-3-bedroom-apartment-with-large-balcony-on-to-ngoc-van_2024581453612.jpg'),
+                          ),
+                        );
+                      }).toList(),
+                      options: CarouselOptions(
+                        autoPlay: true,
+                        disableCenter: true,
+                        viewportFraction: 1,
+                        onPageChanged: (index, reason) =>
+                            sliderIndex.value = index,
+                      )),
+                ),
+                14.vGap,
+                AnimatedSmoothIndicator(
+                    effect: ExpandingDotsEffect(
+                        dotHeight: kMargin6,
+                        dotWidth: kMargin6,
+                        activeDotColor: kWhiteColor),
+                    activeIndex: sliderIndex.value,
+                    count: bannerArray.length),
+              ],
             ),
           ],
         );

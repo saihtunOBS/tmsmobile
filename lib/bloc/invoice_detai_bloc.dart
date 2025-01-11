@@ -5,32 +5,32 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:open_file/open_file.dart';
+import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'dart:ui' as ui;
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 
 class InvoiceDetaiBloc extends ChangeNotifier {
-  double progress = 0.0;
   bool isDownloadLoading = false;
+  BuildContext? context;
+  bool isDisposed = false;
 
-  //save pdf
-  Future<void> savePdf(BuildContext context, GlobalKey contentKey) async {
+  InvoiceDetaiBloc({this.context}) {
+    context = context;
+    checkAndRequestStoragePermission();
+  }
+
+  Future<void> savePdf(GlobalKey contentKey) async {
     try {
-      isDownloadLoading = true;
-      progress = 0.0;
-      notifyListeners();
-      // Capture the widget as an image
+      _showDownloading();
+
       RenderRepaintBoundary boundary = contentKey.currentContext!
           .findRenderObject() as RenderRepaintBoundary;
-      ui.Image image = await boundary.toImage(pixelRatio: 1.0);
-
-      // Update progress
-      progress = 0.3;
-      notifyListeners();
-
+      ui.Image image = await boundary.toImage(pixelRatio: 4.0);
       ByteData? byteData =
           await image.toByteData(format: ui.ImageByteFormat.png);
       final imageBytes = byteData!.buffer.asUint8List();
@@ -40,30 +40,24 @@ class InvoiceDetaiBloc extends ChangeNotifier {
       final pdfImage = pw.MemoryImage(imageBytes);
       pdf.addPage(
         pw.Page(
+          pageFormat: PdfPageFormat.undefined,
           build: (pw.Context context) => pw.Center(
             child: pw.Image(pdfImage),
           ),
         ),
       );
-
-      progress = 0.6;
-      notifyListeners();
-
-      progress = 0.9;
-      notifyListeners();
-
+      _hideDownloading();
       // Get file path
-      final directory = await getDownloadsDirectory();
-      final file = File('${directory?.path}/invoice.pdf');
+      var date = DateTime.now();
+      final directory = Platform.isAndroid
+          ? await _getAndroidDirectory()
+          : await _getCustomDirectory();
+      final file = File('$directory/invoice_${date.microsecond}.pdf');
       await file.writeAsBytes(await pdf.save());
 
-      // Update progress
-      progress = 1.0;
-      isDownloadLoading = false;
-      notifyListeners();
-      // Notify user
-      ScaffoldMessenger.of(context).showSnackBar(
+      ScaffoldMessenger.of(context!).showSnackBar(
         SnackBar(
+            duration: Duration(seconds: 1),
             backgroundColor: kDarkBlueColor,
             content: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -97,9 +91,63 @@ class InvoiceDetaiBloc extends ChangeNotifier {
             )),
       );
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error generating PDF: $e')),
+      ScaffoldMessenger.of(context!).showSnackBar(
+        SnackBar(
+            backgroundColor: kPrimaryColor,
+            content: Text(
+              'Error generating PDF: $e',
+              style: TextStyle(color: kWhiteColor, fontWeight: FontWeight.bold),
+            )),
       );
     }
+  }
+
+  _showDownloading() {
+    isDownloadLoading = true;
+    _notifySafely();
+  }
+
+  _hideDownloading() {
+    isDownloadLoading = false;
+    _notifySafely();
+  }
+
+  void _notifySafely() {
+    if (!isDisposed) {
+      notifyListeners();
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    isDisposed = true;
+  }
+
+  checkAndRequestStoragePermission() async {
+    var status = await Permission.storage.status;
+    if (!status.isGranted) {
+      await Permission.storage.request();
+    }
+  }
+
+  Future<String> _getCustomDirectory() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final customDir = Directory('${directory.path}/TMSMobile');
+
+    if (!(await customDir.exists())) {
+      await customDir.create(recursive: true);
+    }
+    return customDir.path;
+  }
+
+  Future<String> _getAndroidDirectory() async {
+    
+    final customDir = Directory('/storage/emulated/0/Download/TMSMobile');
+
+    if (!(await customDir.exists())) {
+      await customDir.create(recursive: true);
+    }
+    return customDir.path;
   }
 }

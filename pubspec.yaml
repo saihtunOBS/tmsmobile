@@ -36,8 +36,10 @@ dependencies:
   socket_io_client: ^3.0.2
   pdf: ^3.11.1
   path_provider: ^2.1.5
-  url_launcher: ^6.3.1
   open_file: ^3.5.10
+  permission_handler: ^11.3.1
+  screenshot: ^3.0.0
+  printing: ^5.13.4
 dev_dependencies:
   flutter_test:
     sdk: flutter

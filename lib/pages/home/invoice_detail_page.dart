@@ -17,54 +17,61 @@ class InvoiceDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => InvoiceDetaiBloc(),
-      child: Scaffold(
-        backgroundColor: kBackgroundColor,
-        appBar: PreferredSize(
-            preferredSize: Size(double.infinity, kMargin60),
-            child: GradientAppBar(
-              kInvoiceDetailLabel,
-              action: _buildDownloadButton(context),
-            )),
-        body: Consumer<InvoiceDetaiBloc>(
-          builder: (context, bloc, child) => Stack(
-            children: [
-              SingleChildScrollView(
-                  child: RepaintBoundary(key: contentKey, child: _buildBody())),
+      create: (context) => InvoiceDetaiBloc(context: context),
+      child: Consumer<InvoiceDetaiBloc>(
+        builder: (context, bloc, child) => IgnorePointer(
+          ignoring: bloc.isDownloadLoading == true,
+          child: Scaffold(
+            backgroundColor: kBackgroundColor,
+            appBar: PreferredSize(
+                preferredSize: Size(double.infinity, kMargin60),
+                child: GradientAppBar(
+                  kInvoiceDetailLabel,
+                  action: _buildDownloadButton(context),
+                )),
+            body: Stack(
+              children: [
+                SingleChildScrollView(
+                    child:
+                        RepaintBoundary(key: contentKey, child: _buildBody())),
 
-              ///download progress loading
-              bloc.isDownloadLoading == true
-                  ? Center(
-                      child: Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(kMarginMedium2),
-                          color: kBlackColor.withValues(alpha: 0.6),
-                        ),
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            value: bloc.progress,
-                            strokeWidth: 3.0,
-                            valueColor: AlwaysStoppedAnimation(kWhiteColor),
-                          ),
-                        ),
+                ///download progress loading
+                Center(
+                  child: AnimatedOpacity(
+                    opacity: bloc.isDownloadLoading == false ? 0 : 1,
+                    duration: Duration(milliseconds: 300),
+                    child: Container(
+                      width: 150,
+                      height: 70,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(kMargin10),
+                        color: kBlackColor.withValues(alpha: 0.9),
                       ),
-                    )
-                  : SizedBox.shrink()
-            ],
+                      child: Center(
+                          child: Text(
+                        'Saving....',
+                        style: TextStyle(
+                            color: kWhiteColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: kTextRegular2x),
+                      )),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            bottomNavigationBar: Consumer<InvoiceDetaiBloc>(
+              builder: (context, bloc, child) => Container(
+                  height: kBottomBarHeight,
+                  decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                    BoxShadow(
+                        offset: Offset(8, 0), blurRadius: 5, color: kGreyColor)
+                  ]),
+                  child: Center(
+                      child: gradientButton(
+                          title: kMakePaymentLabel, onPress: () {}))),
+            ),
           ),
-        ),
-        bottomNavigationBar: Consumer<InvoiceDetaiBloc>(
-          builder: (context, bloc, child) => Container(
-              height: kBottomBarHeight,
-              decoration: BoxDecoration(color: Colors.white, boxShadow: [
-                BoxShadow(
-                    offset: Offset(8, 0), blurRadius: 10, color: kGreyColor)
-              ]),
-              child: Center(
-                  child: gradientButton(
-                      title: kMakePaymentLabel, onPress: () {}))),
         ),
       ),
     );
@@ -74,7 +81,7 @@ class InvoiceDetailPage extends StatelessWidget {
     return Consumer<InvoiceDetaiBloc>(
       builder: (context, bloc, child) => IconButton(
           onPressed: () {
-            bloc.savePdf(context, contentKey);
+            bloc.savePdf(contentKey);
           },
           icon: Icon(
             Icons.download,
@@ -156,7 +163,7 @@ class InvoiceDetailPage extends StatelessWidget {
           Container(
               height: kSize46,
               width: double.infinity,
-              padding: EdgeInsets.only(left: kTextRegular2x, top: kMargin10),
+              padding: EdgeInsets.only(left: kTextRegular2x, top: kMargin12),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(kMargin5),
@@ -259,7 +266,7 @@ class InvoiceDetailPage extends StatelessWidget {
           Container(
               height: kSize46,
               width: double.infinity,
-              padding: EdgeInsets.only(left: kTextRegular2x, top: kMargin10),
+              padding: EdgeInsets.only(left: kTextRegular2x, top: kMargin12),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(kMargin5),
