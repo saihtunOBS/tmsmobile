@@ -26,7 +26,7 @@ class AuthBloc extends ChangeNotifier {
     token = PersistenceData.shared.getToken();
   }
 
-  Future onTapContinue(
+  Future onTapContinueChangePassword(
       {required String oldPassword, required newPassword}) async {
     _showLoading();
     var request = ChangePasswordRequest(

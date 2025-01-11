@@ -27,6 +27,9 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
     with SingleTickerProviderStateMixin {
   int _currentIndex = 0;
   late TabController _tabController;
+
+  final scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -43,6 +46,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
   @override
   void dispose() {
     _tabController.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 
@@ -64,49 +68,56 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
               child: GradientAppBar(
                 kServiceRequestLabel,
               )),
-          body: Stack(children: [
-            Column(
-              children: [
-                DefaultTabController(
-                    length: 2,
-                    child: TabBar(
-                        dividerColor: Colors.transparent,
-                        controller: _tabController,
-                        indicatorSize: TabBarIndicatorSize.tab,
-                        indicatorPadding: EdgeInsets.only(
-                            top: kMargin45, left: kMargin24, right: kMargin24),
-                        indicatorWeight: 4.0,
-                        indicator: ShapeDecoration(
-                          shape: UnderlineInputBorder(),
-                          gradient: LinearGradient(
-                            colors: [kPrimaryColor, kThirdColor],
+          body: Consumer<ServiceRequestBloc>(
+            builder: (context, bloc, child) => Stack(children: [
+              Column(
+                children: [
+                  DefaultTabController(
+                      length: 2,
+                      child: TabBar(
+                          dividerColor: Colors.transparent,
+                          controller: _tabController,
+                          indicatorSize: TabBarIndicatorSize.tab,
+                          indicatorPadding: EdgeInsets.only(
+                              top: kMargin45,
+                              left: kMargin24,
+                              right: kMargin24),
+                          indicatorWeight: 4.0,
+                          indicator: ShapeDecoration(
+                            shape: UnderlineInputBorder(),
+                            gradient: LinearGradient(
+                              colors: [kPrimaryColor, kThirdColor],
+                            ),
                           ),
-                        ),
-                        tabs: [
-                          Tab(
-                            child: Text(kMaintenanceLabel,
+                          tabs: [
+                            Tab(
+                              child: Text(kMaintenanceLabel,
+                                  style: TextStyle(
+                                      fontSize: kTextRegular2x,
+                                      fontWeight: FontWeight.w700)),
+                            ),
+                            Tab(
+                              child: Text(
+                                kFillOutLabel,
                                 style: TextStyle(
                                     fontSize: kTextRegular2x,
-                                    fontWeight: FontWeight.w700)),
-                          ),
-                          Tab(
-                            child: Text(
-                              kFillOutLabel,
-                              style: TextStyle(
-                                  fontSize: kTextRegular2x,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          )
-                        ])),
-                Expanded(
-                  child: TabBarView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      controller: _tabController,
-                      children: [_buildMaintenanceTab(), _buildFillOutTab()]),
-                ),
-              ],
-            ),
-          ]),
+                                    fontWeight: FontWeight.w700),
+                              ),
+                            )
+                          ])),
+                  Expanded(
+                    child: TabBarView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        controller: _tabController,
+                        children: [
+                          _buildMaintenanceTab(),
+                          _buildFillOutTab(bloc)
+                        ]),
+                  ),
+                ],
+              ),
+            ]),
+          ),
           floatingActionButton: Consumer<ServiceRequestBloc>(
             builder: (context, bloc, child) => FloatingActionButton(
                 shape: CircleBorder(),
@@ -141,55 +152,94 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
           ///loading
           LoadingView(
               indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor)
-          : ListView.builder(
-              padding: EdgeInsets.symmetric(
-                  vertical: kMargin24, horizontal: kMarginMedium2),
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                return InkWell(
-                    onTap: () {
-                      PageNavigator(ctx: context).nextPage(
-                          page: MaintenanceProcessPage(
-                        status: '',
-                      ));
-                    },
-                    child: ServiceRequestListItem(
-                        statusColor: 0, status: 'Pending'));
-              }),
+          : RefreshIndicator(
+              onRefresh: () async => bloc.fillOutLists.clear(),
+              child: NotificationListener<ScrollNotification>(
+                onNotification: (scrollNotification) {
+                  if (scrollNotification is ScrollEndNotification &&
+                      scrollController.position.extentAfter == 0) {
+                    var bloc = context.read<ServiceRequestBloc>();
+                    bloc.getLoadMoreFillOuts();
+                  }
+                  return false;
+                },
+                child: ListView.builder(
+                    padding: EdgeInsets.symmetric(
+                        vertical: kMargin24, horizontal: kMarginMedium2),
+                    itemCount: 3,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                          onTap: () {
+                            PageNavigator(ctx: context).nextPage(
+                                page: MaintenanceProcessPage(
+                              status: '',
+                            ));
+                          },
+                          child: ServiceRequestListItem(
+                              statusColor: 0, status: 'Pending'));
+                    }),
+              ),
+            ),
     );
   }
 
-  Widget _buildFillOutTab() {
-    return Consumer<ServiceRequestBloc>(
-      builder: (context, bloc, child) => bloc.isLoading == true
-          ?
+  Widget _buildFillOutTab(ServiceRequestBloc bloc) {
+    return bloc.isLoading == true
+        ?
 
-          ///loading
-          LoadingView(
-              indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor)
-          : bloc.fillOutLists.isEmpty
-              ? EmptyView(
-                  imagePath: kNoServiceRequestImage,
-                  title: kNoServiceRequestLabel,
-                  subTitle: kThereisNoServiceRequestLabel)
-              : ListView.builder(
-                  padding: EdgeInsets.symmetric(
-                      vertical: kMargin24, horizontal: kMarginMedium2),
-                  itemCount: bloc.fillOutLists.length,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () => PageNavigator(ctx: context).nextPage(
-                          page: FillOutProcessPage(
-                        status: kApprovedLabel,
-                      )),
-                      child: ServiceRequestListItem(
-                        statusColor: bloc.fillOutLists[index].status ?? 0,
-                        status: 'Pending',
-                        isFillOut: true,
-                        data: bloc.fillOutLists[index],
-                      ),
-                    );
-                  }),
-    );
+        ///loading
+        LoadingView(
+            indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor)
+        : RefreshIndicator(
+            onRefresh: () async => bloc.getFillOuts(),
+            child: bloc.fillOutLists.isEmpty
+                ? EmptyView(
+                    imagePath: kNoServiceRequestImage,
+                    title: kNoServiceRequestLabel,
+                    subTitle: kThereisNoServiceRequestLabel)
+                : NotificationListener<ScrollNotification>(
+                    onNotification: (scrollNotification) {
+                      if (scrollNotification is ScrollEndNotification &&
+                          scrollController.position.extentAfter == 0) {
+                        if (!bloc.isLoadMore) {
+                          bloc.getLoadMoreFillOuts();
+                        }
+                      }
+                      return false;
+                    },
+                    child: ListView.builder(
+                        controller: scrollController,
+                        padding: EdgeInsets.only(
+                            left: kMarginMedium2,
+                            right: kMarginMedium2,
+                            top: kMarginMedium2,
+                            bottom: kMargin40),
+                        itemCount: bloc.isLoadMore == true
+                            ? bloc.fillOutLists.length + 1
+                            : bloc.fillOutLists.length,
+                        itemBuilder: (context, index) {
+                          if (index == bloc.fillOutLists.length &&
+                              bloc.isLoadMore) {
+                            return LoadingView(
+                              bgColor: kBackgroundColor,
+                              indicator: Indicator.ballBeat,
+                              indicatorColor: kPrimaryColor,
+                            );
+                          }
+                          return InkWell(
+                            onTap: () => PageNavigator(ctx: context).nextPage(
+                                page: FillOutProcessPage(
+                              status: kApprovedLabel,
+                            )),
+                            child: ServiceRequestListItem(
+                              statusColor: bloc.fillOutLists[index].status ?? 0,
+                              status: 'Pending',
+                              isFillOut: true,
+                              data: bloc.fillOutLists[index],
+                            ),
+                          );
+                        }),
+                  ),
+          );
   }
 }

@@ -8,6 +8,7 @@ import 'package:tmsmobile/bloc/house_hold_bloc.dart';
 import 'package:tmsmobile/bloc/language_bloc.dart';
 import 'package:tmsmobile/bloc/owner_nrc_bloc.dart';
 import 'package:tmsmobile/bloc/nrc_bloc.dart';
+import 'package:tmsmobile/bloc/service_request_bloc.dart';
 import 'package:tmsmobile/data/app_data/app_data.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/pages/auth/splash_screen_page.dart';
@@ -23,7 +24,8 @@ void main() async {
     ChangeNotifierProvider(create: (_) => OwnerNRCBloc()),
     ChangeNotifierProvider(create: (_) => AddResidentBloc()),
     ChangeNotifierProvider(create: (_) => EditResidentBloc()),
-    ChangeNotifierProvider(create: (_) => HouseHoldBloc())
+    ChangeNotifierProvider(create: (_) => HouseHoldBloc()),
+    ChangeNotifierProvider(create: (_) => ServiceRequestBloc()),
   ], child: const TMSMobile()));
 }
 

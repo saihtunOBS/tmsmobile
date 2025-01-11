@@ -28,12 +28,12 @@ abstract class TmsApi {
   Future<LoginResponse> login(@Body() LoginRequest loginRequest);
 
   @POST(kEndPointChangePassword)
-  Future<LoginResponse> changePassword(
+  Future<void> changePassword(
       @Header(kHeaderAuthorization) String token,
       @Body() ChangePasswordRequest changePasswordRequest);
 
   @POST(kEndPointResetPassword)
-  Future resetPassword(@Header(kHeaderAuthorization) String token,
+  Future<void> resetPassword(@Header(kHeaderAuthorization) String token,
       @Body() ResetPasswordRequest resetPasswordRequest);
 
   @DELETE(kEndPointDeleteUser)

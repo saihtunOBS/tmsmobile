@@ -58,7 +58,7 @@ class _TmsApi implements TmsApi {
   }
 
   @override
-  Future<LoginResponse> changePassword(
+  Future<void> changePassword(
     String token,
     ChangePasswordRequest changePasswordRequest,
   ) async {
@@ -68,7 +68,7 @@ class _TmsApi implements TmsApi {
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(changePasswordRequest.toJson());
-    final _options = _setStreamType<LoginResponse>(Options(
+    final _options = _setStreamType<void>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -84,19 +84,11 @@ class _TmsApi implements TmsApi {
           _dio.options.baseUrl,
           baseUrl,
         )));
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late LoginResponse _value;
-    try {
-      _value = LoginResponse.fromJson(_result.data!);
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
-      rethrow;
-    }
-    return _value;
+    await _dio.fetch<void>(_options);
   }
 
   @override
-  Future<dynamic> resetPassword(
+  Future<void> resetPassword(
     String token,
     ResetPasswordRequest resetPasswordRequest,
   ) async {
@@ -106,7 +98,7 @@ class _TmsApi implements TmsApi {
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(resetPasswordRequest.toJson());
-    final _options = _setStreamType<dynamic>(Options(
+    final _options = _setStreamType<void>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -122,9 +114,7 @@ class _TmsApi implements TmsApi {
           _dio.options.baseUrl,
           baseUrl,
         )));
-    final _result = await _dio.fetch(_options);
-    final _value = _result.data;
-    return _value;
+    await _dio.fetch<void>(_options);
   }
 
   @override

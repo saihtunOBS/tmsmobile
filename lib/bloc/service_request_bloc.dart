@@ -10,6 +10,8 @@ class ServiceRequestBloc extends ChangeNotifier {
   bool isLoading = false;
   bool isDisposed = false;
   List<Shop>? shops;
+  int page = 1;
+  bool isLoadMore = false;
 
   final TmsModel _tmsModel = TmsModelImpl();
 
@@ -20,10 +22,26 @@ class ServiceRequestBloc extends ChangeNotifier {
 
   getFillOuts() {
     _showLoading();
+    fillOutLists.clear();
+    shops?.clear();
     _tmsModel.getFillOuts(token ?? '', 1, 10).then((response) {
       fillOutLists = response;
       shops = response.map((data) => data.shop as Shop).toList();
     }).whenComplete(() => _hideLoading());
+  }
+
+  getLoadMoreFillOuts() {
+    isLoadMore = true;
+    notifyListeners();
+
+    page += 1;
+    _tmsModel.getFillOuts(token ?? '', page, 10).then((response) {
+      fillOutLists.addAll(response);
+      shops?.addAll(response.map((data) => data.shop as Shop).toList());
+    }).whenComplete(() {
+      isLoadMore = false;
+      notifyListeners();
+    });
   }
 
   _showLoading() {

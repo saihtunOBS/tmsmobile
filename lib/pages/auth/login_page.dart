@@ -147,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                   indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor),
           ]),
         ),
-        bottomNavigationBar: Consumer<LogInBloc?>(
+        bottomNavigationBar: Consumer<LogInBloc>(
           builder: (context, bloc, child) =>
               Stack(alignment: Alignment.center, children: [
             SizedBox(
@@ -158,31 +158,38 @@ class _LoginPageState extends State<LoginPage> {
                 fit: BoxFit.fill,
               ),
             ),
-            gradientButton(
-                title: isFirstTime == true ? kContinueLabel : kLoginLabel,
-                onPress: () {
-                  bloc
-                      ?.onTapSignIn(_phoneController.text.trim(),
-                          _passwordController.text.trim())
-                      .then((value) {
-                    if (value.status == true) {
-                      if (value.data?.verify == 1) {
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            createRoute(NavPage(), duration: 400),
-                            (route) => false);
-                      } else {
-                        PageNavigator(ctx: context).nextPage(
-                            page: ChangePasswordPage(isChangePassword: true));
-                      }
+            AnimatedOpacity(
+              opacity: bloc.isAgreeTermAndCondition == false ? 0.5 : 1,
+              duration: Duration(milliseconds: 200),
+              child: gradientButton(
+                  title: isFirstTime == true ? kContinueLabel : kLoginLabel,
+                  onPress: () {
+                    if (bloc.isAgreeTermAndCondition == true) {
+                      bloc
+                          .onTapSignIn(_phoneController.text.trim(),
+                              _passwordController.text.trim())
+                          .then((value) {
+                        if (value.status == true) {
+                          if (value.data?.verify == 1) {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                createRoute(NavPage(), duration: 400),
+                                (route) => false);
+                          } else {
+                            PageNavigator(ctx: context).nextPage(
+                                page:
+                                    ChangePasswordPage(isChangePassword: true));
+                          }
+                        }
+                      }).catchError((error) {
+                        showCommonDialog(
+                            context: context,
+                            dialogWidget: ErrorDialogView(
+                                errorMessage: error.toString()));
+                      });
                     }
-                  }).catchError((error) {
-                    showCommonDialog(
-                        context: context,
-                        dialogWidget:
-                            ErrorDialogView(errorMessage: error.toString()));
-                  });
-                }),
+                  }),
+            ),
           ]),
         ),
       ),
@@ -190,24 +197,24 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildTermAndCondition() {
-    return Row(
-      children: [
-        SizedBox(
-          width: kMargin10,
-        ),
-        Checkbox(
-            value: isSelected,
-            onChanged: (value) {
-              setState(() {
-                isSelected = !isSelected;
-              });
-            }),
-        Text(
-          kTermAndConditionLabel,
-          style: GoogleFonts.nunito(
-              fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
-        )
-      ],
+    return Consumer<LogInBloc>(
+      builder: (context, bloc, child) => Row(
+        children: [
+          SizedBox(
+            width: kMargin10,
+          ),
+          Checkbox(
+              value: bloc.isAgreeTermAndCondition,
+              onChanged: (value) {
+                bloc.onCheckTermAndConditon(value ?? false);
+              }),
+          Text(
+            kTermAndConditionLabel,
+            style: GoogleFonts.nunito(
+                fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+          )
+        ],
+      ),
     );
   }
 

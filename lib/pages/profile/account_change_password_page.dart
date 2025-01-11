@@ -136,7 +136,7 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                                             'Password does not match!'));
                               } else {
                                 bloc
-                                    .onTapContinue(
+                                    .onTapContinueChangePassword(
                                   oldPassword:
                                       _oldPasswordController.text.trim(),
                                   newPassword: _passwordController.text.trim(),

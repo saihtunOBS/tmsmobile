@@ -5,6 +5,6 @@ class CustomException implements Exception {
 
   CustomException(this.errorVO);
 
-  // @override
-  // String toString() => errorVO.getErrorMessages() ?? "";
+  @override
+  String toString() => errorVO.message ?? "";
 }

@@ -9,6 +9,7 @@ class LogInBloc extends ChangeNotifier {
   bool isDisposed = false;
   bool showPassword = false;
   final TmsModel _tmsModel = TmsModelImpl();
+  bool isAgreeTermAndCondition = false;
 
   Future<LoginResponse> onTapSignIn(String phone, password) {
     _showLoading();
@@ -29,6 +30,11 @@ class LogInBloc extends ChangeNotifier {
   _hideLoading() {
     isLoading = false;
     _notifySafely();
+  }
+
+  onCheckTermAndConditon(bool value){
+    isAgreeTermAndCondition = value;
+    notifyListeners();
   }
 
   void _notifySafely() {
