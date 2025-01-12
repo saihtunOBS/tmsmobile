@@ -103,12 +103,29 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
     return Column(
       children: [
         3.vGap,
-        SizedBox(
-            height: kMargin24,
-            width: kMargin24,
-            child: Image.asset(
-              _currentIndex == 0 ? kHomeSelectIcon : kHomeIcon,
-            )),
+        Stack(
+          clipBehavior: Clip.none,
+          children: [
+            SizedBox(
+                height: kMargin24,
+                width: kMargin24,
+                child: Image.asset(
+                  _currentIndex == 0 ? kHomeSelectIcon : kHomeIcon,
+                )),
+            Positioned(
+              top: -10,
+              child: AnimatedOpacity(
+                opacity: _currentIndex == 0 ? 1 : 0,
+                duration: Duration(milliseconds: 300),
+                child: Image.asset(
+                  kStarLogo,
+                  width: kMargin24 + 1,
+                  height: kMargin24,
+                ),
+              ),
+            )
+          ],
+        ),
         Text(
           kHomeLabel,
           style: TextStyle(
@@ -124,11 +141,28 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
     return Column(
       children: [
         3.vGap,
-        SizedBox(
-            height: kMargin24,
-            width: kMargin24,
-            child:
-                Image.asset(_currentIndex == 1 ? kNotiSelectIcon : kNotiIcon)),
+        Stack(
+          clipBehavior: Clip.none,
+          children: [
+            SizedBox(
+                height: kMargin24,
+                width: kMargin24,
+                child: Image.asset(
+                    _currentIndex == 1 ? kNotiSelectIcon : kNotiIcon)),
+            Positioned(
+              top: -10,
+              child: AnimatedOpacity(
+                opacity: _currentIndex == 1 ? 1 : 0,
+                duration: Duration(milliseconds: 300),
+                child: Image.asset(
+                  kStarLogo,
+                  width: kMargin24 + 1,
+                  height: kMargin24,
+                ),
+              ),
+            )
+          ],
+        ),
         Text(
           kNotiLabel,
           style: TextStyle(
@@ -144,11 +178,28 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
     return Column(
       children: [
         3.vGap,
-        SizedBox(
-            height: kMargin24,
-            width: kMargin24,
-            child: Image.asset(
-                _currentIndex == 2 ? kProfileSelectIcon : kProfileIcon)),
+        Stack(
+          clipBehavior: Clip.none,
+          children: [
+            SizedBox(
+                height: kMargin24,
+                width: kMargin24,
+                child: Image.asset(
+                    _currentIndex == 2 ? kProfileSelectIcon : kProfileIcon)),
+            Positioned(
+              top: -10,
+              child: AnimatedOpacity(
+                opacity: _currentIndex == 2 ? 1 : 0,
+                duration: Duration(milliseconds: 300),
+                child: Image.asset(
+                  kStarLogo,
+                  width: kMargin24 + 1,
+                  height: kMargin24,
+                ),
+              ),
+            )
+          ],
+        ),
         Text(
           kProfileLabel,
           style: TextStyle(

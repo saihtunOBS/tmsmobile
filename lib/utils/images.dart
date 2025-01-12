@@ -3,6 +3,7 @@ const kHomeIcon = "assets/images/home.png";
 const kNotiIcon = "assets/images/noti.png";
 const kProfileIcon = "assets/images/profile.png";
 const kHomeSelectIcon = "assets/images/select_home.png";
+const kStarLogo = 'assets/images/star.png';
 const kNotiSelectIcon = 'assets/images/select_noti.png';
 const kProfileSelectIcon = 'assets/images/select_profile.png';
 const kAppBarBackgroundImage = 'assets/images/appbar_background.png';

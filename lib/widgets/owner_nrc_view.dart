@@ -83,7 +83,7 @@ class NRCViewState extends State<OwnerNrcView> {
                             iconDisabledColor: Colors.black,
                             iconEnabledColor: Colors.black,
                             isExpanded: true,
-                            hint: Text('/'),
+                            hint: Text('0 /'),
                             menuMaxHeight: kMargin110,
                             underline: SizedBox(),
                             alignment: Alignment.center,

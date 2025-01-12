@@ -171,9 +171,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                           height: kBottomBarHeight,
                           child: Center(
                             child: gradientButton(
-                                title: kSubmitLabel, onPress: () {
-                                  
-                                }),
+                                title: kSubmitLabel, onPress: () {}),
                           )),
             ),
           ),
@@ -189,7 +187,10 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
       children: [
         Text(
           title,
-          style: TextStyle(fontSize: kTextRegular2x),
+          style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: kTextRegular2x,
+              fontFamily: AppData.shared.getLocaleFont()),
         ),
         Text(
           value,
@@ -214,9 +215,13 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          _listItem(title: kRegistrationDateLabel, value: reDate),
+          _listItem(
+              title: AppLocalizations.of(context)?.kRegistrationDateLabel ?? '',
+              value: reDate),
           10.vGap,
-          _listItem(title: kMoveInDateLabel, value: moveInDate),
+          _listItem(
+              title: AppLocalizations.of(context)?.kMoveInDateLabel ?? '',
+              value: moveInDate),
           10.vGap,
           _listItem(
               title: AppLocalizations.of(context)?.kEmergencyLabel ?? '',
@@ -248,7 +253,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                               padding: EdgeInsets.only(bottom: kMargin10),
                               child: SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height / 2.3,
+                                    MediaQuery.of(context).size.height / 2.2,
                                 child: Column(
                                   spacing: kMarginMedium2,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -287,7 +292,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                           padding: EdgeInsets.only(bottom: kMargin10),
                           color: kThirdGrayColor,
                           child: SizedBox(
-                            height: MediaQuery.of(context).size.height / 2.3,
+                            height: MediaQuery.of(context).size.height / 2.2,
                             child: ListView.builder(
                                 physics: ClampingScrollPhysics(),
                                 itemCount: houseHoldData.length,

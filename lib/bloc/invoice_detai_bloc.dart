@@ -142,7 +142,6 @@ class InvoiceDetaiBloc extends ChangeNotifier {
   }
 
   Future<String> _getAndroidDirectory() async {
-    
     final customDir = Directory('/storage/emulated/0/Download/TMSMobile');
 
     if (!(await customDir.exists())) {

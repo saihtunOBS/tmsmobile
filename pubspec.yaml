@@ -61,4 +61,7 @@ flutter:
     - family: crimson
       fonts:
         - asset: fonts/CrimsonPro-Regular.ttf
+    - family: mm_font
+      fonts:
+        - asset: fonts/Padauk-Regular.ttf
   
