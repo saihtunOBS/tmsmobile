@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tmsmobile/data/vos/contract_vo.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/images.dart';
@@ -8,9 +9,10 @@ import '../data/app_data/app_data.dart';
 class ContractListItem extends StatelessWidget {
   const ContractListItem({
     super.key,
-    required this.onPress,
+    required this.onPress, required this.data,
   });
   final VoidCallback onPress;
+  final ContractVo data;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class ContractListItem extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(kMargin5)),
               child: Text(
-                'Condo Sale Contract',
+                data.propertyType ?? '',
                 style: TextStyle(
                           fontFamily: AppData.shared.fontFamily2,
                     fontSize: kTextRegular18,

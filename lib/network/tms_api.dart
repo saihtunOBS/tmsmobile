@@ -6,6 +6,7 @@ import 'package:tmsmobile/network/api_constants.dart';
 import 'package:tmsmobile/network/requests/complaint_request.dart';
 import 'package:tmsmobile/network/requests/reset_password_request.dart';
 import 'package:tmsmobile/network/responses/complaint_response.dart';
+import 'package:tmsmobile/network/responses/contract_response.dart';
 import 'package:tmsmobile/network/responses/household_response.dart';
 import 'package:tmsmobile/network/responses/service_request_response.dart';
 
@@ -15,6 +16,7 @@ import 'requests/household_registration_request.dart';
 import 'requests/household_resident_request.dart';
 import 'requests/login_request.dart';
 import 'responses/complaint_detail_response.dart';
+import 'responses/contract_information_response.dart';
 import 'responses/login_response.dart';
 import 'responses/user_response.dart';
 
@@ -28,8 +30,7 @@ abstract class TmsApi {
   Future<LoginResponse> login(@Body() LoginRequest loginRequest);
 
   @POST(kEndPointChangePassword)
-  Future<void> changePassword(
-      @Header(kHeaderAuthorization) String token,
+  Future<void> changePassword(@Header(kHeaderAuthorization) String token,
       @Body() ChangePasswordRequest changePasswordRequest);
 
   @POST(kEndPointResetPassword)
@@ -101,6 +102,11 @@ abstract class TmsApi {
     @Query("limit") int limit,
   );
 
+  @GET(kEndPointMaintenanceRequest)
+  Future<ServiceRequestResponse> getMaintenance(
+    @Header(kHeaderAuthorization) String token,
+  );
+
   @MultiPart()
   @POST(kEndPointCreateFillOut)
   Future<ServiceRequestResponse> createFillOut(
@@ -109,4 +115,27 @@ abstract class TmsApi {
       @Part() String tenant,
       @Part() String shop,
       @Part() String description);
+
+  @MultiPart()
+  @POST(kEndPointCreateMaintenance)
+  Future<ServiceRequestResponse> createMaintenance(
+      @Header(kHeaderAuthorization) String token,
+      @Part() List<File> attach,
+      @Part() String tenant,
+      @Part() String shop,
+      @Part() String issue,
+      @Part() String description);
+
+  @GET(kEndPointContract)
+  Future<ContractResponse> getContracts(
+    @Header(kHeaderAuthorization) String token,
+    @Query("page") int page,
+    @Query("limit") int limit,
+  );
+
+  @GET('$kEndPointContractInformation/{id}')
+  Future<ContractInformationResponse>getContractInformation(
+    @Header(kHeaderAuthorization) String token,
+    @Path() String id
+  );
 }

@@ -26,6 +26,8 @@ ServiceRequestVo _$ServiceRequestVoFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['updatedAt'] as String),
       version: (json['__v'] as num?)?.toInt(),
+      description: json['description'] as String?,
+      issue: json['issue'] as String?,
     );
 
 Map<String, dynamic> _$ServiceRequestVoToJson(ServiceRequestVo instance) =>
@@ -34,6 +36,8 @@ Map<String, dynamic> _$ServiceRequestVoToJson(ServiceRequestVo instance) =>
       'tenant': instance.tenant,
       'shop': instance.shop,
       'status': instance.status,
+      'issue': instance.issue,
+      'description': instance.description,
       'photos': instance.photos,
       'business_unit': instance.businessUnit,
       'createdAt': instance.createdAt?.toIso8601String(),

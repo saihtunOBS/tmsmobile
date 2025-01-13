@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:tmsmobile/data/vos/complaint_vo.dart';
+import 'package:tmsmobile/data/vos/contract_information_vo.dart';
+import 'package:tmsmobile/data/vos/contract_vo.dart';
 import 'package:tmsmobile/data/vos/household_vo.dart';
 import 'package:tmsmobile/data/vos/service_request_vo.dart';
 import 'package:tmsmobile/data/vos/user_vo.dart';
@@ -53,9 +55,10 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
   }
 
   @override
-  Future changePassword(String token,ChangePasswordRequest changePasswordRequest) {
+  Future changePassword(
+      String token, ChangePasswordRequest changePasswordRequest) {
     return tmsApi
-        .changePassword('Bearer $token',changePasswordRequest)
+        .changePassword('Bearer $token', changePasswordRequest)
         .asStream()
         .map((response) => response)
         .first
@@ -228,12 +231,68 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
   }
 
   @override
+  Future<ServiceRequestResponse> createMaintenance(
+      String token,
+      List<File> files,
+      String tenant,
+      String shop,
+      String description,
+      String issue) {
+    return tmsApi
+        .createMaintenance(
+            'Bearer $token', files, tenant, shop, issue, description)
+        .asStream()
+        .map((response) => response)
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
   Future<void> deleteHouseHold(
       String token, String houseHoldId, String inforId) {
     return tmsApi
         .deleteHouseHold('Bearer $token', houseHoldId, inforId)
         .asStream()
         .map((response) => response)
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<List<ContractVo>> getContracts(String token, int page, int limit) {
+    return tmsApi
+        .getContracts('Bearer $token', page, 10)
+        .asStream()
+        .map((response) => response.data ?? [])
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<List<ServiceRequestVo>> getMaintenances(String token) {
+    return tmsApi
+        .getMaintenance('Bearer $token')
+        .asStream()
+        .map((response) => response.data ?? [])
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<ContractInformationVO> getContractInformation(
+      String token, String id) {
+    return tmsApi
+        .getContractInformation('Bearer $token', id)
+        .asStream()
+        .map((response) => response.data as ContractInformationVO)
         .first
         .catchError((error) {
       throw _createException(error);

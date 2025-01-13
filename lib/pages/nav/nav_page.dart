@@ -116,7 +116,7 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
               top: -10,
               child: AnimatedOpacity(
                 opacity: _currentIndex == 0 ? 1 : 0,
-                duration: Duration(milliseconds: 300),
+                duration: Duration(milliseconds: 200),
                 child: Image.asset(
                   kStarLogo,
                   width: kMargin24 + 1,
@@ -153,7 +153,7 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
               top: -10,
               child: AnimatedOpacity(
                 opacity: _currentIndex == 1 ? 1 : 0,
-                duration: Duration(milliseconds: 300),
+                duration: Duration(milliseconds: 200),
                 child: Image.asset(
                   kStarLogo,
                   width: kMargin24 + 1,
@@ -190,7 +190,7 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
               top: -10,
               child: AnimatedOpacity(
                 opacity: _currentIndex == 2 ? 1 : 0,
-                duration: Duration(milliseconds: 300),
+                duration: Duration(milliseconds: 200),
                 child: Image.asset(
                   kStarLogo,
                   width: kMargin24 + 1,

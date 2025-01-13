@@ -21,9 +21,10 @@ import '../../widgets/gradient_button.dart';
 
 class MaintenanceRequestPage extends StatefulWidget {
   const MaintenanceRequestPage(
-      {super.key, this.isMaintanence, this.shops, this.tenant});
+      {super.key, this.isMaintanence, this.shops, this.tenant, this.issues});
   final bool? isMaintanence;
   final List<Shop>? shops;
+  final List<String>? issues;
   final Tenant? tenant;
 
   @override
@@ -32,7 +33,6 @@ class MaintenanceRequestPage extends StatefulWidget {
 
 class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
   final _nameController = TextEditingController();
-  String? _selectedTypeIssue;
 
   @override
   void initState() {
@@ -109,14 +109,18 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                     child: gradientButton(
                         title: kSendRequestLabel,
                         onPress: () {
-                          bloc.checkFillOutValidation();
-                          bloc.filloutValidationMessage == 'success'
-                              ? bloc.onTapSendRequest()
+                          widget.isMaintanence == true
+                              ? bloc.checkMaintenanceValidation()
+                              : bloc.checkFillOutValidation();
+                          bloc.validationMessage == 'success'
+                              ? widget.isMaintanence == true
+                                  ? bloc.onTapSendRequestMaintenance()
+                                  : bloc.onTapSendRequestFillOut()
                               : showCommonDialog(
                                   context: context,
                                   dialogWidget: ErrorDialogView(
                                       errorMessage:
-                                          bloc.filloutValidationMessage ?? ''));
+                                          bloc.validationMessage ?? ''));
                         }),
                   )),
             ),
@@ -208,7 +212,7 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                       value: value, child: Text(value.name ?? ''));
                 }).toList(),
                 onChanged: ((value) {
-                  bloc.onTapRoomShopName(value as Shop);
+                  bloc.onChangeRoomShopName(value as Shop);
                 })),
           )
         ],
@@ -216,46 +220,45 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
     );
   }
 
-  List<String> issues = ['#C001', '#C002', '#C003'];
   Widget _buildTypeIssueDropDown() {
-    return Column(
-      spacing: kMargin5 - 1,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          spacing: 3,
-          children: [
-            Text(
-              kTypeOfIssueLabel,
-              style: TextStyle(
-                  fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
-            ),
-            Text(
-              '*',
-              style: TextStyle(color: Colors.red, fontSize: kTextRegular3x),
-            )
-          ],
-        ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: kMargin10),
-          decoration: BoxDecoration(
-              color: kInputBackgroundColor,
-              borderRadius: BorderRadius.circular(kMarginMedium)),
-          child: DropdownButton(
-              value: _selectedTypeIssue,
-              isExpanded: true,
-              underline: Container(),
-              hint: Text(kSelectTypeIssueLabel),
-              items: issues.map((value) {
-                return DropdownMenuItem(value: value, child: Text(value));
-              }).toList(),
-              onChanged: ((value) {
-                setState(() {
-                  _selectedTypeIssue = value ?? '';
-                });
-              })),
-        )
-      ],
+    return Consumer<MaintenanceBloc>(
+      builder: (context, bloc, child) => Column(
+        spacing: kMargin5 - 1,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            spacing: 3,
+            children: [
+              Text(
+                kTypeOfIssueLabel,
+                style: TextStyle(
+                    fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+              ),
+              Text(
+                '*',
+                style: TextStyle(color: Colors.red, fontSize: kTextRegular3x),
+              )
+            ],
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: kMargin10),
+            decoration: BoxDecoration(
+                color: kInputBackgroundColor,
+                borderRadius: BorderRadius.circular(kMarginMedium)),
+            child: DropdownButton(
+                value: bloc.selectedIssue,
+                isExpanded: true,
+                underline: Container(),
+                hint: Text(kSelectTypeIssueLabel),
+                items: widget.issues?.toSet().map((value) {
+                  return DropdownMenuItem(value: value, child: Text(value));
+                }).toList(),
+                onChanged: ((value) {
+                  bloc.onChangeIssue(value ?? '');
+                })),
+          )
+        ],
+      ),
     );
   }
 

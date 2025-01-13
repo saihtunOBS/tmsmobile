@@ -11,6 +11,8 @@ import '../../network/requests/login_request.dart';
 import '../../network/requests/reset_password_request.dart';
 import '../../network/responses/service_request_response.dart';
 import '../vos/complaint_vo.dart';
+import '../vos/contract_information_vo.dart';
+import '../vos/contract_vo.dart';
 import '../vos/household_vo.dart';
 import '../vos/service_request_vo.dart';
 
@@ -37,4 +39,10 @@ abstract class TmsModel {
   Future<List<ServiceRequestVo>> getFillOuts(String token, int page, int limit);
   Future<ServiceRequestResponse> createFillOut(String token, List<File> files,
       String tenant, String shop, String description);
+  Future<ServiceRequestResponse> createMaintenance(String token, List<File> files,
+      String tenant, String shop, String description,String issue);
+  Future<List<ServiceRequestVo>> getMaintenances(String token);
+  Future<List<ContractVo>> getContracts(String token, int page, int limit);
+  Future<ContractInformationVO> getContractInformation(String token, String id);
+
 }

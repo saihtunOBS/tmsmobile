@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:tmsmobile/data/vos/complaint_vo.dart';
+import 'package:tmsmobile/data/vos/contract_vo.dart';
 import 'package:tmsmobile/data/vos/household_vo.dart';
 import 'package:tmsmobile/data/vos/service_request_vo.dart';
 import 'package:tmsmobile/data/vos/user_vo.dart';
@@ -10,6 +11,7 @@ import 'package:tmsmobile/network/requests/household_owner_request.dart';
 import 'package:tmsmobile/network/requests/household_registration_request.dart';
 import 'package:tmsmobile/network/requests/reset_password_request.dart';
 
+import '../../data/vos/contract_information_vo.dart';
 import '../requests/household_resident_request.dart';
 import '../requests/login_request.dart';
 import '../responses/login_response.dart';
@@ -38,4 +40,9 @@ abstract class TmsDataAgent {
   Future<List<ServiceRequestVo>> getFillOuts(String token, int page, int limit);
   Future<ServiceRequestResponse> createFillOut(String token, List<File> files,
       String tenant, String shop, String description);
+  Future<ServiceRequestResponse> createMaintenance(String token, List<File> files,
+      String tenant, String shop, String description,String issue);
+  Future<List<ServiceRequestVo>> getMaintenances(String token);
+  Future<List<ContractVo>> getContracts(String token, int page, int limit);
+  Future<ContractInformationVO> getContractInformation(String token, String id);
 }

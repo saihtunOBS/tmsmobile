@@ -20,18 +20,21 @@ const String kEndPointHouseHoldDelete =
 const String kEndPointAddResident =
     '/account/house-hold-registration/add-information';
 const String kEndPointFilOutRequest = '/home/service/fill-out-request/list';
+const String kEndPointMaintenanceRequest = '/home/service/maintenance/list';
 const String kEndPointCreateFillOut = '/home/service/fill-out-request/create';
+const String kEndPointCreateMaintenance = '/home/service/maintenance/create';
+const String kEndPointContract = '/home/contract/list';
+const String kEndPointContractInformation = '/home/contract/edit';
 
 ///Parameters
 const String kParamApiKey = "api_key";
 const String kParamQuery = "query";
 const String kFieldTenant = "tenant";
-const String kFieldShop= "shop";
+const String kFieldShop = "shop";
 const String kFidledDescription = "description";
 const String kFieldPhoto = "photo";
 const String kHeaderAuthorization = "Authorization";
 const String kHeaderAcceptLanguage = "Accept-Language";
-
 
 ///Constant Values
 const String kApiKey = "d21502dc3a2218747cba4f76ca9eb7b0";

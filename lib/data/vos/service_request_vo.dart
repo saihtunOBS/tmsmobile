@@ -7,11 +7,20 @@ class ServiceRequestVo {
   @JsonKey(name: "_id")
   final String? id;
 
+  @JsonKey(name: "tenant")
   final Tenant? tenant;
+
+  @JsonKey(name: "shop")
   final Shop? shop;
 
   @JsonKey(name: 'status')
   final int? status;
+
+   @JsonKey(name: "issue")
+  final String? issue;
+
+   @JsonKey(name: "description")
+  final String? description;
 
   final List<String>? photos;
 
@@ -37,6 +46,8 @@ class ServiceRequestVo {
     this.createdAt,
     this.updatedAt,
     this.version,
+    this.description,
+    this.issue
   });
 
   factory ServiceRequestVo.fromJson(Map<String, dynamic> json) =>

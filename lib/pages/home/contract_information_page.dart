@@ -1,53 +1,78 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
+import 'package:provider/provider.dart';
+import 'package:tmsmobile/bloc/contract_information_bloc.dart';
+import 'package:tmsmobile/data/vos/contract_information_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
+import 'package:tmsmobile/widgets/loading_view.dart';
 
 import '../../utils/strings.dart';
 import '../../widgets/appbar.dart';
 
 class ContractInformationPage extends StatelessWidget {
-  const ContractInformationPage({super.key});
+  const ContractInformationPage(
+      {super.key, required this.id, required this.type});
+  final String id;
+  final String type;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      appBar: PreferredSize(
-          preferredSize: Size(double.infinity, kMargin60),
-          child: GradientAppBar(kContractInformationLabel)),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildHeader(),
-            ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                padding: EdgeInsets.symmetric(
-                    vertical: kMarginMedium2, horizontal: kMarginMedium2 + 2),
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return _buildBody();
-                })
-          ],
+    return ChangeNotifierProvider(
+      create: (context) => ContractInformationBloc(id),
+      child: Scaffold(
+        backgroundColor: kBackgroundColor,
+        appBar: PreferredSize(
+            preferredSize: Size(double.infinity, kMargin60),
+            child: GradientAppBar(kContractInformationLabel)),
+        body: Selector<ContractInformationBloc, bool?>(
+          selector: (p0, p1) => p1.isLoading,
+          builder: (context, isLoading, child) => isLoading == true
+              ? LoadingView(
+                  indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor)
+              : Consumer<ContractInformationBloc>(
+                  builder: (context, bloc, child) => SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        _buildHeader(bloc.contract as ContractInformationVO),
+                        ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            padding: EdgeInsets.symmetric(
+                                vertical: kMarginMedium2,
+                                horizontal: kMarginMedium2 + 2),
+                            itemCount:
+                                bloc.contract?.propertyInformation?.length,
+                            itemBuilder: (context, index) {
+                              return _buildBody(
+                                  bloc.contract?.propertyInformation?[index]
+                                      as PropertyInformation);
+                            })
+                      ],
+                    ),
+                  ),
+                ),
         ),
       ),
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(ContractInformationVO data) {
     return Container(
       margin:
           EdgeInsets.only(left: kMargin24, right: kMargin24, top: kMargin24),
       child: Column(
         spacing: kMarginMedium14,
         children: [
-          _listItem(title: kCreatedDateLabel, value: 'value'),
-          _listItem(title: kTenantTypeLabel, value: 'value'),
-          _listItem(title: kTenantCategoryLabel, value: 'value'),
-          _listItem(title: kStartDateLabel, value: 'value'),
-          _listItem(title: kEndDateLabel, value: 'value'),
+          _listItem(title: kCreatedDateLabel, value: '12/21/2025'),
+          _listItem(title: kTenantTypeLabel, value: type),
+          _listItem(
+              title: kTenantCategoryLabel,
+              value: data.tenant?.tenantCategory?.tenantCategoryName ?? ''),
+          _listItem(title: kStartDateLabel, value: '12/21/2025'),
+          _listItem(title: kEndDateLabel, value: '12/21/2025'),
           Divider(
             thickness: 0.5,
             color: Colors.black,
@@ -74,7 +99,7 @@ class ContractInformationPage extends StatelessWidget {
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(PropertyInformation data) {
     return Container(
       margin: EdgeInsets.only(bottom: kMarginMedium2 + 4),
       decoration: BoxDecoration(
@@ -115,7 +140,7 @@ class ContractInformationPage extends StatelessWidget {
                     fontWeight: FontWeight.w700),
               ),
               Text(
-                '#CC1',
+                '#${data.shop?.name}',
                 style: TextStyle(
                     color: kWhiteColor,
                     fontSize: kTextRegular2x,
@@ -133,17 +158,33 @@ class ContractInformationPage extends StatelessWidget {
                       bottomLeft: Radius.circular(10),
                       bottomRight: Radius.circular(10))),
               child: Column(
-                spacing: kMargin10,
                 children: [
-                  _listItem(title: kBranchLabel, value: 'value'),
-                  _listItem(title: kBuildingLabel, value: 'value'),
-                  _listItem(title: kFloorLabel, value: 'value'),
-                  _listItem(title: kZoneViewLabel, value: 'value'),
-                  _listItem(title: kRoomTypeLabel, value: 'value'),
-                  _listItem(title: kRoomShopNameLabel, value: 'value'),
-                  _listItem(title: kTotalAreaLabel, value: 'value'),
-                  5.vGap,
-                  _buildParkingInformation(),
+                  _listItem(
+                      title: kBranchLabel, value: data.branch?.name ?? ''),
+                  10.vGap,
+                  _listItem(
+                      title: kBuildingLabel, value: data.building?.name ?? ''),
+                  10.vGap,
+                  _listItem(title: kFloorLabel, value: data.floor?.name ?? ''),
+                  10.vGap,
+                  _listItem(
+                      title: kZoneViewLabel, value: data.zone?.name ?? ''),
+                  10.vGap,
+                  _listItem(
+                      title: kRoomTypeLabel,
+                      value: data.roomType?.roomType ?? ''),
+                  10.vGap,
+                  _listItem(
+                      title: kRoomShopNameLabel,
+                      value: '#${data.shop?.name ?? ''}'),
+                  10.vGap,
+                  _listItem(
+                      title: kTotalAreaLabel,
+                      value: '${data.totalArea ?? ''} sq ft'),
+                  10.vGap,
+                  data.parkingInformation?.isNotEmpty ?? true
+                      ? _buildParkingInformation()
+                      : Container(),
                 ],
               ),
             ),

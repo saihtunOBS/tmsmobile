@@ -8,12 +8,8 @@ import 'package:tmsmobile/utils/strings.dart';
 
 class ServiceRequestListItem extends StatelessWidget {
   const ServiceRequestListItem(
-      {super.key,
-      required this.statusColor,
-      required this.status,
-      this.isFillOut, this.data});
-  final int statusColor;
-  final String status;
+      {super.key, required this.status, this.isFillOut, this.data});
+  final int status;
   final bool? isFillOut;
   final ServiceRequestVo? data;
 
@@ -59,15 +55,15 @@ class ServiceRequestListItem extends StatelessWidget {
                       height: kSize26,
                       padding: EdgeInsets.symmetric(horizontal: kMargin12),
                       decoration: BoxDecoration(
-                          color: _filterStatusColor(status: statusColor)
+                          color: _filterStatusColor(status: status)
                               .withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(kMarginMedium14)),
                       child: Center(
                         child: Text(
-                          status,
+                          _filterStatus(status: status),
                           style: TextStyle(
                               fontSize: kTextSmall,
-                              color: _filterStatusColor(status: statusColor)),
+                              color: _filterStatusColor(status: status)),
                         ),
                       ),
                     )
@@ -86,7 +82,9 @@ class ServiceRequestListItem extends StatelessWidget {
                       fontSize: kTextRegular2x, fontWeight: FontWeight.w700),
                 ),
                 Text(
-                  data?.shop?.name ?? 'Something',
+                  isFillOut == true
+                      ? 'No Description'
+                      : data?.description ?? '',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   softWrap: true,
@@ -120,7 +118,10 @@ class ServiceRequestListItem extends StatelessWidget {
             children: [
               Spacer(),
               Text(
-                DateFormatter.formatDate(data?.createdAt ?? DateTime.now()),
+                isFillOut == true
+                    ? DateFormatter.formatDate(
+                        data?.createdAt ?? DateTime.now())
+                    : '',
                 style: TextStyle(fontSize: kTextRegular13),
               )
             ],
@@ -146,6 +147,25 @@ class ServiceRequestListItem extends StatelessWidget {
         return kPurpleColor;
       default:
         return kPrimaryColor;
+    }
+  }
+
+  String _filterStatus({required int status}) {
+    switch (status) {
+      case 0:
+        return 'Pending';
+      case 1:
+        return 'Pending';
+      case 2:
+        return 'Complete';
+      case 3:
+        return 'Complete';
+      case 4:
+        return 'Success';
+      case 5:
+        return 'Cancel';
+      default:
+        return 'Pending';
     }
   }
 }

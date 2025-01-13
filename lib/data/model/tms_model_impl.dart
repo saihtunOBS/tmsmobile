@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:tmsmobile/data/model/tms_model.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/data/vos/complaint_vo.dart';
+import 'package:tmsmobile/data/vos/contract_information_vo.dart';
+import 'package:tmsmobile/data/vos/contract_vo.dart';
 import 'package:tmsmobile/data/vos/household_vo.dart';
 import 'package:tmsmobile/data/vos/login_data_vo.dart';
 import 'package:tmsmobile/data/vos/service_request_vo.dart';
@@ -47,8 +49,9 @@ class TmsModelImpl extends TmsModel {
   }
 
   @override
-  Future<void> changePassword(String token,ChangePasswordRequest changePasswordRequest) {
-    return tmsDataAgent.changePassword(token,changePasswordRequest);
+  Future<void> changePassword(
+      String token, ChangePasswordRequest changePasswordRequest) {
+    return tmsDataAgent.changePassword(token, changePasswordRequest);
   }
 
   @override
@@ -129,5 +132,33 @@ class TmsModelImpl extends TmsModel {
   Future<void> deleteHouseHold(
       String token, String houseHoldId, String inforId) {
     return tmsDataAgent.deleteHouseHold(token, houseHoldId, inforId);
+  }
+
+  @override
+  Future<ServiceRequestResponse> createMaintenance(
+      String token,
+      List<File> files,
+      String tenant,
+      String shop,
+      String description,
+      String issue) {
+    return tmsDataAgent.createMaintenance(
+        token, files, tenant, shop, description, issue);
+  }
+
+  @override
+  Future<List<ContractVo>> getContracts(String token, int page, int limit) {
+    return tmsDataAgent.getContracts(token, page, limit);
+  }
+
+  @override
+  Future<List<ServiceRequestVo>> getMaintenances(String token) {
+    return tmsDataAgent.getMaintenances(token);
+  }
+
+  @override
+  Future<ContractInformationVO> getContractInformation(
+      String token, String id) {
+    return tmsDataAgent.getContractInformation(token, id);
   }
 }

@@ -7,9 +7,13 @@ import 'package:tmsmobile/data/vos/service_request_vo.dart';
 class ServiceRequestBloc extends ChangeNotifier {
   String? token;
   List<ServiceRequestVo> fillOutLists = [];
+  List<ServiceRequestVo> maintenanceLists = [];
   bool isLoading = false;
   bool isDisposed = false;
-  List<Shop>? shops;
+  List<Shop>? filloutShops;
+  List<Shop>? maintenanceShops;
+  List<String>? issues;
+
   int page = 1;
   bool isLoadMore = false;
 
@@ -17,16 +21,26 @@ class ServiceRequestBloc extends ChangeNotifier {
 
   ServiceRequestBloc() {
     token = PersistenceData.shared.getToken();
+    getMaintenances();
     getFillOuts();
   }
 
   getFillOuts() {
     _showLoading();
     fillOutLists.clear();
-    shops?.clear();
     _tmsModel.getFillOuts(token ?? '', 1, 10).then((response) {
       fillOutLists = response;
-      shops = response.map((data) => data.shop as Shop).toList();
+      filloutShops = response.map((data) => data.shop as Shop).toList();
+    }).whenComplete(() => _hideLoading());
+  }
+
+  getMaintenances() {
+    _showLoading();
+    maintenanceLists.clear();
+    _tmsModel.getMaintenances(token ?? '').then((response) {
+      maintenanceLists = response;
+      maintenanceShops = response.map((data) => data.shop as Shop).toList();
+      issues = response.map((data) => data.issue ?? '').toList();
     }).whenComplete(() => _hideLoading());
   }
 
@@ -37,7 +51,7 @@ class ServiceRequestBloc extends ChangeNotifier {
     page += 1;
     _tmsModel.getFillOuts(token ?? '', page, 10).then((response) {
       fillOutLists.addAll(response);
-      shops?.addAll(response.map((data) => data.shop as Shop).toList());
+      filloutShops?.addAll(response.map((data) => data.shop as Shop).toList());
     }).whenComplete(() {
       isLoadMore = false;
       notifyListeners();

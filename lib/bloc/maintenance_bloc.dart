@@ -14,29 +14,42 @@ class MaintenanceBloc extends ChangeNotifier {
   Tenant? tenant;
   String? description;
   Shop? selectedRoomShopName;
-  String? filloutValidationMessage;
+  String? validationMessage;
+  String? selectedIssue;
   bool isLoading = false;
   bool isDisposed = false;
   BuildContext? context;
 
   final TmsModel _tmsModel = TmsModelImpl();
 
-  MaintenanceBloc({this.tenant,this.context}) {
+  MaintenanceBloc({this.tenant, this.context}) {
     token = PersistenceData.shared.getToken();
   }
 
- Future onTapSendRequest() async {
+  Future onTapSendRequestFillOut() async {
     _showLoading();
-    List<File> files = imageArray
-        .map((photo)  =>  File(photo.path))
-        .toList();
-   return _tmsModel
+    List<File> files = imageArray.map((photo) => File(photo.path)).toList();
+    return _tmsModel
         .createFillOut(token ?? '', files, tenant?.id ?? '',
             selectedRoomShopName?.id ?? '', description ?? '')
         .whenComplete(() {
-          _hideLoading();
-          Navigator.pop(context!);
-        } );
+      _hideLoading();
+      Navigator.pop(context!);
+    });
+  }
+
+  Future onTapSendRequestMaintenance() {
+    _showLoading();
+    List<File> files = imageArray.map((photo) => File(photo.path)).toList();
+    return _tmsModel
+        .createMaintenance(
+            token ?? '',
+            files,
+            tenant?.id ?? '',
+            selectedRoomShopName?.id ?? '',
+            description ?? '',
+            selectedIssue ?? '')
+        .whenComplete(() => Navigator.pop(context!));
   }
 
   void selectImage() async {
@@ -58,17 +71,35 @@ class MaintenanceBloc extends ChangeNotifier {
 
   void checkFillOutValidation() {
     if (selectedRoomShopName == null) {
-      filloutValidationMessage = 'Please select Room/Shop Name';
+      validationMessage = 'Please select Room/Shop Name';
     } else if (imageArray.isEmpty) {
-      filloutValidationMessage = 'Please upload at least image';
+      validationMessage = 'Please upload at least image';
     } else {
-      filloutValidationMessage = 'success';
+      validationMessage = 'success';
     }
     notifyListeners();
   }
 
-  onTapRoomShopName(Shop value) {
+  void checkMaintenanceValidation() {
+    if (selectedRoomShopName == null) {
+      validationMessage = 'Please select Room/Shop Name';
+    } else if (selectedIssue == null) {
+      validationMessage = 'Please select Type of issue';
+    } else if (imageArray.isEmpty) {
+      validationMessage = 'Please upload at least image';
+    } else {
+      validationMessage = 'success';
+    }
+    notifyListeners();
+  }
+
+  onChangeRoomShopName(Shop value) {
     selectedRoomShopName = value;
+    notifyListeners();
+  }
+
+  onChangeIssue(String value) {
+    selectedIssue = value;
     notifyListeners();
   }
 
