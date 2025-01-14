@@ -8,6 +8,7 @@ import 'package:tmsmobile/pages/home/contract_information_page.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
+import 'package:tmsmobile/widgets/empty_view.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
 
 import '../../utils/colors.dart';
@@ -50,42 +51,50 @@ class _ContractPageState extends State<ContractPage> {
                 ? LoadingView(
                     indicator: Indicator.ballBeat,
                     indicatorColor: kPrimaryColor)
-                : SizedBox(
-                    height: double.infinity,
-                    child: RefreshIndicator(
-                      onRefresh: () async => bloc.getContract(),
-                      child: ListView.builder(
-                        physics: AlwaysScrollableScrollPhysics(),
-                        itemCount: bloc.isLoadMore
-                            ? bloc.contracts.length + 1
-                            : bloc.contracts.length,
-                        padding: EdgeInsets.symmetric(horizontal: kMargin24),
-                        itemBuilder: (context, index) {
-                          if (index == bloc.contracts.length) {
-                            return LoadingView(
-                                bgColor: Colors.transparent,
-                                indicator: Indicator.ballBeat,
-                                indicatorColor: kPrimaryColor);
-                          }
-                          return ContractListItem(
-                            onPress: () => PageNavigator(ctx: context).nextPage(
-                                page: ContractInformationPage(
-                              id: bloc.contracts[index].id ?? '',
-                              type: bloc.contracts[index].propertyType ?? '',
-                            )),
-                            data: bloc.contracts[index],
-                          );
-                        },
-                        controller: scrollController
-                          ..addListener(() {
-                            if (scrollController.position.pixels ==
-                                scrollController.position.maxScrollExtent) {
-                              bloc.loadMoreData();
-                            }
-                          }),
+                : bloc.contracts.isEmpty
+                    ? EmptyView(
+                        imagePath: kNoAnnouncementImage,
+                        title: 'No Contract.',
+                        subTitle: 'There is no contract right now.')
+                    : SizedBox(
+                        height: double.infinity,
+                        child: RefreshIndicator(
+                          onRefresh: () async => bloc.getContract(),
+                          child: ListView.builder(
+                            physics: AlwaysScrollableScrollPhysics(),
+                            itemCount: bloc.isLoadMore
+                                ? bloc.contracts.length + 1
+                                : bloc.contracts.length,
+                            padding:
+                                EdgeInsets.symmetric(horizontal: kMargin24),
+                            itemBuilder: (context, index) {
+                              if (index == bloc.contracts.length) {
+                                return LoadingView(
+                                    bgColor: Colors.transparent,
+                                    indicator: Indicator.ballBeat,
+                                    indicatorColor: kPrimaryColor);
+                              }
+                              return ContractListItem(
+                                onPress: () =>
+                                    PageNavigator(ctx: context).nextPage(
+                                        page: ContractInformationPage(
+                                  id: bloc.contracts[index].id ?? '',
+                                  type:
+                                      bloc.contracts[index].propertyType ?? '',
+                                )),
+                                data: bloc.contracts[index],
+                              );
+                            },
+                            controller: scrollController
+                              ..addListener(() {
+                                if (scrollController.position.pixels ==
+                                    scrollController.position.maxScrollExtent) {
+                                  bloc.loadMoreData();
+                                }
+                              }),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
           ),
         ),
       ),

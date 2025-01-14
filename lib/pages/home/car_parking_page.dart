@@ -7,6 +7,7 @@ import 'package:tmsmobile/data/vos/contract_information_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
+import 'package:tmsmobile/widgets/empty_view.dart';
 
 import '../../utils/images.dart';
 import '../../utils/strings.dart';
@@ -50,7 +51,7 @@ class _CarParkingPageState extends State<CarParkingPage> {
                   ? LoadingView(
                       indicator: Indicator.ballBeat,
                       indicatorColor: kPrimaryColor)
-                  : RefreshIndicator(
+                  : bloc.parkings?.isEmpty ?? true ? EmptyView(imagePath: kNoAnnouncementImage, title: 'No Parking.', subTitle: 'There is no parking right now.') : RefreshIndicator(
                       onRefresh: () async => bloc.getParking(),
                       child: SizedBox(
                         height: double.infinity,

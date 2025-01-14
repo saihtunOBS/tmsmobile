@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/data/vos/user_vo.dart';
+import 'package:tmsmobile/extension/route_navigator.dart';
+import 'package:tmsmobile/pages/auth/login_page.dart';
 
 import '../data/model/tms_model.dart';
 import '../data/model/tms_model_impl.dart';
@@ -11,13 +13,16 @@ class ProfileBloc extends ChangeNotifier {
   bool isLoading = false;
   bool isDisposed = false;
   final TmsModel _tmsModel = TmsModelImpl();
+  BuildContext? context;
 
-  ProfileBloc() {
+  ProfileBloc({this.context}) {
     token = PersistenceData.shared.getToken();
 
     _tmsModel.getUser(token ?? '').then((response) {
       userData = response;
       notifyListeners();
+    }).catchError((error) {
+      PageNavigator(ctx: context).nextPageOnly(page: LoginPage());
     });
   }
 

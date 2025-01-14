@@ -55,13 +55,13 @@ class AnnouncementPage extends StatelessWidget {
                                 itemCount: bloc.announcementList.length,
                                 itemBuilder: (context, index) {
                                   return InkWell(
-                                      onTap: () =>
-                                          PageNavigator(ctx: context).nextPage(
-                                              page: AnnouncementDetailPage(
+                                      onTap: () => Navigator.of(context).push(
+                                              PageNavigator(ctx: context)
+                                                  .popUp(AnnouncementDetailPage(
                                             id: bloc.announcementList[index]
                                                     .id ??
                                                 '',
-                                          )),
+                                          ))),
                                       child: AnnouncementListItem(
                                         data: bloc.announcementList[index],
                                       ));

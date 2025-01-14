@@ -83,7 +83,11 @@ class ContractInformationPage extends StatelessWidget {
     );
   }
 
-  Widget _listItem({required String title, required String value}) {
+  Widget _listItem(
+      {required String title,
+      required String value,
+      bool? isStatus,
+      int? status}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -91,11 +95,29 @@ class ContractInformationPage extends StatelessWidget {
           title,
           style: TextStyle(fontSize: kTextRegular2x),
         ),
-        Text(
-          value,
-          style:
-              TextStyle(fontSize: kTextRegular2x, fontWeight: FontWeight.w700),
-        ),
+        isStatus == true
+            ? Container(
+                padding: EdgeInsets.symmetric(
+                    horizontal: kMargin6, vertical: kMargin6),
+                decoration: BoxDecoration(
+                    color:
+                        filterStatusColor(status ?? 0).withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(kMarginMedium2)),
+                child: Center(
+                  child: FittedBox(
+                      child: Text(
+                    value,
+                    style: TextStyle(
+                        color: filterStatusColor(status ?? 0),
+                        fontSize: kTextSmall),
+                  )),
+                ),
+              )
+            : Text(
+                value,
+                style: TextStyle(
+                    fontSize: kTextRegular2x, fontWeight: FontWeight.w700),
+              ),
       ],
     );
   }
@@ -197,7 +219,7 @@ class ContractInformationPage extends StatelessWidget {
                         value: '${data.totalArea ?? ''} sq ft'),
                     10.vGap,
                     data.parkingInformation?.isNotEmpty ?? true
-                        ? _buildParkingInformation()
+                        ? _buildParkingInformation(data)
                         : Container(),
                   ],
                 ),
@@ -209,7 +231,7 @@ class ContractInformationPage extends StatelessWidget {
     );
   }
 
-  Widget _buildParkingInformation() {
+  Widget _buildParkingInformation(PropertyInformation data) {
     return ListTileTheme(
       dense: true,
       child: Container(
@@ -253,13 +275,16 @@ class ContractInformationPage extends StatelessWidget {
               child: Column(
                 spacing: kMargin10,
                 children: [
-                  _listItem(title: kBranchLabel, value: 'value'),
-                  _listItem(title: kBuildingLabel, value: 'value'),
-                  _listItem(title: kFloorLabel, value: 'value'),
-                  _listItem(title: kZoneViewLabel, value: 'value'),
-                  _listItem(title: kRoomTypeLabel, value: 'value'),
-                  _listItem(title: kRoomShopNameLabel, value: 'value'),
-                  _listItem(title: kTotalAreaLabel, value: 'value'),
+                  _listItem(title: kBranchLabel, value: data.branch?.name ?? ''),
+                  _listItem(title: kBuildingLabel, value: data.building?.name ?? ''),
+                  _listItem(title: kFloorLabel, value: data.floor?.name ?? ''),
+                  _listItem(title: kZoneViewLabel, value: data.zone?.name ?? ''),
+                  _listItem(title: kParkingCodeLabel, value: data.shop?.parkingData?.first.parkingCode?.parkingCode ?? ''),
+                  _listItem(
+                        title: kStatusLabel,
+                        value: filterStatus(data.shop?.status ?? 0),
+                        isStatus: true),
+                  _listItem(title: kVehicleNoLabel, value: '0002'),
                 ],
               ),
             ),
@@ -268,4 +293,27 @@ class ContractInformationPage extends StatelessWidget {
       ),
     );
   }
+
+  String filterStatus(int status) {
+    switch (status) {
+      case 1:
+        return 'Available';
+      case 2:
+        return 'Unavailable';
+      default:
+        return 'Available';
+    }
+  }
+
+  Color filterStatusColor(int status) {
+    switch (status) {
+      case 1:
+        return kGreenColor;
+      case 2:
+        return kRedColor;
+      default:
+        return kRedColor;
+    }
+  }
+
 }

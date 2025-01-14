@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 extension Gap on num {
   SizedBox get vGap => SizedBox(height: toDouble());
@@ -17,5 +18,14 @@ extension StringValidators on String {
   bool get containsLowercase => contains(RegExp(r'[a-z]'));
   bool get containsNumber => contains(RegExp(r'[0-9]'));
   bool get moreThan8Character => length >= 8;
-  bool get containsSpecialCharacter => contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+  bool get containsSpecialCharacter =>
+      contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+}
+
+Future<void> makePhoneCall(String phoneNumber) async {
+  final Uri launchUri = Uri(
+    scheme: 'tel',
+    path: phoneNumber,
+  );
+  await launchUrl(launchUri);
 }

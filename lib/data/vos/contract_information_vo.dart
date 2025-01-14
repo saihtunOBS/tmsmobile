@@ -99,7 +99,7 @@ class PropertyInformation {
   final int? price;
 
   @JsonKey(name: "parking_information")
-  final List<dynamic>? parkingInformation;
+  final List<ParkingVO>? parkingInformation;
 
   PropertyInformation({
     this.id,

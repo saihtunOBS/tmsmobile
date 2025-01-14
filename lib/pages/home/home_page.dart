@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ProfileBloc(),
+      create: (context) => ProfileBloc(context: context),
       child: Scaffold(
         backgroundColor: kBackgroundColor,
         extendBodyBehindAppBar: true,

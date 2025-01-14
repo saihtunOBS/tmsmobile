@@ -3,9 +3,11 @@ import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/emergency_bloc.dart';
 import 'package:tmsmobile/data/vos/emergency_vo.dart';
+import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
+import 'package:tmsmobile/widgets/empty_view.dart';
 
 import '../../utils/images.dart';
 import '../../utils/strings.dart';
@@ -51,39 +53,46 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
                   ? LoadingView(
                       indicator: Indicator.ballBeat,
                       indicatorColor: kPrimaryColor)
-                  : Padding(
-                      padding: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.1,
-                          left: kMarginMedium2,
-                          right: kMarginMedium2,
-                          bottom: kMarginMedium2),
-                      child: RefreshIndicator(
-                        onRefresh: () async => bloc.getEmergency(),
-                        child: ListView.builder(
-                          physics: AlwaysScrollableScrollPhysics(),
-                          itemCount: bloc.isLoadMore == true
-                              ? bloc.emergencyLists?.length ?? 0 + 1
-                              : bloc.emergencyLists?.length,
-                          itemBuilder: (context, index) {
-                            if (index == bloc.emergencyLists?.length) {
-                              return LoadingView(
-                                  indicator: Indicator.ballBeat,
-                                  indicatorColor: kPrimaryColor);
-                            }
-                            return _buildListItem(
-                                data: bloc.emergencyLists?[index],
-                                index: index,
-                                title: bloc.emergencyLists?[index].contractName);
-                          },
-                          controller: scrollController
-                            ..addListener(() {
-                              if (scrollController.position.pixels ==
-                                  scrollController.position.maxScrollExtent) {
-                                bloc.loadMoreData();
-                              }
-                            }),
-                        ),
-                      )),
+                  : bloc.emergencyLists?.isEmpty ?? true
+                      ? EmptyView(
+                          imagePath: kNoAnnouncementImage,
+                          title: 'No Emergency contacts.',
+                          subTitle: 'There is no emergency contact right now.')
+                      : Padding(
+                          padding: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.1,
+                              left: kMarginMedium2,
+                              right: kMarginMedium2,
+                              bottom: kMarginMedium2),
+                          child: RefreshIndicator(
+                            onRefresh: () async => bloc.getEmergency(),
+                            child: ListView.builder(
+                              physics: AlwaysScrollableScrollPhysics(),
+                              itemCount: bloc.isLoadMore == true
+                                  ? bloc.emergencyLists?.length ?? 0 + 1
+                                  : bloc.emergencyLists?.length,
+                              itemBuilder: (context, index) {
+                                if (index == bloc.emergencyLists?.length) {
+                                  return LoadingView(
+                                      indicator: Indicator.ballBeat,
+                                      indicatorColor: kPrimaryColor);
+                                }
+                                return _buildListItem(
+                                    data: bloc.emergencyLists?[index],
+                                    index: index,
+                                    title: bloc
+                                        .emergencyLists?[index].contractName);
+                              },
+                              controller: scrollController
+                                ..addListener(() {
+                                  if (scrollController.position.pixels ==
+                                      scrollController
+                                          .position.maxScrollExtent) {
+                                    bloc.loadMoreData();
+                                  }
+                                }),
+                            ),
+                          )),
 
               ///appbar
               Positioned(
@@ -186,15 +195,23 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
                         title: kContactNameLabel,
                         value: data?.emergencyCategory?.name ?? ''),
                     _listItem(title: kAddressLabel, value: data?.address ?? ''),
+                    InkWell(
+                      onTap: () => makePhoneCall(data?.phone1 ?? ''),
+                      child: _listItem(
+                          title: '$kTelephoneNormalLabel (Office Hours)',
+                          value: data?.phone1 ?? '',
+                          isNumber: true),
+                    ),
+                    InkWell(
+                      onTap: () => makePhoneCall(data?.phone2 ?? ''),
+                      child: _listItem(
+                          title: kTelephoneNormal24Label,
+                          value: data?.phone2 ?? '',
+                          isNumber: true),
+                    ),
                     _listItem(
-                        title: '$kTelephoneNormalLabel (Office Hours)',
-                        value: data?.phone1 ?? '',
-                        isNumber: true),
-                    _listItem(
-                        title: kTelephoneNormal24Label,
-                        value: data?.phone2 ?? '',
-                        isNumber: true),
-                    _listItem(title: kContractRefLabel, value: data?.contractRef ?? ''),
+                        title: kContractRefLabel,
+                        value: data?.contractRef ?? ''),
                   ],
                 ),
               ),
