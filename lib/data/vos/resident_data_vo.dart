@@ -1,12 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class ResidentVo {
   String name;
-  ResidentDataVo data;
+  ResidentDataVO data;
 
   ResidentVo(this.name,this.data);
 }
 
-class ResidentDataVo {
+class ResidentDataVO {
   String? name;
   String? gender;
   String? dob;
@@ -15,7 +15,7 @@ class ResidentDataVo {
   String? nrcOrpassport;
   String? contactNumber;
   String? relatedTo;
-  ResidentDataVo({
+  ResidentDataVO({
      this.name,
      this.gender,
      this.dob,

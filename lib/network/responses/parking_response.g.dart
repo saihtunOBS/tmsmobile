@@ -1,21 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'contract_response.dart';
+part of 'parking_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ContractResponse _$ContractResponseFromJson(Map<String, dynamic> json) =>
-    ContractResponse(
+ParkingResponse _$ParkingResponseFromJson(Map<String, dynamic> json) =>
+    ParkingResponse(
       status: json['success'] as bool?,
       message: json['message'] as String?,
       data: (json['data'] as List<dynamic>?)
-          ?.map((e) => ContractVO.fromJson(e as Map<String, dynamic>))
+          ?.map(
+              (e) => ContractInformationVO.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$ContractResponseToJson(ContractResponse instance) =>
+Map<String, dynamic> _$ParkingResponseToJson(ParkingResponse instance) =>
     <String, dynamic>{
       'success': instance.status,
       'message': instance.message,

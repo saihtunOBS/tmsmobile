@@ -12,7 +12,7 @@ class ContractResponse {
   final String? message;
 
   @JsonKey(name: "data")
-  final List<ContractVo>? data;
+  final List<ContractVO>? data;
 
   ContractResponse({
     this.status,

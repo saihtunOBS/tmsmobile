@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'parking_vo.dart';
+
 part 'contract_information_vo.g.dart';
 
 @JsonSerializable()
@@ -148,7 +150,10 @@ class ContractShop {
   @JsonKey(name: "total_area")
   final int? totalArea;
 
-  ContractShop({this.id, this.name, this.status, this.totalArea});
+  @JsonKey(name: 'parking_information')
+  final List<ParkingVO>? parkingData;
+
+  ContractShop({this.id, this.name, this.status, this.totalArea,this.parkingData});
 
   factory ContractShop.fromJson(Map<String, dynamic> json) => _$ContractShopFromJson(json);
 

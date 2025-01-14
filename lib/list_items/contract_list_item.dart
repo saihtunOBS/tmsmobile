@@ -12,7 +12,7 @@ class ContractListItem extends StatelessWidget {
     required this.onPress, required this.data,
   });
   final VoidCallback onPress;
-  final ContractVo data;
+  final ContractVO data;
 
   @override
   Widget build(BuildContext context) {

@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/auth_bloc.dart';
-import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/auth/login_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
@@ -165,7 +164,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     confirmPassword: _confirmPasswordController.text.trim(),
                   )
                       .then((_) {
-                    PersistenceData.shared.saveFirstTime(false);
                     if (widget.isChangePassword == true) {
                       Navigator.of(context).pop();
                     } else {

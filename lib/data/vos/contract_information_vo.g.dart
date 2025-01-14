@@ -115,6 +115,9 @@ ContractShop _$ContractShopFromJson(Map<String, dynamic> json) => ContractShop(
       name: json['name'] as String?,
       status: (json['status'] as num?)?.toInt(),
       totalArea: (json['total_area'] as num?)?.toInt(),
+      parkingData: (json['parking_information'] as List<dynamic>?)
+          ?.map((e) => ParkingVO.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$ContractShopToJson(ContractShop instance) =>
@@ -123,6 +126,7 @@ Map<String, dynamic> _$ContractShopToJson(ContractShop instance) =>
       'name': instance.name,
       'status': instance.status,
       'total_area': instance.totalArea,
+      'parking_information': instance.parkingData,
     };
 
 RoomType _$RoomTypeFromJson(Map<String, dynamic> json) => RoomType(

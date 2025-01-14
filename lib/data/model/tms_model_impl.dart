@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:tmsmobile/data/model/tms_model.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
+import 'package:tmsmobile/data/vos/announcement_vo.dart';
 import 'package:tmsmobile/data/vos/complaint_vo.dart';
 import 'package:tmsmobile/data/vos/contract_information_vo.dart';
 import 'package:tmsmobile/data/vos/contract_vo.dart';
+import 'package:tmsmobile/data/vos/emergency_vo.dart';
 import 'package:tmsmobile/data/vos/household_vo.dart';
 import 'package:tmsmobile/data/vos/login_data_vo.dart';
 import 'package:tmsmobile/data/vos/service_request_vo.dart';
@@ -147,7 +149,7 @@ class TmsModelImpl extends TmsModel {
   }
 
   @override
-  Future<List<ContractVo>> getContracts(String token, int page, int limit) {
+  Future<List<ContractVO>> getContracts(String token, int page, int limit) {
     return tmsDataAgent.getContracts(token, page, limit);
   }
 
@@ -160,5 +162,21 @@ class TmsModelImpl extends TmsModel {
   Future<ContractInformationVO> getContractInformation(
       String token, String id) {
     return tmsDataAgent.getContractInformation(token, id);
+  }
+
+  @override
+  Future<List<AnnouncementVO>> getAnnouncements(String token) {
+    return tmsDataAgent.getAnnouncements(token);
+  }
+
+  @override
+  Future<List<EmergencyVO>> getEmergency(String token, int page, int limit) {
+    return tmsDataAgent.getEmergency(token, page, limit);
+  }
+
+  @override
+  Future<List<ContractInformationVO>> getParking(
+      String token, int page, int limit) {
+    return tmsDataAgent.getParking(token, page, limit);
   }
 }

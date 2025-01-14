@@ -6,7 +6,7 @@ part of 'contract_vo.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ContractVo _$ContractVoFromJson(Map<String, dynamic> json) => ContractVo(
+ContractVO _$ContractVOFromJson(Map<String, dynamic> json) => ContractVO(
       id: json['_id'] as String?,
       tenant: json['tenant'] == null
           ? null
@@ -14,7 +14,7 @@ ContractVo _$ContractVoFromJson(Map<String, dynamic> json) => ContractVo(
       propertyType: json['property_type'] as String?,
     );
 
-Map<String, dynamic> _$ContractVoToJson(ContractVo instance) =>
+Map<String, dynamic> _$ContractVOToJson(ContractVO instance) =>
     <String, dynamic>{
       '_id': instance.id,
       'tenant': instance.tenant,

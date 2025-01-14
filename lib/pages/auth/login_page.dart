@@ -46,151 +46,158 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => LogInBloc(),
-      child: Scaffold(
-        backgroundColor: kBackgroundColor,
-        extendBody: true,
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          toolbarHeight: MediaQuery.of(context).size.height * 0.21,
-          surfaceTintColor: kBackgroundColor,
-          backgroundColor: Colors.transparent,
-          flexibleSpace: Image.asset(
-            kAppBarTopImage,
-            fit: BoxFit.fill,
-          ),
-        ),
-        body: Selector<LogInBloc?, bool?>(
-          selector: (context, bloc) => bloc?.isLoading,
-          builder: (context, isLoading, child) => Stack(children: [
-            SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: kMarginMedium2,
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.2,
-                  ),
-                  Center(
-                    child: SizedBox(
-                      height: kSize89,
-                      width: kSize58,
-                      child: Hero(
-                        tag: 'animate',
-                        child: Image.asset(
-                          kAppLogoImage,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: kMarginMedium,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: kMargin24),
-                    child: Text(
-                      kLoginToYourAccountLabel,
-                      style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
-                          fontWeight: FontWeight.w600,
-                          fontSize: kTextRegular24),
-                    ),
-                  ),
-                  _buildTextField(
-                      title: kPhoneNumberLabel,
-                      icon: Icon(CupertinoIcons.phone),
-                      controller: _phoneController,
-                      onTap: () {},
-                      isNumber: true),
-                  Consumer<LogInBloc>(
-                    builder: (context, bloc, child) => _buildTextField(
-                        title: kPasswordLabel,
-                        onTap: bloc.onTapShowPassword,
-                        icon: bloc.showPassword == true
-                            ? Icon(CupertinoIcons.eye)
-                            : Icon(CupertinoIcons.eye_slash),
-                        obseure: !bloc.showPassword,
-                        controller: _passwordController),
-                  ),
-
-                  ///forgot password
-                  if (isFirstTime == false)
-                    Padding(
-                      padding: const EdgeInsets.only(right: kMargin24),
-                      child: Row(
-                        children: [
-                          Spacer(),
-                          InkWell(
-                              onTap: () {
-                                PageNavigator(ctx: context)
-                                    .nextPage(page: ForgotPasswordPage());
-                              },
-                              child: Text(
-                                kForgotPasswordLabel,
-                                style: TextStyle(
-                                    color: kPrimaryColor,
-                                    fontSize: kTextRegular2x,
-                                    fontWeight: FontWeight.w700),
-                              ))
-                        ],
-                      ),
-                    ),
-                  if (isFirstTime == true) _buildTermAndCondition()
-                ],
-              ),
-            ),
-
-            /// loading
-            if (isLoading == true)
-              LoadingView(
-                  indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor),
-          ]),
-        ),
-        bottomNavigationBar: Consumer<LogInBloc>(
-          builder: (context, bloc, child) =>
-              Stack(alignment: Alignment.center, children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.21,
-              width: double.infinity,
-              child: Image.asset(
-                kAppBarBottonImage,
+      child: Material(
+        child: InkWell(
+          onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+          child: Scaffold(
+            backgroundColor: kBackgroundColor,
+            extendBody: true,
+            extendBodyBehindAppBar: true,
+            appBar: AppBar(
+              toolbarHeight: MediaQuery.of(context).size.height * 0.21,
+              surfaceTintColor: kBackgroundColor,
+              backgroundColor: Colors.transparent,
+              flexibleSpace: Image.asset(
+                kAppBarTopImage,
                 fit: BoxFit.fill,
               ),
             ),
-            AnimatedOpacity(
-              opacity: bloc.isAgreeTermAndCondition == false ? 0.5 : 1,
-              duration: Duration(milliseconds: 200),
-              child: gradientButton(
-                  title: isFirstTime == true ? kContinueLabel : kLoginLabel,
-                  onPress: () {
-                    if (bloc.isAgreeTermAndCondition == true) {
-                      bloc
-                          .onTapSignIn(_phoneController.text.trim(),
-                              _passwordController.text.trim())
-                          .then((value) {
-                        if (value.status == true) {
-                          if (value.data?.verify == 1) {
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                createRoute(NavPage(), duration: 400),
-                                (route) => false);
-                          } else {
-                            PageNavigator(ctx: context).nextPage(
-                                page:
-                                    ChangePasswordPage(isChangePassword: true));
-                          }
-                        }
-                      }).catchError((error) {
-                        showCommonDialog(
-                            context: context,
-                            dialogWidget: ErrorDialogView(
-                                errorMessage: error.toString()));
-                      });
-                    }
-                  }),
+            body: Selector<LogInBloc?, bool?>(
+              selector: (context, bloc) => bloc?.isLoading,
+              builder: (context, isLoading, child) => Stack(children: [
+                SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: kMarginMedium2,
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.2,
+                      ),
+                      Center(
+                        child: SizedBox(
+                          height: kSize89,
+                          width: kSize58,
+                          child: Hero(
+                            tag: 'animate',
+                            child: Image.asset(
+                              kAppLogoImage,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: kMarginMedium,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: kMargin24),
+                        child: Text(
+                          kLoginToYourAccountLabel,
+                          style: TextStyle(
+                              fontFamily: AppData.shared.fontFamily2,
+                              fontWeight: FontWeight.w600,
+                              fontSize: kTextRegular24),
+                        ),
+                      ),
+                      _buildTextField(
+                          title: kPhoneNumberLabel,
+                          icon: Icon(CupertinoIcons.phone),
+                          controller: _phoneController,
+                          onTap: () {},
+                          isNumber: true),
+                      Consumer<LogInBloc>(
+                        builder: (context, bloc, child) => _buildTextField(
+                            title: kPasswordLabel,
+                            onTap: bloc.onTapShowPassword,
+                            icon: bloc.showPassword == true
+                                ? Icon(CupertinoIcons.eye)
+                                : Icon(CupertinoIcons.eye_slash),
+                            obseure: !bloc.showPassword,
+                            controller: _passwordController),
+                      ),
+
+                      ///forgot password
+                      if (isFirstTime == false)
+                        Padding(
+                          padding: const EdgeInsets.only(right: kMargin24),
+                          child: Row(
+                            children: [
+                              Spacer(),
+                              InkWell(
+                                  onTap: () {
+                                    PageNavigator(ctx: context)
+                                        .nextPage(page: ForgotPasswordPage());
+                                  },
+                                  child: Text(
+                                    kForgotPasswordLabel,
+                                    style: TextStyle(
+                                        color: kPrimaryColor,
+                                        fontSize: kTextRegular2x,
+                                        fontWeight: FontWeight.w700),
+                                  ))
+                            ],
+                          ),
+                        ),
+                      if (isFirstTime == true) _buildTermAndCondition()
+                    ],
+                  ),
+                ),
+
+                /// loading
+                if (isLoading == true)
+                  LoadingView(
+                      indicator: Indicator.ballBeat,
+                      indicatorColor: kPrimaryColor),
+              ]),
             ),
-          ]),
+            bottomNavigationBar: Consumer<LogInBloc>(
+              builder: (context, bloc, child) =>
+                  Stack(alignment: Alignment.center, children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.21,
+                  width: double.infinity,
+                  child: Image.asset(
+                    kAppBarBottonImage,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                AnimatedOpacity(
+                  opacity: bloc.isAgreeTermAndCondition == false ? 0.5 : 1,
+                  duration: Duration(milliseconds: 200),
+                  child: gradientButton(
+                      title: isFirstTime == true ? kContinueLabel : kLoginLabel,
+                      onPress: () {
+                        if (bloc.isAgreeTermAndCondition == true) {
+                          bloc
+                              .onTapSignIn(_phoneController.text.trim(),
+                                  _passwordController.text.trim())
+                              .then((value) {
+                            if (value.status == true) {
+                              PersistenceData.shared.saveFirstTime(false);
+                              if (value.data?.verify == 1) {
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    createRoute(NavPage(), duration: 400),
+                                    (route) => false);
+                              } else {
+                                PageNavigator(ctx: context).nextPage(
+                                    page: ChangePasswordPage(
+                                        isChangePassword: true));
+                              }
+                            }
+                          }).catchError((error) {
+                            showCommonDialog(
+                                context: context,
+                                dialogWidget: ErrorDialogView(
+                                    errorMessage: error.toString()));
+                          });
+                        }
+                      }),
+                ),
+              ]),
+            ),
+          ),
         ),
       ),
     );

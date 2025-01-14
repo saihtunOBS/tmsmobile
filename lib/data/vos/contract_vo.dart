@@ -5,7 +5,7 @@ import 'service_request_vo.dart';
 part 'contract_vo.g.dart';
 
 @JsonSerializable()
-class ContractVo {
+class ContractVO {
   @JsonKey(name: "_id")
   final String? id;
 
@@ -15,10 +15,10 @@ class ContractVo {
   @JsonKey(name: "property_type")
   final String? propertyType;
 
-  ContractVo({this.id, this.tenant, this.propertyType});
+  ContractVO({this.id, this.tenant, this.propertyType});
 
-  factory ContractVo.fromJson(Map<String, dynamic> json) =>
-      _$ContractVoFromJson(json);
+  factory ContractVO.fromJson(Map<String, dynamic> json) =>
+      _$ContractVOFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ContractVoToJson(this);
+  Map<String, dynamic> toJson() => _$ContractVOToJson(this);
 }

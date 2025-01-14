@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:tmsmobile/data/vos/announcement_vo.dart';
 import 'package:tmsmobile/data/vos/complaint_vo.dart';
 import 'package:tmsmobile/data/vos/contract_information_vo.dart';
 import 'package:tmsmobile/data/vos/contract_vo.dart';
+import 'package:tmsmobile/data/vos/emergency_vo.dart';
 import 'package:tmsmobile/data/vos/household_vo.dart';
 import 'package:tmsmobile/data/vos/service_request_vo.dart';
 import 'package:tmsmobile/data/vos/user_vo.dart';
@@ -263,7 +265,7 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
   }
 
   @override
-  Future<List<ContractVo>> getContracts(String token, int page, int limit) {
+  Future<List<ContractVO>> getContracts(String token, int page, int limit) {
     return tmsApi
         .getContracts('Bearer $token', page, 10)
         .asStream()
@@ -293,6 +295,43 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
         .getContractInformation('Bearer $token', id)
         .asStream()
         .map((response) => response.data as ContractInformationVO)
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<List<AnnouncementVO>> getAnnouncements(String token) {
+    return tmsApi
+        .getAnnouncements('Bearer $token')
+        .asStream()
+        .map((response) => response.data ?? [])
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<List<EmergencyVO>> getEmergency(String token, int page, int limit) {
+    return tmsApi
+        .getEmergency('Bearer $token', page, limit)
+        .asStream()
+        .map((response) => response.data ?? [])
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<List<ContractInformationVO>> getParking(
+      String token, int page, int limit) {
+    return tmsApi
+        .getParking('Bearer $token', page, limit)
+        .asStream()
+        .map((response) => response.data ?? [])
         .first
         .catchError((error) {
       throw _createException(error);

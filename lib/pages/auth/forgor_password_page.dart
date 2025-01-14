@@ -24,88 +24,93 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      backgroundColor: kBackgroundColor,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        toolbarHeight: MediaQuery.of(context).size.height * 0.21,
-        automaticallyImplyLeading: false,
-        surfaceTintColor: kBackgroundColor,
-        backgroundColor: Colors.transparent,
-        flexibleSpace: SizedBox(
-          width: double.infinity,
-          child: Stack(fit: StackFit.expand, children: [
-            Image.asset(
-              kAppBarTopImage,
-              fit: BoxFit.fill,
+    return Material(
+      child: InkWell(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        child: Scaffold(
+          extendBody: true,
+          backgroundColor: kBackgroundColor,
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            toolbarHeight: MediaQuery.of(context).size.height * 0.21,
+            automaticallyImplyLeading: false,
+            surfaceTintColor: kBackgroundColor,
+            backgroundColor: Colors.transparent,
+            flexibleSpace: SizedBox(
+              width: double.infinity,
+              child: Stack(fit: StackFit.expand, children: [
+                Image.asset(
+                  kAppBarTopImage,
+                  fit: BoxFit.fill,
+                ),
+                Positioned(top: kSize45, child: AppbarBackView())
+              ]),
             ),
-            Positioned(top: kSize45, child: AppbarBackView())
+          ),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: kMargin24),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: kMarginMedium2,
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.2,
+                  ),
+                  Center(
+                    child: SizedBox(
+                      height: kSize89,
+                      width: kSize58,
+                      child: Image.asset(
+                        kAppLogoImage,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: kMarginMedium,
+                  ),
+                  Text(
+                    kForgotPasswordLabel,
+                    style: TextStyle(
+                        fontFamily: AppData.shared.fontFamily2,
+                        fontWeight: FontWeight.w600,
+                        fontSize: kTextRegular24),
+                  ),
+                  Text(
+                    kSendOTPTextLabel,
+                    style: TextStyle(fontSize: kTextRegular2x),
+                  ),
+                  _buildTextField(
+                      title: kPhoneNumberLabel,
+                      icon: Icon(CupertinoIcons.phone),
+                      controller: _phoneController,
+                      isNumber: true),
+                ],
+              ),
+            ),
+          ),
+          bottomNavigationBar: Stack(alignment: Alignment.center, children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.21,
+              width: double.infinity,
+              child: Image.asset(
+                kAppBarBottonImage,
+                fit: BoxFit.fill,
+              ),
+            ),
+            gradientButton(
+                title: kSendLabel,
+                onPress: () {
+                  PageNavigator(ctx: context).nextPage(
+                      page: OTPPage(
+                    phone: '09791602079',
+                  ));
+                }),
           ]),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: kMargin24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: kMarginMedium2,
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.2,
-              ),
-              Center(
-                child: SizedBox(
-                  height: kSize89,
-                  width: kSize58,
-                  child: Image.asset(
-                    kAppLogoImage,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: kMarginMedium,
-              ),
-              Text(
-                kForgotPasswordLabel,
-                style: TextStyle(
-                    fontFamily: AppData.shared.fontFamily2,
-                    fontWeight: FontWeight.w600,
-                    fontSize: kTextRegular24),
-              ),
-              Text(
-                kSendOTPTextLabel,
-                style: TextStyle(fontSize: kTextRegular2x),
-              ),
-              _buildTextField(
-                  title: kPhoneNumberLabel,
-                  icon: Icon(CupertinoIcons.phone),
-                  controller: _phoneController,
-                  isNumber: true),
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: Stack(alignment: Alignment.center, children: [
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.21,
-          width: double.infinity,
-          child: Image.asset(
-            kAppBarBottonImage,
-            fit: BoxFit.fill,
-          ),
-        ),
-        gradientButton(
-            title: kSendLabel,
-            onPress: () {
-              PageNavigator(ctx: context).nextPage(
-                  page: OTPPage(
-                phone: '09791602079',
-              ));
-            }),
-      ]),
     );
   }
 

@@ -5,8 +5,10 @@ import 'package:retrofit/retrofit.dart';
 import 'package:tmsmobile/network/api_constants.dart';
 import 'package:tmsmobile/network/requests/complaint_request.dart';
 import 'package:tmsmobile/network/requests/reset_password_request.dart';
+import 'package:tmsmobile/network/responses/announcement_response.dart';
 import 'package:tmsmobile/network/responses/complaint_response.dart';
 import 'package:tmsmobile/network/responses/contract_response.dart';
+import 'package:tmsmobile/network/responses/emergency_response.dart';
 import 'package:tmsmobile/network/responses/household_response.dart';
 import 'package:tmsmobile/network/responses/service_request_response.dart';
 
@@ -18,6 +20,7 @@ import 'requests/login_request.dart';
 import 'responses/complaint_detail_response.dart';
 import 'responses/contract_information_response.dart';
 import 'responses/login_response.dart';
+import 'responses/parking_response.dart';
 import 'responses/user_response.dart';
 
 part 'tms_api.g.dart';
@@ -134,8 +137,25 @@ abstract class TmsApi {
   );
 
   @GET('$kEndPointContractInformation/{id}')
-  Future<ContractInformationResponse>getContractInformation(
+  Future<ContractInformationResponse> getContractInformation(
+      @Header(kHeaderAuthorization) String token, @Path() String id);
+
+  @GET(kEndPointAnnouncement)
+  Future<AnnouncementResponse> getAnnouncements(
     @Header(kHeaderAuthorization) String token,
-    @Path() String id
+  );
+
+  @GET(kEndPointParking)
+  Future<ParkingResponse> getParking(
+    @Header(kHeaderAuthorization) String token,
+    @Query("page") int page,
+    @Query("limit") int limit,
+  );
+
+  @GET(kEndPointEmergency)
+  Future<EmergencyResponse> getEmergency(
+    @Header(kHeaderAuthorization) String token,
+    @Query("page") int page,
+    @Query("limit") int limit,
   );
 }

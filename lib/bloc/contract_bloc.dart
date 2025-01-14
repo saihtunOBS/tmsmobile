@@ -5,7 +5,7 @@ import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/data/vos/contract_vo.dart';
 
 class ContractBloc extends ChangeNotifier {
-  List<ContractVo> contracts = [];
+  List<ContractVO> contracts = [];
   bool isLoading = false;
   bool isDisposed = false;
   int page = 1;
