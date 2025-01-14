@@ -337,6 +337,18 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
       throw _createException(error);
     });
   }
+
+  @override
+  Future<AnnouncementVO> getAnnouncementDetail(String token, String id) {
+    return tmsApi
+        .getAnnouncementDetail('Bearer $token', id)
+        .asStream()
+        .map((response) => response.data as AnnouncementVO)
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
 }
 
 ///custom exception

@@ -26,6 +26,7 @@ const String kEndPointCreateMaintenance = '/home/service/maintenance/create';
 const String kEndPointContract = '/home/contract/list';
 const String kEndPointContractInformation = '/home/contract/edit';
 const String kEndPointAnnouncement = '/home/announcements/list';
+const String kEndPointAnnouncementDetail = '/home/announcements/edit';
 const String kEndPointParking = '/home/packing/list';
 const String kEndPointEmergency = '/account/emergency-list';
 

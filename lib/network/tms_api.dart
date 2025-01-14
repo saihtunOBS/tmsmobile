@@ -5,6 +5,7 @@ import 'package:retrofit/retrofit.dart';
 import 'package:tmsmobile/network/api_constants.dart';
 import 'package:tmsmobile/network/requests/complaint_request.dart';
 import 'package:tmsmobile/network/requests/reset_password_request.dart';
+import 'package:tmsmobile/network/responses/announcement_detail_response.dart';
 import 'package:tmsmobile/network/responses/announcement_response.dart';
 import 'package:tmsmobile/network/responses/complaint_response.dart';
 import 'package:tmsmobile/network/responses/contract_response.dart';
@@ -150,6 +151,12 @@ abstract class TmsApi {
     @Header(kHeaderAuthorization) String token,
     @Query("page") int page,
     @Query("limit") int limit,
+  );
+
+  @GET('$kEndPointAnnouncementDetail/{id}')
+  Future<AnnouncementDetailResponse> getAnnouncementDetail(
+    @Header(kHeaderAuthorization) String token,
+    @Path() String id
   );
 
   @GET(kEndPointEmergency)

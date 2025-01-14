@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:tmsmobile/data/vos/announcement_vo.dart';
 import 'package:tmsmobile/utils/colors.dart';
+import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class AnnouncementListItem extends StatelessWidget {
   const AnnouncementListItem({
-    super.key, required this.data,
+    super.key,
+    required this.data,
   });
   final AnnouncementVO data;
 
@@ -52,7 +53,8 @@ class AnnouncementListItem extends StatelessWidget {
                   ),
                   child: Text(
                     data.title ?? '',
-                    style: TextStyle(color: kWhiteColor,fontWeight: FontWeight.w700),
+                    style: TextStyle(
+                        color: kWhiteColor, fontWeight: FontWeight.w700),
                   ),
                 ),
                 Padding(
@@ -96,7 +98,7 @@ class AnnouncementListItem extends StatelessWidget {
             children: [
               Spacer(),
               Text(
-                'Dec 12, 2024',
+                DateFormatter.formatDate(data.createdAt ?? DateTime.now()),
                 style: TextStyle(fontSize: kTextRegular13),
               )
             ],

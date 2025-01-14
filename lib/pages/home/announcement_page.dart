@@ -34,36 +34,46 @@ class AnnouncementPage extends StatelessWidget {
               preferredSize: Size(double.infinity, kMargin60),
               child: GradientAppBar(kAnnouncementLabel)),
           body: Consumer<AnnouncementBloc>(
-            builder: (context, bloc, child) => bloc.isLoading == true ? LoadingView(indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor) : Stack(children: [
-              bloc.announcementListst.isEmpty
-                  ? Center(
-                      child: EmptyView(
-                          imagePath: kNoAnnouncementImage,
-                          title: kNoAnnouncementLabel,
-                          subTitle: kThereisNoAnnouncementLabel),
-                    )
-                  : RefreshIndicator(
-                    onRefresh: () async => bloc.getAnnouncement(),
-                    child: ListView.builder(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: kMarginMedium2, vertical: kMarginMedium2),
-                        itemCount: bloc.announcementListst.length,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                              onTap: () => PageNavigator(ctx: context)
-                                  .nextPage(page: AnnouncementDetailPage()),
-                              child: AnnouncementListItem(
-                                data: bloc.announcementListst[index],
-                              ));
-                        }),
-                  ),
-
-              ///loading
-              if (bloc.isLoading == true)
-                LoadingView(
+            builder: (context, bloc, child) => bloc.isLoading == true
+                ? LoadingView(
                     indicator: Indicator.ballBeat,
                     indicatorColor: kPrimaryColor)
-            ]),
+                : Stack(children: [
+                    bloc.announcementList.isEmpty
+                        ? Center(
+                            child: EmptyView(
+                                imagePath: kNoAnnouncementImage,
+                                title: kNoAnnouncementLabel,
+                                subTitle: kThereisNoAnnouncementLabel),
+                          )
+                        : RefreshIndicator(
+                            onRefresh: () async => bloc.getAnnouncement(),
+                            child: ListView.builder(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: kMarginMedium2,
+                                    vertical: kMarginMedium2),
+                                itemCount: bloc.announcementList.length,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                      onTap: () =>
+                                          PageNavigator(ctx: context).nextPage(
+                                              page: AnnouncementDetailPage(
+                                            id: bloc.announcementList[index]
+                                                    .id ??
+                                                '',
+                                          )),
+                                      child: AnnouncementListItem(
+                                        data: bloc.announcementList[index],
+                                      ));
+                                }),
+                          ),
+
+                    ///loading
+                    if (bloc.isLoading == true)
+                      LoadingView(
+                          indicator: Indicator.ballBeat,
+                          indicatorColor: kPrimaryColor)
+                  ]),
           ),
         ),
       ),

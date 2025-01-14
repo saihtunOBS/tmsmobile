@@ -4,24 +4,24 @@ import 'package:tmsmobile/data/model/tms_model_impl.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/data/vos/announcement_vo.dart';
 
-class AnnouncementBloc extends ChangeNotifier {
+class AnnouncementDetailBloc extends ChangeNotifier {
   bool isLoading = false;
   bool isDisposed = false;
-  List<AnnouncementVO> announcementList = [];
+  AnnouncementVO? announcementDetail;
   var token = '';
+  var id = '';
 
   final TmsModel _tmsModel = TmsModelImpl();
-  AnnouncementBloc() {
+  AnnouncementDetailBloc(this.id) {
     token = PersistenceData.shared.getToken();
-    getAnnouncement();
+    getAnnouncementDetail();
   }
 
-  getAnnouncement() {
+  getAnnouncementDetail() {
     _showLoading();
-    announcementList.clear();
     _tmsModel
-        .getAnnouncements(token)
-        .then((response) => announcementList = response)
+        .getAnnouncementDetail(token, id)
+        .then((response) => announcementDetail = response)
         .whenComplete(() => _hideLoading());
   }
 

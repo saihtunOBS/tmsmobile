@@ -179,4 +179,9 @@ class TmsModelImpl extends TmsModel {
       String token, int page, int limit) {
     return tmsDataAgent.getParking(token, page, limit);
   }
+
+  @override
+  Future<AnnouncementVO> getAnnouncementDetail(String token, String id) {
+    return tmsDataAgent.getAnnouncementDetail(token, id);
+  }
 }

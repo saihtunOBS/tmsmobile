@@ -49,4 +49,5 @@ abstract class TmsModel {
   Future<List<AnnouncementVO>> getAnnouncements(String token);
   Future<List<PropertyInformation>> getParking(String token,int page, int limit);
   Future<List<EmergencyVO>> getEmergency(String token,int page, int limit);
+  Future<AnnouncementVO> getAnnouncementDetail(String token, String id);
 }
