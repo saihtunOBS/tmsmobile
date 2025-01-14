@@ -46,42 +46,46 @@ class _ContractPageState extends State<ContractPage> {
               preferredSize: Size(double.infinity, kMargin60),
               child: GradientAppBar(kContractLabel)),
           body: Consumer<ContractBloc>(
-            builder: (context, bloc, child) => Stack(children: [
-              ListView.builder(
-                itemCount: bloc.isLoadMore
-                    ? bloc.contracts.length + 1
-                    : bloc.contracts.length,
-                padding: EdgeInsets.symmetric(horizontal: kMargin24),
-                itemBuilder: (context, index) {
-                  if (index == bloc.contracts.length) {
-                    return LoadingView(
-                        indicator: Indicator.ballBeat,
-                        indicatorColor: kPrimaryColor);
-                  }
-                  return ContractListItem(
-                    onPress: () => PageNavigator(ctx: context).nextPage(
-                        page: ContractInformationPage(
-                      id: bloc.contracts[index].id ?? '',
-                      type: bloc.contracts[index].propertyType ?? '',
-                    )),
-                    data: bloc.contracts[index],
-                  );
-                },
-                controller: scrollController
-                  ..addListener(() {
-                    if (scrollController.position.pixels ==
-                        scrollController.position.maxScrollExtent) {
-                      bloc.loadMoreData();
-                    }
-                  }),
-              ),
-
-              ///loading
-              if (bloc.isLoading == true)
-                LoadingView(
+            builder: (context, bloc, child) => bloc.isLoading == true
+                ? LoadingView(
                     indicator: Indicator.ballBeat,
                     indicatorColor: kPrimaryColor)
-            ]),
+                : SizedBox(
+                    height: double.infinity,
+                    child: RefreshIndicator(
+                      onRefresh: () async => bloc.getContract(),
+                      child: ListView.builder(
+                        physics: AlwaysScrollableScrollPhysics(),
+                        itemCount: bloc.isLoadMore
+                            ? bloc.contracts.length + 1
+                            : bloc.contracts.length,
+                        padding: EdgeInsets.symmetric(horizontal: kMargin24),
+                        itemBuilder: (context, index) {
+                          if (index == bloc.contracts.length) {
+                            return LoadingView(
+                                bgColor: Colors.transparent,
+                                indicator: Indicator.ballBeat,
+                                indicatorColor: kPrimaryColor);
+                          }
+                          return ContractListItem(
+                            onPress: () => PageNavigator(ctx: context).nextPage(
+                                page: ContractInformationPage(
+                              id: bloc.contracts[index].id ?? '',
+                              type: bloc.contracts[index].propertyType ?? '',
+                            )),
+                            data: bloc.contracts[index],
+                          );
+                        },
+                        controller: scrollController
+                          ..addListener(() {
+                            if (scrollController.position.pixels ==
+                                scrollController.position.maxScrollExtent) {
+                              bloc.loadMoreData();
+                            }
+                          }),
+                      ),
+                    ),
+                  ),
           ),
         ),
       ),

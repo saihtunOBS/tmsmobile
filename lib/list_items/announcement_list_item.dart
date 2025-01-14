@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tmsmobile/data/vos/announcement_vo.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -6,8 +7,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AnnouncementListItem extends StatelessWidget {
   const AnnouncementListItem({
-    super.key,
+    super.key, required this.data,
   });
+  final AnnouncementVO data;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,7 @@ class AnnouncementListItem extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    'New properties for rent',
+                    data.title ?? '',
                     style: TextStyle(color: kWhiteColor,fontWeight: FontWeight.w700),
                   ),
                 ),
@@ -57,7 +59,7 @@ class AnnouncementListItem extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: kMarginMedium2),
                   child: Text(
-                    'Lorem ipsum dolor sit amet consectetur. Eget neque gravida tellus vitae quis ar .....',
+                    data.description ?? '',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     softWrap: true,

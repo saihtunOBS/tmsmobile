@@ -48,7 +48,8 @@ class ContractInformationPage extends StatelessWidget {
                             itemBuilder: (context, index) {
                               return _buildBody(
                                   bloc.contract?.propertyInformation?[index]
-                                      as PropertyInformation);
+                                      as PropertyInformation,
+                                  index);
                             })
                       ],
                     ),
@@ -99,96 +100,110 @@ class ContractInformationPage extends StatelessWidget {
     );
   }
 
-  Widget _buildBody(PropertyInformation data) {
-    return Container(
-      margin: EdgeInsets.only(bottom: kMarginMedium2 + 4),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(kMargin10),
-        boxShadow: [
-          BoxShadow(
-              offset: Offset(
-                0,
-                4,
-              ),
-              blurRadius: 10,
-              color: const Color.fromARGB(255, 207, 205, 205))
-        ],
-      ),
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: kMarginSmallx),
+  Widget _buildBody(PropertyInformation data, int index) {
+    return Consumer<ContractInformationBloc>(
+      builder: (context, bloc, child) => Container(
+        margin: EdgeInsets.only(bottom: kMarginMedium2 + 4),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(kMargin10),
-          gradient: LinearGradient(
-            colors: [kPrimaryColor, kThirdColor],
-            stops: [0.0, 1.0],
-          ),
+          boxShadow: [
+            BoxShadow(
+                offset: Offset(
+                  0,
+                  4,
+                ),
+                blurRadius: 10,
+                color: const Color.fromARGB(255, 207, 205, 205))
+          ],
         ),
-        child: ExpansionTile(
-          showTrailingIcon: false,
-          shape: Border(),
-          expansionAnimationStyle:
-              AnimationStyle(duration: Duration(milliseconds: 10)),
-          collapsedShape: Border(),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: kMarginSmallx),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(kMargin10),
+            gradient: LinearGradient(
+              colors: [kPrimaryColor, kThirdColor],
+              stops: [0.0, 1.0],
+            ),
+          ),
+          child: ExpansionTile(
+            showTrailingIcon: false,
+            shape: Border(),
+            expansionAnimationStyle:
+                AnimationStyle(duration: Duration(milliseconds: 10)),
+            collapsedShape: Border(),
+            key: Key(bloc.selectedExpensionIndex.toString()),
+            initiallyExpanded: bloc.selectedExpensionIndex == index,
+            onExpansionChanged: (isExpanded) {
+              if (isExpanded) {
+                bloc.selectedExpensionIndex = index;
+              } else {
+                bloc.selectedExpensionIndex = -1;
+              }
+              bloc.onTapExpansion();
+            },
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  kRoomShopNameLabel,
+                  style: TextStyle(
+                      color: kWhiteColor,
+                      fontSize: kTextRegular13,
+                      fontWeight: FontWeight.w700),
+                ),
+                Text(
+                  '#${data.shop?.name}',
+                  style: TextStyle(
+                      color: kWhiteColor,
+                      fontSize: kTextRegular2x,
+                      fontWeight: FontWeight.w700),
+                ),
+              ],
+            ),
             children: [
-              Text(
-                kRoomShopNameLabel,
-                style: TextStyle(
+              Container(
+                padding: EdgeInsets.symmetric(
+                    vertical: kMargin10, horizontal: kMargin10),
+                decoration: BoxDecoration(
                     color: kWhiteColor,
-                    fontSize: kTextRegular13,
-                    fontWeight: FontWeight.w700),
-              ),
-              Text(
-                '#${data.shop?.name}',
-                style: TextStyle(
-                    color: kWhiteColor,
-                    fontSize: kTextRegular2x,
-                    fontWeight: FontWeight.w700),
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10))),
+                child: Column(
+                  children: [
+                    _listItem(
+                        title: kBranchLabel, value: data.branch?.name ?? ''),
+                    10.vGap,
+                    _listItem(
+                        title: kBuildingLabel,
+                        value: data.building?.name ?? ''),
+                    10.vGap,
+                    _listItem(
+                        title: kFloorLabel, value: data.floor?.name ?? ''),
+                    10.vGap,
+                    _listItem(
+                        title: kZoneViewLabel, value: data.zone?.name ?? ''),
+                    10.vGap,
+                    _listItem(
+                        title: kRoomTypeLabel,
+                        value: data.roomType?.roomType ?? ''),
+                    10.vGap,
+                    _listItem(
+                        title: kRoomShopNameLabel,
+                        value: '#${data.shop?.name ?? ''}'),
+                    10.vGap,
+                    _listItem(
+                        title: kTotalAreaLabel,
+                        value: '${data.totalArea ?? ''} sq ft'),
+                    10.vGap,
+                    data.parkingInformation?.isNotEmpty ?? true
+                        ? _buildParkingInformation()
+                        : Container(),
+                  ],
+                ),
               ),
             ],
           ),
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(
-                  vertical: kMargin10, horizontal: kMargin10),
-              decoration: BoxDecoration(
-                  color: kWhiteColor,
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10))),
-              child: Column(
-                children: [
-                  _listItem(
-                      title: kBranchLabel, value: data.branch?.name ?? ''),
-                  10.vGap,
-                  _listItem(
-                      title: kBuildingLabel, value: data.building?.name ?? ''),
-                  10.vGap,
-                  _listItem(title: kFloorLabel, value: data.floor?.name ?? ''),
-                  10.vGap,
-                  _listItem(
-                      title: kZoneViewLabel, value: data.zone?.name ?? ''),
-                  10.vGap,
-                  _listItem(
-                      title: kRoomTypeLabel,
-                      value: data.roomType?.roomType ?? ''),
-                  10.vGap,
-                  _listItem(
-                      title: kRoomShopNameLabel,
-                      value: '#${data.shop?.name ?? ''}'),
-                  10.vGap,
-                  _listItem(
-                      title: kTotalAreaLabel,
-                      value: '${data.totalArea ?? ''} sq ft'),
-                  10.vGap,
-                  data.parkingInformation?.isNotEmpty ?? true
-                      ? _buildParkingInformation()
-                      : Container(),
-                ],
-              ),
-            ),
-          ],
         ),
       ),
     );

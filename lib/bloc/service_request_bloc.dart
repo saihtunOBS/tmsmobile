@@ -14,8 +14,11 @@ class ServiceRequestBloc extends ChangeNotifier {
   List<Shop>? maintenanceShops;
   List<String>? issues;
 
-  int page = 1;
-  bool isLoadMore = false;
+  int filloutPage = 1;
+  bool isLoadMoreFillOut = false;
+
+  int maintenancePage = 1;
+  bool isLoadMoreMaintenance = false;
 
   final TmsModel _tmsModel = TmsModelImpl();
 
@@ -45,15 +48,15 @@ class ServiceRequestBloc extends ChangeNotifier {
   }
 
   getLoadMoreFillOuts() {
-    isLoadMore = true;
+    isLoadMoreFillOut = true;
     notifyListeners();
 
-    page += 1;
-    _tmsModel.getFillOuts(token ?? '', page, 10).then((response) {
+    filloutPage += 1;
+    _tmsModel.getFillOuts(token ?? '', filloutPage, 10).then((response) {
       fillOutLists.addAll(response);
       filloutShops?.addAll(response.map((data) => data.shop as Shop).toList());
     }).whenComplete(() {
-      isLoadMore = false;
+      isLoadMoreFillOut = false;
       notifyListeners();
     });
   }

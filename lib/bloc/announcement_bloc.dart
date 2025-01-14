@@ -1,24 +1,27 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:tmsmobile/data/model/tms_model.dart';
 import 'package:tmsmobile/data/model/tms_model_impl.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
-import 'package:tmsmobile/data/vos/contract_information_vo.dart';
+import 'package:tmsmobile/data/vos/announcement_vo.dart';
 
-class ContractInformationBloc extends ChangeNotifier {
-  ContractInformationVO? contract;
+class AnnouncementBloc extends ChangeNotifier {
   bool isLoading = false;
   bool isDisposed = false;
-  String? id;
-  int selectedExpensionIndex = -1;
+  List<AnnouncementVO> announcementListst = [];
+  var token = '';
 
   final TmsModel _tmsModel = TmsModelImpl();
+  AnnouncementBloc() {
+    token = PersistenceData.shared.getToken();
+    getAnnouncement();
+  }
 
-  ContractInformationBloc(this.id) {
-    var token = PersistenceData.shared.getToken();
+  getAnnouncement() {
     _showLoading();
+    announcementListst.clear();
     _tmsModel
-        .getContractInformation(token, id ?? '')
-        .then((response) => contract = response)
+        .getAnnouncements(token)
+        .then((response) => announcementListst = response)
         .whenComplete(() => _hideLoading());
   }
 
@@ -36,10 +39,6 @@ class ContractInformationBloc extends ChangeNotifier {
     if (!isDisposed) {
       notifyListeners();
     }
-  }
-
-  onTapExpansion() {
-    notifyListeners();
   }
 
   @override

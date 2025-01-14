@@ -1,53 +1,51 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
+import 'package:tmsmobile/data/model/tms_model.dart';
+import 'package:tmsmobile/data/model/tms_model_impl.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
-import 'package:tmsmobile/data/vos/emergency_vo.dart';
+import 'package:tmsmobile/data/vos/contract_information_vo.dart';
 
-import '../data/model/tms_model.dart';
-import '../data/model/tms_model_impl.dart';
-
-class EmergencyBloc extends ChangeNotifier {
-  int selectedExpensionIndex = -1;
-
+class ParkingBloc extends ChangeNotifier {
   bool isLoading = false;
   bool isDisposed = false;
   var token = '';
   int page = 1;
   bool isLoadMore = false;
+  int selectedExpensionIndex = -1;
 
-  List<EmergencyVO>? emergencyLists;
+
+  List<PropertyInformation>? parkings;
 
   final TmsModel _tmsModel = TmsModelImpl();
 
-  EmergencyBloc() {
+  ParkingBloc() {
     token = PersistenceData.shared.getToken();
-    getEmergency();
+    getParking();
   }
 
-  getEmergency() {
+  getParking() {
     _showLoading();
-    emergencyLists?.clear();
+    parkings?.clear();
     _tmsModel
-        .getEmergency(token, 1, 10)
-        .then((response) => emergencyLists = response)
+        .getParking(token, 1, 10)
+        .then((response) => parkings = response)
         .whenComplete(() => _hideLoading());
   }
 
   loadMoreData() {
     _showLoadMoreLoading();
     page += 1;
-    _tmsModel
-        .getEmergency(token, page, 10)
-        .then((response) => emergencyLists?.addAll(response))
-        .whenComplete(() => _hideLoadMoreLoading());
-  }
-
-  onTapExpansion() {
-    notifyListeners();
+    _tmsModel.getParking(token, page, 10).then((response) {
+      parkings?.addAll(response);
+    }).whenComplete(() => _hideLoadMoreLoading());
   }
 
   _showLoadMoreLoading() {
     isLoadMore = true;
     _notifySafely();
+  }
+
+  onTapExpansion() {
+    notifyListeners();
   }
 
   _hideLoadMoreLoading() {

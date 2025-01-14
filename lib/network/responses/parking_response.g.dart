@@ -11,8 +11,7 @@ ParkingResponse _$ParkingResponseFromJson(Map<String, dynamic> json) =>
       status: json['success'] as bool?,
       message: json['message'] as String?,
       data: (json['data'] as List<dynamic>?)
-          ?.map(
-              (e) => ContractInformationVO.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => PropertyInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

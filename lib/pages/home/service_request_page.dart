@@ -28,7 +28,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
   int _currentIndex = 0;
   late TabController _tabController;
 
-  final scrollController = ScrollController();
+  final fillOutScrollController = ScrollController();
 
   @override
   void initState() {
@@ -46,7 +46,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
   @override
   void dispose() {
     _tabController.dispose();
-    scrollController.dispose();
+    fillOutScrollController.dispose();
     super.dispose();
   }
 
@@ -162,23 +162,37 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
               indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor)
           : RefreshIndicator(
               onRefresh: () async => bloc.getMaintenances(),
-              child: ListView.builder(
-                  padding: EdgeInsets.symmetric(
-                      vertical: kMargin24, horizontal: kMarginMedium2),
-                  itemCount: bloc.maintenanceLists.length,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                        onTap: () {
-                          PageNavigator(ctx: context).nextPage(
-                              page: MaintenanceProcessPage(
-                            status: '',
-                          ));
-                        },
-                        child: ServiceRequestListItem(
-                          data: bloc.maintenanceLists[index],
-                          status: bloc.maintenanceLists[index].status ?? 0,
-                        ));
-                  }),
+              child: SizedBox(
+                height: double.infinity,
+                child: bloc.maintenanceLists.isEmpty
+                    ? EmptyView(
+                        imagePath: kNoServiceRequestImage,
+                        title: kNoServiceRequestLabel,
+                        subTitle: kThereisNoServiceRequestLabel)
+                    : SizedBox(
+                        height: double.infinity,
+                        child: ListView.builder(
+                          physics: AlwaysScrollableScrollPhysics(),
+                          padding: EdgeInsets.symmetric(
+                              vertical: kMargin24, horizontal: kMarginMedium2),
+                          itemCount: bloc.maintenanceLists.length,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                                onTap: () {
+                                  PageNavigator(ctx: context).nextPage(
+                                      page: MaintenanceProcessPage(
+                                    status: '',
+                                  ));
+                                },
+                                child: ServiceRequestListItem(
+                                  data: bloc.maintenanceLists[index],
+                                  status:
+                                      bloc.maintenanceLists[index].status ?? 0,
+                                ));
+                          },
+                        ),
+                      ),
+              ),
             ),
     );
   }
@@ -197,43 +211,47 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                     imagePath: kNoServiceRequestImage,
                     title: kNoServiceRequestLabel,
                     subTitle: kThereisNoServiceRequestLabel)
-                : ListView.builder(
-                    padding: EdgeInsets.only(
-                        left: kMarginMedium2,
-                        right: kMarginMedium2,
-                        top: kMarginMedium2,
-                        bottom: kMargin40 + 10),
-                    itemCount: bloc.isLoadMore == true
-                        ? bloc.fillOutLists.length + 1
-                        : bloc.fillOutLists.length,
-                    itemBuilder: (context, index) {
-                      if (index == bloc.fillOutLists.length) {
-                        return LoadingView(
-                          bgColor: Colors.transparent,
-                          indicator: Indicator.ballBeat,
-                          indicatorColor: kPrimaryColor,
-                        );
-                      }
-                      return InkWell(
-                        onTap: () => PageNavigator(ctx: context).nextPage(
-                            page: FillOutProcessPage(
-                          status: kApprovedLabel,
-                        )),
-                        child: ServiceRequestListItem(
-                          status: bloc.fillOutLists[index].status ?? 0,
-                          isFillOut: true,
-                          data: bloc.fillOutLists[index],
-                        ),
-                      );
-                    },
-                    controller: scrollController
-                      ..addListener(() {
-                        // final ScrollController controller = ScrollController();
-                        if (scrollController.position.pixels ==
-                            scrollController.position.maxScrollExtent) {
-                          bloc.getLoadMoreFillOuts();
+                : SizedBox(
+                    height: double.infinity,
+                    child: ListView.builder(
+                      physics: AlwaysScrollableScrollPhysics(),
+                      padding: EdgeInsets.only(
+                          left: kMarginMedium2,
+                          right: kMarginMedium2,
+                          top: kMarginMedium2,
+                          bottom: kMargin40 + 10),
+                      itemCount: bloc.isLoadMoreFillOut == true
+                          ? bloc.fillOutLists.length + 1
+                          : bloc.fillOutLists.length,
+                      itemBuilder: (context, index) {
+                        if (index == bloc.fillOutLists.length) {
+                          return LoadingView(
+                            bgColor: Colors.transparent,
+                            indicator: Indicator.ballBeat,
+                            indicatorColor: kPrimaryColor,
+                          );
                         }
-                      }),
+                        return InkWell(
+                          onTap: () => PageNavigator(ctx: context).nextPage(
+                              page: FillOutProcessPage(
+                            status: kApprovedLabel,
+                          )),
+                          child: ServiceRequestListItem(
+                            status: bloc.fillOutLists[index].status ?? 0,
+                            isFillOut: true,
+                            data: bloc.fillOutLists[index],
+                          ),
+                        );
+                      },
+                      controller: fillOutScrollController
+                        ..addListener(() {
+                          if (fillOutScrollController.position.pixels ==
+                              fillOutScrollController
+                                  .position.maxScrollExtent) {
+                            bloc.getLoadMoreFillOuts();
+                          }
+                        }),
+                    ),
                   ),
           );
   }

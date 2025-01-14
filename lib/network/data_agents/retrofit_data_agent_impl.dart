@@ -326,7 +326,7 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
   }
 
   @override
-  Future<List<ContractInformationVO>> getParking(
+  Future<List<PropertyInformation>> getParking(
       String token, int page, int limit) {
     return tmsApi
         .getParking('Bearer $token', page, limit)

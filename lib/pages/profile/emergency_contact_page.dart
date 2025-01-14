@@ -1,23 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/emergency_bloc.dart';
+import 'package:tmsmobile/data/vos/emergency_vo.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
 
 import '../../utils/images.dart';
 import '../../utils/strings.dart';
+import '../../widgets/loading_view.dart';
 
-class EmergencyContactPage extends StatelessWidget {
-  EmergencyContactPage({super.key});
+class EmergencyContactPage extends StatefulWidget {
+  const EmergencyContactPage({super.key});
 
-  final List<String> contacts = [
-    kPropertyManagementLabel,
-    kPoliceStationLabel,
-    kFireStationLabel,
-    kEpcLabel,
-    kCustomerServiceLabel
-  ];
+  @override
+  State<EmergencyContactPage> createState() => _EmergencyContactPageState();
+}
+
+class _EmergencyContactPageState extends State<EmergencyContactPage> {
+  final scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -26,43 +35,64 @@ class EmergencyContactPage extends StatelessWidget {
         backgroundColor: kBackgroundColor,
         extendBodyBehindAppBar: true,
         extendBody: true,
-        body: Stack(
-          fit: StackFit.expand,
-          children: [
-            SizedBox(
-              height: double.infinity,
-              width: double.infinity,
-              child: Image.asset(
-                kBillingBackgroundImage,
-                fit: BoxFit.fill,
+        body: Consumer<EmergencyBloc>(
+          builder: (context, bloc, child) => Stack(
+            fit: StackFit.expand,
+            children: [
+              SizedBox(
+                height: double.infinity,
+                width: double.infinity,
+                child: Image.asset(
+                  kBillingBackgroundImage,
+                  fit: BoxFit.fill,
+                ),
               ),
-            ),
-            SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: kMarginMedium2,
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.14,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: kMarginMedium2,
-                        right: kMarginMedium2,
-                        bottom: kMarginMedium2),
-                    child: Column(
-                      children: contacts.asMap().entries.map((entry) {
-                        return _buildListItem(title: entry.value,index: entry.key);
-                      }).toList(),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+              bloc.isLoading == true
+                  ? LoadingView(
+                      indicator: Indicator.ballBeat,
+                      indicatorColor: kPrimaryColor)
+                  : Padding(
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.1,
+                          left: kMarginMedium2,
+                          right: kMarginMedium2,
+                          bottom: kMarginMedium2),
+                      child: RefreshIndicator(
+                        onRefresh: () async => bloc.getEmergency(),
+                        child: ListView.builder(
+                          physics: AlwaysScrollableScrollPhysics(),
+                          itemCount: bloc.isLoadMore == true
+                              ? bloc.emergencyLists?.length ?? 0 + 1
+                              : bloc.emergencyLists?.length,
+                          itemBuilder: (context, index) {
+                            if (index == bloc.emergencyLists?.length) {
+                              return LoadingView(
+                                  indicator: Indicator.ballBeat,
+                                  indicatorColor: kPrimaryColor);
+                            }
+                            return _buildListItem(
+                                data: bloc.emergencyLists?[index],
+                                index: index,
+                                title: bloc.emergencyLists?[index].contractName);
+                          },
+                          controller: scrollController
+                            ..addListener(() {
+                              if (scrollController.position.pixels ==
+                                  scrollController.position.maxScrollExtent) {
+                                bloc.loadMoreData();
+                              }
+                            }),
+                        ),
+                      )),
 
-            ///appbar
-            Positioned(top: 0, child: ProfileAppbar(title: kEmergencyContactLabel,)),
-          ],
+              ///appbar
+              Positioned(
+                  top: 0,
+                  child: ProfileAppbar(
+                    title: kEmergencyContactLabel,
+                  )),
+            ],
+          ),
         ),
       ),
     );
@@ -92,7 +122,7 @@ class EmergencyContactPage extends StatelessWidget {
     );
   }
 
-  Widget _buildListItem({String? title, int? index}) {
+  Widget _buildListItem({String? title, int? index, EmergencyVO? data}) {
     return Consumer<EmergencyBloc>(
       builder: (context, bloc, child) => Container(
         margin: EdgeInsets.only(bottom: kMargin10),
@@ -152,17 +182,19 @@ class EmergencyContactPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   spacing: kMargin12,
                   children: [
-                    _listItem(title: kContactNameLabel, value: 'YESC'),
-                    _listItem(title: kAddressLabel, value: 'Yangon'),
+                    _listItem(
+                        title: kContactNameLabel,
+                        value: data?.emergencyCategory?.name ?? ''),
+                    _listItem(title: kAddressLabel, value: data?.address ?? ''),
                     _listItem(
                         title: '$kTelephoneNormalLabel (Office Hours)',
-                        value: '098888888',
+                        value: data?.phone1 ?? '',
                         isNumber: true),
                     _listItem(
                         title: kTelephoneNormal24Label,
-                        value: '096666666',
+                        value: data?.phone2 ?? '',
                         isNumber: true),
-                    _listItem(title: kContractRefLabel, value: '-'),
+                    _listItem(title: kContractRefLabel, value: data?.contractRef ?? ''),
                   ],
                 ),
               ),

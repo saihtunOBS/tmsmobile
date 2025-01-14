@@ -71,6 +71,7 @@ class HouseHoldBloc extends ChangeNotifier {
 
   getHouseHoldLists() {
     _showLoading();
+    householdList.clear();
     _tmsModel.getHouseHoldList(token).then((response) {
       householdList = response;
       _hideLoading();

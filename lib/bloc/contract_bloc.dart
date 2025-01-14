@@ -14,9 +14,14 @@ class ContractBloc extends ChangeNotifier {
   final TmsModel _tmsModel = TmsModelImpl();
   ContractBloc() {
     token = PersistenceData.shared.getToken();
+    getContract();
+  }
+
+  getContract() {
     _showLoading();
+    contracts.clear();
     _tmsModel
-        .getContracts(token ?? '', page, 10)
+        .getContracts(token ?? '', 1, 10)
         .then((response) => contracts = response)
         .whenComplete(() => _hideLoading());
   }

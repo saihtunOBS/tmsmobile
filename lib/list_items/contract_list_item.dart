@@ -35,7 +35,7 @@ class ContractListItem extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(kMargin5)),
               child: Text(
-                data.propertyType ?? '',
+                'Condo Sale Contract',
                 style: TextStyle(
                           fontFamily: AppData.shared.fontFamily2,
                     fontSize: kTextRegular18,

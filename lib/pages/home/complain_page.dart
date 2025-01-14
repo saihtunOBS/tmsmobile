@@ -146,24 +146,32 @@ class _ComplainPageState extends State<ComplainPage>
                               ?.kThereIsNoComplaintLabel ??
                           ''),
                 )
-              : ListView.builder(
-                  padding: EdgeInsets.symmetric(
-                      vertical: kMargin24, horizontal: kMargin24),
-                  itemCount: bloc.pendingComplainList.length,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                        onTap: () {
-                          PageNavigator(ctx: context).nextPage(
-                              page: ComplainDetailPage(
-                            isPending: true,
-                            complaintId: bloc.pendingComplainList[index].id,
-                          ));
-                        },
-                        child: ComplainListItem(
-                          isLast: index == bloc.pendingComplainList.length - 1,
-                          data: bloc.pendingComplainList[index],
-                        ));
-                  }),
+              : SizedBox(
+                  height: double.infinity,
+                  child: RefreshIndicator(
+                    onRefresh: () async => bloc.getComplaint(),
+                    child: ListView.builder(
+                        physics: AlwaysScrollableScrollPhysics(),
+                        padding: EdgeInsets.symmetric(
+                            vertical: kMargin24, horizontal: kMargin24),
+                        itemCount: bloc.pendingComplainList.length,
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                              onTap: () {
+                                PageNavigator(ctx: context).nextPage(
+                                    page: ComplainDetailPage(
+                                  isPending: true,
+                                  complaintId: bloc.pendingComplainList[index].id,
+                                ));
+                              },
+                              child: ComplainListItem(
+                                isLast:
+                                    index == bloc.pendingComplainList.length - 1,
+                                data: bloc.pendingComplainList[index],
+                              ));
+                        }),
+                  ),
+                ),
     );
   }
 
@@ -183,23 +191,30 @@ class _ComplainPageState extends State<ComplainPage>
                               ?.kThereIsNoComplaintLabel ??
                           ''),
                 )
-              : ListView.builder(
-                  padding: EdgeInsets.symmetric(
-                      vertical: kMargin24, horizontal: kMargin24),
-                  itemCount: bloc.solvedComplainList.length,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () => PageNavigator(ctx: context).nextPage(
-                          page: ComplainDetailPage(
-                        isPending: false,
-                        complaintId: bloc.solvedComplainList[index].id,
-                      )),
-                      child: ComplainListItem(
-                        data: bloc.solvedComplainList[index],
-                        isLast: index == bloc.solvedComplainList.length - 1,
-                      ),
-                    );
-                  }),
+              : SizedBox(
+                height: double.infinity,
+                child: RefreshIndicator(
+                  onRefresh: () async => bloc.getComplaint(),
+                  child: ListView.builder(
+                    physics: AlwaysScrollableScrollPhysics(),
+                      padding: EdgeInsets.symmetric(
+                          vertical: kMargin24, horizontal: kMargin24),
+                      itemCount: bloc.solvedComplainList.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () => PageNavigator(ctx: context).nextPage(
+                              page: ComplainDetailPage(
+                            isPending: false,
+                            complaintId: bloc.solvedComplainList[index].id,
+                          )),
+                          child: ComplainListItem(
+                            data: bloc.solvedComplainList[index],
+                            isLast: index == bloc.solvedComplainList.length - 1,
+                          ),
+                        );
+                      }),
+                ),
+              ),
     );
   }
 }

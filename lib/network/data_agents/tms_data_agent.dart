@@ -48,6 +48,6 @@ abstract class TmsDataAgent {
   Future<List<ContractVO>> getContracts(String token, int page, int limit);
   Future<ContractInformationVO> getContractInformation(String token, String id);
   Future<List<AnnouncementVO>> getAnnouncements(String token);
-  Future<List<ContractInformationVO>> getParking(String token,int page, int limit);
+  Future<List<PropertyInformation>> getParking(String token,int page, int limit);
   Future<List<EmergencyVO>> getEmergency(String token,int page, int limit);
   }

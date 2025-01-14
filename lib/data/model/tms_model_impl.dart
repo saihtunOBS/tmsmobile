@@ -175,7 +175,7 @@ class TmsModelImpl extends TmsModel {
   }
 
   @override
-  Future<List<ContractInformationVO>> getParking(
+  Future<List<PropertyInformation>> getParking(
       String token, int page, int limit) {
     return tmsDataAgent.getParking(token, page, limit);
   }

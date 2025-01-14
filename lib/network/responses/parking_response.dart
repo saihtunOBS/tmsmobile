@@ -12,7 +12,7 @@ class ParkingResponse {
   final String? message;
 
   @JsonKey(name: "data")
-  final List<ContractInformationVO>? data;
+  final List<PropertyInformation>? data;
 
   ParkingResponse({
     this.status,

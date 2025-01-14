@@ -83,7 +83,7 @@ class ServiceRequestListItem extends StatelessWidget {
                 ),
                 Text(
                   isFillOut == true
-                      ? 'No Description'
+                      ? data?.description ?? ''
                       : data?.description ?? '',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
