@@ -13,6 +13,8 @@ import '../../utils/images.dart';
 import '../../utils/strings.dart';
 import '../../widgets/appbar.dart';
 import '../../widgets/loading_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class AnnouncementPage extends StatelessWidget {
   const AnnouncementPage({super.key});
@@ -32,7 +34,7 @@ class AnnouncementPage extends StatelessWidget {
           backgroundColor: Colors.transparent,
           appBar: PreferredSize(
               preferredSize: Size(double.infinity, kMargin60),
-              child: GradientAppBar(kAnnouncementLabel)),
+              child: GradientAppBar(AppLocalizations.of(context)?.kAnnouncementLabel ?? '')),
           body: Consumer<AnnouncementBloc>(
             builder: (context, bloc, child) => bloc.isLoading == true
                 ? LoadingView(

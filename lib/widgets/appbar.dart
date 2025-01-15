@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 import "package:tmsmobile/utils/colors.dart";
 import "package:tmsmobile/utils/dimens.dart";
 import "package:tmsmobile/utils/strings.dart";
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import "../utils/images.dart";
 
 class GradientAppBar extends StatelessWidget {
@@ -102,7 +102,7 @@ class ProfileAppbar extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                title ?? kBackLabel,
+                                title ?? AppLocalizations.of(context)?.kBackLabel ?? '',
                                 style: TextStyle(
                                     fontSize: kTextRegular18,
                                     color: Colors.white,

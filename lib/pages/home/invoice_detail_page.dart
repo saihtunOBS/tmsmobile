@@ -9,6 +9,8 @@ import '../../data/app_data/app_data.dart';
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
 import '../../widgets/gradient_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class InvoiceDetailPage extends StatelessWidget {
   InvoiceDetailPage({super.key});
@@ -26,14 +28,14 @@ class InvoiceDetailPage extends StatelessWidget {
             appBar: PreferredSize(
                 preferredSize: Size(double.infinity, kMargin60),
                 child: GradientAppBar(
-                  kInvoiceDetailLabel,
+                  AppLocalizations.of(context)?.kInvoiceDetailLabel ?? '',
                   action: _buildDownloadButton(context),
                 )),
             body: Stack(
               children: [
                 SingleChildScrollView(
                     child:
-                        RepaintBoundary(key: contentKey, child: _buildBody())),
+                        RepaintBoundary(key: contentKey, child: _buildBody(context))),
 
                 ///download progress loading
                 Center(
@@ -69,7 +71,7 @@ class InvoiceDetailPage extends StatelessWidget {
                   ]),
                   child: Center(
                       child: gradientButton(
-                          title: kMakePaymentLabel, onPress: () {}))),
+                          title: AppLocalizations.of(context)?.kMakePaymentLabel, onPress: () {}))),
             ),
           ),
         ),
@@ -90,7 +92,7 @@ class InvoiceDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,20 +104,20 @@ class InvoiceDetailPage extends StatelessWidget {
             child: Column(
               spacing: kMargin12,
               children: [
-                _buildListDetail(title: kInvoiceNoLabel, value: 'value'),
-                _buildListDetail(title: kDateLabel, value: 'value'),
-                _buildListDetail(title: kTenantNameLabel, value: 'value'),
-                _buildListDetail(title: kRoomShopNameLabel, value: 'value'),
-                _buildListDetail(title: kPhoneNumberLabel, value: 'value'),
-                _buildListDetail(title: kMonthLabel, value: 'value'),
-                _buildListDetail(title: kDueDateLabel, value: 'value'),
+                _buildListDetail(title: AppLocalizations.of(context)?.kInvoiceNoLabel ?? '', value: 'value'),
+                _buildListDetail(title: AppLocalizations.of(context)?.kDateLabel ?? '', value: 'value'),
+                _buildListDetail(title: AppLocalizations.of(context)?.kTenantNameLabel ?? '', value: 'value'),
+                _buildListDetail(title: AppLocalizations.of(context)?.kRoomShopNameLabel ?? '', value: 'value'),
+                _buildListDetail(title: AppLocalizations.of(context)?.kPhoneNumberLabel ?? '', value: 'value'),
+                _buildListDetail(title: AppLocalizations.of(context)?.kMonthLabel ?? '', value: 'value'),
+                _buildListDetail(title: AppLocalizations.of(context)?.kDueDateLabel ?? '', value: 'value'),
               ],
             ),
           ),
           1.vGap,
-          _buildMaintenanceInvoice(),
-          _buildMonthyInvoice(),
-          _buildPrice(),
+          _buildMaintenanceInvoice(context),
+          _buildMonthyInvoice(context),
+          _buildPrice(context),
           10.vGap
         ],
       ),
@@ -126,12 +128,15 @@ class InvoiceDetailPage extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: TextStyle(fontSize: kTextRegular),
+        SizedBox(
+          width: 200,
+          child: Text(
+            title,
+            style: TextStyle(fontSize: kTextRegular),
+          ),
         ),
-        kSize40.hGap,
         Expanded(
+          flex: 1,
           child: Text(
             value,
             softWrap: true,
@@ -144,7 +149,7 @@ class InvoiceDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildMaintenanceInvoice() {
+  Widget _buildMaintenanceInvoice(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: kMarginMedium2),
       decoration: BoxDecoration(
@@ -174,7 +179,7 @@ class InvoiceDetailPage extends StatelessWidget {
                 ),
               ),
               child: Text(
-                kMaintenanceInvoiceLabel,
+                AppLocalizations.of(context)?.kMaintenanceInvoiceLabel ?? '',
                 style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: kTextRegular2x,
@@ -189,7 +194,7 @@ class InvoiceDetailPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Column(
                   children: [
-                    _buildMaintenanceInvoiceChild(),
+                    _buildMaintenanceInvoiceChild(context),
                     index == 1 ? SizedBox.shrink() : Divider()
                   ],
                 );
@@ -199,27 +204,27 @@ class InvoiceDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildMaintenanceInvoiceChild() {
+  Widget _buildMaintenanceInvoiceChild(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: kMargin10),
       child: Column(
         spacing: kMargin12,
         children: [
           _buildListDetail(
-              title: kDetailLabel,
+              title: AppLocalizations.of(context)?.kDetailLabel ?? '',
               value:
                   'this is description this is descriptionthis is descriptionthis is descriptionthis is descriptionthis is descriptionthis is descriptionthis is description'),
-          _buildListDetail(title: kUnitLabel, value: 'value'),
-          _buildListDetail(title: kQtyLabel, value: 'value'),
-          _buildListDetail(title: kTaxPercentLabel, value: 'value'),
-          _buildListDetail(title: kRateLabel, value: 'value'),
-          _buildListDetail(title: kAmountLabel, value: 'value'),
+          _buildListDetail(title: AppLocalizations.of(context)?.kUnitLabel ?? '', value: 'value'),
+          _buildListDetail(title: AppLocalizations.of(context)?.kQtyLabel ?? '', value: 'value'),
+          _buildListDetail(title: AppLocalizations.of(context)?.kTaxPercentLabel ?? '', value: 'value'),
+          _buildListDetail(title: AppLocalizations.of(context)?.kRateLabel ?? '', value: 'value'),
+          _buildListDetail(title: AppLocalizations.of(context)?.kAmountLabel ?? '', value: 'value'),
         ],
       ),
     );
   }
 
-  Widget _buildPrice() {
+  Widget _buildPrice(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: kMarginMedium2),
       padding:
@@ -238,16 +243,16 @@ class InvoiceDetailPage extends StatelessWidget {
       child: Column(
         spacing: kMargin12,
         children: [
-          _buildListDetail(title: kSubTotal, value: 'value'),
-          _buildListDetail(title: kTaxLabel, value: 'value'),
-          _buildListDetail(title: kLateFeeLabel, value: 'value'),
-          _buildListDetail(title: kGrandTotalLabel, value: 'value'),
+          _buildListDetail(title: AppLocalizations.of(context)?.kSubTotal ?? '', value: 'value'),
+          _buildListDetail(title:AppLocalizations.of(context)?. kTaxLabel ?? '', value: 'value'),
+          _buildListDetail(title: AppLocalizations.of(context)?.kLateFeeLabel ?? '', value: 'value'),
+          _buildListDetail(title: AppLocalizations.of(context)?.kGrandTotalLabel ?? '', value: 'value'),
         ],
       ),
     );
   }
 
-  Widget _buildMonthyInvoice() {
+  Widget _buildMonthyInvoice(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: kMarginMedium2),
       decoration: BoxDecoration(
@@ -277,7 +282,7 @@ class InvoiceDetailPage extends StatelessWidget {
                 ),
               ),
               child: Text(
-                kMonthlyInvoiceLabel,
+                AppLocalizations.of(context)?.kMonthlyInvoiceLabel ?? '',
                 style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: kTextRegular2x,
@@ -290,19 +295,19 @@ class InvoiceDetailPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: kMargin12,
               children: [
-                _buildListDetail(title: kRentalFeeLabel, value: 'value'),
-                _buildListDetail(title: kCommercialTaxLabel, value: 'value'),
-                _buildListDetail(title: kAdvertisingFeeLabel, value: 'value'),
+                _buildListDetail(title: AppLocalizations.of(context)?.kRentalFeeLabel ?? '', value: 'value'),
+                _buildListDetail(title: AppLocalizations.of(context)?.kCommercialTaxLabel ?? '', value: 'value'),
+                _buildListDetail(title: AppLocalizations.of(context)?.kAdvertisingFeeLabel ?? '', value: 'value'),
                 _buildListDetail(
-                    title: kCleanAndSecurityFeeLabel, value: 'value'),
+                    title: AppLocalizations.of(context)?.kCleanAndSecurityFeeLabel ?? '', value: 'value'),
                 _buildListDetail(
-                    title: kAirconAndElevatorFeeLabel, value: 'value'),
+                    title: AppLocalizations.of(context)?.kAirconAndElevatorFeeLabel ?? '', value: 'value'),
                 _buildListDetail(
-                    title: kPetAndMosquitoControlLabel, value: 'value'),
+                    title: AppLocalizations.of(context)?.kPetAndMosquitoControlLabel ?? '', value: 'value'),
                 _buildListDetail(
-                    title: kBillBoardAdvertisingChargeLabel, value: 'value'),
+                    title: AppLocalizations.of(context)?.kBillBoardAdvertisingChargeLabel ?? '', value: 'value'),
                 Text(
-                  kElectricFeeLabel,
+                  AppLocalizations.of(context)?.kElectricFeeLabel ?? '',
                   style: TextStyle(
                       fontFamily: AppData.shared.fontFamily2,
                       fontSize: kTextRegular3x,
@@ -320,7 +325,7 @@ class InvoiceDetailPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Column(
                   spacing: kMargin12,
-                  children: [_buildMonthyInvoiceChild(), Divider(), 1.vGap],
+                  children: [_buildMonthyInvoiceChild(context), Divider(), 1.vGap],
                 );
               }),
         ],
@@ -328,7 +333,7 @@ class InvoiceDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildMonthyInvoiceChild() {
+  Widget _buildMonthyInvoiceChild(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

@@ -12,7 +12,9 @@ import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
+import 'package:tmsmobile/widgets/common_dialog.dart';
 import 'package:tmsmobile/widgets/empty_houldhold.dart';
+import 'package:tmsmobile/widgets/error_dialog_view.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
 import 'package:tmsmobile/widgets/nrc_view.dart';
 import 'package:tmsmobile/widgets/owner_nrc_view.dart';
@@ -32,18 +34,6 @@ class HouseholdRegistrationPage extends StatefulWidget {
 }
 
 class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
-  final List<String> titles = [
-    'Owner',
-    kNameLabel,
-    kGenderLabel,
-    kDobLabel,
-    kRaceLabel,
-    kNationalityLabel,
-    kNRCLabel,
-    kContactNameLabel,
-    kEmailAddressLabel,
-    kRelatedToOwnerLabel
-  ];
 
   int? selected;
   bool? isClickRegistrationForm = false;
@@ -54,6 +44,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return ChangeNotifierProvider(
       create: (context) => HouseHoldBloc(context: context),
       child: Container(
@@ -157,7 +148,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                 Positioned(
                     top: 0,
                     child: ProfileAppbar(
-                      title: kHouseholdLabel,
+                      title: AppLocalizations.of(context)?.kHouseholdLabel,
                     )),
               ],
             ),
@@ -171,7 +162,30 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                           height: kBottomBarHeight,
                           child: Center(
                             child: gradientButton(
-                                title: kSubmitLabel, onPress: () {}),
+                                title: kSubmitLabel,
+                                onPress: () {
+                                  var bloc = context.read<HouseHoldBloc>();
+                                  bloc.checkValidation();
+                                  if (bloc.validationMessage == 'success') {
+                                    bloc.checkValidationResident();
+                                    if (bloc.residentValidationMessage ==
+                                        'successs') {
+                                      bloc.createHousehold();
+                                    } else {
+                                      showCommonDialog(
+                                          context: context,
+                                          dialogWidget: ErrorDialogView(
+                                              errorMessage: bloc
+                                                  .residentValidationMessage));
+                                    }
+                                  } else {
+                                    showCommonDialog(
+                                        context: context,
+                                        dialogWidget: ErrorDialogView(
+                                            errorMessage:
+                                                bloc.validationMessage));
+                                  }
+                                }),
                           )),
             ),
           ),
@@ -190,7 +204,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
           style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: kTextRegular2x,
-              fontFamily: AppData.shared.getLocaleFont()),
+              ),
         ),
         Text(
           value,
@@ -212,6 +226,18 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
       String number,
       List<HouseHoldInformation> houseHoldData,
       HouseHoldBloc bloc) {
+    final List<String> titles = [
+    'Owner',
+    AppLocalizations.of(context)?.kNameLabel ?? '',
+    AppLocalizations.of(context)?.kGenderLabel ?? '',
+    AppLocalizations.of(context)?.kDobLabel ?? '',
+    AppLocalizations.of(context)?.kRaceLabel ?? '',
+    AppLocalizations.of(context)?.kNationalityLabel ?? '',
+    AppLocalizations.of(context)?.kNRCLabel ?? '',
+    AppLocalizations.of(context)?.kContactNameLabel ?? '',
+    AppLocalizations.of(context)?.kEmailAddressLabel ?? '',
+    AppLocalizations.of(context)?.kRelatedToOwnerLabel ?? ''
+  ];
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -542,25 +568,27 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
           ),
           4.vGap,
           Container(
-            padding: EdgeInsets.symmetric(horizontal: kMargin10),
             decoration: BoxDecoration(
                 color: kInputBackgroundColor,
                 borderRadius: BorderRadius.circular(kMarginMedium)),
-            child: DropdownButton(
-                value: bloc.residentGender,
-                isExpanded: true,
-                underline: Container(),
-                hint: Text(kSelectGenderLabel),
-                items: genders.map((value) {
-                  return DropdownMenuItem(value: value, child: Text(value));
-                }).toList(),
-                onChanged: ((value) {
-                  if (isOwner == true) {
-                    bloc.onSelectOwnerGender(value ?? '');
-                  } else {
-                    bloc.onSelectResidentGender(value ?? '');
-                  }
-                })),
+            child: ButtonTheme(
+              alignedDropdown: true,
+              child: DropdownButton(
+                  value: bloc.residentGender,
+                  isExpanded: true,
+                  underline: Container(),
+                  hint: Text(kSelectGenderLabel),
+                  items: genders.map((value) {
+                    return DropdownMenuItem(value: value, child: Text(value));
+                  }).toList(),
+                  onChanged: ((value) {
+                    if (isOwner == true) {
+                      bloc.onSelectOwnerGender(value ?? '');
+                    } else {
+                      bloc.onSelectResidentGender(value ?? '');
+                    }
+                  })),
+            ),
           )
         ],
       ),

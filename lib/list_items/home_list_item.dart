@@ -3,6 +3,7 @@ import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 
 import '../data/app_data/app_data.dart';
+import '../data/persistance_data/persistence_data.dart';
 
 class HomeListItem extends StatelessWidget {
   const HomeListItem(
@@ -27,8 +28,11 @@ class HomeListItem extends StatelessWidget {
           child: Center(
             child: Text(
               label,
+              textAlign: TextAlign.center,
               style: TextStyle(
-                  fontFamily: AppData.shared.fontFamily2,
+                  fontFamily: PersistenceData.shared.getLocale() == 'my'
+                                    ? AppData.shared.fontFamily3
+                                    : AppData.shared.fontFamily2,
                   fontSize: kTextRegular18,
                   color: kWhiteColor,
                   fontWeight: FontWeight.w600),

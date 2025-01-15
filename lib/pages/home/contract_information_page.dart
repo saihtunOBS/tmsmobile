@@ -8,6 +8,7 @@ import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../utils/strings.dart';
 import '../../widgets/appbar.dart';
@@ -26,7 +27,8 @@ class ContractInformationPage extends StatelessWidget {
         backgroundColor: kBackgroundColor,
         appBar: PreferredSize(
             preferredSize: Size(double.infinity, kMargin60),
-            child: GradientAppBar(kContractInformationLabel)),
+            child: GradientAppBar(
+                AppLocalizations.of(context)?.kContractInformationLabel ?? '')),
         body: Selector<ContractInformationBloc, bool?>(
           selector: (p0, p1) => p1.isLoading,
           builder: (context, isLoading, child) => isLoading == true
@@ -36,7 +38,7 @@ class ContractInformationPage extends StatelessWidget {
                   builder: (context, bloc, child) => SingleChildScrollView(
                     child: Column(
                       children: [
-                        _buildHeader(bloc.contract as ContractInformationVO),
+                        _buildHeader(bloc.contract as ContractInformationVO,context),
                         ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
@@ -60,20 +62,28 @@ class ContractInformationPage extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(ContractInformationVO data) {
+  Widget _buildHeader(ContractInformationVO data,BuildContext context) {
     return Container(
       margin:
           EdgeInsets.only(left: kMargin24, right: kMargin24, top: kMargin24),
       child: Column(
         spacing: kMarginMedium14,
         children: [
-          _listItem(title: kCreatedDateLabel, value: '12/21/2025'),
-          _listItem(title: kTenantTypeLabel, value: type),
+          _listItem(title:AppLocalizations.of(context)?.kCreatedDateLabel ?? '', value: '12/21/2025'),
+          _listItem(title: AppLocalizations.of(context)?.kTenantTypeLabel ?? '', value: type),
           _listItem(
-              title: kTenantCategoryLabel,
+              title: AppLocalizations.of(context)?.kTenantCategoryLabel ?? '',
               value: data.tenant?.tenantCategory?.tenantCategoryName ?? ''),
-          _listItem(title: kStartDateLabel, value: '12/21/2025'),
-          _listItem(title: kEndDateLabel, value: '12/21/2025'),
+          Visibility(
+            visible: type == 'lease',
+            child: Column(
+              spacing: kMarginMedium14,
+              children: [
+                _listItem(title: AppLocalizations.of(context)?.kStartDateLabel ?? '', value: '12/21/2025'),
+                _listItem(title: AppLocalizations.of(context)?.kEndDateLabel ?? '', value: '12/21/2025'),
+              ],
+            ),
+          ),
           Divider(
             thickness: 0.5,
             color: Colors.black,
@@ -167,7 +177,7 @@ class ContractInformationPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  kRoomShopNameLabel,
+                  AppLocalizations.of(context)?.kRoomShopNameLabel ?? '',
                   style: TextStyle(
                       color: kWhiteColor,
                       fontSize: kTextRegular13,
@@ -194,28 +204,28 @@ class ContractInformationPage extends StatelessWidget {
                 child: Column(
                   children: [
                     _listItem(
-                        title: kBranchLabel, value: data.branch?.name ?? ''),
+                        title: AppLocalizations.of(context)?.kBranchLabel ?? '', value: data.branch?.name ?? ''),
                     10.vGap,
                     _listItem(
-                        title: kBuildingLabel,
+                        title: AppLocalizations.of(context)?.kBuildingLabel ?? '',
                         value: data.building?.name ?? ''),
                     10.vGap,
                     _listItem(
-                        title: kFloorLabel, value: data.floor?.name ?? ''),
+                        title: AppLocalizations.of(context)?.kFloorLabel ?? '', value: data.floor?.name ?? ''),
                     10.vGap,
                     _listItem(
-                        title: kZoneViewLabel, value: data.zone?.name ?? ''),
+                        title: AppLocalizations.of(context)?.kZoneViewLabel ?? '', value: data.zone?.name ?? ''),
                     10.vGap,
                     _listItem(
-                        title: kRoomTypeLabel,
+                        title: AppLocalizations.of(context)?.kRoomTypeLabel ?? '',
                         value: data.roomType?.roomType ?? ''),
                     10.vGap,
                     _listItem(
-                        title: kRoomShopNameLabel,
+                        title: AppLocalizations.of(context)?.kRoomShopNameLabel ?? '',
                         value: '#${data.shop?.name ?? ''}'),
                     10.vGap,
                     _listItem(
-                        title: kTotalAreaLabel,
+                        title: AppLocalizations.of(context)?.kTotalAreaLabel ?? '',
                         value: '${data.totalArea ?? ''} sq ft'),
                     10.vGap,
                     data.parkingInformation?.isNotEmpty ?? true
@@ -275,15 +285,22 @@ class ContractInformationPage extends StatelessWidget {
               child: Column(
                 spacing: kMargin10,
                 children: [
-                  _listItem(title: kBranchLabel, value: data.branch?.name ?? ''),
-                  _listItem(title: kBuildingLabel, value: data.building?.name ?? ''),
-                  _listItem(title: kFloorLabel, value: data.floor?.name ?? ''),
-                  _listItem(title: kZoneViewLabel, value: data.zone?.name ?? ''),
-                  _listItem(title: kParkingCodeLabel, value: data.shop?.parkingData?.first.parkingCode?.parkingCode ?? ''),
                   _listItem(
-                        title: kStatusLabel,
-                        value: filterStatus(data.shop?.status ?? 0),
-                        isStatus: true),
+                      title: kBranchLabel, value: data.branch?.name ?? ''),
+                  _listItem(
+                      title: kBuildingLabel, value: data.building?.name ?? ''),
+                  _listItem(title: kFloorLabel, value: data.floor?.name ?? ''),
+                  _listItem(
+                      title: kZoneViewLabel, value: data.zone?.name ?? ''),
+                  _listItem(
+                      title: kParkingCodeLabel,
+                      value: data.shop?.parkingData?.first.parkingCode
+                              ?.parkingCode ??
+                          ''),
+                  _listItem(
+                      title: kStatusLabel,
+                      value: filterStatus(data.shop?.status ?? 0),
+                      isStatus: true),
                   _listItem(title: kVehicleNoLabel, value: '0002'),
                 ],
               ),
@@ -315,5 +332,4 @@ class ContractInformationPage extends StatelessWidget {
         return kRedColor;
     }
   }
-
 }

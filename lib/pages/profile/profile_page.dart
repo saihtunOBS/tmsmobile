@@ -18,7 +18,6 @@ import 'package:tmsmobile/pages/profile/household_registration_page.dart';
 import 'package:tmsmobile/pages/profile/account_term_and_condition_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
-import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
 import 'package:tmsmobile/widgets/cache_image.dart';
 import 'package:tmsmobile/widgets/common_dialog.dart';
@@ -67,7 +66,7 @@ class ProfilePage extends StatelessWidget {
                       spacing: kMarginMedium,
                       children: [
                         _buildHeader(context),
-                        _buildSetting(context,bloc),
+                        _buildSetting(context, bloc),
 
                         ///logout button
                         gradientButton(
@@ -79,7 +78,7 @@ class ProfilePage extends StatelessWidget {
                                       context: context, bloc: bloc));
                             },
                             isLogout: true,
-                            title: kLogoutLabel),
+                            title: AppLocalizations.of(context)?.kLogoutLabel),
                         kMargin110.vGap
                       ]),
                 ),
@@ -139,20 +138,21 @@ class ProfilePage extends StatelessWidget {
                 page: ChangeProfilePage(
               userData: userData ?? UserVO(),
             )),
-            child: Container(
-              height: kSize28,
-              width: kSize110,
-              padding: EdgeInsets.symmetric(horizontal: kMargin10),
-              decoration: BoxDecoration(
-                  color: kPrimaryColor.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(kMarginMedium2)),
-              child: Center(
-                child: Text(
-                  kViewProfileLabel,
-                  style: TextStyle(
-                      fontSize: kTextRegular13,
-                      color: kPrimaryColor,
-                      fontWeight: FontWeight.w600),
+            child: FittedBox(
+              child: Container(
+                height: kSize28,
+                padding: EdgeInsets.symmetric(horizontal: kMargin10),
+                decoration: BoxDecoration(
+                    color: kPrimaryColor.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(kMarginMedium2)),
+                child: Center(
+                  child: Text(
+                    AppLocalizations.of(context)?.kViewProfileLabel ?? '',
+                    style: TextStyle(
+                        fontSize: kTextRegular13,
+                        color: kPrimaryColor,
+                        fontWeight: FontWeight.w600),
+                  ),
                 ),
               ),
             ),
@@ -162,7 +162,7 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildSetting(BuildContext context,ProfileBloc bloc) {
+  Widget _buildSetting(BuildContext context, ProfileBloc bloc) {
     final List<String> settings = [
       AppLocalizations.of(context)?.kChangePasswordLabel ?? '',
       AppLocalizations.of(context)?.kEmergencyContactLabel ?? '',
@@ -207,7 +207,9 @@ class ProfilePage extends StatelessWidget {
                       showModalBottomSheet(
                           context: context,
                           builder: (_) => _buildLogoutBottomSheet(
-                              isDeleteAccount: true, context: context,bloc: bloc));
+                              isDeleteAccount: true,
+                              context: context,
+                              bloc: bloc));
                     case 0:
                       PageNavigator(ctx: context)
                           .nextPage(page: AccountChangePasswordPage());
@@ -256,6 +258,7 @@ class ProfilePage extends StatelessWidget {
             style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: kTextRegular2x,
+                // fontFamily: AppData.shared.getLocaleFont(),
                 color: kPrimaryColor),
           ),
           Spacer(),
@@ -292,20 +295,25 @@ class ProfilePage extends StatelessWidget {
           ),
           kMarginMedium.vGap,
           Text(
-            isDeleteAccount == true ? kDeleteAccountLabel : kConfirmLogoutLabel,
+            isDeleteAccount == true
+                ? AppLocalizations.of(context!)?.kDeleteAccountLabel ?? ''
+                : AppLocalizations.of(context!)?.kConfirmLogoutLabel ?? '',
             style: TextStyle(
                 fontSize: kTextRegular3x,
                 fontWeight: FontWeight.w600,
+                
                 color: kPrimaryColor),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: kMargin24),
             child: Text(
               isDeleteAccount == true
-                  ? kAreYouSureDeleteAccountLabel
-                  : kAreYouSureLogoutLabel,
+                  ? AppLocalizations.of(context)
+                          ?.kAreYouSureDeleteAccountLabel ??
+                      ''
+                  : AppLocalizations.of(context)?.kAreYouSureLogoutLabel ?? '',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: kTextRegular2x),
+              style: TextStyle(fontSize: kTextRegular2x,),
             ),
           ),
           kMarginMedium2.vGap,
@@ -319,20 +327,21 @@ class ProfilePage extends StatelessWidget {
                     color: kGreyColor.withValues(alpha: 0.5),
                     borderRadius: BorderRadius.circular(kMargin6)),
                 child: Center(
-                  child: Text(kCancelLabel),
+                  child: Text(AppLocalizations.of(context)?.kCancelLabel ?? ''),
                 ),
               ),
               InkWell(
                 onTap: () {
                   if (isDeleteAccount == true) {
-                    bloc?.onTapDelete()
-                      .then((_) => PageNavigator(ctx: context)
-                          .nextPageOnly(page: LoginPage()))
-                      .catchError((error) {
+                    bloc
+                        ?.onTapDelete()
+                        .then((_) => PageNavigator(ctx: context)
+                            .nextPageOnly(page: LoginPage()))
+                        .catchError((error) {
                       showCommonDialog(
-                          context: context!,
-                          dialogWidget: ErrorDialogView(
-                              errorMessage: error.toString()));
+                          context: context,
+                          dialogWidget:
+                              ErrorDialogView(errorMessage: error.toString()));
                     });
                   } else {
                     PersistenceData.shared.clearToken();
@@ -347,7 +356,7 @@ class ProfilePage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(kMargin6)),
                   child: Center(
                     child: Text(
-                      kOkLabel,
+                      AppLocalizations.of(context)?.kOkLabel ?? '',
                       style: TextStyle(color: kWhiteColor),
                     ),
                   ),

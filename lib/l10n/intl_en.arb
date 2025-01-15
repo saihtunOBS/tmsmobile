@@ -210,7 +210,7 @@
     "kNoRegisterYetLabel": "You haven't registered yet.",
     "kHouseholdRegistrationFormLabel": "Household Registration Form",
     "kEmptyComplaintLabel": "No Complaints.",
-    "kThereIsNoComplaintLabel": "There is no complaints to show.",
+    "kThereIsNoComplaintLabel": "There is no complaints to show right now.",
     "kEmergencyLabel" : "Emergency Contact",
     "kResidentInformationLabel": "Resident Information",
     "kFillOutProcessLabel": "Fill Out Process"

@@ -6,9 +6,10 @@ import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/list_items/noti_list_item.dart';
 import 'package:tmsmobile/pages/home/invoice_detail_page.dart';
 import 'package:tmsmobile/utils/dimens.dart';
-import 'package:tmsmobile/utils/strings.dart';
 import '../../utils/colors.dart';
 import '../../utils/images.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class NotificationPage extends StatelessWidget {
   const NotificationPage({super.key});
@@ -45,7 +46,7 @@ class NotificationPage extends StatelessWidget {
           ),
           body: SingleChildScrollView(
             child: Column(children: [
-              _buildNewNotiBody(),
+              _buildNewNotiBody(context),
               ListView.builder(
                   itemCount: 2,
                   shrinkWrap: true,
@@ -70,12 +71,12 @@ class NotificationPage extends StatelessWidget {
     );
   }
 
-  Widget _buildNewNotiBody() {
+  Widget _buildNewNotiBody(BuildContext context) {
     return Column(
       children: [
         kMarginMedium2.vGap,
         Text(
-          kNewNotificationLabel,
+          AppLocalizations.of(context)?.kNewNotificationLabel ?? '',
           style: TextStyle(fontSize: kTextRegular2x, color: kPrimaryColor),
         ),
         10.vGap,

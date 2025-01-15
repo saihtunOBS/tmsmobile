@@ -62,7 +62,7 @@ class _ComplainPageState extends State<ComplainPage>
           appBar: PreferredSize(
               preferredSize: Size(double.infinity, kMargin60),
               child: GradientAppBar(
-                kCompliantLabel,
+                AppLocalizations.of(context)?.kCompliantLabel ?? '',
               )),
           body: Stack(children: [
             Column(

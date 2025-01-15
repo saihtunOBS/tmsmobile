@@ -166,23 +166,25 @@ class _AddResidentPageState extends State<AddResidentPage> {
           ),
           4.vGap,
           Container(
-            padding: EdgeInsets.symmetric(horizontal: kMargin10),
             decoration: BoxDecoration(
                 color: isEditDeleteForm == true
                     ? kWhiteColor
                     : kInputBackgroundColor,
                 borderRadius: BorderRadius.circular(kMarginMedium)),
-            child: DropdownButton(
-                value: bloc.gender,
-                isExpanded: true,
-                underline: Container(),
-                hint: Text(kSelectGenderLabel),
-                items: genders.map((value) {
-                  return DropdownMenuItem(value: value, child: Text(value));
-                }).toList(),
-                onChanged: ((value) {
-                  bloc.onChangeGender(value ?? "");
-                })),
+            child: ButtonTheme(
+              alignedDropdown: true,
+              child: DropdownButton(
+                  value: bloc.gender,
+                  isExpanded: true,
+                  underline: Container(),
+                  hint: Text(kSelectGenderLabel),
+                  items: genders.map((value) {
+                    return DropdownMenuItem(value: value, child: Text(value));
+                  }).toList(),
+                  onChanged: ((value) {
+                    bloc.onChangeGender(value ?? "");
+                  })),
+            ),
           )
         ],
       ),

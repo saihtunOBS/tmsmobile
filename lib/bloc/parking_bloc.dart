@@ -24,7 +24,7 @@ class ParkingBloc extends ChangeNotifier {
 
   getParking() {
     _showLoading();
-    parkings?.clear();
+    page = 1;
     _tmsModel
         .getParking(token, 1, 10)
         .then((response) => parkings = response)
@@ -32,6 +32,7 @@ class ParkingBloc extends ChangeNotifier {
   }
 
   loadMoreData() {
+    if(isLoadMore) return;
     _showLoadMoreLoading();
     page += 1;
     _tmsModel.getParking(token, page, 10).then((response) {

@@ -18,8 +18,9 @@ import 'package:tmsmobile/pages/home/service_request_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/images.dart';
-import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/cache_image.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -82,7 +83,7 @@ class HomePage extends StatelessWidget {
                     },
                     child: HomeListItem(
                       backgroundColor: _separateColor(index),
-                      label: _separateLabel(index),
+                      label: _separateLabel(index,context),
                       imageLogo: _separateLogo(index),
                     ),
                   );
@@ -117,20 +118,20 @@ class HomePage extends StatelessWidget {
     }
   }
 
-  String _separateLabel(int index) {
+  String _separateLabel(int index,BuildContext context) {
     switch (index) {
       case 0:
-        return kContractLabel;
+        return AppLocalizations.of(context)?.kContractLabel ?? '';
       case 1:
-        return kBillingLabel;
+        return AppLocalizations.of(context)?.kBillingLabel ?? '';
       case 2:
-        return kServiceRequestLabel;
+        return AppLocalizations.of(context)?.kServiceRequestLabel ?? '';
       case 3:
-        return kCompliantLabel;
+        return AppLocalizations.of(context)?.kCompliantLabel ?? '';
       case 4:
-        return kParkingLabel;
+        return AppLocalizations.of(context)?.kParkingLabel ?? '';
       case 5:
-        return kAnnouncementLabel;
+        return AppLocalizations.of(context)?.kAnnouncementLabel ?? '';
       default:
         return '';
     }

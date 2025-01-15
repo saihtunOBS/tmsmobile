@@ -19,7 +19,7 @@ class ContractBloc extends ChangeNotifier {
 
   getContract() {
     _showLoading();
-    contracts.clear();
+    page = 1;
     _tmsModel
         .getContracts(token ?? '', 1, 10)
         .then((response) => contracts = response)
@@ -27,6 +27,7 @@ class ContractBloc extends ChangeNotifier {
   }
 
   loadMoreData() {
+    if(isLoadMore) return;
     _showLoadMoreLoading();
     page += 1;
     _tmsModel

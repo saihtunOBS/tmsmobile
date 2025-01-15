@@ -32,7 +32,6 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
 
   @override
   void initState() {
-    super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() {
       if (_tabController.index != _currentIndex) {
@@ -41,6 +40,14 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
         });
       }
     });
+    // fillOutScrollController.addListener(() {
+    //   if (fillOutScrollController.position.pixels ==
+    //       fillOutScrollController.position.maxScrollExtent) {
+    //     var bloc = context.read<ServiceRequestBloc>();
+    //     bloc.getLoadMoreFillOuts();
+    //   }
+    // });
+    super.initState();
   }
 
   @override
@@ -68,8 +75,8 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
               child: GradientAppBar(
                 kServiceRequestLabel,
               )),
-          body: Consumer<ServiceRequestBloc>(
-            builder: (context, bloc, child) => Stack(children: [
+          body: Consumer<ServiceRequestBloc>(builder: (context, bloc, child) {
+            return Stack(children: [
               Column(
                 children: [
                   DefaultTabController(
@@ -109,15 +116,12 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                     child: TabBarView(
                         physics: const NeverScrollableScrollPhysics(),
                         controller: _tabController,
-                        children: [
-                          _buildMaintenanceTab(),
-                          _buildFillOutTab(bloc)
-                        ]),
+                        children: [_buildMaintenanceTab(), _buildFillOutTab()]),
                   ),
                 ],
               ),
-            ]),
-          ),
+            ]);
+          }),
           floatingActionButton: Consumer<ServiceRequestBloc>(
             builder: (context, bloc, child) => FloatingActionButton(
                 shape: CircleBorder(),
@@ -154,64 +158,61 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
 
   Widget _buildMaintenanceTab() {
     return Consumer<ServiceRequestBloc>(
-      builder: (context, bloc, child) => bloc.isLoading == true
-          ?
+      builder: (context, bloc, child) => RefreshIndicator(
+        onRefresh: () async => bloc.getMaintenances(),
+        child: SizedBox(
+          height: double.infinity,
+          child: bloc.isLoading == true
+              ?
 
-          ///loading
-          LoadingView(
-              indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor)
-          : RefreshIndicator(
-              onRefresh: () async => bloc.getMaintenances(),
-              child: SizedBox(
-                height: double.infinity,
-                child: bloc.maintenanceLists.isEmpty
-                    ? EmptyView(
-                        imagePath: kNoServiceRequestImage,
-                        title: kNoServiceRequestLabel,
-                        subTitle: kThereisNoServiceRequestLabel)
-                    : SizedBox(
-                        height: double.infinity,
-                        child: ListView.builder(
-                          physics: AlwaysScrollableScrollPhysics(),
-                          padding: EdgeInsets.symmetric(
-                              vertical: kMargin24, horizontal: kMarginMedium2),
-                          itemCount: bloc.maintenanceLists.length,
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                                onTap: () {
-                                  PageNavigator(ctx: context).nextPage(
-                                      page: MaintenanceProcessPage(
-                                    status: '',
-                                  ));
-                                },
-                                child: ServiceRequestListItem(
-                                  data: bloc.maintenanceLists[index],
-                                  status:
-                                      bloc.maintenanceLists[index].status ?? 0,
+              ///loading
+              LoadingView(
+                  indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor)
+              : bloc.maintenanceLists.isNotEmpty
+                  ? SizedBox(
+                      height: double.infinity,
+                      child: ListView.builder(
+                        physics: AlwaysScrollableScrollPhysics(),
+                        padding: EdgeInsets.symmetric(
+                            vertical: kMargin24, horizontal: kMarginMedium2),
+                        itemCount: bloc.maintenanceLists.length,
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                              onTap: () {
+                                PageNavigator(ctx: context).nextPage(
+                                    page: MaintenanceProcessPage(
+                                  status: '',
                                 ));
-                          },
-                        ),
+                              },
+                              child: ServiceRequestListItem(
+                                data: bloc.maintenanceLists[index],
+                                status:
+                                    bloc.maintenanceLists[index].status ?? 0,
+                              ));
+                        },
                       ),
-              ),
-            ),
+                    )
+                  : EmptyView(
+                      imagePath: kNoServiceRequestImage,
+                      title: kNoServiceRequestLabel,
+                      subTitle: kThereisNoServiceRequestLabel),
+        ),
+      ),
     );
   }
 
-  Widget _buildFillOutTab(ServiceRequestBloc bloc) {
-    return bloc.isLoading == true
-        ?
+  Widget _buildFillOutTab() {
+    return Consumer<ServiceRequestBloc>(
+      builder: (context, bloc, child) => RefreshIndicator(
+        onRefresh: () async => bloc.getFillOuts(),
+        child: bloc.isLoading == true
+            ?
 
-        ///loading
-        LoadingView(
-            indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor)
-        : RefreshIndicator(
-            onRefresh: () async => bloc.getFillOuts(),
-            child: bloc.fillOutLists.isEmpty
-                ? EmptyView(
-                    imagePath: kNoServiceRequestImage,
-                    title: kNoServiceRequestLabel,
-                    subTitle: kThereisNoServiceRequestLabel)
-                : SizedBox(
+            ///loading
+            LoadingView(
+                indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor)
+            : bloc.fillOutLists.isNotEmpty
+                ? SizedBox(
                     height: double.infinity,
                     child: ListView.builder(
                       physics: AlwaysScrollableScrollPhysics(),
@@ -252,7 +253,12 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                           }
                         }),
                     ),
-                  ),
-          );
+                  )
+                : EmptyView(
+                    imagePath: kNoServiceRequestImage,
+                    title: kNoServiceRequestLabel,
+                    subTitle: kThereisNoServiceRequestLabel),
+      ),
+    );
   }
 }

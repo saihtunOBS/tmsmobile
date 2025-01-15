@@ -15,8 +15,11 @@ import 'package:tmsmobile/widgets/common_dialog.dart';
 import 'package:tmsmobile/widgets/error_dialog_view.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
 import '../../data/app_data/app_data.dart';
+import '../../data/persistance_data/persistence_data.dart';
 import '../../utils/images.dart';
 import '../../widgets/loading_view.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AccountChangePasswordPage extends StatefulWidget {
   const AccountChangePasswordPage({super.key});
@@ -66,15 +69,22 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: kMargin24),
                           child: Text(
-                            kChangeYourPasswordLabel,
+                            AppLocalizations.of(context)
+                                    ?.kChangeYourPasswordLabel ??
+                                '',
                             style: TextStyle(
-                                fontFamily: AppData.shared.fontFamily2,
-                                fontWeight: FontWeight.w600,
+                                fontFamily:
+                                    PersistenceData.shared.getLocale() == 'my'
+                                        ? AppData.shared.fontFamily3
+                                        : AppData.shared.fontFamily2,
+                                fontWeight: FontWeight.bold,
                                 fontSize: kTextRegular24),
                           ),
                         ),
                         _buildTextField(
-                            title: kOldPasswordLabel,
+                            title: AppLocalizations.of(context)
+                                    ?.kOldPasswordLabel ??
+                                '',
                             icon: bloc.showOldPassword == true
                                 ? Icon(CupertinoIcons.eye)
                                 : Icon(CupertinoIcons.eye_slash),
@@ -82,7 +92,9 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                             obscure: !bloc.showOldPassword,
                             controller: _oldPasswordController),
                         _buildTextField(
-                            title: kNewPasswordLabel,
+                            title: AppLocalizations.of(context)
+                                    ?.kNewPasswordLabel ??
+                                '',
                             icon: bloc.showNewPassword == true
                                 ? Icon(CupertinoIcons.eye)
                                 : Icon(CupertinoIcons.eye_slash),
@@ -91,7 +103,9 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                             onTap: () => bloc.onTapNewPassword(),
                             bloc: bloc),
                         _buildTextField(
-                            title: kConfirmPasswordLabel,
+                            title: AppLocalizations.of(context)
+                                    ?.kConfirmPasswordLabel ??
+                                '',
                             icon: bloc.showConfirmPassword == true
                                 ? Icon(CupertinoIcons.eye)
                                 : Icon(CupertinoIcons.eye_slash),
@@ -124,7 +138,7 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                   height: kBottomBarHeight,
                   child: Center(
                       child: gradientButton(
-                          title: kConfirmLabel,
+                          title: AppLocalizations.of(context)?.kConfirmLabel,
                           onPress: () {
                             if (bloc.checkValidationSuccess() == true) {
                               if (_passwordController.text.trim() !=

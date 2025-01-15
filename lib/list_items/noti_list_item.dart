@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
-import 'package:tmsmobile/utils/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class NotiListItem extends StatelessWidget {
   const NotiListItem({
@@ -74,7 +75,7 @@ class NotiListItem extends StatelessWidget {
                                   BorderRadius.circular(kMargin5 + 1)),
                           child: Center(
                             child: Text(
-                              kViewDetailLabel,
+                             AppLocalizations.of(context)?.kViewDetailLabel ?? '',
                               style: TextStyle(
                                   fontSize: kTextSmall,
                                   color: kWhiteColor,

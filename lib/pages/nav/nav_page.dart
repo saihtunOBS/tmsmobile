@@ -5,7 +5,7 @@ import 'package:tmsmobile/pages/profile/profile_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/images.dart';
-import 'package:tmsmobile/utils/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../home/home_page.dart';
 
@@ -127,7 +127,7 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
           ],
         ),
         Text(
-          kHomeLabel,
+          AppLocalizations.of(context)?.kHomeLabel ?? '',
           style: TextStyle(
               fontSize: kTextSmall,
               fontWeight: FontWeight.w600,
@@ -164,7 +164,7 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
           ],
         ),
         Text(
-          kNotiLabel,
+          AppLocalizations.of(context)?.kNotiLabel ?? '',
           style: TextStyle(
               fontSize: kTextSmall,
               fontWeight: FontWeight.w600,
@@ -201,7 +201,7 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
           ],
         ),
         Text(
-          kProfileLabel,
+          AppLocalizations.of(context)?.kProfileLabel ?? '',
           style: TextStyle(
               fontSize: kTextSmall,
               fontWeight: FontWeight.w600,

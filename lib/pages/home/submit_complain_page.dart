@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/complaint_bloc.dart';
-import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/common_dialog.dart';
 import 'package:tmsmobile/widgets/error_dialog_view.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
@@ -23,54 +22,59 @@ class SubmitComplainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => ComplaintBloc(),
-      child: Scaffold(
-        backgroundColor: kBackgroundColor,
-        appBar: PreferredSize(
-            preferredSize: Size(double.infinity, kMargin60),
-            child: GradientAppBar(
-              AppLocalizations.of(context)?.kSendCompliantLabel ?? '',
-            )),
-        body: Selector<ComplaintBloc, bool>(
-          selector: (p0, p1) => p1.isSubmitLoading,
-          builder: (context, isLoading, child) => Stack(children: [
-            _buildTextField(controller: _complainController),
-
-            //loading
-            if (isLoading)
-              Center(
-                child: LoadingView(
-                    indicator: Indicator.ballBeat,
-                    indicatorColor: kPrimaryColor),
-              )
-          ]),
-        ),
-        bottomNavigationBar: Consumer<ComplaintBloc>(
-          builder: (context, bloc, child) => Container(
-              color: kWhiteColor,
-              height: kBottomBarHeight,
-              child: Center(
-                child: gradientButton(
-                    title: kSubmitLabel,
-                    onPress: () {
-                      bloc
-                          .createComplaint(_complainController.text.trim())
-                          .then((_) {
-                        Navigator.pop(context);
-                      }).catchError((error) {
-                        showCommonDialog(
-                            context: context,
-                            dialogWidget: ErrorDialogView(
-                                errorMessage: error.toString()));
-                      });
-                    }),
-              )),
+      child: Material(
+        child: InkWell(
+          onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+          child: Scaffold(
+            backgroundColor: kBackgroundColor,
+            appBar: PreferredSize(
+                preferredSize: Size(double.infinity, kMargin60),
+                child: GradientAppBar(
+                  AppLocalizations.of(context)?.kSendCompliantLabel ?? '',
+                )),
+            body: Selector<ComplaintBloc, bool>(
+              selector: (p0, p1) => p1.isSubmitLoading,
+              builder: (context, isLoading, child) => Stack(children: [
+                _buildTextField(controller: _complainController,context: context),
+          
+                //loading
+                if (isLoading)
+                  Center(
+                    child: LoadingView(
+                        indicator: Indicator.ballBeat,
+                        indicatorColor: kPrimaryColor),
+                  )
+              ]),
+            ),
+            bottomNavigationBar: Consumer<ComplaintBloc>(
+              builder: (context, bloc, child) => Container(
+                  color: kWhiteColor,
+                  height: kBottomBarHeight,
+                  child: Center(
+                    child: gradientButton(
+                        title:AppLocalizations.of(context)?.kSubmitLabel,
+                        onPress: () {
+                          bloc
+                              .createComplaint(_complainController.text.trim())
+                              .then((_) {
+                            Navigator.pop(context);
+                          }).catchError((error) {
+                            showCommonDialog(
+                                context: context,
+                                dialogWidget: ErrorDialogView(
+                                    errorMessage: error.toString()));
+                          });
+                        }),
+                  )),
+            ),
+          ),
         ),
       ),
     );
   }
 
   Widget _buildTextField({
-    required TextEditingController controller,
+    required TextEditingController controller,BuildContext? context
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -83,7 +87,7 @@ class SubmitComplainPage extends StatelessWidget {
             spacing: 3,
             children: [
               Text(
-                kCompliantLabel,
+                AppLocalizations.of(context!)?.kCompliantLabel ?? '',
                 style: TextStyle(
                     fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
               ),
@@ -102,7 +106,7 @@ class SubmitComplainPage extends StatelessWidget {
               maxLines: 15,
               controller: controller,
               decoration: InputDecoration(
-                  border: InputBorder.none, hintText: kWriteComplainLabel),
+                  border: InputBorder.none, hintText:AppLocalizations.of(context)?.kWriteComplainLabel),
             ),
           )
         ],

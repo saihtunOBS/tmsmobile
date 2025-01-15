@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
@@ -10,9 +9,9 @@ import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/widgets/empty_view.dart';
 
 import '../../utils/images.dart';
-import '../../utils/strings.dart';
 import '../../widgets/appbar.dart';
 import '../../widgets/loading_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CarParkingPage extends StatefulWidget {
   const CarParkingPage({super.key});
@@ -45,44 +44,52 @@ class _CarParkingPageState extends State<CarParkingPage> {
             backgroundColor: Colors.transparent,
             appBar: PreferredSize(
                 preferredSize: Size(double.infinity, kMargin60),
-                child: GradientAppBar(kCarParkingLabel)),
+                child: GradientAppBar(
+                    AppLocalizations.of(context)?.kCarParkingLabel ?? '')),
             body: Consumer<ParkingBloc>(
               builder: (context, bloc, child) => bloc.isLoading == true
                   ? LoadingView(
                       indicator: Indicator.ballBeat,
                       indicatorColor: kPrimaryColor)
-                  : bloc.parkings?.isEmpty ?? true ? EmptyView(imagePath: kNoAnnouncementImage, title: 'No Parking.', subTitle: 'There is no parking right now.') : RefreshIndicator(
-                      onRefresh: () async => bloc.getParking(),
-                      child: SizedBox(
-                        height: double.infinity,
-                        child: ListView.builder(
-                          physics: AlwaysScrollableScrollPhysics(),
-                          padding: EdgeInsets.symmetric(
-                              vertical: kMarginMedium2,
-                              horizontal: kMarginMedium2 + 2),
-                          itemCount: bloc.isLoadMore == true
-                              ? (bloc.parkings?.length ?? 0 + 1)
-                              : bloc.parkings?.length,
-                          itemBuilder: (context, index) {
-                            if (index == bloc.parkings?.length) {
-                              return LoadingView(
-                                  indicator: Indicator.ballBeat,
-                                  indicatorColor: kPrimaryColor);
-                            }
-                            return _buildBody(
-                                bloc.parkings?[index] as PropertyInformation,
-                                index);
-                          },
-                          controller: scrollController
-                            ..addListener(() {
-                              if (scrollController.position.pixels ==
-                                  scrollController.position.maxScrollExtent) {
-                                bloc.loadMoreData();
-                              }
-                            }),
+                  : bloc.parkings?.isEmpty ?? true
+                      ? EmptyView(
+                          imagePath: kNoAnnouncementImage,
+                          title: 'No Parking.',
+                          subTitle: 'There is no parking right now.')
+                      : RefreshIndicator(
+                          onRefresh: () async => bloc.getParking(),
+                          child: SizedBox(
+                            height: double.infinity,
+                            child: ListView.builder(
+                              physics: AlwaysScrollableScrollPhysics(),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: kMarginMedium2,
+                                  horizontal: kMarginMedium2 + 2),
+                              itemCount: bloc.isLoadMore == true
+                                  ? (bloc.parkings?.length ?? 0 + 1)
+                                  : bloc.parkings?.length,
+                              itemBuilder: (context, index) {
+                                if (index == bloc.parkings?.length) {
+                                  return LoadingView(
+                                      indicator: Indicator.ballBeat,
+                                      indicatorColor: kPrimaryColor);
+                                }
+                                return _buildBody(
+                                    bloc.parkings?[index]
+                                        as PropertyInformation,
+                                    index);
+                              },
+                              controller: scrollController
+                                ..addListener(() {
+                                  if (scrollController.position.pixels ==
+                                      scrollController
+                                          .position.maxScrollExtent) {
+                                    bloc.loadMoreData();
+                                  }
+                                }),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
             )),
       ),
     );
@@ -194,7 +201,7 @@ class _CarParkingPageState extends State<CarParkingPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  kParkingCodeLabel,
+                  AppLocalizations.of(context)?.kParkingCodeLabel ?? '',
                   style: TextStyle(
                       color: kWhiteColor,
                       fontSize: kTextRegular13,
@@ -222,23 +229,33 @@ class _CarParkingPageState extends State<CarParkingPage> {
                   spacing: kMargin10,
                   children: [
                     _listItem(
-                        title: kBranchLabel, value: data.branch?.name ?? ''),
+                        title: AppLocalizations.of(context)?.kBranchLabel ?? '',
+                        value: data.branch?.name ?? ''),
                     _listItem(
-                        title: kBuildingLabel,
+                        title:
+                            AppLocalizations.of(context)?.kBuildingLabel ?? '',
                         value: data.building?.name ?? ''),
                     _listItem(
-                        title: kFloorLabel, value: data.floor?.name ?? ''),
+                        title: AppLocalizations.of(context)?.kFloorLabel ?? '',
+                        value: data.floor?.name ?? ''),
                     _listItem(
-                        title: kZoneViewLabel, value: data.zone?.name ?? ''),
+                        title:
+                            AppLocalizations.of(context)?.kZoneViewLabel ?? '',
+                        value: data.zone?.name ?? ''),
                     _listItem(
-                        title: kParkingCodeLabel,
+                        title:
+                            AppLocalizations.of(context)?.kParkingCodeLabel ??
+                                '',
                         value:
                             '#${data.shop?.parkingData?.first.parkingCode?.parkingCode}'),
                     _listItem(
-                        title: kStatusLabel,
+                        title: AppLocalizations.of(context)?.kStatusLabel ?? '',
                         value: filterStatus(data.shop?.status ?? 0),
                         isStatus: true),
-                    _listItem(title: kVehicleNoLabel, value: '0001'),
+                    _listItem(
+                        title:
+                            AppLocalizations.of(context)?.kVehicleNoLabel ?? '',
+                        value: '0001'),
                     5.vGap,
                     // _buildParkingInformation(),
                   ],

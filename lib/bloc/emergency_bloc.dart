@@ -25,7 +25,7 @@ class EmergencyBloc extends ChangeNotifier {
 
   getEmergency() {
     _showLoading();
-    emergencyLists?.clear();
+    page = 1;
     _tmsModel
         .getEmergency(token, 1, 10)
         .then((response) => emergencyLists = response)
@@ -33,6 +33,7 @@ class EmergencyBloc extends ChangeNotifier {
   }
 
   loadMoreData() {
+    if(isLoadMore) return;
     _showLoadMoreLoading();
     page += 1;
     _tmsModel

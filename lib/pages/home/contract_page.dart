@@ -6,10 +6,11 @@ import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/list_items/contract_list_item.dart';
 import 'package:tmsmobile/pages/home/contract_information_page.dart';
 import 'package:tmsmobile/utils/dimens.dart';
-import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
 import 'package:tmsmobile/widgets/empty_view.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 import '../../utils/colors.dart';
 import '../../utils/images.dart';
@@ -45,7 +46,7 @@ class _ContractPageState extends State<ContractPage> {
           backgroundColor: Colors.transparent,
           appBar: PreferredSize(
               preferredSize: Size(double.infinity, kMargin60),
-              child: GradientAppBar(kContractLabel)),
+              child: GradientAppBar(AppLocalizations.of(context)?.kContractLabel ?? '')),
           body: Consumer<ContractBloc>(
             builder: (context, bloc, child) => bloc.isLoading == true
                 ? LoadingView(

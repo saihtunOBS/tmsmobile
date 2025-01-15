@@ -198,22 +198,25 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
             ],
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: kMargin10),
+            // padding: EdgeInsets.symmetric(horizontal: kMargin10),
             decoration: BoxDecoration(
                 color: kInputBackgroundColor,
                 borderRadius: BorderRadius.circular(kMarginMedium)),
-            child: DropdownButton(
-                value: bloc.selectedRoomShopName,
-                isExpanded: true,
-                underline: Container(),
-                hint: Text(kSelectRoomShopLabel),
-                items: widget.shops?.map((value) {
-                  return DropdownMenuItem(
-                      value: value, child: Text(value.name ?? ''));
-                }).toList(),
-                onChanged: ((value) {
-                  bloc.onChangeRoomShopName(value as Shop);
-                })),
+            child: ButtonTheme(
+              alignedDropdown: true,
+              child: DropdownButton(
+                  value: bloc.selectedRoomShopName,
+                  isExpanded: true,
+                  underline: Container(),
+                  hint: Text(kSelectRoomShopLabel),
+                  items: widget.shops?.map((value) {
+                    return DropdownMenuItem(
+                        value: value, child: Text(value.name ?? ''));
+                  }).toList(),
+                  onChanged: ((value) {
+                    bloc.onChangeRoomShopName(value as Shop);
+                  })),
+            ),
           )
         ],
       ),
@@ -241,21 +244,23 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
             ],
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: kMargin10),
             decoration: BoxDecoration(
                 color: kInputBackgroundColor,
                 borderRadius: BorderRadius.circular(kMarginMedium)),
-            child: DropdownButton(
-                value: bloc.selectedIssue,
-                isExpanded: true,
-                underline: Container(),
-                hint: Text(kSelectTypeIssueLabel),
-                items: widget.issues?.toSet().map((value) {
-                  return DropdownMenuItem(value: value, child: Text(value));
-                }).toList(),
-                onChanged: ((value) {
-                  bloc.onChangeIssue(value ?? '');
-                })),
+            child: ButtonTheme(
+              alignedDropdown: true,
+              child: DropdownButton(
+                  value: bloc.selectedIssue,
+                  isExpanded: true,
+                  underline: Container(),
+                  hint: Text(kSelectTypeIssueLabel),
+                  items: widget.issues?.toSet().map((value) {
+                    return DropdownMenuItem(value: value, child: Text(value));
+                  }).toList(),
+                  onChanged: ((value) {
+                    bloc.onChangeIssue(value ?? '');
+                  })),
+            ),
           )
         ],
       ),

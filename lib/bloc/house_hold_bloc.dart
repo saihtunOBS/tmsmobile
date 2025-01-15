@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/data/vos/household_vo.dart';
-import 'package:tmsmobile/data/vos/resident_data_vo.dart';
 import 'package:tmsmobile/network/requests/household_registration_request.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
 
@@ -15,7 +14,7 @@ String? ownerNrc;
 String? residentNrc;
 
 class HouseHoldBloc extends ChangeNotifier {
-  List<ResidentVo> residentVo = [];
+  List<HouseHoldInformation> residentVo = [];
 
   BuildContext? context;
   int selectedExpensionIndex = -1;
@@ -71,11 +70,10 @@ class HouseHoldBloc extends ChangeNotifier {
 
   getHouseHoldLists() {
     _showLoading();
-    householdList.clear();
     _tmsModel.getHouseHoldList(token).then((response) {
       householdList = response;
       _hideLoading();
-    }).whenComplete(()=> _hideLoading());
+    }).whenComplete(() => _hideLoading());
     notifyListeners();
   }
 
@@ -86,7 +84,7 @@ class HouseHoldBloc extends ChangeNotifier {
       HouseHoldInformation(
         type: 1,
         name: ownerNameController.text.trim(),
-        gender: ownerGender ?? 'mail',
+        gender: ownerGender ?? 'Male',
         dateOfBirth: DateTime.parse(ownerDob ?? ''),
         race: ownerRaceController.text.trim(),
         nationality: ownerNationalityController.text.trim(),
@@ -101,7 +99,7 @@ class HouseHoldBloc extends ChangeNotifier {
           ? HouseHoldInformation(
               type: 2,
               name: residentNameController.text.trim(),
-              gender: residentGender ?? 'male',
+              gender: residentGender ?? 'Male',
               dateOfBirth: DateTime.parse(residentDob ?? ''),
               race: residentRaceController.text.trim(),
               nationality: residentNationalityController.text.trim(),
@@ -129,7 +127,7 @@ class HouseHoldBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  addResident({required ResidentVo resident}) {
+  addResident({required HouseHoldInformation resident}) {
     residentVo.add(resident);
     residentGender = null;
     residentNameController.clear();

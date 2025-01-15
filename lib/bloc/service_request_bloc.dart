@@ -30,8 +30,8 @@ class ServiceRequestBloc extends ChangeNotifier {
 
   getFillOuts() {
     _showLoading();
-    fillOutLists.clear();
-    _tmsModel.getFillOuts(token ?? '', 1, 10).then((response) {
+    filloutPage = 1;
+    _tmsModel.getFillOuts(token ?? '', filloutPage, 10).then((response) {
       fillOutLists = response;
       filloutShops = response.map((data) => data.shop as Shop).toList();
     }).whenComplete(() => _hideLoading());
@@ -39,7 +39,6 @@ class ServiceRequestBloc extends ChangeNotifier {
 
   getMaintenances() {
     _showLoading();
-    maintenanceLists.clear();
     _tmsModel.getMaintenances(token ?? '').then((response) {
       maintenanceLists = response;
       maintenanceShops = response.map((data) => data.shop as Shop).toList();
@@ -48,6 +47,7 @@ class ServiceRequestBloc extends ChangeNotifier {
   }
 
   getLoadMoreFillOuts() {
+    if (isLoadMoreFillOut) return;
     isLoadMoreFillOut = true;
     notifyListeners();
 
@@ -58,6 +58,7 @@ class ServiceRequestBloc extends ChangeNotifier {
     }).whenComplete(() {
       isLoadMoreFillOut = false;
       notifyListeners();
+      _hideLoading();
     });
   }
 

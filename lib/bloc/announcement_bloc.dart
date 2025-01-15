@@ -18,7 +18,6 @@ class AnnouncementBloc extends ChangeNotifier {
 
   getAnnouncement() {
     _showLoading();
-    announcementList.clear();
     _tmsModel
         .getAnnouncements(token)
         .then((response) => announcementList = response)

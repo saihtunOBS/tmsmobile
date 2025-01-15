@@ -22,6 +22,7 @@ class ProfileBloc extends ChangeNotifier {
       userData = response;
       notifyListeners();
     }).catchError((error) {
+      PersistenceData.shared.clearToken();
       PageNavigator(ctx: context).nextPageOnly(page: LoginPage());
     });
   }
