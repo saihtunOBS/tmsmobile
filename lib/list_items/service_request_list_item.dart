@@ -4,7 +4,9 @@ import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/dimens.dart';
-import 'package:tmsmobile/utils/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../data/app_data/app_data.dart';
 
 class ServiceRequestListItem extends StatelessWidget {
   const ServiceRequestListItem(
@@ -45,7 +47,7 @@ class ServiceRequestListItem extends StatelessWidget {
                         'ID #${data?.id}',
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: kTextRegular2x,
+                          fontSize: AppData.shared.getSmallFontSize(),
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -55,15 +57,19 @@ class ServiceRequestListItem extends StatelessWidget {
                       height: kSize26,
                       padding: EdgeInsets.symmetric(horizontal: kMargin12),
                       decoration: BoxDecoration(
-                          color: _filterStatusColor(status: status)
+                          color: isFillOut == true ? _filterFillOutStatusColor(status: status).withValues(alpha: 0.12) : _filterStatusColor(status: status)
                               .withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(kMarginMedium14)),
                       child: Center(
                         child: Text(
-                          _filterStatus(status: status),
+                          isFillOut == true
+                              ? _filterFillOutStatus(status: status)
+                              : _filterStatus(status: status),
                           style: TextStyle(
                               fontSize: kTextSmall,
-                              color: _filterStatusColor(status: status)),
+                              color: isFillOut == true
+                                  ? _filterFillOutStatusColor(status: status)
+                                  : _filterStatusColor(status: status)),
                         ),
                       ),
                     )
@@ -79,7 +85,7 @@ class ServiceRequestListItem extends StatelessWidget {
                 Text(
                   isFillOut == true ? 'Fill Out' : 'Electric Fault',
                   style: TextStyle(
-                      fontSize: kTextRegular2x, fontWeight: FontWeight.w700),
+                      fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w700),
                 ),
                 Text(
                   isFillOut == true
@@ -101,7 +107,7 @@ class ServiceRequestListItem extends StatelessWidget {
                           borderRadius: BorderRadius.circular(kMargin5 + 1)),
                       child: Center(
                         child: Text(
-                          kViewDetailLabel,
+                          AppLocalizations.of(context)?.kViewDetailLabel ?? '',
                           style: TextStyle(
                               fontSize: kTextSmall,
                               color: kWhiteColor,
@@ -133,17 +139,17 @@ class ServiceRequestListItem extends StatelessWidget {
 
   Color _filterStatusColor({required int status}) {
     switch (status) {
-      case 0:
-        return kBlackColor;
       case 1:
         return kBlackColor;
       case 2:
-        return kGreenColor;
+        return kOrangeColor;
       case 3:
-        return kPrimaryColor;
+        return kGreenColor;
       case 4:
-        return kYellowColor;
+        return kRedColor;
       case 5:
+        return kYellowColor;
+      case 6:
         return kPurpleColor;
       default:
         return kPrimaryColor;
@@ -152,20 +158,46 @@ class ServiceRequestListItem extends StatelessWidget {
 
   String _filterStatus({required int status}) {
     switch (status) {
-      case 0:
-        return 'Pending';
       case 1:
         return 'Pending';
       case 2:
-        return 'Complete';
+        return 'Survey';
       case 3:
-        return 'Complete';
+        return 'Quotation';
       case 4:
-        return 'Success';
+        return 'Reject';
       case 5:
-        return 'Cancel';
+        return 'Processing';
+      case 6:
+        return 'Finished';
       default:
         return 'Pending';
+    }
+  }
+
+  String _filterFillOutStatus({required int status}) {
+    switch (status) {
+      case 1:
+        return 'Pending';
+      case 2:
+        return 'Approved';
+      case 3:
+        return 'Close';
+      default:
+        return 'Pending';
+    }
+  }
+
+  Color _filterFillOutStatusColor({required int status}) {
+    switch (status) {
+      case 1:
+        return kBlackColor;
+      case 2:
+        return kPrimaryColor;
+      case 3:
+        return kRedColor;
+      default:
+        return kPrimaryColor;
     }
   }
 }

@@ -7,6 +7,7 @@ import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../data/app_data/app_data.dart';
 import '../../widgets/appbar.dart';
 
 class BillingInvoicePage extends StatelessWidget {
@@ -30,7 +31,7 @@ class BillingInvoicePage extends StatelessWidget {
                 onPress: () {
                   PageNavigator(ctx: context)
                       .nextPage(page: InvoiceDetailPage());
-                }),
+                },context: context),
           )),
     );
   }
@@ -48,7 +49,7 @@ class BillingInvoicePage extends StatelessWidget {
             Center(
               child: Text(
                 AppLocalizations.of(context)?.kPaymentLabel ?? '',
-                style: TextStyle(fontSize: kTextRegular18),
+                style: TextStyle(fontSize: AppData.shared.getRegularFontSize()),
               ),
             ),
             Center(

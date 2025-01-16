@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 
+import '../data/app_data/app_data.dart';
+
+
 class EmptyView extends StatelessWidget {
   const EmptyView(
       {super.key,
@@ -28,7 +31,7 @@ class EmptyView extends StatelessWidget {
           Text(
             title,
             style:
-                TextStyle(fontWeight: FontWeight.w600, fontSize: kTextRegular18),
+                TextStyle(fontWeight: FontWeight.w600, fontSize: AppData.shared.getRegularFontSize()),
           ),
           Text(
             subTitle,

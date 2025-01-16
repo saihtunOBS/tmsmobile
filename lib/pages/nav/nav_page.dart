@@ -204,6 +204,7 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
           AppLocalizations.of(context)?.kProfileLabel ?? '',
           style: TextStyle(
               fontSize: kTextSmall,
+              overflow: TextOverflow.ellipsis,
               fontWeight: FontWeight.w600,
               color: _currentIndex == 2 ? kPrimaryColor : kBlackColor),
         ),

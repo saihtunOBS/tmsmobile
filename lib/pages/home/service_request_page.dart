@@ -13,6 +13,9 @@ import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
 import 'package:tmsmobile/widgets/empty_view.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
+import '../../data/app_data/app_data.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../utils/dimens.dart';
 
@@ -40,13 +43,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
         });
       }
     });
-    // fillOutScrollController.addListener(() {
-    //   if (fillOutScrollController.position.pixels ==
-    //       fillOutScrollController.position.maxScrollExtent) {
-    //     var bloc = context.read<ServiceRequestBloc>();
-    //     bloc.getLoadMoreFillOuts();
-    //   }
-    // });
+
     super.initState();
   }
 
@@ -73,7 +70,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
           appBar: PreferredSize(
               preferredSize: Size(double.infinity, kMargin60),
               child: GradientAppBar(
-                kServiceRequestLabel,
+                AppLocalizations.of(context)?.kServiceRequestLabel ?? '',
               )),
           body: Consumer<ServiceRequestBloc>(builder: (context, bloc, child) {
             return Stack(children: [
@@ -100,14 +97,14 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                             Tab(
                               child: Text(kMaintenanceLabel,
                                   style: TextStyle(
-                                      fontSize: kTextRegular2x,
+                                      fontSize: AppData.shared.getSmallFontSize(),
                                       fontWeight: FontWeight.w700)),
                             ),
                             Tab(
                               child: Text(
                                 kFillOutLabel,
                                 style: TextStyle(
-                                    fontSize: kTextRegular2x,
+                                    fontSize: AppData.shared.getSmallFontSize(),
                                     fontWeight: FontWeight.w700),
                               ),
                             )
@@ -194,8 +191,12 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                     )
                   : EmptyView(
                       imagePath: kNoServiceRequestImage,
-                      title: kNoServiceRequestLabel,
-                      subTitle: kThereisNoServiceRequestLabel),
+                      title: AppLocalizations.of(context)
+                              ?.kNoServiceRequestLabel ??
+                          '',
+                      subTitle: AppLocalizations.of(context)
+                              ?.kThereisNoServiceRequestLabel ??
+                          ''),
         ),
       ),
     );
@@ -256,8 +257,12 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                   )
                 : EmptyView(
                     imagePath: kNoServiceRequestImage,
-                    title: kNoServiceRequestLabel,
-                    subTitle: kThereisNoServiceRequestLabel),
+                    title:
+                        AppLocalizations.of(context)?.kNoServiceRequestLabel ??
+                            '',
+                    subTitle: AppLocalizations.of(context)
+                            ?.kThereisNoServiceRequestLabel ??
+                        ''),
       ),
     );
   }

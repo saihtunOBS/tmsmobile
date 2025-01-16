@@ -3,6 +3,8 @@ import 'package:tmsmobile/utils/strings.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
+import '../../data/app_data/app_data.dart';
+
 
 class MaintenanceProcessingPage extends StatelessWidget {
   const MaintenanceProcessingPage({super.key});
@@ -30,7 +32,7 @@ class MaintenanceProcessingPage extends StatelessWidget {
           Text(
             kProcessingStateLabel,
             style: TextStyle(
-                fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+                fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
           ),
           Text(
             'We will arrive within 2 day.....',

@@ -10,6 +10,8 @@ import 'package:tmsmobile/widgets/loading_view.dart';
 import '../../data/app_data/app_data.dart';
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class ComplainDetailPage extends StatelessWidget {
   ComplainDetailPage({super.key, this.isPending, this.complaintId});
@@ -25,7 +27,7 @@ class ComplainDetailPage extends StatelessWidget {
         appBar: PreferredSize(
             preferredSize: Size(double.infinity, kMargin60),
             child: GradientAppBar(
-              kDetailLabel,
+              AppLocalizations.of(context)?.kDetailLabel ?? '',
             )),
         body: Selector<ComplaintBloc, bool>(
           selector: (p0, p1) => p1.isLoading,
@@ -77,7 +79,7 @@ class ComplainDetailPage extends StatelessWidget {
                         Text(
                           'Steve',
                           style: TextStyle(
-                              fontSize: kTextRegular2x,
+                              fontSize: AppData.shared.getSmallFontSize(),
                               fontWeight: FontWeight.w700),
                         ),
                         Text(
@@ -126,7 +128,7 @@ class ComplainDetailPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              kCompliantLabel,
+              AppLocalizations.of(context)?.kCompliantLabel ?? '',
               style: TextStyle(
                   fontFamily: AppData.shared.fontFamily2,
                   fontWeight: FontWeight.w700,

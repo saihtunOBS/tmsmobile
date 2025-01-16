@@ -8,6 +8,7 @@ import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/widgets/empty_view.dart';
 
+import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
 import '../../widgets/appbar.dart';
 import '../../widgets/loading_view.dart';
@@ -105,7 +106,7 @@ class _CarParkingPageState extends State<CarParkingPage> {
       children: [
         Text(
           title,
-          style: TextStyle(fontSize: kTextRegular2x),
+          style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),
         ),
         isStatus == true
             ? Container(
@@ -128,7 +129,7 @@ class _CarParkingPageState extends State<CarParkingPage> {
             : Text(
                 value,
                 style: TextStyle(
-                    fontSize: kTextRegular2x, fontWeight: FontWeight.w700),
+                    fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w700),
               ),
       ],
     );
@@ -211,7 +212,7 @@ class _CarParkingPageState extends State<CarParkingPage> {
                   '#${data.shop?.parkingData?.first.parkingCode?.parkingCode}',
                   style: TextStyle(
                       color: kWhiteColor,
-                      fontSize: kTextRegular2x,
+                      fontSize: AppData.shared.getSmallFontSize(),
                       fontWeight: FontWeight.w700),
                 ),
               ],
@@ -298,7 +299,7 @@ class _CarParkingPageState extends State<CarParkingPage> {
   //               kParkingInformationLabel,
   //               style: TextStyle(
   //                   color: kWhiteColor,
-  //                   fontSize: kTextRegular2x,
+  //                   fontSize: AppData.shared.getSmallFontSize(),
   //                   fontWeight: FontWeight.w700),
   //             ),
   //           ],

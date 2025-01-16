@@ -8,6 +8,7 @@ import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/widgets/common_dialog.dart';
 import 'package:tmsmobile/widgets/error_dialog_view.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
+import '../../data/app_data/app_data.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/date_formatter.dart';
@@ -16,6 +17,8 @@ import '../../utils/strings.dart';
 import '../../widgets/appbar.dart';
 import '../../widgets/gradient_button.dart';
 import '../../widgets/nrc_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class AddResidentPage extends StatefulWidget {
   const AddResidentPage({super.key, required this.id});
@@ -49,7 +52,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
               Positioned(
                   top: 0,
                   child: ProfileAppbar(
-                    title: kAddResidentLabel.replaceAll('+', ''),
+                    title: AppLocalizations.of(context)?.kAddResidentLabel.replaceAll('+', ''),
                   )),
 
               ///loading
@@ -66,7 +69,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
               height: kBottomBarHeight,
               child: Center(
                 child: gradientButton(
-                    title: kSubmitLabel,
+                    title: AppLocalizations.of(context)?.kSubmitLabel,
                     onPress: () {
                       var bloc = context.read<AddResidentBloc>();
                       bloc.checkResidentValidation();
@@ -83,7 +86,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
                                   dialogWidget: ErrorDialogView(
                                       errorMessage: error.toString()));
                             });
-                    }),
+                    },context: context),
               )),
         ),
       ),
@@ -104,13 +107,13 @@ class _AddResidentPageState extends State<AddResidentPage> {
                 children: [
                   1.vGap,
                   _buildInputField(
-                      title: 'Type',
+                      title: AppLocalizations.of(context)?.kTypeLabel ?? '',
                       value: 'Resident',
                       isReadOnly: true,
                       controller: bloc.residentNameController),
                   12.vGap,
                   _buildInputField(
-                      title: kNameLabel,
+                      title: AppLocalizations.of(context)?.kNameLabel,
                       controller: bloc.residentNameController),
                   12.vGap,
                   _buildGenderDropDown(),
@@ -121,11 +124,11 @@ class _AddResidentPageState extends State<AddResidentPage> {
                           value: DateFormatter.formatDate(bloc.selectedDate))),
                   12.vGap,
                   _buildInputField(
-                      title: kRaceLabel,
+                      title: AppLocalizations.of(context)?.kRaceLabel,
                       controller: bloc.residentRaceController),
                   12.vGap,
                   _buildInputField(
-                      title: kNationalityLabel,
+                      title: AppLocalizations.of(context)?.kNationalityLabel,
                       controller: bloc.residentNationalityController),
                   12.vGap,
                   _buildNRCAndPassportRadioButton(isOwner: true),
@@ -136,12 +139,12 @@ class _AddResidentPageState extends State<AddResidentPage> {
                           controller: bloc.passportController),
                   12.vGap,
                   _buildInputField(
-                      title: kContactNumberLabel,
+                      title: AppLocalizations.of(context)?.kContactNumberLabel,
                       isNumber: true,
                       controller: bloc.residentContactController),
                   12.vGap,
                   _buildInputField(
-                      title: kRelatedToOwnerLabel,
+                      title: AppLocalizations.of(context)?.kRelatedToOwnerLabel,
                       controller: bloc.residentRelatedToController),
                   12.vGap,
                 ],
@@ -160,9 +163,9 @@ class _AddResidentPageState extends State<AddResidentPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            kGenderLabel,
+            AppLocalizations.of(context)?.kGenderLabel ?? '',
             style: TextStyle(
-                fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+                fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
           ),
           4.vGap,
           Container(
@@ -177,7 +180,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
                   value: bloc.gender,
                   isExpanded: true,
                   underline: Container(),
-                  hint: Text(kSelectGenderLabel),
+                  hint: Text(AppLocalizations.of(context)?.kSelectGenderLabel ?? ''),
                   items: genders.map((value) {
                     return DropdownMenuItem(value: value, child: Text(value));
                   }).toList(),
@@ -196,9 +199,9 @@ class _AddResidentPageState extends State<AddResidentPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          kDobLabel,
+          AppLocalizations.of(context)?.kDobLabel ?? '',
           style:
-              TextStyle(fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+              TextStyle(fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
         ),
         4.vGap,
         Container(
@@ -214,7 +217,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
             children: [
               Text(
                 value ?? kSelectDateLabel,
-                style: TextStyle(fontSize: kTextRegular2x),
+                style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),
               ),
               Icon(
                 Icons.calendar_today,
@@ -239,7 +242,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
         Text(
           title,
           style:
-              TextStyle(fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+              TextStyle(fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
         ),
         4.vGap,
         Container(
@@ -255,7 +258,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
                     child: Text(
                       value ?? '',
                       style: TextStyle(
-                          fontSize: kTextRegular2x,
+                          fontSize: AppData.shared.getSmallFontSize(),
                           fontWeight: FontWeight.w500),
                     ),
                   )
@@ -279,7 +282,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
         Text(
           'NRC',
           style:
-              TextStyle(fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+              TextStyle(fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
         ),
         4.vGap,
         Container(

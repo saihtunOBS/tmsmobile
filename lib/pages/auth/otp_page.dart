@@ -5,12 +5,13 @@ import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/auth/change_password_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
-import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
 import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
 import '../../widgets/appbar_back.dart';
 import 'package:pinput/pinput.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class OTPPage extends StatefulWidget {
   const OTPPage({super.key, this.phone});
@@ -98,16 +99,16 @@ class _OTPPageState extends State<OTPPage> {
               ),
               kSize40.vGap,
               Text(
-                kVerificationCodeLabel,
+                AppLocalizations.of(context)?.kVerificationCodeLabel ?? '',
                 style: TextStyle(
                     fontFamily: AppData.shared.fontFamily2,
                     fontWeight: FontWeight.w600,
-                    fontSize: kTextRegular24),
+                    fontSize: AppData.shared.getExtraFontSize()),
               ),
               kMarginMedium2.vGap,
               Text(
-                kSendCodeToNumberLabel,
-                style: TextStyle(fontSize: kTextRegular2x),
+                AppLocalizations.of(context)?.kSendCodeToNumberLabel ?? '',
+                style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),
               ),
               kMarginMedium2.vGap,
               _buildPinView(),
@@ -117,12 +118,12 @@ class _OTPPageState extends State<OTPPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    kExpireIn,
-                    style: TextStyle(fontSize: kTextRegular2x),
+                    AppLocalizations.of(context)?.kExpireIn ?? '',
+                    style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),
                   ),
                   Text(
                     '00:$_start',
-                    style: TextStyle(fontSize: kTextRegular2x),
+                    style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),
                   )
                 ],
               ),
@@ -142,15 +143,15 @@ class _OTPPageState extends State<OTPPage> {
         gradientButton(onPress: () {
           PageNavigator(ctx: context)
               .nextPage(page: ChangePasswordPage(isChangePassword: false));
-        }),
+        },context: context),
         Positioned(
           top: -10,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                kDidNotReceiveCode,
-                style: TextStyle(fontSize: kTextRegular2x),
+                AppLocalizations.of(context)?.kDidNotReceiveCode ?? '',
+                style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),
               ),
               TextButton(
                   onPressed: () {
@@ -159,7 +160,7 @@ class _OTPPageState extends State<OTPPage> {
                     }
                   },
                   child: Text(
-                    kResend,
+                    AppLocalizations.of(context)?.kResend ?? '',
                     style: TextStyle(
                         color: kPrimaryColor, fontWeight: FontWeight.w700),
                   ))

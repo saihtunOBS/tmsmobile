@@ -69,10 +69,16 @@ class ResidentListItem extends StatelessWidget {
             style: TextStyle(
                 fontWeight: FontWeight.normal, fontSize: kTextRegular),
           ),
-          Text(
-            (houseHoldData.nrc ?? ''),
-            style: TextStyle(
-                fontWeight: FontWeight.normal, fontSize: kTextRegular),
+          SizedBox(
+            width: MediaQuery.sizeOf(context).width / 2.3,
+            child: Text(
+              (houseHoldData.nrc ?? ''),
+              softWrap: true,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontWeight: FontWeight.normal, fontSize: kTextRegular),
+            ),
           ),
           Text(
             (houseHoldData.contactNumber ?? ''),

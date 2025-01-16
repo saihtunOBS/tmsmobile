@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../data/app_data/app_data.dart';
+
 
 class AppbarBackView extends StatelessWidget {
   const AppbarBackView({super.key});
@@ -28,7 +30,7 @@ class AppbarBackView extends StatelessWidget {
             style: TextStyle(
                 color: kWhiteColor,
                 fontWeight: FontWeight.bold,
-                fontSize: kTextRegular2x),
+                fontSize: AppData.shared.getSmallFontSize()),
           )
         ],
       ),

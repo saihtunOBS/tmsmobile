@@ -77,6 +77,7 @@ class ProfilePage extends StatelessWidget {
                                   builder: (_) => _buildLogoutBottomSheet(
                                       context: context, bloc: bloc));
                             },
+                            context: context,
                             isLogout: true,
                             title: AppLocalizations.of(context)?.kLogoutLabel),
                         kMargin110.vGap
@@ -127,7 +128,7 @@ class ProfilePage extends StatelessWidget {
             userData?.tenantName ?? '****',
             style: TextStyle(
                 fontFamily: AppData.shared.fontFamily2,
-                fontSize: kTextRegular24,
+                fontSize: AppData.shared.getExtraFontSize(),
                 fontWeight: FontWeight.w600),
           ),
           Text(
@@ -189,10 +190,10 @@ class ProfilePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: kMargin5),
             child: Text(
-              'Setting',
+              AppLocalizations.of(context)?.kSettingLabel ?? '',
               style: TextStyle(
                   fontFamily: AppData.shared.fontFamily2,
-                  fontSize: kTextRegular24,
+                  fontSize: AppData.shared.getExtraFontSize(),
                   fontWeight: FontWeight.w600,
                   color: kPrimaryColor),
             ),
@@ -257,7 +258,7 @@ class ProfilePage extends StatelessWidget {
             title,
             style: TextStyle(
                 fontWeight: FontWeight.w600,
-                fontSize: kTextRegular2x,
+                fontSize: AppData.shared.getSmallFontSize(),
                 // fontFamily: AppData.shared.getLocaleFont(),
                 color: kPrimaryColor),
           ),
@@ -299,11 +300,11 @@ class ProfilePage extends StatelessWidget {
                 ? AppLocalizations.of(context!)?.kDeleteAccountLabel ?? ''
                 : AppLocalizations.of(context!)?.kConfirmLogoutLabel ?? '',
             style: TextStyle(
-                fontSize: kTextRegular3x,
+                fontSize: AppData.shared.getMediumFontSize(),
                 fontWeight: FontWeight.w600,
-                
                 color: kPrimaryColor),
           ),
+          3.vGap,
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: kMargin24),
             child: Text(
@@ -313,21 +314,27 @@ class ProfilePage extends StatelessWidget {
                       ''
                   : AppLocalizations.of(context)?.kAreYouSureLogoutLabel ?? '',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: kTextRegular2x,),
+              style: TextStyle(
+                fontSize: AppData.shared.getSmallFontSize(),
+              ),
             ),
           ),
           kMarginMedium2.vGap,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Container(
-                height: 38,
-                width: 98,
-                decoration: BoxDecoration(
-                    color: kGreyColor.withValues(alpha: 0.5),
-                    borderRadius: BorderRadius.circular(kMargin6)),
-                child: Center(
-                  child: Text(AppLocalizations.of(context)?.kCancelLabel ?? ''),
+              InkWell(
+                onTap: () => Navigator.of(context).pop(),
+                child: Container(
+                  height: 38,
+                  width: 98,
+                  decoration: BoxDecoration(
+                      color: kGreyColor.withValues(alpha: 0.5),
+                      borderRadius: BorderRadius.circular(kMargin6)),
+                  child: Center(
+                    child:
+                        Text(AppLocalizations.of(context)?.kCancelLabel ?? ''),
+                  ),
                 ),
               ),
               InkWell(

@@ -13,7 +13,6 @@ import 'package:tmsmobile/pages/auth/change_password_page.dart';
 import 'package:tmsmobile/pages/auth/forgor_password_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
-import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
 import '../../data/app_data/app_data.dart';
@@ -21,6 +20,7 @@ import '../../utils/images.dart';
 import '../../widgets/common_dialog.dart';
 import '../../widgets/error_dialog_view.dart';
 import '../nav/nav_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -93,22 +93,28 @@ class _LoginPageState extends State<LoginPage> {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: kMargin24),
                         child: Text(
-                          kLoginToYourAccountLabel,
+                          AppLocalizations.of(context)
+                                  ?.kLoginToYourAccountLabel ??
+                              '',
                           style: TextStyle(
                               fontFamily: AppData.shared.fontFamily2,
                               fontWeight: FontWeight.w600,
-                              fontSize: kTextRegular24),
+                              fontSize: AppData.shared.getExtraFontSize()),
                         ),
                       ),
                       _buildTextField(
-                          title: kPhoneNumberLabel,
+                          title:
+                              AppLocalizations.of(context)?.kPhoneNumberLabel ??
+                                  '',
                           icon: Icon(CupertinoIcons.phone),
                           controller: _phoneController,
                           onTap: () {},
                           isNumber: true),
                       Consumer<LogInBloc>(
                         builder: (context, bloc, child) => _buildTextField(
-                            title: kPasswordLabel,
+                            title:
+                                AppLocalizations.of(context)?.kPasswordLabel ??
+                                    '',
                             onTap: bloc.onTapShowPassword,
                             icon: bloc.showPassword == true
                                 ? Icon(CupertinoIcons.eye)
@@ -130,10 +136,12 @@ class _LoginPageState extends State<LoginPage> {
                                         .nextPage(page: ForgotPasswordPage());
                                   },
                                   child: Text(
-                                    kForgotPasswordLabel,
+                                    AppLocalizations.of(context)
+                                            ?.kForgotPasswordLabel ??
+                                        '',
                                     style: TextStyle(
                                         color: kPrimaryColor,
-                                        fontSize: kTextRegular2x,
+                                        fontSize: AppData.shared.getSmallFontSize(),
                                         fontWeight: FontWeight.w700),
                                   ))
                             ],
@@ -166,7 +174,9 @@ class _LoginPageState extends State<LoginPage> {
                   opacity: bloc.isAgreeTermAndCondition == false ? 0.5 : 1,
                   duration: Duration(milliseconds: 200),
                   child: gradientButton(
-                      title: isFirstTime == true ? kContinueLabel : kLoginLabel,
+                      title: isFirstTime == true
+                          ? AppLocalizations.of(context)?.kContinueLabel
+                          : AppLocalizations.of(context)?.kLoginLabel,
                       onPress: () {
                         if (bloc.isAgreeTermAndCondition == true) {
                           bloc
@@ -174,8 +184,8 @@ class _LoginPageState extends State<LoginPage> {
                                   _passwordController.text.trim())
                               .then((value) {
                             if (value.status == true) {
-                              PersistenceData.shared.saveFirstTime(false);
                               if (value.data?.verify == 1) {
+                                PersistenceData.shared.saveFirstTime(false);
                                 Navigator.pushAndRemoveUntil(
                                     context,
                                     createRoute(NavPage(), duration: 400),
@@ -193,7 +203,8 @@ class _LoginPageState extends State<LoginPage> {
                                     errorMessage: error.toString()));
                           });
                         }
-                      }),
+                      },
+                      context: context),
                 ),
               ]),
             ),
@@ -216,9 +227,9 @@ class _LoginPageState extends State<LoginPage> {
                 bloc.onCheckTermAndConditon(value ?? false);
               }),
           Text(
-            kTermAndConditionLabel,
+            AppLocalizations.of(context)?.kTermAndConditionLabel ?? '',
             style: GoogleFonts.nunito(
-                fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+                fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
           )
         ],
       ),
@@ -240,7 +251,9 @@ class _LoginPageState extends State<LoginPage> {
           Text(
             title,
             style: GoogleFonts.nunito(
-                fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+              fontSize: AppData.shared.getSmallFontSize(),
+              fontWeight: FontWeight.w600,
+            ),
           ),
           const SizedBox(
             height: 4,
@@ -264,7 +277,7 @@ class _LoginPageState extends State<LoginPage> {
                         decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: title,
-                            hintStyle: TextStyle(fontSize: kTextRegular2x)))),
+                            hintStyle: TextStyle(fontSize: AppData.shared.getSmallFontSize())))),
                 const SizedBox(
                   width: kMargin5,
                 ),

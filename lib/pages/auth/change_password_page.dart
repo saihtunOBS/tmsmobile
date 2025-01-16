@@ -10,15 +10,16 @@ import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/auth/login_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
-import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/appbar_back.dart';
 import 'package:tmsmobile/widgets/check_password.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
 import '../../data/app_data/app_data.dart';
+import '../../data/persistance_data/persistence_data.dart';
 import '../../utils/images.dart';
 import '../../widgets/common_dialog.dart';
 import '../../widgets/error_dialog_view.dart';
 import '../../widgets/loading_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key, required this.isChangePassword});
@@ -88,17 +89,21 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       padding: EdgeInsets.symmetric(horizontal: kMargin24),
                       child: Text(
                         widget.isChangePassword == false
-                            ? kResetPassword
-                            : kChangeYourPasswordLabel,
+                            ? AppLocalizations.of(context)?.kResetPassword ?? ''
+                            : AppLocalizations.of(context)
+                                    ?.kChangeYourPasswordLabel ??
+                                '',
                         style: TextStyle(
                             fontFamily: AppData.shared.fontFamily2,
                             fontWeight: FontWeight.w600,
-                            fontSize: kTextRegular24),
+                            fontSize: AppData.shared.getExtraFontSize()),
                       ),
                     ),
                     Consumer<AuthBloc>(
                       builder: (context, bloc, child) => _buildTextField(
-                          title: kNewPasswordLabel,
+                          title:
+                              AppLocalizations.of(context)?.kNewPasswordLabel ??
+                                  '',
                           icon: bloc.showNewPassword == true
                               ? Icon(CupertinoIcons.eye)
                               : Icon(CupertinoIcons.eye_slash),
@@ -109,7 +114,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     ),
                     Consumer<AuthBloc>(
                       builder: (context, bloc, child) => _buildTextField(
-                          title: kConfirmPasswordLabel,
+                          title: AppLocalizations.of(context)
+                                  ?.kConfirmPasswordLabel ??
+                              '',
                           icon: bloc.showConfirmPassword == true
                               ? Icon(CupertinoIcons.eye)
                               : Icon(CupertinoIcons.eye_slash),
@@ -148,37 +155,42 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 fit: BoxFit.fill,
               ),
             ),
-            gradientButton(onPress: () {
-              bloc.checkValidationSuccess() == true;
-              {
-                if (_passwordController.text.trim() !=
-                    _confirmPasswordController.text.trim()) {
-                  showCommonDialog(
-                      context: context,
-                      dialogWidget: ErrorDialogView(
-                          errorMessage: 'Password does not match!'));
-                } else {
-                  bloc
-                      .onTapResetPassword(
-                    newPassword: _passwordController.text.trim(),
-                    confirmPassword: _confirmPasswordController.text.trim(),
-                  )
-                      .then((_) {
-                    if (widget.isChangePassword == true) {
-                      Navigator.of(context).pop();
+            gradientButton(
+                onPress: () {
+                  bloc.checkValidationSuccess() == true;
+                  {
+                    if (_passwordController.text.trim() !=
+                        _confirmPasswordController.text.trim()) {
+                      showCommonDialog(
+                          context: context,
+                          dialogWidget: ErrorDialogView(
+                              errorMessage: 'Password does not match!'));
                     } else {
-                      PageNavigator(ctx: context)
-                          .nextPageOnly(page: LoginPage());
+                      bloc
+                          .onTapResetPassword(
+                        newPassword: _passwordController.text.trim(),
+                        confirmPassword: _confirmPasswordController.text.trim(),
+                      )
+                          .then((_) {
+                        PersistenceData.shared.saveFirstTime(false);
+                        if (widget.isChangePassword == true) {
+                          Navigator.of(context).pop();
+                        } else {
+                          PageNavigator(ctx: context)
+                              .nextPageOnly(page: LoginPage());
+                        }
+                      }).catchError(
+                        (error) {
+                          showCommonDialog(
+                              context: context,
+                              dialogWidget: ErrorDialogView(
+                                  errorMessage: error.toString()));
+                        },
+                      );
                     }
-                  }).catchError((error) {
-                    showCommonDialog(
-                        context: context,
-                        dialogWidget:
-                            ErrorDialogView(errorMessage: error.toString()));
-                  });
-                }
-              }
-            }),
+                  }
+                },
+                context: context),
           ]),
         ),
       ),
@@ -200,7 +212,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           Text(
             title,
             style: GoogleFonts.nunito(
-                fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+                fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
           ),
           const SizedBox(
             height: 4,
@@ -219,14 +231,15 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         controller: controller,
                         obscureText: obseure ?? false,
                         onChanged: (value) {
-                          if (title == kNewPasswordLabel) {
+                          if (title ==
+                              AppLocalizations.of(context)?.kNewPasswordLabel) {
                             bloc?.passwordValidation(passsword: value);
                           }
                         },
                         decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: title,
-                            hintStyle: TextStyle(fontSize: kTextRegular2x)))),
+                            hintStyle: TextStyle(fontSize: AppData.shared.getSmallFontSize())))),
                 const SizedBox(
                   width: kMargin5,
                 ),

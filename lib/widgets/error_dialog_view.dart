@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../data/app_data/app_data.dart';
 
 import '../utils/colors.dart';
 import '../utils/dimens.dart';
@@ -39,10 +40,10 @@ class ErrorDialogView extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            const Text(
+            Text(
               "Oops...",
               style: TextStyle(
-                  fontSize: kTextRegular2x,
+                  fontSize: AppData.shared.getSmallFontSize(),
                   color: Colors.black,
                   fontWeight: FontWeight.w600),
             ),

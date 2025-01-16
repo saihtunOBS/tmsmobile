@@ -23,7 +23,7 @@ class AuthBloc extends ChangeNotifier {
   String token = '';
 
   AuthBloc() {
-    token = PersistenceData.shared.getToken();
+    token = PersistenceData.shared.getToken() ?? '';
   }
 
   Future onTapContinueChangePassword(

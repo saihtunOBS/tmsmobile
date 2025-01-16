@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/auth_bloc.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
-import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
 import 'package:tmsmobile/widgets/check_password.dart';
 import 'package:tmsmobile/widgets/common_dialog.dart';
@@ -78,7 +77,7 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                                         ? AppData.shared.fontFamily3
                                         : AppData.shared.fontFamily2,
                                 fontWeight: FontWeight.bold,
-                                fontSize: kTextRegular24),
+                                fontSize: AppData.shared.getExtraFontSize()),
                           ),
                         ),
                         _buildTextField(
@@ -165,7 +164,7 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                                 });
                               }
                             }
-                          }))),
+                          },context: context))),
             ),
           ),
         ),
@@ -188,7 +187,7 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
           Text(
             title,
             style: GoogleFonts.nunito(
-                fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+                fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
           ),
           const SizedBox(
             height: 4,
@@ -207,14 +206,15 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                         obscureText: obscure ?? true,
                         controller: controller,
                         onChanged: (value) {
-                          if (title == kNewPasswordLabel) {
+                          if (title ==
+                              AppLocalizations.of(context)?.kNewPasswordLabel) {
                             bloc?.passwordValidation(passsword: value);
                           }
                         },
                         decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: title,
-                            hintStyle: TextStyle(fontSize: kTextRegular2x)))),
+                            hintStyle: TextStyle(fontSize: AppData.shared.getSmallFontSize())))),
                 const SizedBox(
                   width: kMargin5,
                 ),

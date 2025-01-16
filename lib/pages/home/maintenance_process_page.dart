@@ -6,6 +6,7 @@ import 'package:tmsmobile/pages/home/maintenance_pending_page.dart';
 import 'package:tmsmobile/pages/home/maintenance_processing_page.dart';
 import 'package:tmsmobile/pages/home/maintenance_quotation_page.dart';
 import 'package:tmsmobile/utils/strings.dart';
+import '../../data/app_data/app_data.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/dimens.dart';
@@ -263,7 +264,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                           Text(
                             label ?? '',
                             style: TextStyle(
-                                fontSize: kTextRegular2x,
+                                fontSize: AppData.shared.getSmallFontSize(),
                                 fontWeight: FontWeight.w700),
                           ),
                           title == kSurveyLabel || title == kProcessingLabel

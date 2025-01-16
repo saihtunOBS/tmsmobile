@@ -15,4 +15,36 @@ class AppData {
       return fontFamily;
     }
   }
+
+  double getExtraFontSize() {
+    if (PersistenceData.shared.getLocale() == 'my') {
+      return 20;
+    } else {
+      return 24;
+    }
+  }
+
+  double getRegularFontSize() {
+    if (PersistenceData.shared.getLocale() == 'my') {
+      return 17;
+    } else {
+      return 18;
+    }
+  }
+
+  double getSmallFontSize() {
+    if (PersistenceData.shared.getLocale() == 'my') {
+      return 15.2;
+    } else {
+      return 16;
+    }
+  }
+
+  double getMediumFontSize() {
+    if (PersistenceData.shared.getLocale() == 'my') {
+      return 18;
+    } else {
+      return 20;
+    }
+  }
 }

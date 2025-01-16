@@ -9,6 +9,7 @@ import 'package:tmsmobile/utils/dimens.dart';
 import '../../utils/colors.dart';
 import '../../utils/images.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../data/app_data/app_data.dart';
 
 
 class NotificationPage extends StatelessWidget {
@@ -77,7 +78,7 @@ class NotificationPage extends StatelessWidget {
         kMarginMedium2.vGap,
         Text(
           AppLocalizations.of(context)?.kNewNotificationLabel ?? '',
-          style: TextStyle(fontSize: kTextRegular2x, color: kPrimaryColor),
+          style: TextStyle(fontSize: AppData.shared.getSmallFontSize(), color: kPrimaryColor),
         ),
         10.vGap,
         ListView.builder(

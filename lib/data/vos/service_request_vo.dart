@@ -17,7 +17,7 @@ class ServiceRequestVo {
   final int? status;
 
    @JsonKey(name: "issue")
-  final String? issue;
+  final Issue? issue;
 
    @JsonKey(name: "description")
   final String? description;
@@ -83,4 +83,18 @@ class Shop {
   factory Shop.fromJson(Map<String, dynamic> json) => _$ShopFromJson(json);
 
   Map<String, dynamic> toJson() => _$ShopToJson(this);
+}
+
+@JsonSerializable()
+class Issue {
+  @JsonKey(name: "_id")
+  final String? id;
+
+  final String? name;
+
+  Issue({this.id, this.name});
+
+  factory Issue.fromJson(Map<String, dynamic> json) => _$IssueFromJson(json);
+
+  Map<String, dynamic> toJson() => _$IssueToJson(this);
 }

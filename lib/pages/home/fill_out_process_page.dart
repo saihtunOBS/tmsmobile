@@ -3,6 +3,7 @@ import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/home/fill_out_process_detail_page.dart';
 import 'package:tmsmobile/utils/strings.dart';
+import '../../data/app_data/app_data.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/dimens.dart';
@@ -197,7 +198,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                           Text(
                             label ?? '',
                             style: TextStyle(
-                                fontSize: kTextRegular2x,
+                                fontSize: AppData.shared.getSmallFontSize(),
                                 fontWeight: FontWeight.w700),
                           ),
                         ],

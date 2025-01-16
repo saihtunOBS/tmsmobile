@@ -6,13 +6,14 @@ import 'package:tmsmobile/bloc/announcement_detail_bloc.dart';
 import 'package:tmsmobile/data/vos/announcement_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
-import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/cache_image.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
 import '../../data/app_data/app_data.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class AnnouncementDetailPage extends StatelessWidget {
   const AnnouncementDetailPage({super.key, required this.id});
@@ -27,7 +28,7 @@ class AnnouncementDetailPage extends StatelessWidget {
         appBar: PreferredSize(
             preferredSize: Size(double.infinity, kMargin60),
             child: GradientAppBar(
-              kCloseLabel,
+              AppLocalizations.of(context)?.kCloseLabel ?? '',
             )),
         body: Consumer<AnnouncementDetailBloc>(
             builder: (context, bloc, child) => bloc.isLoading == true
@@ -72,7 +73,7 @@ class AnnouncementDetailPage extends StatelessWidget {
               data.title ?? '',
               style: TextStyle(
                   fontFamily: AppData.shared.fontFamily2,
-                  fontSize: kTextRegular24,
+                  fontSize: AppData.shared.getExtraFontSize(),
                   fontWeight: FontWeight.w700),
             ),
             kMarginMedium2.vGap,

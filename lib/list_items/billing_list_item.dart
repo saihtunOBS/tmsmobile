@@ -3,6 +3,8 @@ import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
 
+import '../data/app_data/app_data.dart';
+
 class BillingListItem extends StatelessWidget {
   const BillingListItem(
       {super.key, required this.statusColor, required this.status});
@@ -66,7 +68,7 @@ class BillingListItem extends StatelessWidget {
               Text(
                 '600000 MMK',
                 style: TextStyle(
-                    fontSize: kTextRegular2x, fontWeight: FontWeight.w700),
+                    fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w700),
               ),
             ],
           ),

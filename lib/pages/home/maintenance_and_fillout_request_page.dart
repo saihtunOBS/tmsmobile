@@ -11,13 +11,15 @@ import 'package:tmsmobile/data/vos/service_request_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
-import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/common_dialog.dart';
 import 'package:tmsmobile/widgets/error_dialog_view.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
+import '../../data/app_data/app_data.dart';
 
 import '../../widgets/appbar.dart';
 import '../../widgets/gradient_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class MaintenanceRequestPage extends StatefulWidget {
   const MaintenanceRequestPage(
@@ -54,8 +56,8 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                 preferredSize: Size(double.infinity, kMargin60),
                 child: GradientAppBar(
                   widget.isMaintanence == true
-                      ? kMaintenanceRequestLabel
-                      : kFillOutRequestLabel,
+                      ? AppLocalizations.of(context)?.kMaintenanceRequestLabel ?? ''
+                      : AppLocalizations.of(context)?.kFillOutRequestLabel ?? '',
                 )),
             body: SafeArea(
               child: Selector<MaintenanceBloc, bool?>(
@@ -75,7 +77,7 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                                 maxLine: 1,
                                 controller: _nameController,
                                 isReadOnly: true,
-                                title: kTenantNameLabel,
+                                title: AppLocalizations.of(context)?.kTenantNameLabel ?? '',
                                 hint: 'Name'),
                             _buildRoomShopNameDropDown(),
                             widget.isMaintanence == true
@@ -83,8 +85,8 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                                 : SizedBox.shrink(),
                             _buildTextField(
                                 maxLine: 5,
-                                title: kDescriptionLabel,
-                                hint: kWriteDescriptionHereLabel),
+                                title: AppLocalizations.of(context)?.kDescriptionLabel ?? '',
+                                hint: AppLocalizations.of(context)?.kWriteDescriptionHereLabel ?? ''),
                             _buildUploadImage(),
                             1.vGap
                           ],
@@ -107,7 +109,7 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                   height: kBottomBarHeight,
                   child: Center(
                     child: gradientButton(
-                        title: kSendRequestLabel,
+                        title: AppLocalizations.of(context)?.kSendRequestLabel,
                         onPress: () {
                           widget.isMaintanence == true
                               ? bloc.checkMaintenanceValidation()
@@ -121,7 +123,7 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                                   dialogWidget: ErrorDialogView(
                                       errorMessage:
                                           bloc.validationMessage ?? ''));
-                        }),
+                        },context: context),
                   )),
             ),
           ),
@@ -147,7 +149,7 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
               Text(
                 title,
                 style: TextStyle(
-                    fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+                    fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
               ),
               Text(
                 '*',
@@ -187,9 +189,9 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
             spacing: 3,
             children: [
               Text(
-                kRoomShopNameLabel,
+                AppLocalizations.of(context)?.kRoomShopNameLabel ?? '',
                 style: TextStyle(
-                    fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+                    fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
               ),
               Text(
                 '*',
@@ -208,7 +210,7 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                   value: bloc.selectedRoomShopName,
                   isExpanded: true,
                   underline: Container(),
-                  hint: Text(kSelectRoomShopLabel),
+                  hint: Text(AppLocalizations.of(context)?.kSelectRoomShopLabel ?? ''),
                   items: widget.shops?.map((value) {
                     return DropdownMenuItem(
                         value: value, child: Text(value.name ?? ''));
@@ -233,9 +235,9 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
             spacing: 3,
             children: [
               Text(
-                kTypeOfIssueLabel,
+                AppLocalizations.of(context)?.kTypeOfIssueLabel ?? '',
                 style: TextStyle(
-                    fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+                    fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
               ),
               Text(
                 '*',
@@ -253,7 +255,7 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                   value: bloc.selectedIssue,
                   isExpanded: true,
                   underline: Container(),
-                  hint: Text(kSelectTypeIssueLabel),
+                  hint: Text(AppLocalizations.of(context)?.kSelectTypeIssueLabel ?? ''),
                   items: widget.issues?.toSet().map((value) {
                     return DropdownMenuItem(value: value, child: Text(value));
                   }).toList(),
@@ -286,11 +288,12 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                     color: kPrimaryColor),
                 child: Row(
                   spacing: kMargin5 - 1,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      kAttachFileLabel,
+                      AppLocalizations.of(context)?.kAttachFileLabel ?? '',
                       style: TextStyle(
-                          fontSize: kTextRegular2x,
+                          fontSize: AppData.shared.getSmallFontSize(),
                           color: kWhiteColor,
                           fontWeight: FontWeight.w600),
                     ),
@@ -314,13 +317,13 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        kUploadPhotoLabel,
+                        AppLocalizations.of(context)?.kUploadPhotoLabel ?? '',
                         style: TextStyle(
-                            fontSize: kTextRegular2x,
+                            fontSize: AppData.shared.getSmallFontSize(),
                             fontWeight: FontWeight.w700),
                       ),
                       Text(
-                        '$kLimitedPhotoLabel (${bloc.imageArray.length}/2)',
+                        '${AppLocalizations.of(context)?.kLimitedPhotoLabel} (${bloc.imageArray.length}/2)',
                         style: TextStyle(
                             fontSize: kTextSmall, fontWeight: FontWeight.w500),
                       )
@@ -362,7 +365,7 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                                 size: kMargin34,
                               ),
                               Text(
-                                '$kUploadImageLabel (jpg)',
+                                '${AppLocalizations.of(context)?.kUploadImageLabel} (jpg)',
                                 style: TextStyle(fontSize: kTextSmall),
                               ),
                               Consumer<MaintenanceBloc>(
@@ -377,7 +380,7 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                                             BorderRadius.circular(kMargin6)),
                                     child: Center(
                                       child: Text(
-                                        kUploadLabel,
+                                        AppLocalizations.of(context)?.kUploadLabel ?? '',
                                         style: TextStyle(
                                             fontWeight: FontWeight.w600,
                                             color: kWhiteColor),

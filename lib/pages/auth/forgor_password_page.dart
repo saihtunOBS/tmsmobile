@@ -5,11 +5,12 @@ import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/auth/otp_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
-import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
 import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
 import '../../widgets/appbar_back.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -72,18 +73,18 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     height: kMarginMedium,
                   ),
                   Text(
-                    kForgotPasswordLabel,
+                    AppLocalizations.of(context)?.kForgotPasswordLabel ?? '',
                     style: TextStyle(
                         fontFamily: AppData.shared.fontFamily2,
                         fontWeight: FontWeight.w600,
-                        fontSize: kTextRegular24),
+                        fontSize: AppData.shared.getExtraFontSize()),
                   ),
                   Text(
-                    kSendOTPTextLabel,
-                    style: TextStyle(fontSize: kTextRegular2x),
+                    AppLocalizations.of(context)?.kSendOTPTextLabel ?? '',
+                    style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),
                   ),
                   _buildTextField(
-                      title: kPhoneNumberLabel,
+                      title: AppLocalizations.of(context)?.kPhoneNumberLabel ?? '',
                       icon: Icon(CupertinoIcons.phone),
                       controller: _phoneController,
                       isNumber: true),
@@ -101,13 +102,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               ),
             ),
             gradientButton(
-                title: kSendLabel,
+                title: AppLocalizations.of(context)?.kSendLabel,
                 onPress: () {
                   PageNavigator(ctx: context).nextPage(
                       page: OTPPage(
                     phone: '09791602079',
                   ));
-                }),
+                },context: context),
           ]),
         ),
       ),
@@ -125,7 +126,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         Text(
           title,
           style: GoogleFonts.nunito(
-              fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+              fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
         ),
         const SizedBox(
           height: 4,
@@ -148,7 +149,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: title,
-                          hintStyle: TextStyle(fontSize: kTextRegular2x)))),
+                          hintStyle: TextStyle(fontSize: AppData.shared.getSmallFontSize())))),
               const SizedBox(
                 width: kMargin5,
               ),

@@ -95,7 +95,7 @@ class FillOutProcessDetailPage extends StatelessWidget {
           Text(
             kDayExtensionDayLabel,
             style: TextStyle(
-                fontSize: kTextRegular18, fontWeight: FontWeight.w700),
+                fontSize: AppData.shared.getRegularFontSize(), fontWeight: FontWeight.w700),
           ),
           _buildListDetail(
               title: kServicingDateLabel,

@@ -8,6 +8,8 @@ import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
+import '../../data/app_data/app_data.dart';
+
 
 class NRCView extends StatefulWidget {
   const NRCView({
@@ -59,7 +61,7 @@ class NRCViewState extends State<NRCView> {
             width: double.infinity,
             child: Text(
               bloc.nrcNumber ?? 'Add NRC number',
-              style: TextStyle(fontSize: kTextRegular2x),
+              style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),
             )),
       ),
     );
@@ -188,7 +190,7 @@ class NRCViewState extends State<NRCView> {
                     Text(
                       'Enter NRC number',
                       style: TextStyle(
-                          fontSize: kTextRegular2x,
+                          fontSize: AppData.shared.getSmallFontSize(),
                           fontWeight: FontWeight.w600),
                     ),
                     5.vGap,
@@ -272,7 +274,7 @@ class NRCViewState extends State<NRCView> {
                       child: Text(
                         kConfirmLabel,
                         style: TextStyle(
-                            fontSize: kTextRegular2x,
+                            fontSize: AppData.shared.getSmallFontSize(),
                             fontWeight: FontWeight.w600,
                             color: kWhiteColor),
                       ),

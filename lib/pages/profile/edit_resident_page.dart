@@ -8,6 +8,7 @@ import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/network/requests/household_registration_request.dart';
 import 'package:tmsmobile/utils/images.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
+import '../../data/app_data/app_data.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/date_formatter.dart';
@@ -18,6 +19,8 @@ import '../../widgets/common_dialog.dart';
 import '../../widgets/error_dialog_view.dart';
 import '../../widgets/gradient_button.dart';
 import '../../widgets/nrc_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class EditResidentPage extends StatefulWidget {
   const EditResidentPage(
@@ -70,7 +73,7 @@ class _EditResidentPageState extends State<EditResidentPage> {
                 builder: (context, bloc, child) => Positioned(
                     top: 0,
                     child: ProfileAppbar(
-                      title: kEditLabel,
+                      title: AppLocalizations.of(context)?.kEditLabel,
                       action: Padding(
                         padding: const EdgeInsets.only(right: kMargin24),
                         child: Row(
@@ -111,7 +114,7 @@ class _EditResidentPageState extends State<EditResidentPage> {
               height: kBottomBarHeight,
               child: Center(
                 child: gradientButton(
-                    title: kSubmitLabel,
+                    title: AppLocalizations.of(context)?.kSubmitLabel,
                     onPress: () {
                       bloc.checkResidentValidation();
 
@@ -129,7 +132,7 @@ class _EditResidentPageState extends State<EditResidentPage> {
                                   dialogWidget: ErrorDialogView(
                                       errorMessage: error.toString()));
                             });
-                    }),
+                    },context: context),
               )),
         ),
       ),
@@ -152,16 +155,16 @@ class _EditResidentPageState extends State<EditResidentPage> {
                   1.vGap,
                   _buildTypeDropDown(),
                   _buildInputField(
-                      title: kNameLabel, controller: bloc.nameController),
+                      title: AppLocalizations.of(context)?.kNameLabel, controller: bloc.nameController),
                   _buildGenderDropDown(),
                   InkWell(
                       onTap: () => bloc.showDate(),
                       child: _buildDateOfBirthDatePicker(
                           value: DateFormatter.formatDate(bloc.selectedDate))),
                   _buildInputField(
-                      title: kRaceLabel, controller: bloc.raceController),
+                      title: AppLocalizations.of(context)?.kRaceLabel, controller: bloc.raceController),
                   _buildInputField(
-                      title: kNationalityLabel,
+                      title: AppLocalizations.of(context)?.kNationalityLabel,
                       controller: bloc.nationalityController),
                   _buildNRCAndPassportRadioButton(),
                   _selectedOption == 'Citizen'
@@ -170,15 +173,15 @@ class _EditResidentPageState extends State<EditResidentPage> {
                           title: 'Passport',
                           controller: bloc.passportController),
                   _buildInputField(
-                      title: kContactNumberLabel,
+                      title: AppLocalizations.of(context)?.kContactNumberLabel,
                       isNumber: true,
                       controller: bloc.contactController),
                   bloc.type == 'Owner'
                       ? _buildInputField(
-                          title: kEmailAddressLabel,
+                          title: AppLocalizations.of(context)?.kEmailAddressLabel,
                           controller: bloc.emailAddressController)
                       : _buildInputField(
-                          title: kRelatedToOwnerLabel,
+                          title: AppLocalizations.of(context)?.kRelatedToOwnerLabel,
                           controller: bloc.relatedToController),
                 ],
               ),
@@ -197,9 +200,9 @@ class _EditResidentPageState extends State<EditResidentPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            kGenderLabel,
+            AppLocalizations.of(context)?.kGenderLabel ?? '',
             style: TextStyle(
-                fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+                fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
           ),
           4.vGap,
           Container(
@@ -214,7 +217,7 @@ class _EditResidentPageState extends State<EditResidentPage> {
                   value: bloc.gender,
                   isExpanded: true,
                   underline: Container(),
-                  hint: Text(kSelectGenderLabel),
+                  hint: Text(AppLocalizations.of(context)?.kSelectGenderLabel ?? ''),
                   items: genders.map((value) {
                     return DropdownMenuItem(value: value, child: Text(value));
                   }).toList(),
@@ -236,9 +239,9 @@ class _EditResidentPageState extends State<EditResidentPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Type',
+            AppLocalizations.of(context)?.kTypeLabel ?? '',
             style: TextStyle(
-                fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+                fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
           ),
           4.vGap,
           Container(
@@ -270,9 +273,9 @@ class _EditResidentPageState extends State<EditResidentPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          kDobLabel,
+          AppLocalizations.of(context)?.kDobLabel ?? '',
           style:
-              TextStyle(fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+              TextStyle(fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
         ),
         4.vGap,
         Container(
@@ -288,7 +291,7 @@ class _EditResidentPageState extends State<EditResidentPage> {
             children: [
               Text(
                 value ?? kSelectDateLabel,
-                style: TextStyle(fontSize: kTextRegular2x),
+                style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),
               ),
               Icon(
                 Icons.calendar_today,
@@ -314,7 +317,7 @@ class _EditResidentPageState extends State<EditResidentPage> {
           Text(
             title,
             style: TextStyle(
-                fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+                fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
           ),
           4.vGap,
           Container(
@@ -350,7 +353,7 @@ class _EditResidentPageState extends State<EditResidentPage> {
         Text(
           'NRC',
           style:
-              TextStyle(fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+              TextStyle(fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
         ),
         4.vGap,
         Container(

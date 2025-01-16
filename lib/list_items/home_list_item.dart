@@ -33,7 +33,7 @@ class HomeListItem extends StatelessWidget {
                   fontFamily: PersistenceData.shared.getLocale() == 'my'
                                     ? AppData.shared.fontFamily3
                                     : AppData.shared.fontFamily2,
-                  fontSize: kTextRegular18,
+                  fontSize: AppData.shared.getRegularFontSize(),
                   color: kWhiteColor,
                   fontWeight: FontWeight.w600),
             ),

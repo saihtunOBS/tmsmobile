@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
-import 'package:tmsmobile/utils/strings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../data/app_data/app_data.dart';
 
 Widget gradientButton(
-    {String? title, required VoidCallback? onPress, bool? isLogout}) {
+    {String? title,
+    required VoidCallback? onPress,
+    bool? isLogout,
+    required BuildContext? context}) {
   return InkWell(
     onTap: onPress,
     child: Container(
@@ -33,11 +38,11 @@ Widget gradientButton(
                 : SizedBox(),
             isLogout == true ? 5.hGap : 0.hGap,
             Text(
-              title ?? kContinueLabel,
+              title ?? AppLocalizations.of(context!)?.kContinueLabel ?? '',
               style: TextStyle(
                   color: kWhiteColor,
                   fontWeight: FontWeight.bold,
-                  fontSize: kTextRegular18),
+                  fontSize: AppData.shared.getRegularFontSize()),
             ),
           ],
         ),

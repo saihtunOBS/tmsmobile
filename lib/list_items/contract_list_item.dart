@@ -38,7 +38,7 @@ class ContractListItem extends StatelessWidget {
                 'Condo Sale Contract',
                 style: TextStyle(
                           fontFamily: AppData.shared.fontFamily2,
-                    fontSize: kTextRegular18,
+                    fontSize: AppData.shared.getRegularFontSize(),
                     color: kWhiteColor,
                     fontWeight: FontWeight.w600),
               ),

@@ -84,9 +84,7 @@ class _AccountChangeLanguagePageState extends State<AccountChangeLanguagePage> {
                                     ? AppData.shared.fontFamily3
                                     : AppData.shared.fontFamily2,
                             fontWeight: FontWeight.w600,
-                            fontSize: PersistenceData.shared.getLocale() == 'my'
-                                ? kTextRegular24
-                                : kTextRegular24),
+                            fontSize: kTextRegular24),
                       ),
                     ),
                     Column(
@@ -139,7 +137,7 @@ class _AccountChangeLanguagePageState extends State<AccountChangeLanguagePage> {
         Text(
           title,
           style:
-              TextStyle(fontSize: kTextRegular18, fontWeight: FontWeight.w600),
+              TextStyle(fontSize: AppData.shared.getRegularFontSize(), fontWeight: FontWeight.w600),
         )
       ],
     );

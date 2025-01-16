@@ -213,6 +213,9 @@
     "kThereIsNoComplaintLabel": "There is no complaints to show right now.",
     "kEmergencyLabel" : "Emergency Contact",
     "kResidentInformationLabel": "Resident Information",
-    "kFillOutProcessLabel": "Fill Out Process"
+    "kFillOutProcessLabel": "Fill Out Process",
+    "kFillOutRequestLabel": "Fill Out Request",
+    "kTypeLabel": "Type",
+    "kSettingLabel": "Setting"
 
 }

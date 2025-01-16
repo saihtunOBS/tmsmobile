@@ -1,18 +1,16 @@
-/// Generic Dimensions
 
 const double kTextSmall = 12;
 const double kTextXSmall = 10;
 const double kTextRegularSize = 16;
-const double kTextRegular2x = 16;
+double kTextRegular2x = 16;
 const double kTextRegular13 = 13;
 const double kTextRegular = 15;
-const double kTextRegular18 = 18;
+double kTextRegular18 = 18;
 const double kTextRegular3x = 20;
 const double kTextRegular22 = 22;
-const double kTextRegular24 = 24;
+double kTextRegular24 = 24;
 const double kTextRegular32 = 32;
 const double kTextRegular28 = 28;
-
 
 const double kMargin6 = 6;
 const double kMargin5 = 5;
@@ -38,10 +36,10 @@ const double kMargin50 = 50;
 const double kMargin52 = 52;
 const double kMargin80 = 80;
 const double kMargin24 = 24;
-const double kMargin92 =92;
-const double kMargin94 =94;
+const double kMargin92 = 92;
+const double kMargin94 = 94;
 const double kMargin110 = 150;
-const double kMargin154 =154;
+const double kMargin154 = 154;
 const double kMargin220 = 220;
 const double kMargin195 = 195;
 const double kMargin160 = 160;

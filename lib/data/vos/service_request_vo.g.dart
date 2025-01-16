@@ -27,7 +27,9 @@ ServiceRequestVo _$ServiceRequestVoFromJson(Map<String, dynamic> json) =>
           : DateTime.parse(json['updatedAt'] as String),
       version: (json['__v'] as num?)?.toInt(),
       description: json['description'] as String?,
-      issue: json['issue'] as String?,
+      issue: json['issue'] == null
+          ? null
+          : Issue.fromJson(json['issue'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ServiceRequestVoToJson(ServiceRequestVo instance) =>
@@ -61,6 +63,16 @@ Shop _$ShopFromJson(Map<String, dynamic> json) => Shop(
     );
 
 Map<String, dynamic> _$ShopToJson(Shop instance) => <String, dynamic>{
+      '_id': instance.id,
+      'name': instance.name,
+    };
+
+Issue _$IssueFromJson(Map<String, dynamic> json) => Issue(
+      id: json['_id'] as String?,
+      name: json['name'] as String?,
+    );
+
+Map<String, dynamic> _$IssueToJson(Issue instance) => <String, dynamic>{
       '_id': instance.id,
       'name': instance.name,
     };

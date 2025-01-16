@@ -4,6 +4,7 @@ import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/images.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../data/app_data/app_data.dart';
 import '../utils/colors.dart';
 
 class EmptyHousehold extends StatelessWidget {
@@ -27,7 +28,7 @@ class EmptyHousehold extends StatelessWidget {
           Text(
             AppLocalizations.of(context)?.kNoRegisterYetLabel ?? '',
             style: TextStyle(
-                fontWeight: FontWeight.w600, fontSize: kTextRegular18),
+                fontWeight: FontWeight.w600, fontSize: AppData.shared.getRegularFontSize()),
           ),
           5.vGap,
           InkWell(
@@ -48,7 +49,7 @@ class EmptyHousehold extends StatelessWidget {
                 child: Text(
                   AppLocalizations.of(context)?.kHouseholdRegistrationFormLabel ??
                       '',
-                  style: TextStyle(fontSize: kTextRegular18, color: Colors.white),
+                  style: TextStyle(fontSize: AppData.shared.getRegularFontSize(), color: Colors.white),
                 ),
               ),
             ),

@@ -9,9 +9,11 @@ import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
 import 'package:tmsmobile/widgets/empty_view.dart';
 
+import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
-import '../../utils/strings.dart';
 import '../../widgets/loading_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class EmergencyContactPage extends StatefulWidget {
   const EmergencyContactPage({super.key});
@@ -98,7 +100,7 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
               Positioned(
                   top: 0,
                   child: ProfileAppbar(
-                    title: kEmergencyContactLabel,
+                    title: AppLocalizations.of(context)?.kEmergencyContactLabel,
                   )),
             ],
           ),
@@ -115,13 +117,13 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
       children: [
         Text(
           title,
-          style: TextStyle(fontSize: kTextRegular2x),
+          style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),
         ),
         Text(
           value,
           style: TextStyle(
               color: isNumber == true ? kBlueColor : kBlackColor,
-              fontSize: kTextRegular18,
+              fontSize: AppData.shared.getRegularFontSize(),
               fontWeight: FontWeight.w700,
               decoration: isNumber == true ? TextDecoration.underline : null,
               decorationColor: kBlueColor,
@@ -174,7 +176,7 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
               title ?? '',
               style: TextStyle(
                   color: kWhiteColor,
-                  fontSize: kTextRegular2x,
+                  fontSize: AppData.shared.getSmallFontSize(),
                   fontWeight: FontWeight.w700),
             ),
             children: [
@@ -192,25 +194,25 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
                   spacing: kMargin12,
                   children: [
                     _listItem(
-                        title: kContactNameLabel,
+                        title: AppLocalizations.of(context)?.kContactNameLabel ?? '',
                         value: data?.emergencyCategory?.name ?? ''),
-                    _listItem(title: kAddressLabel, value: data?.address ?? ''),
+                    _listItem(title: AppLocalizations.of(context)?.kAddressLabel ?? '', value: data?.address ?? ''),
                     InkWell(
                       onTap: () => makePhoneCall(data?.phone1 ?? ''),
                       child: _listItem(
-                          title: '$kTelephoneNormalLabel (Office Hours)',
+                          title: '${AppLocalizations.of(context)?.kTelephoneNormalLabel} (Office Hours)',
                           value: data?.phone1 ?? '',
                           isNumber: true),
                     ),
                     InkWell(
                       onTap: () => makePhoneCall(data?.phone2 ?? ''),
                       child: _listItem(
-                          title: kTelephoneNormal24Label,
+                          title: AppLocalizations.of(context)?.kTelephoneNormal24Label ?? '',
                           value: data?.phone2 ?? '',
                           isNumber: true),
                     ),
                     _listItem(
-                        title: kContractRefLabel,
+                        title: AppLocalizations.of(context)?.kContractRefLabel ?? '',
                         value: data?.contractRef ?? ''),
                   ],
                 ),

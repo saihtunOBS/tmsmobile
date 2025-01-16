@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/house_hold_bloc.dart';
+import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/list_items/resident_list_item.dart';
@@ -21,7 +22,6 @@ import 'package:tmsmobile/widgets/owner_nrc_view.dart';
 
 import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
-import '../../utils/strings.dart';
 import '../../widgets/gradient_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -34,7 +34,6 @@ class HouseholdRegistrationPage extends StatefulWidget {
 }
 
 class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
-
   int? selected;
   bool? isClickRegistrationForm = false;
   String _selectedOption = "Citizen";
@@ -44,7 +43,6 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return ChangeNotifierProvider(
       create: (context) => HouseHoldBloc(context: context),
       child: Container(
@@ -162,7 +160,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                           height: kBottomBarHeight,
                           child: Center(
                             child: gradientButton(
-                                title: kSubmitLabel,
+                                title:
+                                    AppLocalizations.of(context)?.kSubmitLabel,
                                 onPress: () {
                                   var bloc = context.read<HouseHoldBloc>();
                                   bloc.checkValidation();
@@ -185,7 +184,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                                             errorMessage:
                                                 bloc.validationMessage));
                                   }
-                                }),
+                                },
+                                context: context),
                           )),
             ),
           ),
@@ -202,15 +202,15 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
         Text(
           title,
           style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: kTextRegular2x,
-              ),
+            fontWeight: FontWeight.w600,
+            fontSize: AppData.shared.getSmallFontSize(),
+          ),
         ),
         Text(
           value,
           style: TextStyle(
             color: kPrimaryColor,
-            fontSize: kTextRegular2x,
+            fontSize: AppData.shared.getSmallFontSize(),
             fontWeight: FontWeight.w700,
           ),
         ),
@@ -227,17 +227,17 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
       List<HouseHoldInformation> houseHoldData,
       HouseHoldBloc bloc) {
     final List<String> titles = [
-    'Owner',
-    AppLocalizations.of(context)?.kNameLabel ?? '',
-    AppLocalizations.of(context)?.kGenderLabel ?? '',
-    AppLocalizations.of(context)?.kDobLabel ?? '',
-    AppLocalizations.of(context)?.kRaceLabel ?? '',
-    AppLocalizations.of(context)?.kNationalityLabel ?? '',
-    AppLocalizations.of(context)?.kNRCLabel ?? '',
-    AppLocalizations.of(context)?.kContactNameLabel ?? '',
-    AppLocalizations.of(context)?.kEmailAddressLabel ?? '',
-    AppLocalizations.of(context)?.kRelatedToOwnerLabel ?? ''
-  ];
+      'Owner',
+      AppLocalizations.of(context)?.kNameLabel ?? '',
+      AppLocalizations.of(context)?.kGenderLabel ?? '',
+      AppLocalizations.of(context)?.kDobLabel ?? '',
+      AppLocalizations.of(context)?.kRaceLabel ?? '',
+      AppLocalizations.of(context)?.kNationalityLabel ?? '',
+      AppLocalizations.of(context)?.kNRCLabel ?? '',
+      AppLocalizations.of(context)?.kContactNameLabel ?? '',
+      AppLocalizations.of(context)?.kEmailAddressLabel ?? '',
+      AppLocalizations.of(context)?.kRelatedToOwnerLabel ?? ''
+    ];
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -277,37 +277,33 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                             Container(
                               color: kInputBackgroundColor,
                               padding: EdgeInsets.only(bottom: kMargin10),
-                              child: SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height / 2.2,
-                                child: Column(
-                                  spacing: kMarginMedium2,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: titles.asMap().entries.map((entry) {
-                                    return Container(
-                                      padding: EdgeInsets.only(left: kMargin12),
-                                      width: MediaQuery.of(context).size.width /
-                                          2.15,
-                                      height: entry.key == 0 ? kSize43 : null,
-                                      decoration: BoxDecoration(
-                                        color: entry.key == 0
-                                            ? kDarkBlueColor
-                                            : null,
-                                      ),
-                                      child: Text(
-                                        entry.value,
-                                        style: TextStyle(
-                                            color: entry.key == 0
-                                                ? Colors.transparent
-                                                : Colors.black,
-                                            fontWeight: entry.key == 0
-                                                ? FontWeight.w700
-                                                : FontWeight.w700,
-                                            fontSize: kTextRegular),
-                                      ),
-                                    );
-                                  }).toList(),
-                                ),
+                              child: Column(
+                                spacing: kMarginMedium2,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: titles.asMap().entries.map((entry) {
+                                  return Container(
+                                    padding: EdgeInsets.only(left: kMargin12),
+                                    width: MediaQuery.of(context).size.width /
+                                        2.15,
+                                    height: entry.key == 0 ? kSize43 : null,
+                                    decoration: BoxDecoration(
+                                      color: entry.key == 0
+                                          ? kDarkBlueColor
+                                          : null,
+                                    ),
+                                    child: Text(
+                                      entry.value,
+                                      style: TextStyle(
+                                          color: entry.key == 0
+                                              ? Colors.transparent
+                                              : Colors.black,
+                                          fontWeight: entry.key == 0
+                                              ? FontWeight.w700
+                                              : FontWeight.w700,
+                                          fontSize: kTextRegular),
+                                    ),
+                                  );
+                                }).toList(),
                               ),
                             ),
                           ],
@@ -317,32 +313,31 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                         child: Container(
                           padding: EdgeInsets.only(bottom: kMargin10),
                           color: kThirdGrayColor,
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height / 2.2,
-                            child: ListView.builder(
-                                physics: ClampingScrollPhysics(),
-                                itemCount: houseHoldData.length,
-                                scrollDirection: Axis.horizontal,
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  return InkWell(
-                                    onTap: () {
-                                      PageNavigator(ctx: context)
-                                          .nextPage(
-                                              page: EditResidentPage(
-                                        houseHoldData: houseHoldData[index],
-                                        id: bloc.householdList.first.id,
-                                      ))
-                                          .whenComplete(() async {
-                                        await bloc.getHouseHoldLists();
-                                      });
-                                    },
-                                    child: ResidentListItem(
-                                      houseHoldData: houseHoldData[index],
-                                      index: index,
-                                    ),
-                                  );
-                                }),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            physics: ClampingScrollPhysics(),
+                            child: Row(
+                              children:
+                                  houseHoldData.asMap().entries.map((entry) {
+                                return InkWell(
+                                  onTap: () {
+                                    PageNavigator(ctx: context)
+                                        .nextPage(
+                                            page: EditResidentPage(
+                                      houseHoldData: houseHoldData[entry.key],
+                                      id: bloc.householdList.first.id,
+                                    ))
+                                        .whenComplete(() async {
+                                      await bloc.getHouseHoldLists();
+                                    });
+                                  },
+                                  child: ResidentListItem(
+                                    houseHoldData: houseHoldData[entry.key],
+                                    index: entry.key,
+                                  ),
+                                );
+                              }).toList(),
+                            ),
                           ),
                         )),
                   ],
@@ -372,7 +367,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                       borderRadius: BorderRadius.circular(kMarginMedium)),
                   child: Center(
                     child: Text(
-                      '+ Add Resident',
+                      AppLocalizations.of(context)?.kAddResidentLabel ?? '',
                       style: TextStyle(
                           fontWeight: FontWeight.w600, color: kWhiteColor),
                     ),
@@ -397,12 +392,15 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
             InkWell(
                 onTap: () => bloc.showDate(isRegistration: true),
                 child: _buildDatePicker(
-                    kRegistrationDateLabel, bloc.registrationDate ?? '')),
+                    AppLocalizations.of(context)?.kRegistrationDateLabel ?? '',
+                    bloc.registrationDate ?? '')),
             InkWell(
                 onTap: () => bloc.showDate(isMoveIn: true),
-                child:
-                    _buildDatePicker(kMoveInDateLabel, bloc.moveInDate ?? '')),
-            _buildInputField(title: kEmergencyContactLabel),
+                child: _buildDatePicker(
+                    AppLocalizations.of(context)?.kMoveInDateLabel ?? '',
+                    bloc.moveInDate ?? '')),
+            _buildInputField(
+                title: AppLocalizations.of(context)?.kEmergencyContactLabel),
             _buildOwnerInformation(),
             _buildResidentInformationForm(context),
             kSize70.vGap
@@ -523,8 +521,9 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
       children: [
         Text(
           title,
-          style:
-              TextStyle(fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+          style: TextStyle(
+              fontSize: AppData.shared.getSmallFontSize(),
+              fontWeight: FontWeight.w600),
         ),
         4.vGap,
         Container(
@@ -541,7 +540,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
               Text(
                 value,
                 style: TextStyle(
-                    fontWeight: FontWeight.w600, fontSize: kTextRegular2x),
+                    fontWeight: FontWeight.w600,
+                    fontSize: AppData.shared.getSmallFontSize()),
               ),
               Icon(
                 Icons.calendar_today,
@@ -562,9 +562,10 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            kGenderLabel,
+            AppLocalizations.of(context)?.kGenderLabel ?? '',
             style: TextStyle(
-                fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+                fontSize: AppData.shared.getSmallFontSize(),
+                fontWeight: FontWeight.w600),
           ),
           4.vGap,
           Container(
@@ -577,7 +578,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                   value: bloc.residentGender,
                   isExpanded: true,
                   underline: Container(),
-                  hint: Text(kSelectGenderLabel),
+                  hint: Text(
+                      AppLocalizations.of(context)?.kSelectGenderLabel ?? ''),
                   items: genders.map((value) {
                     return DropdownMenuItem(value: value, child: Text(value));
                   }).toList(),
@@ -606,8 +608,9 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
       children: [
         Text(
           title,
-          style:
-              TextStyle(fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+          style: TextStyle(
+              fontSize: AppData.shared.getSmallFontSize(),
+              fontWeight: FontWeight.w600),
         ),
         4.vGap,
         Container(
@@ -622,7 +625,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                     padding: const EdgeInsets.only(top: kMargin12),
                     child: Text(
                       value ?? '',
-                      style: TextStyle(fontSize: kTextRegular2x),
+                      style: TextStyle(
+                          fontSize: AppData.shared.getSmallFontSize()),
                     ),
                   )
                 : TextField(
@@ -654,7 +658,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
             Container(
                 height: kSize46,
                 width: double.infinity,
-                padding: EdgeInsets.only(left: kTextRegular2x, top: kMargin5),
+                padding:
+                    EdgeInsets.only(left: AppData.shared.getSmallFontSize()),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(kMargin10),
@@ -664,28 +669,38 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                     stops: [0.0, 1.0],
                   ),
                 ),
-                child: Text(kOwnerInformationLabel,
-                    style: TextStyle(
-                        fontFamily: AppData.shared.fontFamily2,
-                        fontSize: kTextRegular24,
-                        color: kWhiteColor,
-                        fontWeight: FontWeight.w600))),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                      AppLocalizations.of(context)?.kOwnerInformationLabel ??
+                          '',
+                      style: TextStyle(
+                          fontFamily: AppData.shared.fontFamily2,
+                          fontSize: AppData.shared.getExtraFontSize(),
+                          color: kWhiteColor,
+                          fontWeight: FontWeight.w600)),
+                )),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: kMargin10),
               child: Column(
                 children: [
                   12.vGap,
-                  _buildInputField(title: kOwnerNameLabel),
+                  _buildInputField(
+                      title: AppLocalizations.of(context)?.kOwnerNameLabel),
                   12.vGap,
                   _buildGenderDropDown(),
                   12.vGap,
                   InkWell(
                       onTap: () => bloc.showDate(isOwner: true),
-                      child: _buildDatePicker(kDobLabel, bloc.ownerDob ?? '')),
+                      child: _buildDatePicker(
+                          AppLocalizations.of(context)?.kDobLabel ?? '',
+                          bloc.ownerDob ?? '')),
                   12.vGap,
-                  _buildInputField(title: kRaceLabel),
+                  _buildInputField(
+                      title: AppLocalizations.of(context)?.kRaceLabel),
                   12.vGap,
-                  _buildInputField(title: kNationalityLabel),
+                  _buildInputField(
+                      title: AppLocalizations.of(context)?.kNationalityLabel),
                   12.vGap,
                   _buildNRCAndPassportRadioButton(isOwner: true),
                   _selectedOwnerNRC == 'Citizen'
@@ -694,9 +709,11 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                           title: 'Passport',
                         ),
                   12.vGap,
-                  _buildInputField(title: kContactNumberLabel),
+                  _buildInputField(
+                      title: AppLocalizations.of(context)?.kContactNumberLabel),
                   12.vGap,
-                  _buildInputField(title: kEmailAddressLabel),
+                  _buildInputField(
+                      title: AppLocalizations.of(context)?.kEmailAddressLabel),
                   12.vGap,
                 ],
               ),
@@ -727,7 +744,9 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
             Container(
                 height: kSize46,
                 width: double.infinity,
-                padding: EdgeInsets.only(left: kTextRegular2x, top: kMargin5),
+                padding: EdgeInsets.only(
+                  left: AppData.shared.getSmallFontSize(),
+                ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(kMargin10),
@@ -737,14 +756,19 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                     stops: [0.0, 1.0],
                   ),
                 ),
-                child: Text(
-                    AppLocalizations.of(context)?.kResidentInformationLabel ??
-                        '',
-                    style: TextStyle(
-                        fontFamily: AppData.shared.fontFamily2,
-                        fontSize: kTextRegular24,
-                        color: kWhiteColor,
-                        fontWeight: FontWeight.w600))),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                      AppLocalizations.of(context)?.kResidentInformationLabel ??
+                          '',
+                      style: TextStyle(
+                          fontFamily: AppData.shared.fontFamily2,
+                          fontSize: PersistenceData.shared.getLocale() == 'my'
+                              ? AppData.shared.getRegularFontSize() + 2
+                              : AppData.shared.getExtraFontSize(),
+                          color: kWhiteColor,
+                          fontWeight: FontWeight.w600)),
+                )),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: kMargin10),
               child: Consumer<HouseHoldBloc>(
@@ -752,7 +776,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                   children: [
                     12.vGap,
                     _buildInputField(
-                        title: kNameLabel,
+                        title: AppLocalizations.of(context)?.kNameLabel,
                         controller: bloc.residentNameController),
                     12.vGap,
                     _buildGenderDropDown(),
@@ -760,14 +784,15 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                     InkWell(
                         onTap: () => bloc.showDate(isResident: true),
                         child: _buildDatePicker(
-                            kDobLabel, bloc.residentDob ?? '')),
+                            AppLocalizations.of(context)?.kDobLabel ?? '',
+                            bloc.residentDob ?? '')),
                     12.vGap,
                     _buildInputField(
-                        title: kRaceLabel,
+                        title: AppLocalizations.of(context)?.kRaceLabel,
                         controller: bloc.residentRaceController),
                     12.vGap,
                     _buildInputField(
-                        title: kNationalityLabel,
+                        title: AppLocalizations.of(context)?.kNationalityLabel,
                         controller: bloc.residentNationalityController),
                     12.vGap,
                     _buildNRCAndPassportRadioButton(),
@@ -778,11 +803,13 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                             controller: bloc.residentPassportController),
                     12.vGap,
                     _buildInputField(
-                        title: kContactNumberLabel,
+                        title:
+                            AppLocalizations.of(context)?.kContactNumberLabel,
                         controller: bloc.residentContactController),
                     12.vGap,
                     _buildInputField(
-                        title: kRelatedToOwnerLabel,
+                        title:
+                            AppLocalizations.of(context)?.kRelatedToOwnerLabel,
                         controller: bloc.residentRelatedToController),
                     12.vGap,
 
@@ -872,7 +899,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
           Text(
             'NRC',
             style: TextStyle(
-                fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+                fontSize: AppData.shared.getSmallFontSize(),
+                fontWeight: FontWeight.w600),
           ),
           4.vGap,
           Container(
@@ -899,7 +927,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
           Text(
             'NRC',
             style: TextStyle(
-                fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+                fontSize: AppData.shared.getSmallFontSize(),
+                fontWeight: FontWeight.w600),
           ),
           4.vGap,
           Container(

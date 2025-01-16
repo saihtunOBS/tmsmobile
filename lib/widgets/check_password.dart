@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../data/app_data/app_data.dart';
 
 import '../bloc/auth_bloc.dart';
 import '../utils/colors.dart';
@@ -25,7 +26,7 @@ class CheckPasswordView extends StatelessWidget {
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
-                    fontSize: kTextRegular2x),
+                    fontSize: AppData.shared.getSmallFontSize()),
               ),
               Row(
                 spacing: kMarginMedium,

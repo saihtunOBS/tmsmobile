@@ -9,6 +9,7 @@ import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../data/app_data/app_data.dart';
 
 import '../../utils/strings.dart';
 import '../../widgets/appbar.dart';
@@ -103,7 +104,7 @@ class ContractInformationPage extends StatelessWidget {
       children: [
         Text(
           title,
-          style: TextStyle(fontSize: kTextRegular2x),
+          style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),
         ),
         isStatus == true
             ? Container(
@@ -126,7 +127,7 @@ class ContractInformationPage extends StatelessWidget {
             : Text(
                 value,
                 style: TextStyle(
-                    fontSize: kTextRegular2x, fontWeight: FontWeight.w700),
+                    fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w700),
               ),
       ],
     );
@@ -187,7 +188,7 @@ class ContractInformationPage extends StatelessWidget {
                   '#${data.shop?.name}',
                   style: TextStyle(
                       color: kWhiteColor,
-                      fontSize: kTextRegular2x,
+                      fontSize: AppData.shared.getSmallFontSize(),
                       fontWeight: FontWeight.w700),
                 ),
               ],
@@ -271,7 +272,7 @@ class ContractInformationPage extends StatelessWidget {
                 kParkingInformationLabel,
                 style: TextStyle(
                     color: kWhiteColor,
-                    fontSize: kTextRegular2x,
+                    fontSize: AppData.shared.getSmallFontSize(),
                     fontWeight: FontWeight.w700),
               ),
             ],

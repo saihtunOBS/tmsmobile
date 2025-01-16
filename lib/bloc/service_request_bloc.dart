@@ -42,7 +42,7 @@ class ServiceRequestBloc extends ChangeNotifier {
     _tmsModel.getMaintenances(token ?? '').then((response) {
       maintenanceLists = response;
       maintenanceShops = response.map((data) => data.shop as Shop).toList();
-      issues = response.map((data) => data.issue ?? '').toList();
+      issues = response.map((data) => data.issue?.name ?? '').toList();
     }).whenComplete(() => _hideLoading());
   }
 

@@ -7,6 +7,7 @@ import 'package:tmsmobile/bloc/complaint_bloc.dart';
 import 'package:tmsmobile/widgets/common_dialog.dart';
 import 'package:tmsmobile/widgets/error_dialog_view.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
+import '../../data/app_data/app_data.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/dimens.dart';
@@ -64,7 +65,7 @@ class SubmitComplainPage extends StatelessWidget {
                                 dialogWidget: ErrorDialogView(
                                     errorMessage: error.toString()));
                           });
-                        }),
+                        },context: context),
                   )),
             ),
           ),
@@ -89,7 +90,7 @@ class SubmitComplainPage extends StatelessWidget {
               Text(
                 AppLocalizations.of(context!)?.kCompliantLabel ?? '',
                 style: TextStyle(
-                    fontSize: kTextRegular2x, fontWeight: FontWeight.w600),
+                    fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
               ),
               Text(
                 '*',

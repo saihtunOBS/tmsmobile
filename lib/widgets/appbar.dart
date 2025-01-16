@@ -2,8 +2,8 @@ import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:tmsmobile/utils/colors.dart";
 import "package:tmsmobile/utils/dimens.dart";
-import "package:tmsmobile/utils/strings.dart";
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import "../data/app_data/app_data.dart";
 import "../utils/images.dart";
 
 class GradientAppBar extends StatelessWidget {
@@ -36,7 +36,7 @@ class GradientAppBar extends StatelessWidget {
                         Navigator.pop(context);
                       },
                       icon: Icon(
-                        title == kCloseLabel
+                        title == AppLocalizations.of(context)?.kCloseLabel
                             ? Icons.close
                             : CupertinoIcons.chevron_back,
                         color: kWhiteColor,
@@ -44,7 +44,7 @@ class GradientAppBar extends StatelessWidget {
                   Text(
                     title,
                     style: TextStyle(
-                        fontSize: kTextRegular18,
+                        fontSize: AppData.shared.getRegularFontSize(),
                         color: Colors.white,
                         fontWeight: FontWeight.w600),
                   ),
@@ -104,7 +104,7 @@ class ProfileAppbar extends StatelessWidget {
                               Text(
                                 title ?? AppLocalizations.of(context)?.kBackLabel ?? '',
                                 style: TextStyle(
-                                    fontSize: kTextRegular18,
+                                    fontSize: AppData.shared.getRegularFontSize(),
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600),
                               ),

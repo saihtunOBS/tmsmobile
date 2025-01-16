@@ -13,6 +13,7 @@ import 'package:tmsmobile/widgets/appbar.dart';
 import 'package:tmsmobile/widgets/empty_view.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
 
+import '../../data/app_data/app_data.dart';
 import '../../utils/dimens.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -86,14 +87,14 @@ class _ComplainPageState extends State<ComplainPage>
                           Tab(
                             child: Text(kPendingLabel,
                                 style: TextStyle(
-                                    fontSize: kTextRegular2x,
+                                    fontSize: AppData.shared.getSmallFontSize(),
                                     fontWeight: FontWeight.w700)),
                           ),
                           Tab(
                             child: Text(
                               kSolvedLabel,
                               style: TextStyle(
-                                  fontSize: kTextRegular2x,
+                                  fontSize: AppData.shared.getSmallFontSize(),
                                   fontWeight: FontWeight.w700),
                             ),
                           )

@@ -55,7 +55,7 @@ class InvoiceDetailPage extends StatelessWidget {
                         style: TextStyle(
                             color: kWhiteColor,
                             fontWeight: FontWeight.bold,
-                            fontSize: kTextRegular2x),
+                            fontSize: AppData.shared.getSmallFontSize()),
                       )),
                     ),
                   ),
@@ -71,7 +71,7 @@ class InvoiceDetailPage extends StatelessWidget {
                   ]),
                   child: Center(
                       child: gradientButton(
-                          title: AppLocalizations.of(context)?.kMakePaymentLabel, onPress: () {}))),
+                          title: AppLocalizations.of(context)?.kMakePaymentLabel, onPress: () {},context: context))),
             ),
           ),
         ),
@@ -168,7 +168,7 @@ class InvoiceDetailPage extends StatelessWidget {
           Container(
               height: kSize46,
               width: double.infinity,
-              padding: EdgeInsets.only(left: kTextRegular2x, top: kMargin12),
+              padding: EdgeInsets.only(left: AppData.shared.getSmallFontSize(), top: kMargin12),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(kMargin5),
@@ -182,14 +182,14 @@ class InvoiceDetailPage extends StatelessWidget {
                 AppLocalizations.of(context)?.kMaintenanceInvoiceLabel ?? '',
                 style: TextStyle(
                     fontWeight: FontWeight.w700,
-                    fontSize: kTextRegular2x,
+                    fontSize: AppData.shared.getSmallFontSize(),
                     color: kWhiteColor),
               )),
           ListView.builder(
               itemCount: 2,
               shrinkWrap: true,
               padding: EdgeInsets.symmetric(
-                  horizontal: kTextRegular2x, vertical: kMargin10),
+                  horizontal: AppData.shared.getSmallFontSize(), vertical: kMargin10),
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return Column(
@@ -228,7 +228,7 @@ class InvoiceDetailPage extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: kMarginMedium2),
       padding:
-          EdgeInsets.symmetric(horizontal: kTextRegular2x, vertical: kMargin10),
+          EdgeInsets.symmetric(horizontal: AppData.shared.getSmallFontSize(), vertical: kMargin10),
       decoration: BoxDecoration(
         color: kWhiteColor,
         borderRadius: BorderRadius.circular(kMargin5),
@@ -271,7 +271,7 @@ class InvoiceDetailPage extends StatelessWidget {
           Container(
               height: kSize46,
               width: double.infinity,
-              padding: EdgeInsets.only(left: kTextRegular2x, top: kMargin12),
+              padding: EdgeInsets.only(left: AppData.shared.getSmallFontSize(), top: kMargin12),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(kMargin5),
@@ -285,12 +285,12 @@ class InvoiceDetailPage extends StatelessWidget {
                 AppLocalizations.of(context)?.kMonthlyInvoiceLabel ?? '',
                 style: TextStyle(
                     fontWeight: FontWeight.w700,
-                    fontSize: kTextRegular2x,
+                    fontSize: AppData.shared.getSmallFontSize(),
                     color: kWhiteColor),
               )),
           Container(
             margin: EdgeInsets.only(
-                left: kTextRegular2x, right: kTextRegular2x, top: kMargin10),
+                left: AppData.shared.getSmallFontSize(), right: AppData.shared.getSmallFontSize(), top: kMargin10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: kMargin12,
@@ -320,7 +320,7 @@ class InvoiceDetailPage extends StatelessWidget {
           ListView.builder(
               itemCount: 2,
               shrinkWrap: true,
-              padding: EdgeInsets.symmetric(horizontal: kTextRegular2x),
+              padding: EdgeInsets.symmetric(horizontal: AppData.shared.getSmallFontSize()),
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return Column(

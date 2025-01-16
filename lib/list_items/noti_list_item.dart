@@ -3,6 +3,7 @@ import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../data/app_data/app_data.dart';
 
 class NotiListItem extends StatelessWidget {
   const NotiListItem({
@@ -53,7 +54,7 @@ class NotiListItem extends StatelessWidget {
                     Text(
                       'Electric Fault',
                       style: TextStyle(
-                          fontSize: kTextRegular2x,
+                          fontSize: AppData.shared.getSmallFontSize(),
                           fontWeight: FontWeight.w700),
                     ),
                     Text(
