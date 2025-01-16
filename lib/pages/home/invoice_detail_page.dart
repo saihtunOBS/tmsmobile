@@ -128,8 +128,8 @@ class InvoiceDetailPage extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          width: 200,
+        Expanded(
+          flex: 1,
           child: Text(
             title,
             style: TextStyle(fontSize: kTextRegular),
@@ -168,7 +168,7 @@ class InvoiceDetailPage extends StatelessWidget {
           Container(
               height: kSize46,
               width: double.infinity,
-              padding: EdgeInsets.only(left: AppData.shared.getSmallFontSize(), top: kMargin12),
+              padding: EdgeInsets.only(left: kMarginMedium2, top: kMargin12),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(kMargin5),
@@ -189,7 +189,7 @@ class InvoiceDetailPage extends StatelessWidget {
               itemCount: 2,
               shrinkWrap: true,
               padding: EdgeInsets.symmetric(
-                  horizontal: AppData.shared.getSmallFontSize(), vertical: kMargin10),
+                  horizontal: kMarginMedium2, vertical: kMargin10),
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return Column(
@@ -228,7 +228,7 @@ class InvoiceDetailPage extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: kMarginMedium2),
       padding:
-          EdgeInsets.symmetric(horizontal: AppData.shared.getSmallFontSize(), vertical: kMargin10),
+          EdgeInsets.symmetric(horizontal: kMarginMedium2, vertical: kMargin10),
       decoration: BoxDecoration(
         color: kWhiteColor,
         borderRadius: BorderRadius.circular(kMargin5),
@@ -271,7 +271,7 @@ class InvoiceDetailPage extends StatelessWidget {
           Container(
               height: kSize46,
               width: double.infinity,
-              padding: EdgeInsets.only(left: AppData.shared.getSmallFontSize(), top: kMargin12),
+              padding: EdgeInsets.only(left: kMarginMedium2, top: kMargin12),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(kMargin5),
@@ -290,7 +290,7 @@ class InvoiceDetailPage extends StatelessWidget {
               )),
           Container(
             margin: EdgeInsets.only(
-                left: AppData.shared.getSmallFontSize(), right: AppData.shared.getSmallFontSize(), top: kMargin10),
+                left: kMarginMedium2, right: kMarginMedium2, top: kMargin10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: kMargin12,
@@ -310,7 +310,7 @@ class InvoiceDetailPage extends StatelessWidget {
                   AppLocalizations.of(context)?.kElectricFeeLabel ?? '',
                   style: TextStyle(
                       fontFamily: AppData.shared.fontFamily2,
-                      fontSize: kTextRegular3x,
+                      fontSize: AppData.shared.getMediumFontSize(),
                       fontWeight: FontWeight.w600),
                 ),
                 1.vGap
@@ -320,7 +320,7 @@ class InvoiceDetailPage extends StatelessWidget {
           ListView.builder(
               itemCount: 2,
               shrinkWrap: true,
-              padding: EdgeInsets.symmetric(horizontal: AppData.shared.getSmallFontSize()),
+              padding: EdgeInsets.symmetric(horizontal: kMarginMedium2),
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return Column(

@@ -64,7 +64,7 @@ class _AccountChangeLanguagePageState extends State<AccountChangeLanguagePage> {
             spacing: kMarginMedium2,
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.15,
+                height: MediaQuery.of(context).size.height * 0.14,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: kMargin24),

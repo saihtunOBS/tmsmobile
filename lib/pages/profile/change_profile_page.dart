@@ -6,12 +6,12 @@ import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
 
+import '../../data/app_data/app_data.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimens.dart';
 import '../../utils/images.dart';
 import '../../widgets/cache_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 
 class ChangeProfilePage extends StatelessWidget {
   const ChangeProfilePage({super.key, this.userData});
@@ -45,7 +45,7 @@ class ChangeProfilePage extends StatelessWidget {
                   child: _buildHeader(context),
                 ),
                 kMarginMedium2.vGap,
-                _buildListView(userData ?? UserVO(),context)
+                _buildListView(userData ?? UserVO(), context)
               ],
             ),
           ],
@@ -110,23 +110,33 @@ class ChangeProfilePage extends StatelessWidget {
     );
   }
 
-  
-  Widget _buildListView(UserVO userData,BuildContext context) {
+  Widget _buildListView(UserVO userData, BuildContext context) {
     return Column(spacing: kMargin12, children: [
       _buildListDetail(
           title: AppLocalizations.of(context)?.kCreatedDateLabel ?? '',
           value:
               DateFormatter.formatDate(userData.createdDate ?? DateTime.now())),
-      _buildListDetail(title: AppLocalizations.of(context)?.kNameLabel ?? '', value: userData.tenantName ?? ''),
-      _buildListDetail(title: AppLocalizations.of(context)?.kEmailAddressLabel ?? '', value: userData.email ?? ''),
       _buildListDetail(
-          title: AppLocalizations.of(context)?.kPhoneNumberLabel ?? '', value: userData.phoneNumber ?? ''),
-      _buildListDetail(title: AppLocalizations.of(context)?.kCityLabel ?? '', value: userData.city?.cityName ?? ''),
+          title: AppLocalizations.of(context)?.kNameLabel ?? '',
+          value: userData.tenantName ?? ''),
       _buildListDetail(
-          title: AppLocalizations.of(context)?.kTownshipLabel ?? '', value: userData.township?.townshipName ?? ''),
-      _buildListDetail(title: AppLocalizations.of(context)?.kAddressLabel ?? '', value: userData.address ?? ''),
+          title: AppLocalizations.of(context)?.kEmailAddressLabel ?? '',
+          value: userData.email ?? ''),
       _buildListDetail(
-          title: AppLocalizations.of(context)?.kNoOfPropertyLabel ?? '', value: '${userData.numberOfShops ?? 0}'),
+          title: AppLocalizations.of(context)?.kPhoneNumberLabel ?? '',
+          value: userData.phoneNumber ?? ''),
+      _buildListDetail(
+          title: AppLocalizations.of(context)?.kCityLabel ?? '',
+          value: userData.city?.cityName ?? ''),
+      _buildListDetail(
+          title: AppLocalizations.of(context)?.kTownshipLabel ?? '',
+          value: userData.township?.townshipName ?? ''),
+      _buildListDetail(
+          title: AppLocalizations.of(context)?.kAddressLabel ?? '',
+          value: userData.address ?? ''),
+      _buildListDetail(
+          title: AppLocalizations.of(context)?.kNoOfPropertyLabel ?? '',
+          value: '${userData.numberOfShops ?? 0}'),
     ]);
   }
 
@@ -138,7 +148,7 @@ class ChangeProfilePage extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(fontSize: kTextRegular + 1),
+            style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),
           ),
           kSize40.hGap,
           Expanded(

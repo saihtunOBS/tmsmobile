@@ -36,8 +36,9 @@ class SubmitComplainPage extends StatelessWidget {
             body: Selector<ComplaintBloc, bool>(
               selector: (p0, p1) => p1.isSubmitLoading,
               builder: (context, isLoading, child) => Stack(children: [
-                _buildTextField(controller: _complainController,context: context),
-          
+                _buildTextField(
+                    controller: _complainController, context: context),
+
                 //loading
                 if (isLoading)
                   Center(
@@ -53,7 +54,7 @@ class SubmitComplainPage extends StatelessWidget {
                   height: kBottomBarHeight,
                   child: Center(
                     child: gradientButton(
-                        title:AppLocalizations.of(context)?.kSubmitLabel,
+                        title: AppLocalizations.of(context)?.kSubmitLabel,
                         onPress: () {
                           bloc
                               .createComplaint(_complainController.text.trim())
@@ -65,7 +66,8 @@ class SubmitComplainPage extends StatelessWidget {
                                 dialogWidget: ErrorDialogView(
                                     errorMessage: error.toString()));
                           });
-                        },context: context),
+                        },
+                        context: context),
                   )),
             ),
           ),
@@ -74,9 +76,8 @@ class SubmitComplainPage extends StatelessWidget {
     );
   }
 
-  Widget _buildTextField({
-    required TextEditingController controller,BuildContext? context
-  }) {
+  Widget _buildTextField(
+      {required TextEditingController controller, BuildContext? context}) {
     return Padding(
       padding: const EdgeInsets.symmetric(
           horizontal: kMarginMedium2, vertical: kMarginMedium2),
@@ -90,7 +91,8 @@ class SubmitComplainPage extends StatelessWidget {
               Text(
                 AppLocalizations.of(context!)?.kCompliantLabel ?? '',
                 style: TextStyle(
-                    fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
+                    fontSize: AppData.shared.getSmallFontSize(),
+                    fontWeight: FontWeight.w600),
               ),
               Text(
                 '*',
@@ -107,7 +109,10 @@ class SubmitComplainPage extends StatelessWidget {
               maxLines: 15,
               controller: controller,
               decoration: InputDecoration(
-                  border: InputBorder.none, hintText:AppLocalizations.of(context)?.kWriteComplainLabel),
+                  border: InputBorder.none,
+                  hintText: AppLocalizations.of(context)?.kWriteComplainLabel,
+                  hintStyle:
+                      TextStyle(fontSize: AppData.shared.getSmallFontSize())),
             ),
           )
         ],

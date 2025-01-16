@@ -39,6 +39,7 @@ class OwnerNRCBloc extends ChangeNotifier {
   OwnerNRCBloc() {
     final nrcResponse = NRCResponse.fromJson(jsonData);
     nrcNumber = null;
+    
     _townships = nrcResponse.data;
   }
 

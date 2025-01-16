@@ -35,7 +35,7 @@ class ResidentListItem extends StatelessWidget {
                         : TextDecoration.none,
                     decorationThickness: 2.0,
                     color: index == 0 ? kWhiteColor : Colors.white,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.bold,
                     fontSize: kTextRegular),
               ),
             ),
@@ -45,7 +45,7 @@ class ResidentListItem extends StatelessWidget {
             style: TextStyle(
                 decoration: TextDecoration.underline,
                 decorationThickness: 2.0,
-                fontWeight: FontWeight.normal,
+                fontWeight: FontWeight.bold,
                 fontSize: kTextRegular),
           ),
           Text(

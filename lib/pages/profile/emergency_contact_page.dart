@@ -14,7 +14,6 @@ import '../../utils/images.dart';
 import '../../widgets/loading_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class EmergencyContactPage extends StatefulWidget {
   const EmergencyContactPage({super.key});
 
@@ -60,41 +59,47 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
                           imagePath: kNoAnnouncementImage,
                           title: 'No Emergency contacts.',
                           subTitle: 'There is no emergency contact right now.')
-                      : Padding(
-                          padding: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height * 0.1,
-                              left: kMarginMedium2,
-                              right: kMarginMedium2,
-                              bottom: kMarginMedium2),
-                          child: RefreshIndicator(
-                            onRefresh: () async => bloc.getEmergency(),
-                            child: ListView.builder(
-                              physics: AlwaysScrollableScrollPhysics(),
-                              itemCount: bloc.isLoadMore == true
-                                  ? bloc.emergencyLists?.length ?? 0 + 1
-                                  : bloc.emergencyLists?.length,
-                              itemBuilder: (context, index) {
-                                if (index == bloc.emergencyLists?.length) {
-                                  return LoadingView(
-                                      indicator: Indicator.ballBeat,
-                                      indicatorColor: kPrimaryColor);
-                                }
-                                return _buildListItem(
-                                    data: bloc.emergencyLists?[index],
-                                    index: index,
-                                    title: bloc
-                                        .emergencyLists?[index].contractName);
-                              },
-                              controller: scrollController
-                                ..addListener(() {
-                                  if (scrollController.position.pixels ==
-                                      scrollController
-                                          .position.maxScrollExtent) {
-                                    bloc.loadMoreData();
-                                  }
-                                }),
+                      : Column(
+                          spacing: kMarginMedium2,
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.14,
                             ),
-                          )),
+                            Expanded(
+                              child: RefreshIndicator(
+                                onRefresh: () async => bloc.getEmergency(),
+                                child: ListView.builder(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: kMarginMedium2),
+                                  physics: AlwaysScrollableScrollPhysics(),
+                                  itemCount: bloc.isLoadMore == true
+                                      ? bloc.emergencyLists?.length ?? 0 + 1
+                                      : bloc.emergencyLists?.length,
+                                  itemBuilder: (context, index) {
+                                    if (index == bloc.emergencyLists?.length) {
+                                      return LoadingView(
+                                          indicator: Indicator.ballBeat,
+                                          indicatorColor: kPrimaryColor);
+                                    }
+                                    return _buildListItem(
+                                        data: bloc.emergencyLists?[index],
+                                        index: index,
+                                        title: bloc.emergencyLists?[index]
+                                            .contractName);
+                                  },
+                                  controller: scrollController
+                                    ..addListener(() {
+                                      if (scrollController.position.pixels ==
+                                          scrollController
+                                              .position.maxScrollExtent) {
+                                        bloc.loadMoreData();
+                                      }
+                                    }),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
 
               ///appbar
               Positioned(
@@ -194,25 +199,35 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
                   spacing: kMargin12,
                   children: [
                     _listItem(
-                        title: AppLocalizations.of(context)?.kContactNameLabel ?? '',
+                        title:
+                            AppLocalizations.of(context)?.kContactNameLabel ??
+                                '',
                         value: data?.emergencyCategory?.name ?? ''),
-                    _listItem(title: AppLocalizations.of(context)?.kAddressLabel ?? '', value: data?.address ?? ''),
+                    _listItem(
+                        title:
+                            AppLocalizations.of(context)?.kAddressLabel ?? '',
+                        value: data?.address ?? ''),
                     InkWell(
                       onTap: () => makePhoneCall(data?.phone1 ?? ''),
                       child: _listItem(
-                          title: '${AppLocalizations.of(context)?.kTelephoneNormalLabel} (Office Hours)',
+                          title:
+                              '${AppLocalizations.of(context)?.kTelephoneNormalLabel} (Office Hours)',
                           value: data?.phone1 ?? '',
                           isNumber: true),
                     ),
                     InkWell(
                       onTap: () => makePhoneCall(data?.phone2 ?? ''),
                       child: _listItem(
-                          title: AppLocalizations.of(context)?.kTelephoneNormal24Label ?? '',
+                          title: AppLocalizations.of(context)
+                                  ?.kTelephoneNormal24Label ??
+                              '',
                           value: data?.phone2 ?? '',
                           isNumber: true),
                     ),
                     _listItem(
-                        title: AppLocalizations.of(context)?.kContractRefLabel ?? '',
+                        title:
+                            AppLocalizations.of(context)?.kContractRefLabel ??
+                                '',
                         value: data?.contractRef ?? ''),
                   ],
                 ),

@@ -31,7 +31,8 @@ class BillingInvoicePage extends StatelessWidget {
                 onPress: () {
                   PageNavigator(ctx: context)
                       .nextPage(page: InvoiceDetailPage());
-                },context: context),
+                },
+                context: context),
           )),
     );
   }
@@ -39,7 +40,9 @@ class BillingInvoicePage extends StatelessWidget {
   Widget _buildBody(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(
-          left: kMargin24, right: kMargin24,),
+        left: kMargin24,
+        right: kMargin24,
+      ),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,14 +63,32 @@ class BillingInvoicePage extends StatelessWidget {
               ),
             ),
             10.vGap,
-            _buildListDetail(title: AppLocalizations.of(context)?.kTransactionTimeLabel ?? '', value: 'value'),
-            _buildListDetail(title: AppLocalizations.of(context)?.kInvoiceNoLabel ?? '', value: 'value'),
-            _buildListDetail(title: AppLocalizations.of(context)?.kTenantNameLabel ?? '', value: 'value'),
-            _buildListDetail(title: AppLocalizations.of(context)?.kRoomShopNameLabel ?? '', value: 'value'),
-            _buildListDetail(title: AppLocalizations.of(context)?.kPhoneNumberLabel ?? '', value: 'value'),
-            _buildListDetail(title: AppLocalizations.of(context)?.kTransactionTypeLabel ?? '', value: 'value'),
-            _buildListDetail(title: AppLocalizations.of(context)?.kPaymentTypeLabel ?? '', value: 'value'),
-            _buildListDetail(title: AppLocalizations.of(context)?.kTotalAmountLabel ?? '', value: 'value'),
+            _buildListDetail(
+                title:
+                    AppLocalizations.of(context)?.kTransactionTimeLabel ?? '',
+                value: 'value'),
+            _buildListDetail(
+                title: AppLocalizations.of(context)?.kInvoiceNoLabel ?? '',
+                value: 'value'),
+            _buildListDetail(
+                title: AppLocalizations.of(context)?.kTenantNameLabel ?? '',
+                value: 'value'),
+            _buildListDetail(
+                title: AppLocalizations.of(context)?.kRoomShopNameLabel ?? '',
+                value: 'value'),
+            _buildListDetail(
+                title: AppLocalizations.of(context)?.kPhoneNumberLabel ?? '',
+                value: 'value'),
+            _buildListDetail(
+                title:
+                    AppLocalizations.of(context)?.kTransactionTypeLabel ?? '',
+                value: 'value'),
+            _buildListDetail(
+                title: AppLocalizations.of(context)?.kPaymentTypeLabel ?? '',
+                value: 'value'),
+            _buildListDetail(
+                title: AppLocalizations.of(context)?.kTotalAmountLabel ?? '',
+                value: 'value'),
 
             5.vGap,
 
@@ -95,15 +116,23 @@ class BillingInvoicePage extends StatelessWidget {
 
   Widget _buildListDetail({required String title, required String value}) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: TextStyle(fontSize: kTextRegular),
+        Expanded(
+          flex: 1,
+          child: Text(
+            title,
+            style: TextStyle(fontSize: kTextRegular),
+          ),
         ),
-        Text(
-          value,
-          style: TextStyle(fontSize: kTextRegular, fontWeight: FontWeight.w700),
+        Expanded(
+          flex: 1,
+          child: Text(
+            'testing',
+            textAlign: TextAlign.end,
+            style:
+                TextStyle(fontSize: kTextRegular, fontWeight: FontWeight.w700),
+          ),
         )
       ],
     );
@@ -121,10 +150,18 @@ class BillingInvoicePage extends StatelessWidget {
       child: Column(
         spacing: kMargin12,
         children: [
-          _buildListDetail(title: AppLocalizations.of(context)?.kDateLabel ?? '', value: 'value'),
-          _buildListDetail(title: AppLocalizations.of(context)?.kTotalAmountLabel ?? '', value: 'value'),
-          _buildListDetail(title: AppLocalizations.of(context)?.kPartiallyAmountLabel ?? '', value: 'value'),
-          _buildListDetail(title: AppLocalizations.of(context)?.kRemainingAmountLabel ?? '', value: 'value')
+          _buildListDetail(
+              title: AppLocalizations.of(context)?.kDateLabel ?? '',
+              value: 'value'),
+          _buildListDetail(
+              title: AppLocalizations.of(context)?.kTotalAmountLabel ?? '',
+              value: 'value'),
+          _buildListDetail(
+              title: AppLocalizations.of(context)?.kPartiallyAmountLabel ?? '',
+              value: 'value'),
+          _buildListDetail(
+              title: AppLocalizations.of(context)?.kRemainingAmountLabel ?? '',
+              value: 'value')
         ],
       ),
     );

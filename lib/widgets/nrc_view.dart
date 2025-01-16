@@ -10,7 +10,6 @@ import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
 import '../../data/app_data/app_data.dart';
 
-
 class NRCView extends StatefulWidget {
   const NRCView({
     super.key,
@@ -48,13 +47,16 @@ class NRCViewState extends State<NRCView> {
   Widget build(BuildContext context) {
     return Consumer<NRCBloc>(
       builder: (context, bloc, child) => InkWell(
-        onTap: () => showModalBottomSheet(
-            isScrollControlled: true,
-            context: context,
-            builder: (_) => Padding(
-                  padding: MediaQuery.of(context).viewInsets,
-                  child: _nrcBottomsheet(bloc),
-                )),
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+          showModalBottomSheet(
+              isScrollControlled: true,
+              context: context,
+              builder: (_) => Padding(
+                    padding: MediaQuery.of(context).viewInsets,
+                    child: _nrcBottomsheet(bloc),
+                  ));
+        },
         child: Container(
             height: kMargin45 + 1,
             padding: EdgeInsets.only(left: 0, top: kMargin12),
@@ -97,7 +99,9 @@ class NRCViewState extends State<NRCView> {
                             iconDisabledColor: Colors.black,
                             iconEnabledColor: Colors.black,
                             isExpanded: true,
-                            hint: Text('0 /',),
+                            hint: Text(
+                              '0 /',
+                            ),
                             menuMaxHeight: kMargin110,
                             underline: SizedBox(),
                             alignment: Alignment.center,
@@ -217,7 +221,12 @@ class NRCViewState extends State<NRCView> {
                       return AnimatedSize(
                         duration: Duration(milliseconds: 300),
                         child: SizedBox(
-                          height: bloc.isEmptyNrc == true ? null : 0,
+                          height: bloc.isEmptyNrc == true ||
+                                  bloc.selectedStateRegionCode == null ||
+                                  bloc.selectedTownshipCode == null ||
+                                  bloc.selectedNRCType == null
+                              ? null
+                              : 0,
                           child: Text(
                             '* Please Select your NRC and enter Number.',
                             style: TextStyle(
@@ -234,8 +243,8 @@ class NRCViewState extends State<NRCView> {
                 InkWell(
                   onTap: () {
                     if (bloc.isEmptyNrc == false) {
-                      if (bloc.selectedStateRegionCode == null &&
-                          bloc.selectedTownshipCode == null &&
+                      if (bloc.selectedStateRegionCode == null ||
+                          bloc.selectedTownshipCode == null ||
                           bloc.selectedNRCType == null) {
                         ///alert
                       } else {

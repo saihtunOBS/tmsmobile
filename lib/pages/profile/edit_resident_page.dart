@@ -21,7 +21,6 @@ import '../../widgets/gradient_button.dart';
 import '../../widgets/nrc_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class EditResidentPage extends StatefulWidget {
   const EditResidentPage(
       {super.key, required this.houseHoldData, required this.id});
@@ -86,7 +85,9 @@ class _EditResidentPageState extends State<EditResidentPage> {
                               fit: BoxFit.fill,
                             ),
                             InkWell(
-                              onTap: () => bloc.onTapDelete().then((_)=> Navigator.of(context).pop()),
+                              onTap: () => bloc
+                                  .onTapDelete()
+                                  .then((_) => Navigator.of(context).pop()),
                               child: Image.asset(
                                 kDeleteIcon,
                                 width: kSize28,
@@ -132,7 +133,8 @@ class _EditResidentPageState extends State<EditResidentPage> {
                                   dialogWidget: ErrorDialogView(
                                       errorMessage: error.toString()));
                             });
-                    },context: context),
+                    },
+                    context: context),
               )),
         ),
       ),
@@ -150,39 +152,51 @@ class _EditResidentPageState extends State<EditResidentPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: kMargin10),
               child: Column(
-                spacing: kMarginMedium2,
                 children: [
                   1.vGap,
                   _buildTypeDropDown(),
+                  12.vGap,
                   _buildInputField(
-                      title: AppLocalizations.of(context)?.kNameLabel, controller: bloc.nameController),
+                      title: AppLocalizations.of(context)?.kNameLabel,
+                      controller: bloc.nameController),
+                  12.vGap,
                   _buildGenderDropDown(),
+                  12.vGap,
                   InkWell(
                       onTap: () => bloc.showDate(),
                       child: _buildDateOfBirthDatePicker(
                           value: DateFormatter.formatDate(bloc.selectedDate))),
+                  12.vGap,
                   _buildInputField(
-                      title: AppLocalizations.of(context)?.kRaceLabel, controller: bloc.raceController),
+                      title: AppLocalizations.of(context)?.kRaceLabel,
+                      controller: bloc.raceController),
+                  12.vGap,
                   _buildInputField(
                       title: AppLocalizations.of(context)?.kNationalityLabel,
                       controller: bloc.nationalityController),
+                  12.vGap,
                   _buildNRCAndPassportRadioButton(),
                   _selectedOption == 'Citizen'
                       ? _buildNRCPickerView()
                       : _buildInputField(
                           title: 'Passport',
                           controller: bloc.passportController),
+                  12.vGap,
                   _buildInputField(
                       title: AppLocalizations.of(context)?.kContactNumberLabel,
                       isNumber: true,
                       controller: bloc.contactController),
+                  12.vGap,
                   bloc.type == 'Owner'
                       ? _buildInputField(
-                          title: AppLocalizations.of(context)?.kEmailAddressLabel,
+                          title:
+                              AppLocalizations.of(context)?.kEmailAddressLabel,
                           controller: bloc.emailAddressController)
                       : _buildInputField(
-                          title: AppLocalizations.of(context)?.kRelatedToOwnerLabel,
+                          title: AppLocalizations.of(context)
+                              ?.kRelatedToOwnerLabel,
                           controller: bloc.relatedToController),
+                  12.vGap,
                 ],
               ),
             ),
@@ -202,7 +216,8 @@ class _EditResidentPageState extends State<EditResidentPage> {
           Text(
             AppLocalizations.of(context)?.kGenderLabel ?? '',
             style: TextStyle(
-                fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
+                fontSize: AppData.shared.getSmallFontSize(),
+                fontWeight: FontWeight.w600),
           ),
           4.vGap,
           Container(
@@ -217,7 +232,8 @@ class _EditResidentPageState extends State<EditResidentPage> {
                   value: bloc.gender,
                   isExpanded: true,
                   underline: Container(),
-                  hint: Text(AppLocalizations.of(context)?.kSelectGenderLabel ?? ''),
+                  hint: Text(
+                      AppLocalizations.of(context)?.kSelectGenderLabel ?? ''),
                   items: genders.map((value) {
                     return DropdownMenuItem(value: value, child: Text(value));
                   }).toList(),
@@ -241,7 +257,8 @@ class _EditResidentPageState extends State<EditResidentPage> {
           Text(
             AppLocalizations.of(context)?.kTypeLabel ?? '',
             style: TextStyle(
-                fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
+                fontSize: AppData.shared.getSmallFontSize(),
+                fontWeight: FontWeight.w600),
           ),
           4.vGap,
           Container(
@@ -274,8 +291,9 @@ class _EditResidentPageState extends State<EditResidentPage> {
       children: [
         Text(
           AppLocalizations.of(context)?.kDobLabel ?? '',
-          style:
-              TextStyle(fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
+          style: TextStyle(
+              fontSize: AppData.shared.getSmallFontSize(),
+              fontWeight: FontWeight.w600),
         ),
         4.vGap,
         Container(
@@ -317,7 +335,8 @@ class _EditResidentPageState extends State<EditResidentPage> {
           Text(
             title,
             style: TextStyle(
-                fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
+                fontSize: AppData.shared.getSmallFontSize(),
+                fontWeight: FontWeight.w600),
           ),
           4.vGap,
           Container(
@@ -338,7 +357,11 @@ class _EditResidentPageState extends State<EditResidentPage> {
                           ? TextInputType.number
                           : TextInputType.text,
                       decoration: InputDecoration(
-                          border: InputBorder.none, hintText: title),
+                          border: InputBorder.none,
+                          hintText: title,
+                          hintStyle: TextStyle(
+                              fontSize: AppData.shared.getSmallFontSize())
+                              ),
                     ))
         ],
       ),
@@ -352,8 +375,9 @@ class _EditResidentPageState extends State<EditResidentPage> {
       children: [
         Text(
           'NRC',
-          style:
-              TextStyle(fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
+          style: TextStyle(
+              fontSize: AppData.shared.getSmallFontSize(),
+              fontWeight: FontWeight.w600),
         ),
         4.vGap,
         Container(

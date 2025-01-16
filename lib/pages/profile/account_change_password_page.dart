@@ -77,7 +77,7 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                                         ? AppData.shared.fontFamily3
                                         : AppData.shared.fontFamily2,
                                 fontWeight: FontWeight.bold,
-                                fontSize: AppData.shared.getExtraFontSize()),
+                                fontSize: kTextRegular24),
                           ),
                         ),
                         _buildTextField(

@@ -74,7 +74,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                           spacing: kMarginMedium2,
                           children: [
                             SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.14,
+                              height: MediaQuery.of(context).size.height * 0.13,
                             ),
                             Padding(
                                 padding: EdgeInsets.only(
@@ -311,7 +311,10 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                     Expanded(
                         flex: 1,
                         child: Container(
-                          padding: EdgeInsets.only(bottom: kMargin10),
+                          padding: EdgeInsets.only(
+                              bottom: PersistenceData.shared.getLocale() == 'my'
+                                  ? kMargin10 + 2
+                                  : kMargin10),
                           color: kThirdGrayColor,
                           child: SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
@@ -579,9 +582,18 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                   isExpanded: true,
                   underline: Container(),
                   hint: Text(
-                      AppLocalizations.of(context)?.kSelectGenderLabel ?? ''),
+                    AppLocalizations.of(context)?.kSelectGenderLabel ?? '',
+                    style:
+                        TextStyle(fontSize: AppData.shared.getSmallFontSize()),
+                  ),
                   items: genders.map((value) {
-                    return DropdownMenuItem(value: value, child: Text(value));
+                    return DropdownMenuItem(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: TextStyle(
+                              fontSize: AppData.shared.getSmallFontSize()),
+                        ));
                   }).toList(),
                   onChanged: ((value) {
                     if (isOwner == true) {
@@ -632,7 +644,10 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                 : TextField(
                     controller: controller,
                     decoration: InputDecoration(
-                        border: InputBorder.none, hintText: title),
+                        border: InputBorder.none,
+                        hintText: title,
+                        hintStyle: TextStyle(
+                            fontSize: AppData.shared.getSmallFontSize())),
                   ))
       ],
     );
@@ -658,8 +673,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
             Container(
                 height: kSize46,
                 width: double.infinity,
-                padding:
-                    EdgeInsets.only(left: AppData.shared.getSmallFontSize()),
+                padding: EdgeInsets.only(left: kTextRegular2x),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(kMargin10),
@@ -676,7 +690,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                           '',
                       style: TextStyle(
                           fontFamily: AppData.shared.fontFamily2,
-                          fontSize: AppData.shared.getExtraFontSize(),
+                          fontSize: AppData.shared.getExtraFontSize() - 2,
                           color: kWhiteColor,
                           fontWeight: FontWeight.w600)),
                 )),
@@ -745,7 +759,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                 height: kSize46,
                 width: double.infinity,
                 padding: EdgeInsets.only(
-                  left: AppData.shared.getSmallFontSize(),
+                  left: kTextRegular2x,
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -763,9 +777,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                           '',
                       style: TextStyle(
                           fontFamily: AppData.shared.fontFamily2,
-                          fontSize: PersistenceData.shared.getLocale() == 'my'
-                              ? AppData.shared.getRegularFontSize() + 2
-                              : AppData.shared.getExtraFontSize(),
+                          fontSize: AppData.shared.getExtraFontSize() - 2,
                           color: kWhiteColor,
                           fontWeight: FontWeight.w600)),
                 )),

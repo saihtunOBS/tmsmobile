@@ -45,7 +45,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
                   left: kMarginMedium2,
                   right: kMarginMedium2,
                 ),
-                child: _buildEditForm(),
+                child: _buildForm(),
               ),
 
               ///appbar
@@ -93,7 +93,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
     );
   }
 
-  Widget _buildEditForm() {
+  Widget _buildForm() {
     return Consumer<AddResidentBloc>(
       builder: (context, bloc, child) => SingleChildScrollView(
         child: Column(
@@ -268,7 +268,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
                         ? TextInputType.phone
                         : TextInputType.text,
                     decoration: InputDecoration(
-                        border: InputBorder.none, hintText: title),
+                        border: InputBorder.none, hintText: title,hintStyle: TextStyle(fontSize: AppData.shared.getSmallFontSize())),
                   ))
       ],
     );

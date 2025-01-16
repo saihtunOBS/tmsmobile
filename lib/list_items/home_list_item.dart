@@ -35,7 +35,7 @@ class HomeListItem extends StatelessWidget {
                                     : AppData.shared.fontFamily2,
                   fontSize: AppData.shared.getRegularFontSize(),
                   color: kWhiteColor,
-                  fontWeight: FontWeight.w600),
+                  fontWeight: FontWeight.bold),
             ),
           ),
         ),

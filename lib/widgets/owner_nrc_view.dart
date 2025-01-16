@@ -8,7 +8,6 @@ import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
 import '../../data/app_data/app_data.dart';
 
-
 class OwnerNrcView extends StatefulWidget {
   const OwnerNrcView({
     super.key,
@@ -36,13 +35,16 @@ class NRCViewState extends State<OwnerNrcView> {
   Widget build(BuildContext context) {
     return Consumer<OwnerNRCBloc>(
       builder: (context, bloc, child) => InkWell(
-        onTap: () => showModalBottomSheet(
-            isScrollControlled: true,
-            context: context,
-            builder: (_) => Padding(
-                  padding: MediaQuery.of(context).viewInsets,
-                  child: _nrcBottomsheet(bloc),
-                )),
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+          showModalBottomSheet(
+              isScrollControlled: true,
+              context: context,
+              builder: (_) => Padding(
+                    padding: MediaQuery.of(context).viewInsets,
+                    child: _nrcBottomsheet(bloc),
+                  ));
+        },
         child: Container(
             height: kMargin45 + 1,
             padding: EdgeInsets.only(left: kMargin10, top: kMargin12),
@@ -205,7 +207,12 @@ class NRCViewState extends State<OwnerNrcView> {
                       return AnimatedSize(
                         duration: Duration(milliseconds: 300),
                         child: SizedBox(
-                          height: bloc.isEmptyNrc == true ? null : 0,
+                          height: bloc.isEmptyNrc == true ||
+                                  bloc.selectedStateRegionCode == null ||
+                                  bloc.selectedTownshipCode == null ||
+                                  bloc.selectedNRCType == null
+                              ? null
+                              : 0,
                           child: Text(
                             '* Please Select your NRC and enter Number.',
                             style: TextStyle(
@@ -222,8 +229,8 @@ class NRCViewState extends State<OwnerNrcView> {
                 InkWell(
                   onTap: () {
                     if (bloc.isEmptyNrc == false) {
-                      if (bloc.selectedStateRegionCode == null &&
-                          bloc.selectedTownshipCode == null &&
+                      if (bloc.selectedStateRegionCode == null ||
+                          bloc.selectedTownshipCode == null ||
                           bloc.selectedNRCType == null) {
                         ///alert
                       } else {

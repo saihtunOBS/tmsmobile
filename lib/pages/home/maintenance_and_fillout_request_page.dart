@@ -20,7 +20,6 @@ import '../../widgets/appbar.dart';
 import '../../widgets/gradient_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class MaintenanceRequestPage extends StatefulWidget {
   const MaintenanceRequestPage(
       {super.key, this.isMaintanence, this.shops, this.tenant, this.issues});
@@ -56,8 +55,11 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                 preferredSize: Size(double.infinity, kMargin60),
                 child: GradientAppBar(
                   widget.isMaintanence == true
-                      ? AppLocalizations.of(context)?.kMaintenanceRequestLabel ?? ''
-                      : AppLocalizations.of(context)?.kFillOutRequestLabel ?? '',
+                      ? AppLocalizations.of(context)
+                              ?.kMaintenanceRequestLabel ??
+                          ''
+                      : AppLocalizations.of(context)?.kFillOutRequestLabel ??
+                          '',
                 )),
             body: SafeArea(
               child: Selector<MaintenanceBloc, bool?>(
@@ -77,7 +79,9 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                                 maxLine: 1,
                                 controller: _nameController,
                                 isReadOnly: true,
-                                title: AppLocalizations.of(context)?.kTenantNameLabel ?? '',
+                                title: AppLocalizations.of(context)
+                                        ?.kTenantNameLabel ??
+                                    '',
                                 hint: 'Name'),
                             _buildRoomShopNameDropDown(),
                             widget.isMaintanence == true
@@ -85,8 +89,12 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                                 : SizedBox.shrink(),
                             _buildTextField(
                                 maxLine: 5,
-                                title: AppLocalizations.of(context)?.kDescriptionLabel ?? '',
-                                hint: AppLocalizations.of(context)?.kWriteDescriptionHereLabel ?? ''),
+                                title: AppLocalizations.of(context)
+                                        ?.kDescriptionLabel ??
+                                    '',
+                                hint: AppLocalizations.of(context)
+                                        ?.kWriteDescriptionHereLabel ??
+                                    ''),
                             _buildUploadImage(),
                             1.vGap
                           ],
@@ -123,7 +131,8 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                                   dialogWidget: ErrorDialogView(
                                       errorMessage:
                                           bloc.validationMessage ?? ''));
-                        },context: context),
+                        },
+                        context: context),
                   )),
             ),
           ),
@@ -149,7 +158,8 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
               Text(
                 title,
                 style: TextStyle(
-                    fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
+                    fontSize: AppData.shared.getSmallFontSize(),
+                    fontWeight: FontWeight.w600),
               ),
               Text(
                 '*',
@@ -169,8 +179,11 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                 bloc.onChangeDescription(value);
               },
               readOnly: isReadOnly ?? false,
-              decoration:
-                  InputDecoration(border: InputBorder.none, hintText: hint),
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: hint,
+                  hintStyle:
+                      TextStyle(fontSize: AppData.shared.getSmallFontSize())),
             ),
           )
         ],
@@ -191,7 +204,8 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
               Text(
                 AppLocalizations.of(context)?.kRoomShopNameLabel ?? '',
                 style: TextStyle(
-                    fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
+                    fontSize: AppData.shared.getSmallFontSize(),
+                    fontWeight: FontWeight.w600),
               ),
               Text(
                 '*',
@@ -210,7 +224,8 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                   value: bloc.selectedRoomShopName,
                   isExpanded: true,
                   underline: Container(),
-                  hint: Text(AppLocalizations.of(context)?.kSelectRoomShopLabel ?? ''),
+                  hint: Text(
+                      AppLocalizations.of(context)?.kSelectRoomShopLabel ?? '',style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),),
                   items: widget.shops?.map((value) {
                     return DropdownMenuItem(
                         value: value, child: Text(value.name ?? ''));
@@ -237,7 +252,8 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
               Text(
                 AppLocalizations.of(context)?.kTypeOfIssueLabel ?? '',
                 style: TextStyle(
-                    fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
+                    fontSize: AppData.shared.getSmallFontSize(),
+                    fontWeight: FontWeight.w600),
               ),
               Text(
                 '*',
@@ -255,7 +271,9 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                   value: bloc.selectedIssue,
                   isExpanded: true,
                   underline: Container(),
-                  hint: Text(AppLocalizations.of(context)?.kSelectTypeIssueLabel ?? ''),
+                  hint: Text(
+                      AppLocalizations.of(context)?.kSelectTypeIssueLabel ??
+                          '',style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),),
                   items: widget.issues?.toSet().map((value) {
                     return DropdownMenuItem(value: value, child: Text(value));
                   }).toList(),
@@ -344,7 +362,7 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                 : Selector<MaintenanceBloc, bool>(
                     selector: (context, bloc) => bloc.isUploadImage,
                     builder: (context, isUploadImage, child) => AnimatedSize(
-                      duration: Duration(milliseconds: 700),
+                      duration: Duration(milliseconds: 300),
                       curve: Curves.decelerate,
                       child: SizedBox(
                         height: isUploadImage == false ? 0 : kSize158,
@@ -380,7 +398,9 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                                             BorderRadius.circular(kMargin6)),
                                     child: Center(
                                       child: Text(
-                                        AppLocalizations.of(context)?.kUploadLabel ?? '',
+                                        AppLocalizations.of(context)
+                                                ?.kUploadLabel ??
+                                            '',
                                         style: TextStyle(
                                             fontWeight: FontWeight.w600,
                                             color: kWhiteColor),

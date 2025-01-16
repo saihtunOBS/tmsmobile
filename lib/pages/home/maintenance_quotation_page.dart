@@ -151,7 +151,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
           Container(
               height: kSize46,
               width: double.infinity,
-              padding: EdgeInsets.only(left: AppData.shared.getSmallFontSize(), top: kMargin10),
+              padding: EdgeInsets.only(left: kMarginMedium2, top: kMargin10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(kMargin5),
@@ -172,7 +172,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
               itemCount: 2,
               shrinkWrap: true,
               padding: EdgeInsets.symmetric(
-                  horizontal: AppData.shared.getSmallFontSize(), vertical: kMargin10),
+                  horizontal: kMarginMedium2, vertical: kMargin10),
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return Column(
@@ -211,7 +211,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: kMarginMedium2),
       padding:
-          EdgeInsets.symmetric(horizontal: AppData.shared.getSmallFontSize(), vertical: kMargin10),
+          EdgeInsets.symmetric(horizontal: kMarginMedium2, vertical: kMargin10),
       decoration: BoxDecoration(
         color: kWhiteColor,
         borderRadius: BorderRadius.circular(kMargin5),
@@ -254,7 +254,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
           Container(
               height: kSize46,
               width: double.infinity,
-              padding: EdgeInsets.only(left: AppData.shared.getSmallFontSize(), top: kMargin10),
+              padding: EdgeInsets.only(left: kMarginMedium2, top: kMargin10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(kMargin5),
@@ -273,7 +273,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
               )),
           Container(
             margin: EdgeInsets.only(
-                left: AppData.shared.getSmallFontSize(), right: AppData.shared.getSmallFontSize(), top: kMargin10),
+                left: kMarginMedium2, right: kMarginMedium2, top: kMargin10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: kMargin12,
@@ -302,7 +302,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
           ListView.builder(
               itemCount: 2,
               shrinkWrap: true,
-              padding: EdgeInsets.symmetric(horizontal: AppData.shared.getSmallFontSize()),
+              padding: EdgeInsets.symmetric(horizontal: kMarginMedium2),
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return Column(
