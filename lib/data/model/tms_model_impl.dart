@@ -10,7 +10,6 @@ import 'package:tmsmobile/data/vos/emergency_vo.dart';
 import 'package:tmsmobile/data/vos/household_vo.dart';
 import 'package:tmsmobile/data/vos/login_data_vo.dart';
 import 'package:tmsmobile/data/vos/service_request_vo.dart';
-import 'package:tmsmobile/data/vos/user_vo.dart';
 import 'package:tmsmobile/network/data_agents/tms_data_agent.dart';
 import 'package:tmsmobile/network/requests/change_password_request.dart';
 import 'package:tmsmobile/network/requests/complaint_request.dart';
@@ -23,6 +22,7 @@ import 'package:tmsmobile/network/responses/login_response.dart';
 
 import '../../network/data_agents/retrofit_data_agent_impl.dart';
 import '../../network/responses/service_request_response.dart';
+import '../../network/responses/user_response.dart';
 
 class TmsModelImpl extends TmsModel {
   static final TmsModelImpl _singleton = TmsModelImpl._internal();
@@ -57,7 +57,7 @@ class TmsModelImpl extends TmsModel {
   }
 
   @override
-  Future<UserVO> getUser(String token) {
+  Future<UserResponse> getUser(String token) {
     return tmsDataAgent.getUser(token);
   }
 

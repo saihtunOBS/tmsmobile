@@ -19,11 +19,13 @@ class ProfileBloc extends ChangeNotifier {
     token = PersistenceData.shared.getToken();
 
     _tmsModel.getUser(token ?? '').then((response) {
-      userData = response;
+      userData = response.data;
       notifyListeners();
     }).catchError((error) {
-      PersistenceData.shared.clearToken();
-      PageNavigator(ctx: context).nextPageOnly(page: LoginPage());
+      if (error.toString() == 'Authentication failed!') {
+        PersistenceData.shared.clearToken();
+        PageNavigator(ctx: context).nextPageOnly(page: LoginPage());
+      }
     });
   }
 

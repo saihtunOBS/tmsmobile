@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:tmsmobile/data/vos/user_vo.dart';
 import 'package:tmsmobile/network/responses/login_response.dart';
+import 'package:tmsmobile/network/responses/user_response.dart';
 
 import '../../network/requests/change_password_request.dart';
 import '../../network/requests/complaint_request.dart';
@@ -22,7 +22,7 @@ abstract class TmsModel {
   Future<LoginResponse> login(LoginRequest loginRequest);
   Future<void> changePassword(String token,ChangePasswordRequest changePasswordRequest);
   Future<void> deleteUser(String token);
-  Future<UserVO> getUser(String token);
+  Future<UserResponse> getUser(String token);
   Future<List<HouseHoldVO>> getHouseHoldList(String token);
   Future<void> addResident(
       String token, String id, HouseholdResidentRequest request);

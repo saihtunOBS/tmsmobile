@@ -6,8 +6,8 @@ import 'package:tmsmobile/pages/home/maintenance_pending_page.dart';
 import 'package:tmsmobile/pages/home/maintenance_processing_page.dart';
 import 'package:tmsmobile/pages/home/maintenance_quotation_page.dart';
 import 'package:tmsmobile/utils/strings.dart';
-import '../../data/app_data/app_data.dart';
 
+import '../../extension/text_ext.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
@@ -29,9 +29,23 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
   bool isSelectedProcessing = false;
   bool isSelectedFinish = false;
 
+  bool isWrapSurveyText = false;
+  bool isWrapProcessingText = false;
+
   @override
   void initState() {
     implementStatus(widget.status ?? '');
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      isWrapSurveyText = isTextWrapped(
+          text:
+              'We will arrive to survey within two days.',
+          maxWidth: MediaQuery.of(context).size.width);
+      isWrapProcessingText = isTextWrapped(
+          text:
+              'We will arrive to survey within two days.We will arrive to survey within two days.',
+          maxWidth: MediaQuery.of(context).size.width);
+    });
     super.initState();
   }
 
@@ -78,7 +92,8 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
         isSelectedProcessing = true;
         isSelectedFinish = true;
         break;
-      default: isSelectedPending = false;
+      default:
+        isSelectedPending = false;
         setState(() {});
     }
   }
@@ -100,13 +115,12 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                     children: [
                       _buildDotView(isSelectedIndex: isSelectedPending),
                       _buildDotView(
-                          isSelectedIndex: isSelectedSurvey,
-                          isSurveyAndProcessing: true),
+                          isSelectedIndex: isSelectedSurvey, isSurvey: true),
                       _buildDotView(isSelectedIndex: isSelectedQuotation),
                       _buildDotView(isSelectedIndex: isSelectedAcceptReject),
                       _buildDotView(
                           isSelectedIndex: isSelectedProcessing,
-                          isSurveyAndProcessing: true),
+                          isProcessing: true),
                       _buildDotView(
                           isLast: true, isSelectedIndex: isSelectedFinish),
                     ],
@@ -119,7 +133,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                       _buildProcessView(
                           title: kPendingLabel,
                           onPressedDetail: () => PageNavigator(ctx: context)
-                            .nextPage(page: MaintenancePendingPage()),
+                              .nextPage(page: MaintenancePendingPage()),
                           onPressed: () {
                             setState(() {
                               isSelectedPending = true;
@@ -131,6 +145,8 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                       _buildProcessView(
                           title: kSurveyLabel,
                           key: _surveyKey,
+                          surveyProcessingText:
+                              'We will arrive to survey within two days..',
                           onPressed: () {
                             setState(() {
                               if (isSelectedPending == false) return;
@@ -143,10 +159,10 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                       _buildProcessView(
                           title: kQuotationLabel,
                           onPressedDetail: () => PageNavigator(ctx: context)
-                          .nextPage(page: MaintenanceQuotationPage()),
+                              .nextPage(page: MaintenanceQuotationPage()),
                           onPressed: () {
                             setState(() {
-                               if (isSelectedSurvey == false) return;
+                              if (isSelectedSurvey == false) return;
                               isSelectedQuotation = true;
                             });
                           },
@@ -166,7 +182,10 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                           color: kBlueColor),
                       _buildProcessView(
                           title: kProcessingLabel,
-                          onPressedDetail: () => PageNavigator(ctx: context).nextPage(page: MaintenanceProcessingPage()),
+                          surveyProcessingText:
+                              'We will arrive to survey within two days.. We will arrive to survey',
+                          onPressedDetail: () => PageNavigator(ctx: context)
+                              .nextPage(page: MaintenanceProcessingPage()),
                           onPressed: () {
                             setState(() {
                               if (isSelectedAcceptReject == false) return;
@@ -178,7 +197,8 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                           color: kYellowColor),
                       _buildProcessView(
                           title: kFinishLabel,
-                          onPressedDetail: ()=> PageNavigator(ctx: context).nextPage(page: InvoiceDetailPage()),
+                          onPressedDetail: () => PageNavigator(ctx: context)
+                              .nextPage(page: InvoiceDetailPage()),
                           onPressed: () {
                             setState(() {
                               if (isSelectedProcessing == false) return;
@@ -204,6 +224,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
       Key? key,
       String? label,
       bool? isSelected,
+      String? surveyProcessingText,
       VoidCallback? onPressedDetail,
       required Color color}) {
     return Padding(
@@ -245,8 +266,12 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                     color: kWhiteColor,
                     borderRadius: BorderRadius.circular(kMargin6),
                     boxShadow: [
-                     isSelected == false ? BoxShadow() : BoxShadow(
-                          offset: Offset(0, 4), blurRadius: 5, color: kGreyColor)
+                      isSelected == false
+                          ? BoxShadow()
+                          : BoxShadow(
+                              offset: Offset(0, 4),
+                              blurRadius: 5,
+                              color: kGreyColor)
                     ]),
                 child: Stack(
                   children: [
@@ -264,12 +289,12 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                           Text(
                             label ?? '',
                             style: TextStyle(
-                                fontSize: AppData.shared.getSmallFontSize(),
+                                fontSize: kTextRegular2x,
                                 fontWeight: FontWeight.w700),
                           ),
                           title == kSurveyLabel || title == kProcessingLabel
                               ? Text(
-                                  'We will arrive to survey within two days..',
+                                  surveyProcessingText ?? '',
                                   style: TextStyle(fontSize: kTextRegular13),
                                 )
                               : SizedBox(),
@@ -312,7 +337,10 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
   }
 
   Widget _buildDotView(
-      {bool? isLast, bool? isSelectedIndex, bool? isSurveyAndProcessing}) {
+      {bool? isLast,
+      bool? isSelectedIndex,
+      bool? isSurvey,
+      bool? isProcessing}) {
     return Column(
       children: [
         Container(
@@ -329,12 +357,17 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                 child: Container(
                   width: 2,
                   color: isSelectedIndex == true ? kPrimaryColor : kGreyColor,
-                  height:
-                      isSelectedIndex == true && isSurveyAndProcessing == true
-                          ? kSize130
-                          : isSelectedIndex == true
-                              ? kSize110
-                              : kSize43,
+                  height: isSelectedIndex == true
+                      ? isSurvey == true
+                          ? isWrapSurveyText == true
+                              ? kSize130 + 15
+                              : kSize130 - 5
+                          : isProcessing == true
+                              ? isWrapProcessingText == true
+                                  ? kSize130 + 10
+                                  : kSize130
+                              : kSize110 - 3
+                      : kSize43,
                 ),
               ),
       ],

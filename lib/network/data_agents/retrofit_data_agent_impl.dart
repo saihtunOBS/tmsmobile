@@ -9,7 +9,6 @@ import 'package:tmsmobile/data/vos/contract_vo.dart';
 import 'package:tmsmobile/data/vos/emergency_vo.dart';
 import 'package:tmsmobile/data/vos/household_vo.dart';
 import 'package:tmsmobile/data/vos/service_request_vo.dart';
-import 'package:tmsmobile/data/vos/user_vo.dart';
 import 'package:tmsmobile/network/data_agents/tms_data_agent.dart';
 import 'package:tmsmobile/network/requests/change_password_request.dart';
 import 'package:tmsmobile/network/requests/complaint_request.dart';
@@ -24,6 +23,7 @@ import '../../data/vos/error_vo.dart';
 import '../../exception/custom_exception.dart';
 import '../requests/household_resident_request.dart';
 import '../responses/service_request_response.dart';
+import '../responses/user_response.dart';
 
 class RetrofitDataAgentImpl extends TmsDataAgent {
   late TmsApi tmsApi;
@@ -119,11 +119,11 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
   }
 
   @override
-  Future<UserVO> getUser(String token) {
+  Future<UserResponse> getUser(String token) {
     return tmsApi
         .getUser('Bearer $token')
         .asStream()
-        .map((response) => response.data ?? UserVO())
+        .map((response) => response)
         .first
         .catchError((error) {
       throw _createException(error);

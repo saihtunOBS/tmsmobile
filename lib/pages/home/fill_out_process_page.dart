@@ -3,13 +3,11 @@ import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/home/fill_out_process_detail_page.dart';
 import 'package:tmsmobile/utils/strings.dart';
-import '../../data/app_data/app_data.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 
 class FillOutProcessPage extends StatefulWidget {
   const FillOutProcessPage({super.key, this.status});
@@ -88,8 +86,11 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                     children: [
                       _buildProcessView(
                           title: kPendingLabel,
-                          onPressDetail: () => PageNavigator(ctx: context)
-                          .nextPage(page: FillOutProcessDetailPage(isApproved: false,)),
+                          onPressDetail: () =>
+                              PageNavigator(ctx: context).nextPage(
+                                  page: FillOutProcessDetailPage(
+                                isApproved: false,
+                              )),
                           onPressed: () {
                             setState(() {
                               isSelectedPending = true;
@@ -100,8 +101,11 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                           color: kBlackColor),
                       _buildProcessView(
                           title: kApprovedLabel,
-                          onPressDetail: () => PageNavigator(ctx: context)
-                          .nextPage(page: FillOutProcessDetailPage(isApproved: true,)),
+                          onPressDetail: () =>
+                              PageNavigator(ctx: context).nextPage(
+                                  page: FillOutProcessDetailPage(
+                                isApproved: true,
+                              )),
                           onPressed: () {
                             setState(() {
                               if (isSelectedPending == false) return;
@@ -179,8 +183,12 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                     color: kWhiteColor,
                     borderRadius: BorderRadius.circular(kMargin6),
                     boxShadow: [
-                     isSelected == false ? BoxShadow() : BoxShadow(
-                          offset: Offset(0, 4), blurRadius: 5, color: kGreyColor)
+                      isSelected == false
+                          ? BoxShadow()
+                          : BoxShadow(
+                              offset: Offset(0, 4),
+                              blurRadius: 5,
+                              color: kGreyColor)
                     ]),
                 child: Stack(
                   children: [
@@ -198,7 +206,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                           Text(
                             label ?? '',
                             style: TextStyle(
-                                fontSize: AppData.shared.getSmallFontSize(),
+                                fontSize: kTextRegular2x,
                                 fontWeight: FontWeight.w700),
                           ),
                         ],
@@ -239,8 +247,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
     );
   }
 
-  Widget _buildDotView(
-      {bool? isLast, bool? isSelectedIndex, bool? isSurveyAndProcessing}) {
+  Widget _buildDotView({bool? isLast, bool? isSelectedIndex}) {
     return Column(
       children: [
         Container(
@@ -257,12 +264,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                 child: Container(
                   width: 2,
                   color: isSelectedIndex == true ? kPrimaryColor : kGreyColor,
-                  height:
-                      isSelectedIndex == true && isSurveyAndProcessing == true
-                          ? kSize130
-                          : isSelectedIndex == true
-                              ? kSize110
-                              : kSize43,
+                  height: isSelectedIndex == true ? kSize110 - 2 : kSize43,
                 ),
               ),
       ],
