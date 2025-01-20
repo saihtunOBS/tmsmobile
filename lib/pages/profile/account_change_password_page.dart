@@ -111,10 +111,21 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                             onTap: () => bloc.onTapConfirmPassword(),
                             obscure: !bloc.showConfirmPassword,
                             controller: _confirmPasswordController),
-                        const SizedBox(
-                          height: kMargin5,
+                        AnimatedSize(
+                          duration: Duration(milliseconds: 100),
+                          child: Container(
+                            height: bloc.animatedSize,
+                            margin: EdgeInsets.symmetric(horizontal: kMargin24),
+                            child: Text(
+                              AppLocalizations.of(context)
+                                      ?.kPasswordCriteiraLabel ??
+                                  '',
+                              style: TextStyle(
+                                  fontSize: AppData.shared.getSmallXFontSize(), color: kRedColor),
+                            ),
+                          ),
                         ),
-
+                       
                         ///check password
                         CheckPasswordView(),
                       ],
@@ -164,7 +175,8 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                                 });
                               }
                             }
-                          },context: context))),
+                          },
+                          context: context))),
             ),
           ),
         ),
@@ -187,7 +199,8 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
           Text(
             title,
             style: GoogleFonts.nunito(
-                fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
+                fontSize: AppData.shared.getSmallFontSize(),
+                fontWeight: FontWeight.w600),
           ),
           const SizedBox(
             height: 4,
@@ -214,7 +227,8 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                         decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: title,
-                            hintStyle: TextStyle(fontSize: AppData.shared.getSmallFontSize())))),
+                            hintStyle: TextStyle(
+                                fontSize: AppData.shared.getSmallFontSize())))),
                 const SizedBox(
                   width: kMargin5,
                 ),

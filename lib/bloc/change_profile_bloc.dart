@@ -10,6 +10,8 @@ class ChangeProfileBloc extends ChangeNotifier {
   bool isUploadImage = false;
   File? imgFile;
   var token = '';
+  bool isLoading = false;
+  bool isDisposed = false;
 
   final TmsModel _tmsModel = TmsModelImpl();
 
@@ -21,17 +23,36 @@ class ChangeProfileBloc extends ChangeNotifier {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         allowMultiple: false,
-        type: FileType.custom,
-        allowedExtensions: ['jpg'],
+        type: FileType.image,
+        // allowedExtensions: ['jpg'],
       );
       if (result != null) {
+        _showLoading();
         imgFile = (File(result.paths.first ?? ''));
-        _tmsModel.updateProfile(token, imgFile!);
+        _tmsModel
+            .updateProfile(token, imgFile!)
+            .whenComplete(() => _hideLoading());
       }
 
       notifyListeners();
     } catch (e) {
       ///
+    }
+  }
+
+  _showLoading() {
+    isLoading = true;
+    _notifySafely();
+  }
+
+  _hideLoading() {
+    isLoading = false;
+    _notifySafely();
+  }
+
+  void _notifySafely() {
+    if (!isDisposed) {
+      notifyListeners();
     }
   }
 }

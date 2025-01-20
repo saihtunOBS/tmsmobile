@@ -216,6 +216,7 @@
     "kFillOutProcessLabel": "Fill Out Process",
     "kFillOutRequestLabel": "Fill Out Request",
     "kTypeLabel": "Type",
-    "kSettingLabel": "Setting"
+    "kSettingLabel": "Setting",
+    "kPasswordCriteiraLabel": "*Password does not meet the required criteria"
 
 }

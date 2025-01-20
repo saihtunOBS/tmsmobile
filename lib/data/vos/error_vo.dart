@@ -11,7 +11,7 @@ class ErrorVO {
   final String? message;
 
   @JsonKey(name: "error")
-  final String? error;
+  final dynamic error;
 
   ErrorVO({this.status, this.message,this.error});
 

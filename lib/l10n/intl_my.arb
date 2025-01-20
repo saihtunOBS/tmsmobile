@@ -219,6 +219,7 @@
      "kFillOutProcessLabel": "Fill Out Process",
      "kFillOutRequestLabel": "တောင်းဆိုချက်",
      "kTypeLabel": "အမျိုးအစား",
-     "kSettingLabel": "ဆက်တင်"
+     "kSettingLabel": "ဆက်တင်",
+     "kPasswordCriteiraLabel": "*စကားဝှက်သည် လိုအပ်သောသတ်မှတ်ချက်များနှင့် မကိုက်ညီပါ။"
 
     }

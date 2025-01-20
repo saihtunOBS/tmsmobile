@@ -40,6 +40,14 @@ class AppData {
     }
   }
 
+  double getSmallXFontSize() {
+    if (PersistenceData.shared.getLocale() == 'my') {
+      return 12.2;
+    } else {
+      return 13;
+    }
+  }
+
   double getMediumFontSize() {
     if (PersistenceData.shared.getLocale() == 'my') {
       return 18;

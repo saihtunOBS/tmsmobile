@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/change_profile_bloc.dart';
 import 'package:tmsmobile/data/vos/user_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
+import 'package:tmsmobile/widgets/loading_view.dart';
 
 import '../../data/app_data/app_data.dart';
 import '../../utils/colors.dart';
@@ -23,32 +25,40 @@ class ChangeProfilePage extends StatelessWidget {
       create: (context) => ChangeProfileBloc(),
       child: Scaffold(
         backgroundColor: kBackgroundColor,
-        body: Stack(
-          clipBehavior: Clip.none,
-          alignment: Alignment.topCenter,
-          fit: StackFit.expand,
-          children: [
-            SizedBox(
-              height: double.infinity,
-              width: double.infinity,
-              child: Image.asset(
-                kBillingBackgroundImage,
-                fit: BoxFit.fill,
-              ),
-            ),
-            Positioned(top: 0, child: ProfileAppbar()),
-            Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: kMargin60, left: kMargin80, right: kMargin80),
-                  child: _buildHeader(context),
+        body: Consumer<ChangeProfileBloc>(
+          builder: (context, bloc, child) => Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.topCenter,
+            fit: StackFit.expand,
+            children: [
+              SizedBox(
+                height: double.infinity,
+                width: double.infinity,
+                child: Image.asset(
+                  kBillingBackgroundImage,
+                  fit: BoxFit.fill,
                 ),
-                kMarginMedium2.vGap,
-                _buildListView(userData ?? UserVO(), context)
-              ],
-            ),
-          ],
+              ),
+              Positioned(top: 0, child: ProfileAppbar()),
+              Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: kMargin60, left: kMargin80, right: kMargin80),
+                    child: _buildHeader(context),
+                  ),
+                  kMarginMedium2.vGap,
+                  _buildListView(userData ?? UserVO(), context)
+                ],
+              ),
+
+              ///loading
+              if (bloc.isLoading == true)
+                LoadingView(
+                    indicator: Indicator.ballBeat,
+                    indicatorColor: kPrimaryColor)
+            ],
+          ),
         ),
       ),
     );

@@ -56,8 +56,8 @@ class MaintenanceBloc extends ChangeNotifier {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         allowMultiple: false,
-        type: FileType.custom,
-        allowedExtensions: ['jpg'],
+        type: FileType.image,
+        // allowedExtensions: ['jpg'],
       );
 
       if (result?.paths.first != null) {

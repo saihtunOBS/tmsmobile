@@ -23,7 +23,7 @@ class AuthBloc extends ChangeNotifier {
   bool showOldPassword = false;
   bool showNewPassword = false;
   bool showConfirmPassword = false;
-
+  dynamic animatedSize = 0.0;
   String token = '';
 
   AuthBloc() {
@@ -48,7 +48,7 @@ class AuthBloc extends ChangeNotifier {
     return _tmsModel.sendOTP(request).whenComplete(() => _hideLoading());
   }
 
-  Future<OTPResponse> verifyOtp(String code,String otpToken) {
+  Future<OTPResponse> verifyOtp(String code, String otpToken) {
     _showLoading();
     var request = VerifyOtpRequest(code);
     return _tmsModel
@@ -87,8 +87,12 @@ class AuthBloc extends ChangeNotifier {
         isUpperCaseContain == true &&
         isNumberContain == true &&
         isSpecialNumberContain == true) {
+      animatedSize = 0.0;
+      notifyListeners();
       return true;
     } else {
+      animatedSize = null;
+      notifyListeners();
       return false;
     }
   }

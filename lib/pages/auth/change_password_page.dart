@@ -127,9 +127,25 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           obseure: !bloc.showConfirmPassword,
                           controller: _confirmPasswordController),
                     ),
-                    const SizedBox(
-                      height: kMargin5,
+                    Consumer<AuthBloc>(
+                      builder: (context, bloc, child) => AnimatedSize(
+                        duration: Duration(milliseconds: 100),
+                        child: Container(
+                          height: bloc.animatedSize,
+                          margin: EdgeInsets.symmetric(horizontal: kMargin24),
+                          child: Text(
+                            AppLocalizations.of(context)
+                                    ?.kPasswordCriteiraLabel ??
+                                '',
+                            style: TextStyle(
+                                fontSize:
+                                    AppData.shared.getSmallXFontSize(),
+                                color: kRedColor),
+                          ),
+                        ),
+                      ),
                     ),
+                    
                     CheckPasswordView(),
                     const SizedBox(
                       height: kMargin110,
