@@ -13,10 +13,13 @@ import 'package:tmsmobile/network/data_agents/tms_data_agent.dart';
 import 'package:tmsmobile/network/requests/change_password_request.dart';
 import 'package:tmsmobile/network/requests/complaint_request.dart';
 import 'package:tmsmobile/network/requests/household_owner_request.dart';
-import 'package:tmsmobile/network/requests/household_registration_request.dart';
+import 'package:tmsmobile/network/requests/household_request.dart';
 import 'package:tmsmobile/network/requests/login_request.dart';
 import 'package:tmsmobile/network/requests/reset_password_request.dart';
+import 'package:tmsmobile/network/requests/send_otp_request.dart';
+import 'package:tmsmobile/network/requests/verify_otp_request.dart';
 import 'package:tmsmobile/network/responses/login_response.dart';
+import 'package:tmsmobile/network/responses/otp_response.dart';
 import 'package:tmsmobile/network/tms_api.dart';
 
 import '../../data/vos/error_vo.dart';
@@ -155,8 +158,7 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
   }
 
   @override
-  Future<void> createHouseHold(
-      String token, HouseholdRegistrationRequest request) {
+  Future<void> createHouseHold(String token, HouseHoldRequest request) {
     return tmsApi
         .createHouseHold('Bearer $token', request)
         .asStream()
@@ -344,6 +346,42 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
         .getAnnouncementDetail('Bearer $token', id)
         .asStream()
         .map((response) => response.data as AnnouncementVO)
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<LoginResponse> sendOTP(SendOtpRequest request) {
+    return tmsApi
+        .sendOTP(request)
+        .asStream()
+        .map((response) => response)
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<OTPResponse> verifyOTP(String token, VerifyOtpRequest request) {
+    return tmsApi
+        .verifyOTP('Bearer $token', request)
+        .asStream()
+        .map((response) => response)
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<void> updateProfile(String token, File photo) {
+    return tmsApi
+        .updateProfile('Bearer $token', photo)
+        .asStream()
+        .map((response) => response)
         .first
         .catchError((error) {
       throw _createException(error);

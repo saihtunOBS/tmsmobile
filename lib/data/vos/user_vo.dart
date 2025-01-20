@@ -34,6 +34,9 @@ class UserVO {
   @JsonKey(name: "address")
   final String? address;
 
+  @JsonKey(name: 'photo')
+  final String? photo;
+
   @JsonKey(name: "created_date")
   final DateTime? createdDate;
 
@@ -49,6 +52,7 @@ class UserVO {
     this.township,
     this.address,
     this.createdDate,
+    this.photo
   });
 
   factory UserVO.fromJson(Map<String, dynamic> json) => _$UserVOFromJson(json);

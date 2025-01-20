@@ -121,7 +121,7 @@ class ProfilePage extends StatelessWidget {
               decoration:
                   BoxDecoration(color: kWhiteColor, shape: BoxShape.circle),
               width: kSize100,
-              child: ClipOval(child: cacheImage('')),
+              child: ClipOval(child: cacheImage(userData?.photo ?? '')),
             ),
           ),
           Text(
@@ -134,25 +134,29 @@ class ProfilePage extends StatelessWidget {
           Text(
             userData?.phoneNumber?.replaceRange(3, 8, '*****') ?? '****',
           ),
-          InkWell(
-            onTap: () => PageNavigator(ctx: context).nextPage(
-                page: ChangeProfilePage(
-              userData: userData ?? UserVO(),
-            )),
-            child: FittedBox(
-              child: Container(
-                height: kSize28,
-                padding: EdgeInsets.symmetric(horizontal: kMargin10),
-                decoration: BoxDecoration(
-                    color: kPrimaryColor.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(kMarginMedium2)),
-                child: Center(
-                  child: Text(
-                    AppLocalizations.of(context)?.kViewProfileLabel ?? '',
-                    style: TextStyle(
-                        fontSize: kTextRegular13,
-                        color: kPrimaryColor,
-                        fontWeight: FontWeight.w600),
+          Consumer<ProfileBloc>(
+            builder: (context, bloc, child) => InkWell(
+              onTap: () => PageNavigator(ctx: context)
+                  .nextPage(
+                      page: ChangeProfilePage(
+                    userData: userData ?? UserVO(),
+                  ))
+                  .whenComplete(() => bloc.getUser()),
+              child: FittedBox(
+                child: Container(
+                  height: kSize28,
+                  padding: EdgeInsets.symmetric(horizontal: kMargin10),
+                  decoration: BoxDecoration(
+                      color: kPrimaryColor.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(kMarginMedium2)),
+                  child: Center(
+                    child: Text(
+                      AppLocalizations.of(context)?.kViewProfileLabel ?? '',
+                      style: TextStyle(
+                          fontSize: kTextRegular13,
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ),
               ),

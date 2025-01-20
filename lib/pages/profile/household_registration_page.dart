@@ -81,7 +81,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                                     left: kMarginMedium2,
                                     right: kMarginMedium2,
                                     bottom: kMarginMedium2),
-                                child: bloc.householdList.isEmpty
+                                child: bloc
+                                        .householdList.first.information.isEmpty
                                     ? Stack(
                                         alignment: Alignment.center,
                                         children: [
@@ -120,12 +121,6 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                                                           : 1,
                                                   child:
                                                       _buildRegistrationForm())),
-
-                                          //loading
-                                          if (bloc.isSubmitLoading == true)
-                                            LoadingView(
-                                                indicator: Indicator.ballBeat,
-                                                indicatorColor: kPrimaryColor),
                                         ],
                                       )
                                     : _buildHouseHoldRegistration(
@@ -142,6 +137,12 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                         ),
                       ),
 
+                //submit loading
+                if (bloc.isSubmitLoading == true)
+                  LoadingView(
+                      indicator: Indicator.ballBeat,
+                      indicatorColor: kPrimaryColor),
+
                 ///appbar
                 Positioned(
                     top: 0,
@@ -153,40 +154,42 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
             bottomNavigationBar: Consumer<HouseHoldBloc>(
               builder: (context, bloc, child) => bloc.isLoading
                   ? SizedBox()
-                  : bloc.householdList.isNotEmpty
+                  : bloc.householdList.first.information.isNotEmpty
                       ? SizedBox.shrink()
-                      : Container(
-                          color: kWhiteColor,
-                          height: kBottomBarHeight,
-                          child: Center(
-                            child: gradientButton(
-                                title:
-                                    AppLocalizations.of(context)?.kSubmitLabel,
-                                onPress: () {
-                                  var bloc = context.read<HouseHoldBloc>();
-                                  bloc.checkValidation();
-                                  if (bloc.validationMessage == 'success') {
-                                    bloc.checkValidationResident();
-                                    if (bloc.residentValidationMessage ==
-                                        'successs') {
-                                      bloc.createHousehold();
-                                    } else {
-                                      showCommonDialog(
-                                          context: context,
-                                          dialogWidget: ErrorDialogView(
-                                              errorMessage: bloc
-                                                  .residentValidationMessage));
-                                    }
-                                  } else {
-                                    showCommonDialog(
-                                        context: context,
-                                        dialogWidget: ErrorDialogView(
-                                            errorMessage:
-                                                bloc.validationMessage));
-                                  }
-                                },
-                                context: context),
-                          )),
+                      : isClickRegistrationForm == false
+                          ? const SizedBox.shrink()
+                          : Container(
+                              color: kWhiteColor,
+                              height: kBottomBarHeight,
+                              child: Center(
+                                child: gradientButton(
+                                    title: AppLocalizations.of(context)
+                                        ?.kSubmitLabel,
+                                    onPress: () {
+                                      var bloc = context.read<HouseHoldBloc>();
+                                      bloc.checkValidation();
+                                      if (bloc.validationMessage == 'success') {
+                                        bloc.checkValidationResident();
+                                        if (bloc.residentValidationMessage ==
+                                            'success') {
+                                          bloc.createHousehold();
+                                        } else {
+                                          showCommonDialog(
+                                              context: context,
+                                              dialogWidget: ErrorDialogView(
+                                                  errorMessage: bloc
+                                                      .residentValidationMessage));
+                                        }
+                                      } else {
+                                        showCommonDialog(
+                                            context: context,
+                                            dialogWidget: ErrorDialogView(
+                                                errorMessage:
+                                                    bloc.validationMessage));
+                                      }
+                                    },
+                                    context: context),
+                              )),
             ),
           ),
         ),
@@ -403,7 +406,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                     AppLocalizations.of(context)?.kMoveInDateLabel ?? '',
                     bloc.moveInDate ?? '')),
             _buildInputField(
-                title: AppLocalizations.of(context)?.kEmergencyContactLabel),
+                title: AppLocalizations.of(context)?.kEmergencyContactLabel,
+                controller: bloc.emergencyController),
             _buildOwnerInformation(),
             _buildResidentInformationForm(context),
             kSize70.vGap
@@ -578,7 +582,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
             child: ButtonTheme(
               alignedDropdown: true,
               child: DropdownButton(
-                  value: bloc.residentGender,
+                  value:
+                      isOwner == true ? bloc.ownerGender : bloc.residentGender,
                   isExpanded: true,
                   underline: Container(),
                   hint: Text(
@@ -700,9 +705,10 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                 children: [
                   12.vGap,
                   _buildInputField(
-                      title: AppLocalizations.of(context)?.kOwnerNameLabel),
+                      title: AppLocalizations.of(context)?.kOwnerNameLabel,
+                      controller: bloc.ownerNameController),
                   12.vGap,
-                  _buildGenderDropDown(),
+                  _buildGenderDropDown(isOwner: true),
                   12.vGap,
                   InkWell(
                       onTap: () => bloc.showDate(isOwner: true),
@@ -711,23 +717,27 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                           bloc.ownerDob ?? '')),
                   12.vGap,
                   _buildInputField(
-                      title: AppLocalizations.of(context)?.kRaceLabel),
+                      title: AppLocalizations.of(context)?.kRaceLabel,
+                      controller: bloc.ownerRaceController),
                   12.vGap,
                   _buildInputField(
-                      title: AppLocalizations.of(context)?.kNationalityLabel),
+                      title: AppLocalizations.of(context)?.kNationalityLabel,
+                      controller: bloc.ownerNationalityController),
                   12.vGap,
                   _buildNRCAndPassportRadioButton(isOwner: true),
                   _selectedOwnerNRC == 'Citizen'
                       ? _buildOwnerNRCPickerView()
                       : _buildInputField(
                           title: 'Passport',
-                        ),
+                          controller: bloc.ownerPassportController),
                   12.vGap,
                   _buildInputField(
-                      title: AppLocalizations.of(context)?.kContactNumberLabel),
+                      title: AppLocalizations.of(context)?.kContactNumberLabel,
+                      controller: bloc.ownerContactController),
                   12.vGap,
                   _buildInputField(
-                      title: AppLocalizations.of(context)?.kEmailAddressLabel),
+                      title: AppLocalizations.of(context)?.kEmailAddressLabel,
+                      controller: bloc.ownerEmailAddressController),
                   12.vGap,
                 ],
               ),
@@ -1006,6 +1016,9 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                     isOwner == true
                         ? _selectedOwnerNRC = value!
                         : _selectedOption = value!;
+                    isOwner == true
+                        ? bloc.onChangeOwnerNRCType(value)
+                        : bloc.onChangeResidentNRCType(value);
                   });
                 },
               ),

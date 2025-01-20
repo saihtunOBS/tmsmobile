@@ -24,6 +24,7 @@ UserVO _$UserVOFromJson(Map<String, dynamic> json) => UserVO(
       createdDate: json['created_date'] == null
           ? null
           : DateTime.parse(json['created_date'] as String),
+      photo: json['photo'] as String?,
     );
 
 Map<String, dynamic> _$UserVOToJson(UserVO instance) => <String, dynamic>{
@@ -37,6 +38,7 @@ Map<String, dynamic> _$UserVOToJson(UserVO instance) => <String, dynamic>{
       'city': instance.city,
       'township': instance.township,
       'address': instance.address,
+      'photo': instance.photo,
       'created_date': instance.createdDate?.toIso8601String(),
     };
 

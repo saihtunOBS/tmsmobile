@@ -3,6 +3,10 @@ import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/network/requests/change_password_request.dart';
 import 'package:tmsmobile/network/requests/reset_password_request.dart';
+import 'package:tmsmobile/network/requests/send_otp_request.dart';
+import 'package:tmsmobile/network/requests/verify_otp_request.dart';
+import 'package:tmsmobile/network/responses/login_response.dart';
+import 'package:tmsmobile/network/responses/otp_response.dart';
 
 import '../data/model/tms_model.dart';
 import '../data/model/tms_model_impl.dart';
@@ -38,12 +42,28 @@ class AuthBloc extends ChangeNotifier {
         .whenComplete(() => _hideLoading());
   }
 
+  Future<LoginResponse> onTapForgorPasswordSend(String number) {
+    _showLoading();
+    var request = SendOtpRequest(number);
+    return _tmsModel.sendOTP(request).whenComplete(() => _hideLoading());
+  }
+
+  Future<OTPResponse> verifyOtp(String code,String otpToken) {
+    _showLoading();
+    var request = VerifyOtpRequest(code);
+    return _tmsModel
+        .verifyOTP(otpToken, request)
+        .whenComplete(() => _hideLoading());
+  }
+
   Future onTapResetPassword(
-      {required String newPassword, required confirmPassword}) {
+      {required String newPassword,
+      required confirmPassword,
+      String? authToken}) {
     _showLoading();
     var request = ResetPasswordRequest(newPassword, confirmPassword);
     return _tmsModel
-        .resetPassword(token, request)
+        .resetPassword(authToken ?? token, request)
         .whenComplete(() => _hideLoading());
   }
 

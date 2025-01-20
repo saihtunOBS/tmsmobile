@@ -8,6 +8,7 @@ import 'package:tmsmobile/utils/date_formatter.dart';
 
 import '../data/model/tms_model.dart';
 import '../data/model/tms_model_impl.dart';
+import '../network/requests/household_request.dart';
 import 'nrc_bloc.dart';
 
 String? ownerNrc;
@@ -52,8 +53,8 @@ class HouseHoldBloc extends ChangeNotifier {
   bool isDisposed = false;
   var token = '';
 
-  String ownerNrcType = '';
-  String residentNrcType = '';
+  String ownerNrcType = 'Citizen';
+  String residentNrcType = 'Citizen';
 
   final TmsModel _tmsModel = TmsModelImpl();
 
@@ -78,10 +79,10 @@ class HouseHoldBloc extends ChangeNotifier {
   }
 
   createHousehold() {
-    _showSubmitLoading();
-    var request = HouseholdRegistrationRequest(
+    showSubmitLoading();
+    var request = HouseHoldRequest(
         registrationDate, moveInDate, emergencyController.text.trim(), [
-      HouseHoldInformation(
+      HouseHold(
         type: 1,
         name: ownerNameController.text.trim(),
         gender: ownerGender ?? 'Male',
@@ -95,26 +96,25 @@ class HouseHoldBloc extends ChangeNotifier {
         contactNumber: ownerContactController.text.trim(),
         email: ownerEmailAddressController.text.trim(),
       ),
-      residentValidationMessage == 'success'
-          ? HouseHoldInformation(
-              type: 2,
-              name: residentNameController.text.trim(),
-              gender: residentGender ?? 'Male',
-              dateOfBirth: DateTime.parse(residentDob ?? ''),
-              race: residentRaceController.text.trim(),
-              nationality: residentNationalityController.text.trim(),
-              nrc: residentNrcType == 'Citizen'
-                  ? residentNrc ?? '-'
-                  : residentPassportController.text.trim(),
-              nrcType: residentNrcType == 'Citizen' ? 1 : 2,
-              contactNumber: residentContactController.text.trim(),
-              relatedToOwner: residentRelatedToController.text.trim(),
-            )
-          : HouseHoldInformation(),
+      HouseHold(
+        type: 2,
+        name: residentNameController.text.trim(),
+        gender: residentGender ?? 'Male',
+        dateOfBirth: DateTime.parse(residentDob ?? ''),
+        race: residentRaceController.text.trim(),
+        nationality: residentNationalityController.text.trim(),
+        nrc: residentNrcType == 'Citizen'
+            ? residentNrc ?? '-'
+            : residentPassportController.text.trim(),
+        nrcType: residentNrcType == 'Citizen' ? 1 : 2,
+        contactNumber: residentContactController.text.trim(),
+        relatedToOwner: residentRelatedToController.text.trim(),
+      )
     ]);
-    _tmsModel
-        .createHouseHold(token, request)
-        .whenComplete(() => _hideSubmitLoading());
+    _tmsModel.createHouseHold(token, request).whenComplete(() {
+      getHouseHoldLists();
+      _hideSubmitLoading();
+    });
   }
 
   onChangeOwnerNRCType(value) {
@@ -162,7 +162,7 @@ class HouseHoldBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  _showSubmitLoading() {
+  showSubmitLoading() {
     isSubmitLoading = true;
     _notifySafely();
   }

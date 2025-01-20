@@ -22,8 +22,10 @@ import '../../widgets/loading_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChangePasswordPage extends StatefulWidget {
-  const ChangePasswordPage({super.key, required this.isChangePassword});
+  const ChangePasswordPage(
+      {super.key, required this.isChangePassword, this.token});
   final bool isChangePassword;
+  final String? token;
 
   @override
   State<ChangePasswordPage> createState() => _ChangePasswordPageState();
@@ -157,8 +159,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             ),
             gradientButton(
                 onPress: () {
-                  bloc.checkValidationSuccess() == true;
-                  {
+                  if (bloc.checkValidationSuccess() == true) {
                     if (_passwordController.text.trim() !=
                         _confirmPasswordController.text.trim()) {
                       showCommonDialog(
@@ -168,9 +169,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     } else {
                       bloc
                           .onTapResetPassword(
-                        newPassword: _passwordController.text.trim(),
-                        confirmPassword: _confirmPasswordController.text.trim(),
-                      )
+                              newPassword: _passwordController.text.trim(),
+                              confirmPassword:
+                                  _confirmPasswordController.text.trim(),
+                              authToken: widget.token)
                           .then((_) {
                         PersistenceData.shared.saveFirstTime(false);
                         if (widget.isChangePassword == true) {

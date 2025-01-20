@@ -14,11 +14,14 @@ import 'package:tmsmobile/network/data_agents/tms_data_agent.dart';
 import 'package:tmsmobile/network/requests/change_password_request.dart';
 import 'package:tmsmobile/network/requests/complaint_request.dart';
 import 'package:tmsmobile/network/requests/household_owner_request.dart';
-import 'package:tmsmobile/network/requests/household_registration_request.dart';
+import 'package:tmsmobile/network/requests/household_request.dart';
 import 'package:tmsmobile/network/requests/household_resident_request.dart';
 import 'package:tmsmobile/network/requests/login_request.dart';
 import 'package:tmsmobile/network/requests/reset_password_request.dart';
+import 'package:tmsmobile/network/requests/send_otp_request.dart';
+import 'package:tmsmobile/network/requests/verify_otp_request.dart';
 import 'package:tmsmobile/network/responses/login_response.dart';
+import 'package:tmsmobile/network/responses/otp_response.dart';
 
 import '../../network/data_agents/retrofit_data_agent_impl.dart';
 import '../../network/responses/service_request_response.dart';
@@ -93,8 +96,7 @@ class TmsModelImpl extends TmsModel {
   }
 
   @override
-  Future<void> createHouseHold(
-      String token, HouseholdRegistrationRequest request) {
+  Future<void> createHouseHold(String token, HouseHoldRequest request) {
     return tmsDataAgent.createHouseHold(token, request);
   }
 
@@ -183,5 +185,20 @@ class TmsModelImpl extends TmsModel {
   @override
   Future<AnnouncementVO> getAnnouncementDetail(String token, String id) {
     return tmsDataAgent.getAnnouncementDetail(token, id);
+  }
+
+  @override
+  Future<LoginResponse> sendOTP(SendOtpRequest request) {
+    return tmsDataAgent.sendOTP(request);
+  }
+
+  @override
+  Future<OTPResponse> verifyOTP(String token, VerifyOtpRequest request) {
+    return tmsDataAgent.verifyOTP(token, request);
+  }
+  
+  @override
+  Future<void> updateProfile(String token, File photo) {
+    return tmsDataAgent.updateProfile(token, photo);
   }
 }

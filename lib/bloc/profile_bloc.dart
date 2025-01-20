@@ -17,7 +17,10 @@ class ProfileBloc extends ChangeNotifier {
 
   ProfileBloc({this.context}) {
     token = PersistenceData.shared.getToken();
+    getUser();
+  }
 
+  getUser() {
     _tmsModel.getUser(token ?? '').then((response) {
       userData = response.data;
       notifyListeners();

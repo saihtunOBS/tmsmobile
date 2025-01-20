@@ -4,20 +4,23 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:tmsmobile/network/api_constants.dart';
 import 'package:tmsmobile/network/requests/complaint_request.dart';
+import 'package:tmsmobile/network/requests/household_request.dart';
 import 'package:tmsmobile/network/requests/reset_password_request.dart';
+import 'package:tmsmobile/network/requests/send_otp_request.dart';
 import 'package:tmsmobile/network/responses/announcement_detail_response.dart';
 import 'package:tmsmobile/network/responses/announcement_response.dart';
 import 'package:tmsmobile/network/responses/complaint_response.dart';
 import 'package:tmsmobile/network/responses/contract_response.dart';
 import 'package:tmsmobile/network/responses/emergency_response.dart';
 import 'package:tmsmobile/network/responses/household_response.dart';
+import 'package:tmsmobile/network/responses/otp_response.dart';
 import 'package:tmsmobile/network/responses/service_request_response.dart';
 
 import 'requests/change_password_request.dart';
 import 'requests/household_owner_request.dart';
-import 'requests/household_registration_request.dart';
 import 'requests/household_resident_request.dart';
 import 'requests/login_request.dart';
+import 'requests/verify_otp_request.dart';
 import 'responses/complaint_detail_response.dart';
 import 'responses/contract_information_response.dart';
 import 'responses/login_response.dart';
@@ -32,6 +35,13 @@ abstract class TmsApi {
 
   @POST(kEndPointLogin)
   Future<LoginResponse> login(@Body() LoginRequest loginRequest);
+
+  @POST(kEndPointSendOtp)
+  Future<LoginResponse> sendOTP(@Body() SendOtpRequest request);
+
+  @POST(kEndPointVerifyOtp)
+  Future<OTPResponse> verifyOTP(@Header(kHeaderAuthorization) String token,
+      @Body() VerifyOtpRequest request);
 
   @POST(kEndPointChangePassword)
   Future<void> changePassword(@Header(kHeaderAuthorization) String token,
@@ -72,7 +82,7 @@ abstract class TmsApi {
 
   @POST(kEndPointHouseHoldCreate)
   Future<void> createHouseHold(@Header(kHeaderAuthorization) String token,
-      @Body() HouseholdRegistrationRequest request);
+      @Body() HouseHoldRequest request);
 
   @PATCH('$kEndPointHouseHoldUpdate/{house_hold_id}/{inforId}')
   Future<void> updateHouseHoldOwner(
@@ -130,6 +140,13 @@ abstract class TmsApi {
       @Part() String issue,
       @Part() String description);
 
+  @MultiPart()
+  @PATCH(kEndPointUpdateProfile)
+  Future<void> updateProfile(
+    @Header(kHeaderAuthorization) String token,
+    @Part() File photo,
+  );
+
   @GET(kEndPointContract)
   Future<ContractResponse> getContracts(
     @Header(kHeaderAuthorization) String token,
@@ -155,9 +172,7 @@ abstract class TmsApi {
 
   @GET('$kEndPointAnnouncementDetail/{id}')
   Future<AnnouncementDetailResponse> getAnnouncementDetail(
-    @Header(kHeaderAuthorization) String token,
-    @Path() String id
-  );
+      @Header(kHeaderAuthorization) String token, @Path() String id);
 
   @GET(kEndPointEmergency)
   Future<EmergencyResponse> getEmergency(
