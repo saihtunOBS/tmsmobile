@@ -135,7 +135,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
                   _selectedOption == 'Citizen'
                       ? _buildNRCPickerView()
                       : _buildInputField(
-                          title: 'Passport',
+                          title: AppLocalizations.of(context)?.kPassportLabel,
                           controller: bloc.passportController),
                   12.vGap,
                   _buildInputField(

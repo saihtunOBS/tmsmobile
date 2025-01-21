@@ -24,7 +24,6 @@ class ChangeProfileBloc extends ChangeNotifier {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         allowMultiple: false,
         type: FileType.image,
-        // allowedExtensions: ['jpg'],
       );
       if (result != null) {
         _showLoading();

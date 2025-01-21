@@ -728,7 +728,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                   _selectedOwnerNRC == 'Citizen'
                       ? _buildOwnerNRCPickerView()
                       : _buildInputField(
-                          title: 'Passport',
+                          title: AppLocalizations.of(context)?.kPassportLabel ?? '',
                           controller: bloc.ownerPassportController),
                   12.vGap,
                   _buildInputField(
@@ -821,7 +821,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                     _selectedOption == 'Citizen'
                         ? _buildNRCPickerView()
                         : _buildInputField(
-                            title: 'Passport',
+                            title: AppLocalizations.of(context)?.kPassportLabel ?? '',
                             controller: bloc.residentPassportController),
                     12.vGap,
                     _buildInputField(

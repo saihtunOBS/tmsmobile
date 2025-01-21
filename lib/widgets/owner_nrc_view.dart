@@ -5,8 +5,8 @@ import 'package:tmsmobile/bloc/owner_nrc_bloc.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
-import 'package:tmsmobile/utils/strings.dart';
 import '../../data/app_data/app_data.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OwnerNrcView extends StatefulWidget {
   const OwnerNrcView({
@@ -50,7 +50,9 @@ class NRCViewState extends State<OwnerNrcView> {
             padding: EdgeInsets.only(left: kMargin10, top: kMargin12),
             width: double.infinity,
             child: Text(
-              bloc.nrcNumber ?? 'Add NRC number',
+              bloc.nrcNumber ??
+                  AppLocalizations.of(context)?.kAddNrcLabel ??
+                  '',
               style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),
             )),
       ),
@@ -178,7 +180,7 @@ class NRCViewState extends State<OwnerNrcView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Enter NRC number',
+                      AppLocalizations.of(context)?.kEntereNrcLabel ?? '',
                       style: TextStyle(
                           fontSize: AppData.shared.getSmallFontSize(),
                           fontWeight: FontWeight.w600),
@@ -198,7 +200,12 @@ class NRCViewState extends State<OwnerNrcView> {
                         onChanged: (value) => bloc.onChangeNrcNumber(value),
                         decoration: InputDecoration(
                             counterText: '',
-                            hintText: 'NRC Number',
+                            hintText:
+                                AppLocalizations.of(context)?.kEntereNrcLabel ??
+                                    '',
+                            hintStyle: TextStyle(
+                              fontSize: AppData.shared.getSmallFontSize(),
+                            ),
                             border: InputBorder.none),
                       ),
                     ),
@@ -214,7 +221,9 @@ class NRCViewState extends State<OwnerNrcView> {
                               ? null
                               : 0,
                           child: Text(
-                            '* Please Select your NRC and enter Number.',
+                            AppLocalizations.of(context)
+                                    ?.kPleaseSelectNrcLabel ??
+                                '',
                             style: TextStyle(
                                 fontSize: kTextSmall,
                                 color: Colors.red,
@@ -254,7 +263,7 @@ class NRCViewState extends State<OwnerNrcView> {
                         color: kDarkBlueColor),
                     child: Center(
                       child: Text(
-                        kConfirmLabel,
+                        AppLocalizations.of(context)?.kConfirmLabel ?? '',
                         style: TextStyle(
                             fontSize: AppData.shared.getSmallFontSize(),
                             fontWeight: FontWeight.w600,
