@@ -10,6 +10,7 @@ import 'package:tmsmobile/data/vos/emergency_vo.dart';
 import 'package:tmsmobile/data/vos/household_vo.dart';
 import 'package:tmsmobile/data/vos/login_data_vo.dart';
 import 'package:tmsmobile/data/vos/service_request_vo.dart';
+import 'package:tmsmobile/data/vos/type_of_issue_vo.dart';
 import 'package:tmsmobile/network/data_agents/tms_data_agent.dart';
 import 'package:tmsmobile/network/requests/change_password_request.dart';
 import 'package:tmsmobile/network/requests/complaint_request.dart';
@@ -200,5 +201,10 @@ class TmsModelImpl extends TmsModel {
   @override
   Future<void> updateProfile(String token, File photo) {
     return tmsDataAgent.updateProfile(token, photo);
+  }
+
+  @override
+  Future<List<TypeOfIssueVO>> getTypeOfIssues(String token) {
+    return tmsDataAgent.getTypeOfIssues(token);
   }
 }

@@ -16,6 +16,7 @@ import 'package:tmsmobile/network/requests/verify_otp_request.dart';
 import 'package:tmsmobile/network/responses/otp_response.dart';
 
 import '../../data/vos/contract_information_vo.dart';
+import '../../data/vos/type_of_issue_vo.dart';
 import '../requests/household_resident_request.dart';
 import '../requests/login_request.dart';
 import '../responses/login_response.dart';
@@ -63,4 +64,5 @@ abstract class TmsDataAgent {
   Future<LoginResponse> sendOTP(SendOtpRequest request);
   Future<OTPResponse> verifyOTP(String token, VerifyOtpRequest request);
   Future<void> updateProfile(String token,File photo);
+  Future<List<TypeOfIssueVO>> getTypeOfIssues(String token);
 }

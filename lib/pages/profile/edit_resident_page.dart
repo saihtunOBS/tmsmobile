@@ -43,7 +43,6 @@ class _EditResidentPageState extends State<EditResidentPage> {
       _selectedOption = 'Foreigner';
       setState(() {});
     }
-
     super.initState();
   }
 
@@ -360,8 +359,7 @@ class _EditResidentPageState extends State<EditResidentPage> {
                           border: InputBorder.none,
                           hintText: title,
                           hintStyle: TextStyle(
-                              fontSize: AppData.shared.getSmallFontSize())
-                              ),
+                              fontSize: AppData.shared.getSmallFontSize())),
                     ))
         ],
       ),

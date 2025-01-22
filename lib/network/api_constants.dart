@@ -33,6 +33,7 @@ const String kEndPointAnnouncement = '/home/announcements/list';
 const String kEndPointAnnouncementDetail = '/home/announcements/edit';
 const String kEndPointParking = '/home/packing/list';
 const String kEndPointEmergency = '/account/emergency-list';
+const String kEndPointTypeOfIssues = '/common/issue/list';
 
 ///Parameters
 const String kParamApiKey = "api_key";

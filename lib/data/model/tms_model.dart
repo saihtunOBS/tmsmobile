@@ -20,6 +20,7 @@ import '../vos/contract_vo.dart';
 import '../vos/emergency_vo.dart';
 import '../vos/household_vo.dart';
 import '../vos/service_request_vo.dart';
+import '../vos/type_of_issue_vo.dart';
 
 abstract class TmsModel {
   Future<LoginResponse> login(LoginRequest loginRequest);
@@ -62,4 +63,5 @@ abstract class TmsModel {
   Future<LoginResponse> sendOTP(SendOtpRequest request);
   Future<OTPResponse> verifyOTP(String token, VerifyOtpRequest request);
   Future<void> updateProfile(String token, File photo);
+  Future<List<TypeOfIssueVO>> getTypeOfIssues(String token);
 }

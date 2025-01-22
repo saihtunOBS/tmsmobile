@@ -14,7 +14,7 @@ import '../../widgets/appbar.dart';
 
 class MaintenanceProcessPage extends StatefulWidget {
   const MaintenanceProcessPage({super.key, this.status});
-  final String? status;
+  final int? status;
   @override
   State<MaintenanceProcessPage> createState() => _MaintenanceProcessPageState();
 }
@@ -34,17 +34,18 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
 
   @override
   void initState() {
-    implementStatus(widget.status ?? '');
-
+  
     WidgetsBinding.instance.addPostFrameCallback((_) {
       isWrapSurveyText = isTextWrapped(
-          text:
-              'We will arrive to survey within two days.',
+          text: 'We will arrive to survey within two days.We will arrive to survey within two days.',
           maxWidth: MediaQuery.of(context).size.width);
       isWrapProcessingText = isTextWrapped(
           text:
-              'We will arrive to survey within two days.We will arrive to survey within two days.',
+              'We will arrive to survey within two days.',
           maxWidth: MediaQuery.of(context).size.width);
+      implementStatus(widget.status ?? 1);
+      setState(() {
+      });
     });
     super.initState();
   }
@@ -62,29 +63,29 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
     );
   }
 
-  void implementStatus(String status) {
+  void implementStatus(int status) {
     switch (status) {
-      case kPendingLabel:
+      case 1:
         isSelectedPending = true;
-      case kSurveyLabel:
+      case 2:
         isSelectedPending = true;
         isSelectedSurvey = true;
-      case kQuotationLabel:
+      case 3:
         isSelectedPending = true;
         isSelectedSurvey = true;
         isSelectedQuotation = true;
-      case kAcceptRejectLabel:
+      case 4:
         isSelectedPending = true;
         isSelectedSurvey = true;
         isSelectedQuotation = true;
         isSelectedAcceptReject = true;
-      case kProcessingLabel:
+      case 5:
         isSelectedPending = true;
         isSelectedSurvey = true;
         isSelectedQuotation = true;
         isSelectedAcceptReject = true;
         isSelectedProcessing = true;
-      case kFinishLabel:
+      case 6:
         isSelectedPending = true;
         isSelectedSurvey = true;
         isSelectedQuotation = true;
@@ -146,7 +147,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                           title: kSurveyLabel,
                           key: _surveyKey,
                           surveyProcessingText:
-                              'We will arrive to survey within two days..',
+                              'We will arrive to survey within two days.We will arrive to survey within two days.',
                           onPressed: () {
                             setState(() {
                               if (isSelectedPending == false) return;
@@ -183,7 +184,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                       _buildProcessView(
                           title: kProcessingLabel,
                           surveyProcessingText:
-                              'We will arrive to survey within two days.. We will arrive to survey',
+                              'We will arrive to survey within two days.',
                           onPressedDetail: () => PageNavigator(ctx: context)
                               .nextPage(page: MaintenanceProcessingPage()),
                           onPressed: () {
@@ -360,13 +361,13 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                   height: isSelectedIndex == true
                       ? isSurvey == true
                           ? isWrapSurveyText == true
-                              ? kSize130 + 15
-                              : kSize130 - 5
+                              ? kSize130 + 18
+                              : kSize130
                           : isProcessing == true
                               ? isWrapProcessingText == true
-                                  ? kSize130 + 10
+                                  ? kSize130 + 18
                                   : kSize130
-                              : kSize110 - 3
+                              : kSize110
                       : kSize43,
                 ),
               ),

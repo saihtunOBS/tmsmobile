@@ -30,13 +30,32 @@ class NRCViewState extends State<NRCView> {
   void initState() {
     var bloc = context.read<NRCBloc>();
     bloc.isEmptyNrc = true;
-
     bloc.selectedTownshipCodes = [];
     bloc.selectedStateRegionCode = null;
     bloc.selectedStateRegionCode = null;
     bloc.selectedNRCType = null;
     if (widget.type == 'edit') {
+      bloc.isEmptyNrc = false;
       bloc.nrcNumber = widget.editNRC;
+
+      String input = widget.editNRC ?? '';
+      RegExp regex = RegExp(r'^(\d+)/([a-zA-Z]+)\((\w)\)(\d+)$');
+      Match? match = regex.firstMatch(input);
+
+      if (match != null) {
+        String regionCode = match.group(1)!; // 14
+        String townshipCode = match.group(2)!; // DaDaYa
+        String type = match.group(3)!; // P
+        String nrcNumber = match.group(4)!; // 776655
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          bloc.selectedStateRegionCode = regionCode;
+          bloc.getTownshipByRegionCode(regionCode);
+          bloc.selectedTownshipCode = townshipCode;
+          bloc.selectedNRCType = type;
+          _nrcTextController.text = nrcNumber;
+        });
+      }
     } else {
       bloc.nrcNumber = null;
     }
@@ -140,7 +159,9 @@ class NRCViewState extends State<NRCView> {
                           iconDisabledColor: Colors.black,
                           iconEnabledColor: Colors.black,
                           underline: SizedBox(),
-                          hint: Text('Select'),
+                          hint: Text(
+                            'Select',
+                          ),
                           alignment: Alignment.center,
                           items: bloc.selectedTownshipCodes.map((code) {
                             return DropdownMenuItem(

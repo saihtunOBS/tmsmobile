@@ -25,6 +25,7 @@ import 'responses/complaint_detail_response.dart';
 import 'responses/contract_information_response.dart';
 import 'responses/login_response.dart';
 import 'responses/parking_response.dart';
+import 'responses/type_of_issue_response.dart';
 import 'responses/user_response.dart';
 
 part 'tms_api.g.dart';
@@ -173,6 +174,10 @@ abstract class TmsApi {
   @GET('$kEndPointAnnouncementDetail/{id}')
   Future<AnnouncementDetailResponse> getAnnouncementDetail(
       @Header(kHeaderAuthorization) String token, @Path() String id);
+
+  @GET(kEndPointTypeOfIssues)
+  Future<TypeOfIssueResponse> getTypeOfIssues(
+      @Header(kHeaderAuthorization) String token);
 
   @GET(kEndPointEmergency)
   Future<EmergencyResponse> getEmergency(

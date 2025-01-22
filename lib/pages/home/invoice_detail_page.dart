@@ -41,7 +41,7 @@ class InvoiceDetailPage extends StatelessWidget {
                 Center(
                   child: AnimatedOpacity(
                     opacity: bloc.isDownloadLoading == false ? 0 : 1,
-                    duration: Duration(milliseconds: 300),
+                    duration: Duration(milliseconds: 500),
                     child: Container(
                       width: 150,
                       height: 70,

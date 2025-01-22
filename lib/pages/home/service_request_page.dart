@@ -140,7 +140,6 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                         ? bloc.maintenanceLists.first.tenant
                         : bloc.fillOutLists.first.tenant,
                     isMaintanence: _currentIndex == 0 ? true : false,
-                    issues: bloc.issues,
                   ))
                       .whenComplete(() {
                     bloc.getMaintenances();
@@ -178,7 +177,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                               onTap: () {
                                 PageNavigator(ctx: context).nextPage(
                                     page: MaintenanceProcessPage(
-                                  status: '',
+                                  status: 2,
                                 ));
                               },
                               child: ServiceRequestListItem(
@@ -236,7 +235,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                         return InkWell(
                           onTap: () => PageNavigator(ctx: context).nextPage(
                               page: FillOutProcessPage(
-                            status: kApprovedLabel,
+                            status: 1,
                           )),
                           child: ServiceRequestListItem(
                             status: bloc.fillOutLists[index].status ?? 0,

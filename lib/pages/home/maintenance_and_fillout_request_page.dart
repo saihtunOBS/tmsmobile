@@ -22,10 +22,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MaintenanceRequestPage extends StatefulWidget {
   const MaintenanceRequestPage(
-      {super.key, this.isMaintanence, this.shops, this.tenant, this.issues});
+      {super.key, this.isMaintanence, this.shops, this.tenant});
   final bool? isMaintanence;
   final List<Shop>? shops;
-  final List<String>? issues;
   final Tenant? tenant;
 
   @override
@@ -214,7 +213,6 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
             ],
           ),
           Container(
-            // padding: EdgeInsets.symmetric(horizontal: kMargin10),
             decoration: BoxDecoration(
                 color: kInputBackgroundColor,
                 borderRadius: BorderRadius.circular(kMarginMedium)),
@@ -274,8 +272,8 @@ class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
                   hint: Text(
                       AppLocalizations.of(context)?.kSelectTypeIssueLabel ??
                           '',style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),),
-                  items: widget.issues?.toSet().map((value) {
-                    return DropdownMenuItem(value: value, child: Text(value));
+                  items: bloc.typeOfIssues.asMap().entries.map((entry) {
+                    return DropdownMenuItem(value: entry.value.id, child: Text(entry.value.name ?? ''));
                   }).toList(),
                   onChanged: ((value) {
                     bloc.onChangeIssue(value ?? '');

@@ -4,6 +4,7 @@ import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/contract_information_bloc.dart';
 import 'package:tmsmobile/data/vos/contract_information_vo.dart';
+import 'package:tmsmobile/data/vos/parking_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
@@ -39,7 +40,8 @@ class ContractInformationPage extends StatelessWidget {
                   builder: (context, bloc, child) => SingleChildScrollView(
                     child: Column(
                       children: [
-                        _buildHeader(bloc.contract as ContractInformationVO,context),
+                        _buildHeader(
+                            bloc.contract as ContractInformationVO, context),
                         ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
@@ -63,15 +65,19 @@ class ContractInformationPage extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(ContractInformationVO data,BuildContext context) {
+  Widget _buildHeader(ContractInformationVO data, BuildContext context) {
     return Container(
       margin:
           EdgeInsets.only(left: kMargin24, right: kMargin24, top: kMargin24),
       child: Column(
         spacing: kMarginMedium14,
         children: [
-          _listItem(title:AppLocalizations.of(context)?.kCreatedDateLabel ?? '', value: '12/21/2025'),
-          _listItem(title: AppLocalizations.of(context)?.kTenantTypeLabel ?? '', value: type),
+          _listItem(
+              title: AppLocalizations.of(context)?.kCreatedDateLabel ?? '',
+              value: '12/21/2025'),
+          _listItem(
+              title: AppLocalizations.of(context)?.kTenantTypeLabel ?? '',
+              value: type),
           _listItem(
               title: AppLocalizations.of(context)?.kTenantCategoryLabel ?? '',
               value: data.tenant?.tenantCategory?.tenantCategoryName ?? ''),
@@ -80,8 +86,12 @@ class ContractInformationPage extends StatelessWidget {
             child: Column(
               spacing: kMarginMedium14,
               children: [
-                _listItem(title: AppLocalizations.of(context)?.kStartDateLabel ?? '', value: '12/21/2025'),
-                _listItem(title: AppLocalizations.of(context)?.kEndDateLabel ?? '', value: '12/21/2025'),
+                _listItem(
+                    title: AppLocalizations.of(context)?.kStartDateLabel ?? '',
+                    value: '12/21/2025'),
+                _listItem(
+                    title: AppLocalizations.of(context)?.kEndDateLabel ?? '',
+                    value: '12/21/2025'),
               ],
             ),
           ),
@@ -127,7 +137,8 @@ class ContractInformationPage extends StatelessWidget {
             : Text(
                 value,
                 style: TextStyle(
-                    fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w700),
+                    fontSize: AppData.shared.getSmallFontSize(),
+                    fontWeight: FontWeight.w700),
               ),
       ],
     );
@@ -205,32 +216,42 @@ class ContractInformationPage extends StatelessWidget {
                 child: Column(
                   children: [
                     _listItem(
-                        title: AppLocalizations.of(context)?.kBranchLabel ?? '', value: data.branch?.name ?? ''),
+                        title: AppLocalizations.of(context)?.kBranchLabel ?? '',
+                        value: data.branch?.name ?? ''),
                     10.vGap,
                     _listItem(
-                        title: AppLocalizations.of(context)?.kBuildingLabel ?? '',
+                        title:
+                            AppLocalizations.of(context)?.kBuildingLabel ?? '',
                         value: data.building?.name ?? ''),
                     10.vGap,
                     _listItem(
-                        title: AppLocalizations.of(context)?.kFloorLabel ?? '', value: data.floor?.name ?? ''),
+                        title: AppLocalizations.of(context)?.kFloorLabel ?? '',
+                        value: data.floor?.name ?? ''),
                     10.vGap,
                     _listItem(
-                        title: AppLocalizations.of(context)?.kZoneViewLabel ?? '', value: data.zone?.name ?? ''),
+                        title:
+                            AppLocalizations.of(context)?.kZoneViewLabel ?? '',
+                        value: data.zone?.name ?? ''),
                     10.vGap,
                     _listItem(
-                        title: AppLocalizations.of(context)?.kRoomTypeLabel ?? '',
+                        title:
+                            AppLocalizations.of(context)?.kRoomTypeLabel ?? '',
                         value: data.roomType?.roomType ?? ''),
                     10.vGap,
                     _listItem(
-                        title: AppLocalizations.of(context)?.kRoomShopNameLabel ?? '',
+                        title:
+                            AppLocalizations.of(context)?.kRoomShopNameLabel ??
+                                '',
                         value: '#${data.shop?.name ?? ''}'),
                     10.vGap,
                     _listItem(
-                        title: AppLocalizations.of(context)?.kTotalAreaLabel ?? '',
+                        title:
+                            AppLocalizations.of(context)?.kTotalAreaLabel ?? '',
                         value: '${data.totalArea ?? ''} sq ft'),
                     10.vGap,
-                    data.parkingInformation?.isNotEmpty ?? true
-                        ? _buildParkingInformation(data)
+                    data.shop?.parkingData?.isNotEmpty ?? true
+                        ? _buildParkingInformation(
+                            data.shop?.parkingData?.first ?? ParkingVO(), data,context)
                         : Container(),
                   ],
                 ),
@@ -242,7 +263,8 @@ class ContractInformationPage extends StatelessWidget {
     );
   }
 
-  Widget _buildParkingInformation(PropertyInformation data) {
+  Widget _buildParkingInformation(
+      ParkingVO parkingData, PropertyInformation data,BuildContext context) {
     return ListTileTheme(
       dense: true,
       child: Container(
@@ -287,22 +309,22 @@ class ContractInformationPage extends StatelessWidget {
                 spacing: kMargin10,
                 children: [
                   _listItem(
-                      title: kBranchLabel, value: data.branch?.name ?? ''),
+                      title: AppLocalizations.of(context)?.kBranchLabel ?? '', value: data.branch?.name ?? ''),
                   _listItem(
-                      title: kBuildingLabel, value: data.building?.name ?? ''),
-                  _listItem(title: kFloorLabel, value: data.floor?.name ?? ''),
+                      title: AppLocalizations.of(context)?.kBuildingLabel ?? '', value: data.building?.name ?? ''),
+                  _listItem(title: AppLocalizations.of(context)?.kFloorLabel ?? '', value: data.floor?.name ?? ''),
                   _listItem(
-                      title: kZoneViewLabel, value: data.zone?.name ?? ''),
+                      title: AppLocalizations.of(context)?.kZoneViewLabel ?? '', value: data.zone?.name ?? ''),
                   _listItem(
-                      title: kParkingCodeLabel,
+                      title: AppLocalizations.of(context)?.kParkingCodeLabel ?? '',
                       value: data.shop?.parkingData?.first.parkingCode
                               ?.parkingCode ??
                           ''),
                   _listItem(
-                      title: kStatusLabel,
+                      title: AppLocalizations.of(context)?.kStatusLabel ?? '',
                       value: filterStatus(data.shop?.status ?? 0),
                       isStatus: true),
-                  _listItem(title: kVehicleNoLabel, value: '0002'),
+                  _listItem(title: AppLocalizations.of(context)?.kVehicleNoLabel ?? '', value: '0002'),
                 ],
               ),
             ),

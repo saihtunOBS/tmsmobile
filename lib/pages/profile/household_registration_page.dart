@@ -256,97 +256,99 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
               title: AppLocalizations.of(context)?.kEmergencyLabel ?? '',
               value: number),
           kSize18.vGap,
-          Container(
+          DecoratedBox(
             decoration: BoxDecoration(
-              color: kWhiteColor,
-              boxShadow: [
-                BoxShadow(
-                    offset: Offset(
-                      0,
-                      4,
-                    ),
-                    blurRadius: 10,
-                    color: const Color.fromARGB(255, 207, 205, 205))
-              ],
-            ),
+                boxShadow: [
+                  BoxShadow(
+                      offset: Offset(
+                        0,
+                        4,
+                      ),
+                      blurRadius: 8,
+                      color: const Color.fromARGB(255, 177, 177, 177))
+                ]),
             child: Column(
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                        flex: 1,
-                        child: Stack(
-                          children: [
-                            Container(
-                              color: kInputBackgroundColor,
-                              padding: EdgeInsets.only(bottom: kMargin10),
-                              child: Column(
-                                spacing: kMarginMedium2,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: titles.asMap().entries.map((entry) {
-                                  return Container(
-                                    padding: EdgeInsets.only(left: kMargin12),
-                                    width: MediaQuery.of(context).size.width /
-                                        2.15,
-                                    height: entry.key == 0 ? kSize43 : null,
-                                    decoration: BoxDecoration(
-                                      color: entry.key == 0
-                                          ? kDarkBlueColor
-                                          : null,
-                                    ),
-                                    child: Text(
-                                      entry.value,
-                                      style: TextStyle(
-                                          color: entry.key == 0
-                                              ? Colors.transparent
-                                              : Colors.black,
-                                          fontWeight: entry.key == 0
-                                              ? FontWeight.w700
-                                              : FontWeight.w700,
-                                          fontSize: kTextRegular),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(kMarginMedium),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          flex: 1,
+                          child: Stack(
+                            children: [
+                              Container(
+                                color: kInputBackgroundColor,
+                                padding: EdgeInsets.only(bottom: kMargin10),
+                                child: Column(
+                                  spacing: kMarginMedium2,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: titles.asMap().entries.map((entry) {
+                                    return Container(
+                                      padding: EdgeInsets.only(left: kMargin12),
+                                      width: MediaQuery.of(context).size.width /
+                                          2.15,
+                                      height: entry.key == 0 ? kSize43 : null,
+                                      decoration: BoxDecoration(
+                                        color: entry.key == 0
+                                            ? kDarkBlueColor
+                                            : null,
+                                      ),
+                                      child: Text(
+                                        entry.value,
+                                        style: TextStyle(
+                                            color: entry.key == 0
+                                                ? Colors.transparent
+                                                : Colors.black,
+                                            fontWeight: entry.key == 0
+                                                ? FontWeight.w700
+                                                : FontWeight.w700,
+                                            fontSize: kTextRegular),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ],
+                          )),
+                      Expanded(
+                          flex: 1,
+                          child: Container(
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    PersistenceData.shared.getLocale() == 'my'
+                                        ? kMargin10 + 2
+                                        : kMargin10),
+                            color: kThirdGrayColor,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              physics: ClampingScrollPhysics(),
+                              child: Row(
+                                children:
+                                    houseHoldData.asMap().entries.map((entry) {
+                                  return InkWell(
+                                    onTap: () {
+                                      PageNavigator(ctx: context)
+                                          .nextPage(
+                                              page: EditResidentPage(
+                                        houseHoldData: houseHoldData[entry.key],
+                                        id: bloc.householdList.first.id,
+                                      ))
+                                          .whenComplete(() async {
+                                        await bloc.getHouseHoldLists();
+                                      });
+                                    },
+                                    child: ResidentListItem(
+                                      houseHoldData: houseHoldData[entry.key],
+                                      index: entry.key,
                                     ),
                                   );
                                 }).toList(),
                               ),
                             ),
-                          ],
-                        )),
-                    Expanded(
-                        flex: 1,
-                        child: Container(
-                          padding: EdgeInsets.only(
-                              bottom: PersistenceData.shared.getLocale() == 'my'
-                                  ? kMargin10 + 2
-                                  : kMargin10),
-                          color: kThirdGrayColor,
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            physics: ClampingScrollPhysics(),
-                            child: Row(
-                              children:
-                                  houseHoldData.asMap().entries.map((entry) {
-                                return InkWell(
-                                  onTap: () {
-                                    PageNavigator(ctx: context)
-                                        .nextPage(
-                                            page: EditResidentPage(
-                                      houseHoldData: houseHoldData[entry.key],
-                                      id: bloc.householdList.first.id,
-                                    ))
-                                        .whenComplete(() async {
-                                      await bloc.getHouseHoldLists();
-                                    });
-                                  },
-                                  child: ResidentListItem(
-                                    houseHoldData: houseHoldData[entry.key],
-                                    index: entry.key,
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        )),
-                  ],
+                          )),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -728,7 +730,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                   _selectedOwnerNRC == 'Citizen'
                       ? _buildOwnerNRCPickerView()
                       : _buildInputField(
-                          title: AppLocalizations.of(context)?.kPassportLabel ?? '',
+                          title: AppLocalizations.of(context)?.kPassportLabel ??
+                              '',
                           controller: bloc.ownerPassportController),
                   12.vGap,
                   _buildInputField(
@@ -821,7 +824,9 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                     _selectedOption == 'Citizen'
                         ? _buildNRCPickerView()
                         : _buildInputField(
-                            title: AppLocalizations.of(context)?.kPassportLabel ?? '',
+                            title:
+                                AppLocalizations.of(context)?.kPassportLabel ??
+                                    '',
                             controller: bloc.residentPassportController),
                     12.vGap,
                     _buildInputField(

@@ -11,7 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FillOutProcessPage extends StatefulWidget {
   const FillOutProcessPage({super.key, this.status});
-  final String? status;
+  final int? status;
   @override
   State<FillOutProcessPage> createState() => _FillOutProcessPageState();
 }
@@ -23,7 +23,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
 
   @override
   void initState() {
-    implementStatus(widget.status ?? '');
+    implementStatus(widget.status ?? 1);
     super.initState();
   }
 
@@ -40,14 +40,14 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
     );
   }
 
-  void implementStatus(String status) {
+  void implementStatus(int status) {
     switch (status) {
-      case kPendingLabel:
+      case 1:
         isSelectedPending = true;
-      case kApprovedLabel:
+      case 2:
         isSelectedPending = true;
         isSelectedApprove = true;
-      case kCloseLabel:
+      case 3:
         isSelectedPending = true;
         isSelectedApprove = true;
         isSelectedClose = true;
@@ -264,7 +264,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                 child: Container(
                   width: 2,
                   color: isSelectedIndex == true ? kPrimaryColor : kGreyColor,
-                  height: isSelectedIndex == true ? kSize110 - 2 : kSize43,
+                  height: isSelectedIndex == true ? kSize110 + 2 : kSize43,
                 ),
               ),
       ],

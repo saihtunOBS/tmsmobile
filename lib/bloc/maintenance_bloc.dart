@@ -6,6 +6,7 @@ import 'package:tmsmobile/data/model/tms_model.dart';
 import 'package:tmsmobile/data/model/tms_model_impl.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/data/vos/service_request_vo.dart';
+import 'package:tmsmobile/data/vos/type_of_issue_vo.dart';
 
 class MaintenanceBloc extends ChangeNotifier {
   List<File> imageArray = [];
@@ -19,11 +20,16 @@ class MaintenanceBloc extends ChangeNotifier {
   bool isLoading = false;
   bool isDisposed = false;
   BuildContext? context;
+  List<TypeOfIssueVO> typeOfIssues = [];
 
   final TmsModel _tmsModel = TmsModelImpl();
 
   MaintenanceBloc({this.tenant, this.context}) {
     token = PersistenceData.shared.getToken();
+    _showLoading();
+    _tmsModel.getTypeOfIssues(token ?? '').then((response) {
+      typeOfIssues = response;
+    }).whenComplete(() => _hideLoading());
   }
 
   Future onTapSendRequestFillOut() async {

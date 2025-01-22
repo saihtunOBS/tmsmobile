@@ -57,7 +57,9 @@ class InvoiceDetaiBloc extends ChangeNotifier {
 
       ScaffoldMessenger.of(context!).showSnackBar(
         SnackBar(
-            duration: Duration(seconds: 1),
+            duration: Duration(seconds: 2),
+            elevation: 6.0,
+            behavior: SnackBarBehavior.floating,
             backgroundColor: kDarkBlueColor,
             content: Row(
               mainAxisAlignment: MainAxisAlignment.center,

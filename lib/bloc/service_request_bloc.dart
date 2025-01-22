@@ -12,7 +12,6 @@ class ServiceRequestBloc extends ChangeNotifier {
   bool isDisposed = false;
   List<Shop>? filloutShops;
   List<Shop>? maintenanceShops;
-  List<String>? issues;
 
   int filloutPage = 1;
   bool isLoadMoreFillOut = false;
@@ -42,7 +41,6 @@ class ServiceRequestBloc extends ChangeNotifier {
     _tmsModel.getMaintenances(token ?? '').then((response) {
       maintenanceLists = response;
       maintenanceShops = response.map((data) => data.shop as Shop).toList();
-      issues = response.map((data) => data.issue?.name ?? '').toList();
     }).whenComplete(() => _hideLoading());
   }
 
