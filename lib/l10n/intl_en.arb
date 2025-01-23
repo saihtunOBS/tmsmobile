@@ -220,5 +220,10 @@
     "kAddNrcLabel": "Add NRC number",
     "kEntereNrcLabel": "Enter NRC number",
     "kPleaseSelectNrcLabel": "* Please select your NRC and enter number",
-    "kPassportLabel": "Passport"
+    "kPassportLabel": "Passport",
+    "kCameraLabel": "Camera",
+    "kOrLabel": "Or",
+    "kGalleryLabel": "Gallery",
+    "kChooseOptionLabel": "Choose an Option",
+    "kSelectOneOptionLabel": "Select one of the options below."
 }

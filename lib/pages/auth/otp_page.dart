@@ -163,7 +163,9 @@ class _OTPPageState extends State<OTPPage> {
         ),
         bottomNavigationBar: Consumer<AuthBloc>(
           builder: (context, bloc, child) =>
-              Stack(alignment: Alignment.center, children: [
+              Stack(alignment: Alignment.center,
+              clipBehavior: Clip.none,
+               children: [
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.21,
               width: double.infinity,

@@ -218,5 +218,10 @@
    "kAddNrcLabel": "NRC နံပါတ်ထည့်ပါ",
    "kEntereNrcLabel": "NRC နံပါတ်ရိုက်ထည့်ပါ",
    "kPleaseSelectNrcLabel": "* NRC ရွေးပြီး နံပါတ်ရိုက်ထည့်ပါ",
-   "kPassportLabel": "နိုင်ငံကူးလက်မှတ်"
+   "kPassportLabel": "နိုင်ငံကူးလက်မှတ်",
+   "kCameraLabel": "ဓာတ်ပုံ",
+    "kOrLabel": "သို့မဟုတ်",
+    "kGalleryLabel": "ပုံရွေးမည်",
+    "kChooseOptionLabel": "အမျိုးအစားရွေးပါ",
+    "kSelectOneOptionLabel": "အောက်ပါ များထဲမှ တစ်ခုကိုရွေးပါ။"
 }

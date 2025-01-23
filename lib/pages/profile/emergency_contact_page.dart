@@ -63,7 +63,7 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
                           spacing: kMarginMedium2,
                           children: [
                             SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.14,
+                              height: MediaQuery.of(context).size.height * 0.15,
                             ),
                             Expanded(
                               child: RefreshIndicator(

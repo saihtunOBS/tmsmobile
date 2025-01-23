@@ -66,22 +66,24 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
                 borderRadius: BorderRadius.circular(kMarginMedium),
                 boxShadow: [
                   BoxShadow(
-                      offset: Offset(0, 6), color: kGreyColor, blurRadius: 10)
+                      offset: Offset(0, 2), color: kGreyColor, blurRadius: 5)
                 ]),
             child: DefaultTabController(
                 length: 3,
                 child: TabBar(
                     controller: _tabController,
                     indicatorSize: TabBarIndicatorSize.tab,
+
                     indicatorPadding: EdgeInsets.only(
                         top: kMargin52, left: kMargin24, right: kMargin24),
                     indicatorWeight: 4.0,
                     indicator: ShapeDecoration(
-                      shape: UnderlineInputBorder(),
+                       shape: UnderlineInputBorder(),
                       gradient: LinearGradient(
                         colors: [kPrimaryColor, kThirdColor],
                       ),
                     ),
+                    dividerHeight: 0.0,
                     tabs: [
                       Tab(
                         child: _buildHomeTabWidget(),

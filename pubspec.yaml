@@ -32,15 +32,14 @@ dependencies:
   build_runner: ^2.4.14
   loading_indicator: ^3.1.1
   equatable: ^2.0.7
-  file_picker: ^8.1.7
   socket_io_client: ^3.0.2
   pdf: ^3.11.1
   path_provider: ^2.1.5
   open_file: ^3.5.10
   permission_handler: ^11.3.1
-  screenshot: ^3.0.0
-  printing: ^5.13.4
   url_launcher: ^6.3.1
+  image_picker: ^1.1.2
+  shimmer: ^3.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

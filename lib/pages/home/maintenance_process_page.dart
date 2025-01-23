@@ -34,18 +34,15 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
 
   @override
   void initState() {
-  
     WidgetsBinding.instance.addPostFrameCallback((_) {
       isWrapSurveyText = isTextWrapped(
-          text: 'We will arrive to survey within two days.We will arrive to survey within two days.',
+          text: 'We will arrive to survey within two days,',
           maxWidth: MediaQuery.of(context).size.width);
       isWrapProcessingText = isTextWrapped(
-          text:
-              'We will arrive to survey within two days.',
+          text: 'We will arrive to survey within two days.We will arrive to survey within two days,',
           maxWidth: MediaQuery.of(context).size.width);
       implementStatus(widget.status ?? 1);
-      setState(() {
-      });
+      setState(() {});
     });
     super.initState();
   }
@@ -147,7 +144,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                           title: kSurveyLabel,
                           key: _surveyKey,
                           surveyProcessingText:
-                              'We will arrive to survey within two days.We will arrive to survey within two days.',
+                              'We will arrive to survey within two days.',
                           onPressed: () {
                             setState(() {
                               if (isSelectedPending == false) return;
@@ -184,7 +181,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                       _buildProcessView(
                           title: kProcessingLabel,
                           surveyProcessingText:
-                              'We will arrive to survey within two days.',
+                              'We will arrive to survey within two days..We will arrive to survey within two days,',
                           onPressedDetail: () => PageNavigator(ctx: context)
                               .nextPage(page: MaintenanceProcessingPage()),
                           onPressed: () {
@@ -361,13 +358,13 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                   height: isSelectedIndex == true
                       ? isSurvey == true
                           ? isWrapSurveyText == true
-                              ? kSize130 + 18
+                              ? kSize130 + 12
                               : kSize130
                           : isProcessing == true
                               ? isWrapProcessingText == true
-                                  ? kSize130 + 18
+                                  ? kSize130 + 17
                                   : kSize130
-                              : kSize110
+                              : kSize110 
                       : kSize43,
                 ),
               ),

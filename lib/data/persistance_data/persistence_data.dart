@@ -1,7 +1,8 @@
 import 'package:get_storage/get_storage.dart';
 import 'package:tmsmobile/data/vos/login_data_vo.dart';
+import 'package:tmsmobile/data/vos/user_vo.dart';
 
-enum PersistenceList { user, locale, isFirstTime, token }
+enum PersistenceList { user, locale, isFirstTime, token, userData }
 
 class PersistenceData {
   static var shared = PersistenceData();
@@ -26,6 +27,11 @@ class PersistenceData {
     await GetStorage().write(PersistenceList.locale.name, locale);
   }
 
+  saveUserData(UserVO userdata) async {
+    Map<String, dynamic> user = userdata.toJson();
+    await GetStorage().write(PersistenceList.userData.name, user);
+  }
+
   /// get...
 
   getFirstTimeStatus() {
@@ -36,23 +42,34 @@ class PersistenceData {
     return GetStorage().read(PersistenceList.token.name);
   }
 
-  Future<LoginDataVO?> getLoginResponse() async {
+  // Future<LoginDataVO?> getLoginResponse() async {
+  //   // Retrieve the JSON map from GetStorage
+  //   Map<String, dynamic>? user = GetStorage().read(PersistenceList.user.name);
+
+  //   if (user != null) {
+  //     // Convert JSON map back to LoginDataVO
+  //     return LoginDataVO.fromJson(user);
+  //   }
+  //   return null; // Return null if no data is found
+  // }
+
+  UserVO getUserData() {
     // Retrieve the JSON map from GetStorage
-    Map<String, dynamic>? user = GetStorage().read(PersistenceList.user.name);
+    Map<String, dynamic>? user =
+        GetStorage().read(PersistenceList.userData.name);
 
     if (user != null) {
       // Convert JSON map back to LoginDataVO
-      return LoginDataVO.fromJson(user);
+      return UserVO.fromJson(user);
     }
-    return null; // Return null if no data is found
+    return UserVO(); // Return null if no data is found
   }
 
   getLocale() {
     return GetStorage().read(PersistenceList.locale.name);
   }
 
-  clearToken(){
+  clearToken() {
     GetStorage().remove(PersistenceList.token.name);
   }
-
 }

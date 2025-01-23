@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
@@ -64,6 +65,43 @@ class ChangeProfilePage extends StatelessWidget {
     );
   }
 
+  _showCupertinoActionSheet(BuildContext context, ChangeProfileBloc bloc) {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoActionSheet(
+          title: Text(
+            AppLocalizations.of(context)?.kChooseOptionLabel ?? '',
+            style: TextStyle(fontSize: AppData.shared.getMediumFontSize(), fontWeight: FontWeight.bold),
+          ),
+          message: Text(AppLocalizations.of(context)?.kSelectOneOptionLabel ?? ''),
+          actions: <CupertinoActionSheetAction>[
+            CupertinoActionSheetAction(
+              onPressed: () {
+                bloc.selectImage(0);
+                Navigator.pop(context);
+              },
+              child: Text(
+                AppLocalizations.of(context)?.kCameraLabel ?? '',
+                style: TextStyle(
+                    fontSize: kTextRegular2x, fontWeight: FontWeight.w500),
+              ),
+            ),
+            CupertinoActionSheetAction(
+              onPressed: () {
+                bloc.selectImage(1);
+                Navigator.pop(context);
+              },
+              child: Text(AppLocalizations.of(context)?.kGalleryLabel ?? '',
+                  style: TextStyle(
+                      fontSize: kTextRegular2x, fontWeight: FontWeight.w500)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget _buildHeader(BuildContext context) {
     return Consumer<ChangeProfileBloc>(
       builder: (context, bloc, child) => SingleChildScrollView(
@@ -98,7 +136,7 @@ class ChangeProfilePage extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: () => bloc.selectImage(),
+                onTap: () => _showCupertinoActionSheet(context, bloc),
                 child: Container(
                   height: kSize28,
                   width: kSize110,

@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tmsmobile/data/model/tms_model.dart';
 import 'package:tmsmobile/data/model/tms_model_impl.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
@@ -60,15 +60,18 @@ class MaintenanceBloc extends ChangeNotifier {
 
   void selectImage() async {
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-        allowMultiple: false,
-        type: FileType.image,
-        // allowedExtensions: ['jpg'],
-      );
+      final ImagePicker picker = ImagePicker();
+      final XFile? result = await picker.pickImage(source: ImageSource.gallery);
+      // FilePickerResult? result = await FilePicker.platform.pickFiles(
+      //   allowMultiple: false,
+      //   type: FileType.image,
+      //   // allowedExtensions: ['jpg'],
+      // );
 
-      if (result?.paths.first != null) {
-        imageArray.add(File(result?.paths.first ?? ''));
-      }
+      if (result == null) return;
+
+      imageArray.add(File(result.path));
+
       notifyListeners();
     } catch (e) {
       ///

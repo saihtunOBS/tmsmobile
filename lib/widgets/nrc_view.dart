@@ -35,7 +35,6 @@ class NRCViewState extends State<NRCView> {
     bloc.selectedStateRegionCode = null;
     bloc.selectedNRCType = null;
     if (widget.type == 'edit') {
-      bloc.isEmptyNrc = false;
       bloc.nrcNumber = widget.editNRC;
 
       String input = widget.editNRC ?? '';
@@ -43,6 +42,7 @@ class NRCViewState extends State<NRCView> {
       Match? match = regex.firstMatch(input);
 
       if (match != null) {
+        bloc.isEmptyNrc = false;
         String regionCode = match.group(1)!; // 14
         String townshipCode = match.group(2)!; // DaDaYa
         String type = match.group(3)!; // P
