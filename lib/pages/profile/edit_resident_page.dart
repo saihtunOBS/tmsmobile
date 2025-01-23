@@ -146,7 +146,7 @@ class _EditResidentPageState extends State<EditResidentPage> {
         child: Column(
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.14,
+              height: 120,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: kMargin10),

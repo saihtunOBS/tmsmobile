@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 
-
 extension Gap on num {
   SizedBox get vGap => SizedBox(height: toDouble());
   SizedBox get hGap => SizedBox(width: toDouble());
@@ -29,8 +28,10 @@ Future<void> makePhoneCall(String phoneNumber) async {
     scheme: 'tel',
     path: phoneNumber,
   );
-  await launchUrl(launchUri);
+  try {
+    if (await canLaunchUrl(launchUri)) {
+      await launchUrl(launchUri, mode: LaunchMode.externalApplication);
+    } else {}
+  } catch (e) {///
+  }
 }
-
-
-

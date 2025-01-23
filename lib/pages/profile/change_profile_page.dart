@@ -48,7 +48,7 @@ class ChangeProfilePage extends StatelessWidget {
                         top: kMargin60, left: kMargin80, right: kMargin80),
                     child: _buildHeader(context),
                   ),
-                  kMarginMedium2.vGap,
+                  18.vGap,
                   _buildListView(userData ?? UserVO(), context)
                 ],
               ),
@@ -72,9 +72,15 @@ class ChangeProfilePage extends StatelessWidget {
         return CupertinoActionSheet(
           title: Text(
             AppLocalizations.of(context)?.kChooseOptionLabel ?? '',
-            style: TextStyle(fontSize: AppData.shared.getMediumFontSize(), fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontSize: AppData.shared.getMediumFontSize(),
+                fontWeight: FontWeight.w500,
+                color: Colors.black),
           ),
-          message: Text(AppLocalizations.of(context)?.kSelectOneOptionLabel ?? ''),
+          message: Text(
+            AppLocalizations.of(context)?.kSelectOneOptionLabel ?? '',
+            style: TextStyle(color: Colors.black),
+          ),
           actions: <CupertinoActionSheetAction>[
             CupertinoActionSheetAction(
               onPressed: () {
@@ -106,56 +112,54 @@ class ChangeProfilePage extends StatelessWidget {
     return Consumer<ChangeProfileBloc>(
       builder: (context, bloc, child) => SingleChildScrollView(
         physics: ClampingScrollPhysics(),
-        child: Column(
-            spacing: kMarginMedium,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                height: kSize100,
-                width: kSize100,
-                padding: EdgeInsets.all(kMargin5 - 1),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: LinearGradient(
-                    colors: [kPrimaryColor, kThirdColor],
-                    stops: [0.0, 1.0],
-                  ),
-                ),
-                child: Container(
-                  height: kSize100,
-                  decoration:
-                      BoxDecoration(color: kWhiteColor, shape: BoxShape.circle),
-                  width: kSize100,
-                  child: ClipOval(
-                      child: bloc.imgFile != null
-                          ? Image.file(
-                              bloc.imgFile!,
-                              fit: BoxFit.cover,
-                            )
-                          : cacheImage(userData?.photo ?? '')),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          Container(
+            height: kSize100,
+            width: kSize100,
+            padding: EdgeInsets.all(kMargin5 - 1),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                colors: [kPrimaryColor, kThirdColor],
+                stops: [0.0, 1.0],
+              ),
+            ),
+            child: Container(
+              height: kSize100,
+              decoration:
+                  BoxDecoration(color: kWhiteColor, shape: BoxShape.circle),
+              width: kSize100,
+              child: ClipOval(
+                  child: bloc.imgFile != null
+                      ? Image.file(
+                          bloc.imgFile!,
+                          fit: BoxFit.cover,
+                        )
+                      : cacheImage(userData?.photo ?? '')),
+            ),
+          ),
+          10.vGap,
+          InkWell(
+            onTap: () => _showCupertinoActionSheet(context, bloc),
+            child: Container(
+              height: kSize28,
+              width: kSize110,
+              padding: EdgeInsets.symmetric(horizontal: kMargin10),
+              decoration: BoxDecoration(
+                  color: kPrimaryColor.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(kMarginMedium2)),
+              child: Center(
+                child: Text(
+                  AppLocalizations.of(context)?.kChangeProfileLabel ?? '',
+                  style: TextStyle(
+                      fontSize: kTextRegular13,
+                      color: kPrimaryColor,
+                      fontWeight: FontWeight.w600),
                 ),
               ),
-              InkWell(
-                onTap: () => _showCupertinoActionSheet(context, bloc),
-                child: Container(
-                  height: kSize28,
-                  width: kSize110,
-                  padding: EdgeInsets.symmetric(horizontal: kMargin10),
-                  decoration: BoxDecoration(
-                      color: kPrimaryColor.withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(kMarginMedium2)),
-                  child: Center(
-                    child: Text(
-                      AppLocalizations.of(context)?.kChangeProfileLabel ?? '',
-                      style: TextStyle(
-                          fontSize: kTextRegular13,
-                          color: kPrimaryColor,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ),
-              ),
-            ]),
+            ),
+          ),
+        ]),
       ),
     );
   }

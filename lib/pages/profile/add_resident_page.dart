@@ -19,7 +19,6 @@ import '../../widgets/gradient_button.dart';
 import '../../widgets/nrc_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class AddResidentPage extends StatefulWidget {
   const AddResidentPage({super.key, required this.id});
   final String id;
@@ -34,7 +33,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => AddResidentBloc(context: context,id: widget.id),
+      create: (context) => AddResidentBloc(context: context, id: widget.id),
       child: Scaffold(
         body: Selector<AddResidentBloc, bool?>(
           selector: (p0, p1) => p1.isLoading,
@@ -52,7 +51,9 @@ class _AddResidentPageState extends State<AddResidentPage> {
               Positioned(
                   top: 0,
                   child: ProfileAppbar(
-                    title: AppLocalizations.of(context)?.kAddResidentLabel.replaceAll('+', ''),
+                    title: AppLocalizations.of(context)
+                        ?.kAddResidentLabel
+                        .replaceAll('+', ''),
                   )),
 
               ///loading
@@ -86,7 +87,8 @@ class _AddResidentPageState extends State<AddResidentPage> {
                                   dialogWidget: ErrorDialogView(
                                       errorMessage: error.toString()));
                             });
-                    },context: context),
+                    },
+                    context: context),
               )),
         ),
       ),
@@ -99,7 +101,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
         child: Column(
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.14,
+              height: 120,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: kMargin10),
@@ -165,7 +167,8 @@ class _AddResidentPageState extends State<AddResidentPage> {
           Text(
             AppLocalizations.of(context)?.kGenderLabel ?? '',
             style: TextStyle(
-                fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
+                fontSize: AppData.shared.getSmallFontSize(),
+                fontWeight: FontWeight.w600),
           ),
           4.vGap,
           Container(
@@ -180,7 +183,8 @@ class _AddResidentPageState extends State<AddResidentPage> {
                   value: bloc.gender,
                   isExpanded: true,
                   underline: Container(),
-                  hint: Text(AppLocalizations.of(context)?.kSelectGenderLabel ?? ''),
+                  hint: Text(
+                      AppLocalizations.of(context)?.kSelectGenderLabel ?? ''),
                   items: genders.map((value) {
                     return DropdownMenuItem(value: value, child: Text(value));
                   }).toList(),
@@ -200,8 +204,9 @@ class _AddResidentPageState extends State<AddResidentPage> {
       children: [
         Text(
           AppLocalizations.of(context)?.kDobLabel ?? '',
-          style:
-              TextStyle(fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
+          style: TextStyle(
+              fontSize: AppData.shared.getSmallFontSize(),
+              fontWeight: FontWeight.w600),
         ),
         4.vGap,
         Container(
@@ -241,8 +246,9 @@ class _AddResidentPageState extends State<AddResidentPage> {
       children: [
         Text(
           title,
-          style:
-              TextStyle(fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
+          style: TextStyle(
+              fontSize: AppData.shared.getSmallFontSize(),
+              fontWeight: FontWeight.w600),
         ),
         4.vGap,
         Container(
@@ -268,7 +274,10 @@ class _AddResidentPageState extends State<AddResidentPage> {
                         ? TextInputType.phone
                         : TextInputType.text,
                     decoration: InputDecoration(
-                        border: InputBorder.none, hintText: title,hintStyle: TextStyle(fontSize: AppData.shared.getSmallFontSize())),
+                        border: InputBorder.none,
+                        hintText: title,
+                        hintStyle: TextStyle(
+                            fontSize: AppData.shared.getSmallFontSize())),
                   ))
       ],
     );
@@ -281,8 +290,9 @@ class _AddResidentPageState extends State<AddResidentPage> {
       children: [
         Text(
           'NRC',
-          style:
-              TextStyle(fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w600),
+          style: TextStyle(
+              fontSize: AppData.shared.getSmallFontSize(),
+              fontWeight: FontWeight.w600),
         ),
         4.vGap,
         Container(

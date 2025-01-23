@@ -58,7 +58,7 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
               children: [HomePage(), NotificationPage(), ProfilePage()]),
           Container(
             margin: EdgeInsets.only(
-                bottom: kMargin24, left: kMargin24, right: kMargin24),
+                bottom: kMargin24, left: kMarginMedium2, right: kMarginMedium2),
             height: kSize56,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(

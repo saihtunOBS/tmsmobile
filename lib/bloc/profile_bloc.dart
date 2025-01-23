@@ -25,7 +25,7 @@ class ProfileBloc extends ChangeNotifier {
       userData = response.data;
       notifyListeners();
     }).catchError((error) {
-      if (error.toString() == 'Authentication failed!') {
+      if (error.toString().contains('Authentication failed!')) {
         PersistenceData.shared.clearToken();
         PageNavigator(ctx: context).nextPageOnly(page: LoginPage());
       }

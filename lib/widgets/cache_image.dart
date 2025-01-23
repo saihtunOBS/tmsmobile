@@ -12,8 +12,8 @@ Widget cacheImage(
     fit: BoxFit.cover,
     placeholder: (context, url) => Shimmer.fromColors(
         direction: ShimmerDirection.ltr,
-        baseColor: kBackgroundColor,
-        highlightColor: const Color.fromARGB(255, 178, 175, 175),
+        baseColor: Colors.grey,
+        highlightColor: kWhiteColor,
         child: Container(
           color: kGreyColor,
         )),

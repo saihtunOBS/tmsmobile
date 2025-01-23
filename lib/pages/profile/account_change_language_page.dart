@@ -64,7 +64,7 @@ class _AccountChangeLanguagePageState extends State<AccountChangeLanguagePage> {
             spacing: kMarginMedium2,
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.14,
+                height: 120,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: kMargin24),
@@ -136,8 +136,9 @@ class _AccountChangeLanguagePageState extends State<AccountChangeLanguagePage> {
         ),
         Text(
           title,
-          style:
-              TextStyle(fontSize: AppData.shared.getRegularFontSize(), fontWeight: FontWeight.w600),
+          style: TextStyle(
+              fontSize: AppData.shared.getRegularFontSize(),
+              fontWeight: FontWeight.w600),
         )
       ],
     );

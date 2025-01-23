@@ -35,8 +35,8 @@ class AccountTermAndConditionPage extends StatelessWidget {
               spacing: kMargin6,
               children: [
                 SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.15,
-                    ),
+                  height: 120,
+                ),
                 Text(
                   kAgreementLabel.toUpperCase(),
                   style: TextStyle(
@@ -46,8 +46,9 @@ class AccountTermAndConditionPage extends StatelessWidget {
                 Text(
                   kTremOfServiceLabel,
                   style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
-                      fontSize: kTextRegular32 - 2, fontWeight: FontWeight.w700),
+                      fontFamily: AppData.shared.fontFamily2,
+                      fontSize: kTextRegular32 - 2,
+                      fontWeight: FontWeight.w700),
                 ),
                 Text(
                   '$kLastUpdateOnLabel 5/5/2022',

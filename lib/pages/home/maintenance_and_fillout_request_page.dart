@@ -20,18 +20,18 @@ import '../../widgets/appbar.dart';
 import '../../widgets/gradient_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class MaintenanceRequestPage extends StatefulWidget {
-  const MaintenanceRequestPage(
+class MaintenanceAndFillOutRequestPage extends StatefulWidget {
+  const MaintenanceAndFillOutRequestPage(
       {super.key, this.isMaintanence, this.shops, this.tenant});
   final bool? isMaintanence;
   final List<Shop>? shops;
   final Tenant? tenant;
 
   @override
-  State<MaintenanceRequestPage> createState() => _MaintenanceRequestPageState();
+  State<MaintenanceAndFillOutRequestPage> createState() => _MaintenanceAndFillOutRequestPageState();
 }
 
-class _MaintenanceRequestPageState extends State<MaintenanceRequestPage> {
+class _MaintenanceAndFillOutRequestPageState extends State<MaintenanceAndFillOutRequestPage> {
   final _nameController = TextEditingController();
 
   @override

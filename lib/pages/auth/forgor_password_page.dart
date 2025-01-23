@@ -49,10 +49,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               backgroundColor: Colors.transparent,
               flexibleSpace: SizedBox(
                 width: double.infinity,
-                child: Stack(fit: StackFit.expand, children: [
-                  Image.asset(
-                    kAppBarTopImage,
-                    fit: BoxFit.fill,
+                child: Stack( children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: Image.asset(
+                      kAppBarTopImage,
+                      fit: BoxFit.fill,
+                    ),
                   ),
                   Positioned(top: kSize45, child: AppbarBackView())
                 ]),

@@ -62,12 +62,6 @@ class MaintenanceBloc extends ChangeNotifier {
     try {
       final ImagePicker picker = ImagePicker();
       final XFile? result = await picker.pickImage(source: ImageSource.gallery);
-      // FilePickerResult? result = await FilePicker.platform.pickFiles(
-      //   allowMultiple: false,
-      //   type: FileType.image,
-      //   // allowedExtensions: ['jpg'],
-      // );
-
       if (result == null) return;
 
       imageArray.add(File(result.path));

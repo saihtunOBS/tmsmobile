@@ -63,7 +63,7 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                       spacing: kMarginMedium2,
                       children: [
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.14,
+                          height: 120,
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: kMargin24),
@@ -121,11 +121,12 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                                       ?.kPasswordCriteiraLabel ??
                                   '',
                               style: TextStyle(
-                                  fontSize: AppData.shared.getSmallXFontSize(), color: kRedColor),
+                                  fontSize: AppData.shared.getSmallXFontSize(),
+                                  color: kRedColor),
                             ),
                           ),
                         ),
-                       
+
                         ///check password
                         CheckPasswordView(),
                       ],

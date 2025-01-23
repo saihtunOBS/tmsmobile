@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -41,7 +39,7 @@ class HomePage extends StatelessWidget {
               padding: EdgeInsets.only(
                   left: kMarginXLarge,
                   right: kMarginXLarge,
-                  top: Platform.isAndroid ? 390 : 380,
+                  top: MediaQuery.of(context).size.height * 0.45,
                   bottom: MediaQuery.of(context).size.height * 0.15),
               shrinkWrap: true,
               itemCount: 6,
@@ -85,9 +83,9 @@ class HomePage extends StatelessWidget {
                 );
               }),
           SizedBox(
-            height: 350,
+            height: MediaQuery.of(context).size.height * 0.4,
             width: double.infinity,
-            child: _buildBannerView(),
+            child: _buildBannerView(context),
           ),
         ],
       ),
@@ -151,10 +149,10 @@ class HomePage extends StatelessWidget {
     }
   }
 
-  Widget _buildBannerView() {
+  Widget _buildBannerView(BuildContext context) {
     final ValueNotifier<int> sliderIndex = ValueNotifier(0);
     final CarouselSliderController controller = CarouselSliderController();
-
+    final double bannerHeight = MediaQuery.of(context).size.height * 0.2;
     return ValueListenableBuilder(
       valueListenable: sliderIndex,
       builder: (context, value, child) {
@@ -170,9 +168,9 @@ class HomePage extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Platform.isAndroid ? kSize64.vGap : kSize80.vGap,
+                kSize80.vGap,
                 SizedBox(
-                  height: Platform.isAndroid ? 195 : 180,
+                  height: bannerHeight,
                   width: double.infinity,
                   child: CarouselSlider(
                       carouselController: controller,

@@ -12,7 +12,7 @@ class AppbarHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ProfileBloc(),
+      create: (context) => ProfileBloc(context: context),
       child: Consumer<ProfileBloc>(
         builder: (context, bloc, child) => Row(
           spacing: kMargin10,

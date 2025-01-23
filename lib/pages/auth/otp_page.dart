@@ -34,7 +34,7 @@ class _OTPPageState extends State<OTPPage> {
   bool isFilled = false;
   final focusNode = FocusNode();
   Timer? _timer;
-  int _start = 30;
+  int _start = 300;
 
   String token = '';
 
@@ -47,7 +47,8 @@ class _OTPPageState extends State<OTPPage> {
 
   @override
   void initState() {
-    _start = 30;
+    _start = 300;
+    startTimer();
     token = widget.token ?? '';
     super.initState();
   }
@@ -59,10 +60,16 @@ class _OTPPageState extends State<OTPPage> {
           _start--;
         } else {
           _timer?.cancel();
-          _start = 30;
+          _start = 300;
         }
       });
     });
+  }
+
+  String get timerText {
+    final minutes = (_start ~/ 60).toString().padLeft(2, '0');
+    final seconds = (_start % 60).toString().padLeft(2, '0');
+    return '$minutes:$seconds';
   }
 
   @override
@@ -80,10 +87,13 @@ class _OTPPageState extends State<OTPPage> {
           backgroundColor: Colors.transparent,
           flexibleSpace: SizedBox(
             width: double.infinity,
-            child: Stack(fit: StackFit.expand, children: [
-              Image.asset(
-                kAppBarTopImage,
-                fit: BoxFit.fill,
+            child: Stack( children: [
+              SizedBox(
+                width: double.infinity,
+                child: Image.asset(
+                  kAppBarTopImage,
+                  fit: BoxFit.fill,
+                ),
               ),
               Positioned(top: kSize45, child: AppbarBackView())
             ]),
@@ -142,7 +152,7 @@ class _OTPPageState extends State<OTPPage> {
                                 fontSize: AppData.shared.getSmallFontSize()),
                           ),
                           Text(
-                            '00:$_start',
+                            timerText,
                             style: TextStyle(
                                 fontSize: AppData.shared.getSmallFontSize()),
                           )
@@ -162,64 +172,67 @@ class _OTPPageState extends State<OTPPage> {
           ),
         ),
         bottomNavigationBar: Consumer<AuthBloc>(
-          builder: (context, bloc, child) =>
-              Stack(alignment: Alignment.center,
+          builder: (context, bloc, child) => Stack(
+              alignment: Alignment.center,
               clipBehavior: Clip.none,
-               children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.21,
-              width: double.infinity,
-              child: Image.asset(
-                kAppBarBottonImage,
-                fit: BoxFit.fill,
-              ),
-            ),
-            gradientButton(
-                onPress: () {
-                  bloc.verifyOtp(pinController.text, token).then((response) {
-                    PageNavigator(ctx: context).nextPage(
-                        page: ChangePasswordPage(
-                      isChangePassword: false,
-                      token: response.token,
-                    ));
-                  }).catchError((error) {
-                    showCommonDialog(
-                        context: context,
-                        dialogWidget:
-                            ErrorDialogView(errorMessage: error.toString()));
-                  });
-                },
-                context: context),
-            Positioned(
-              top: -10,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)?.kDidNotReceiveCode ?? '',
-                    style:
-                        TextStyle(fontSize: AppData.shared.getSmallFontSize()),
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.21,
+                  width: double.infinity,
+                  child: Image.asset(
+                    kAppBarBottonImage,
+                    fit: BoxFit.fill,
                   ),
-                  TextButton(
-                      onPressed: () {
-                        if (_start == 30) {
-                          bloc
-                              .onTapForgorPasswordSend(widget.phone ?? '')
-                              .then((response) {
-                            token = response.data?.token ?? '';
-                            startTimer();
-                          });
-                        }
-                      },
-                      child: Text(
-                        AppLocalizations.of(context)?.kResend ?? '',
+                ),
+                gradientButton(
+                    onPress: () {
+                      bloc
+                          .verifyOtp(pinController.text, token)
+                          .then((response) {
+                        PageNavigator(ctx: context).nextPage(
+                            page: ChangePasswordPage(
+                          isChangePassword: false,
+                          token: response.token,
+                        ));
+                      }).catchError((error) {
+                        showCommonDialog(
+                            context: context,
+                            dialogWidget: ErrorDialogView(
+                                errorMessage: error.toString()));
+                      });
+                    },
+                    context: context),
+                Positioned(
+                  top: -10,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)?.kDidNotReceiveCode ?? '',
                         style: TextStyle(
-                            color: kPrimaryColor, fontWeight: FontWeight.w700),
-                      ))
-                ],
-              ),
-            ),
-          ]),
+                            fontSize: AppData.shared.getSmallFontSize()),
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            if (_start == 300) {
+                              bloc
+                                  .onTapForgorPasswordSend(widget.phone ?? '')
+                                  .then((response) {
+                                token = response.data?.token ?? '';
+                                startTimer();
+                              });
+                            }
+                          },
+                          child: Text(
+                            AppLocalizations.of(context)?.kResend ?? '',
+                            style: TextStyle(
+                                color: kPrimaryColor,
+                                fontWeight: FontWeight.w700),
+                          ))
+                    ],
+                  ),
+                ),
+              ]),
         ),
       ),
     );

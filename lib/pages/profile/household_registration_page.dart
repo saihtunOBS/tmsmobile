@@ -74,7 +74,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                           spacing: kMarginMedium2,
                           children: [
                             SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.13,
+                              height: 120,
                             ),
                             Padding(
                                 padding: EdgeInsets.only(
@@ -82,7 +82,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                                     right: kMarginMedium2,
                                     bottom: kMarginMedium2),
                                 child: bloc
-                                        .householdList.first.information.isEmpty
+                                        .householdList.isEmpty
                                     ? Stack(
                                         alignment: Alignment.center,
                                         children: [
@@ -154,7 +154,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
             bottomNavigationBar: Consumer<HouseHoldBloc>(
               builder: (context, bloc, child) => bloc.isLoading
                   ? SizedBox()
-                  : bloc.householdList.first.information.isNotEmpty
+                  : bloc.householdList.isNotEmpty
                       ? SizedBox.shrink()
                       : isClickRegistrationForm == false
                           ? const SizedBox.shrink()
@@ -257,16 +257,15 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
               value: number),
           kSize18.vGap,
           DecoratedBox(
-            decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      offset: Offset(
-                        0,
-                        4,
-                      ),
-                      blurRadius: 8,
-                      color: const Color.fromARGB(255, 177, 177, 177))
-                ]),
+            decoration: BoxDecoration(boxShadow: [
+              BoxShadow(
+                  offset: Offset(
+                    0,
+                    4,
+                  ),
+                  blurRadius: 8,
+                  color: const Color.fromARGB(255, 177, 177, 177))
+            ]),
             child: Column(
               children: [
                 ClipRRect(
