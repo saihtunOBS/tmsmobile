@@ -9,7 +9,7 @@ part of 'user_vo.dart';
 UserVO _$UserVOFromJson(Map<String, dynamic> json) => UserVO(
       numberOfShops: (json['numberOfShops'] as num?)?.toInt(),
       tenantName: json['tenantName'] as String?,
-      id: json['_id'] as String?,
+      id: json['id'] as String?,
       nrc: json['nrc'] as String?,
       email: json['email'] as String?,
       phoneNumber: json['phone_number'] as String?,
@@ -30,7 +30,7 @@ UserVO _$UserVOFromJson(Map<String, dynamic> json) => UserVO(
 Map<String, dynamic> _$UserVOToJson(UserVO instance) => <String, dynamic>{
       'numberOfShops': instance.numberOfShops,
       'tenantName': instance.tenantName,
-      '_id': instance.id,
+      'id': instance.id,
       'nrc': instance.nrc,
       'email': instance.email,
       'phone_number': instance.phoneNumber,

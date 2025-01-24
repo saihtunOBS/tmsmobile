@@ -29,8 +29,18 @@ import 'package:tmsmobile/widgets/loading_view.dart';
 import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +76,7 @@ class ProfilePage extends StatelessWidget {
                       spacing: kMarginMedium,
                       children: [
                         _buildHeader(context),
+                        3.vGap,
                         _buildSetting(context, bloc),
 
                         ///logout button
@@ -98,9 +109,8 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _buildHeader(BuildContext context) {
-    return Selector<ProfileBloc, UserVO?>(
-      selector: (_, bloc) => bloc.userData,
-      builder: (context, userData, child) => Column(
+    return Consumer<ProfileBloc>(
+      builder: (context, bloc, child) => Column(
         spacing: kMarginMedium,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -121,25 +131,25 @@ class ProfilePage extends StatelessWidget {
               decoration:
                   BoxDecoration(color: kWhiteColor, shape: BoxShape.circle),
               width: kSize100,
-              child: ClipOval(child: cacheImage(userData?.photo ?? '')),
+              child: ClipOval(child: cacheImage(bloc.userData?.photo ?? '')),
             ),
           ),
           Text(
-            userData?.tenantName ?? '****',
+            bloc.userData?.tenantName ?? '****',
             style: TextStyle(
                 fontFamily: AppData.shared.fontFamily2,
                 fontSize: AppData.shared.getExtraFontSize(),
                 fontWeight: FontWeight.w600),
           ),
           Text(
-            userData?.phoneNumber?.replaceRange(3, 8, '*****') ?? '****',
+            bloc.userData?.phoneNumber?.replaceRange(3, 8, '*****') ?? '****',
           ),
           Consumer<ProfileBloc>(
             builder: (context, bloc, child) => InkWell(
               onTap: () => PageNavigator(ctx: context)
                   .nextPage(
                       page: ChangeProfilePage(
-                    userData: userData ?? UserVO(),
+                    userData: bloc.userData ?? UserVO(),
                   ))
                   .whenComplete(() => bloc.getUser()),
               child: FittedBox(
@@ -356,6 +366,7 @@ class ProfilePage extends StatelessWidget {
                     });
                   } else {
                     PersistenceData.shared.clearToken();
+                    PersistenceData.shared.clearUserData();
                     PageNavigator(ctx: context).nextPageOnly(page: LoginPage());
                   }
                 },

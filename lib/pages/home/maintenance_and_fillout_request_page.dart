@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/maintenance_bloc.dart';
+import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/data/vos/service_request_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
@@ -22,29 +23,29 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MaintenanceAndFillOutRequestPage extends StatefulWidget {
   const MaintenanceAndFillOutRequestPage(
-      {super.key, this.isMaintanence, this.shops, this.tenant});
+      {super.key, this.isMaintanence, this.shops});
   final bool? isMaintanence;
   final List<Shop>? shops;
-  final Tenant? tenant;
 
   @override
-  State<MaintenanceAndFillOutRequestPage> createState() => _MaintenanceAndFillOutRequestPageState();
+  State<MaintenanceAndFillOutRequestPage> createState() =>
+      _MaintenanceAndFillOutRequestPageState();
 }
 
-class _MaintenanceAndFillOutRequestPageState extends State<MaintenanceAndFillOutRequestPage> {
+class _MaintenanceAndFillOutRequestPageState
+    extends State<MaintenanceAndFillOutRequestPage> {
   final _nameController = TextEditingController();
 
   @override
   void initState() {
-    _nameController.text = widget.tenant?.tenantName ?? '';
+    _nameController.text = PersistenceData.shared.getUser()?.tenantName ?? '';
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) =>
-          MaintenanceBloc(tenant: widget.tenant, context: context),
+      create: (context) => MaintenanceBloc(context: context),
       child: Material(
         child: InkWell(
           onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
@@ -223,7 +224,10 @@ class _MaintenanceAndFillOutRequestPageState extends State<MaintenanceAndFillOut
                   isExpanded: true,
                   underline: Container(),
                   hint: Text(
-                      AppLocalizations.of(context)?.kSelectRoomShopLabel ?? '',style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),),
+                    AppLocalizations.of(context)?.kSelectRoomShopLabel ?? '',
+                    style:
+                        TextStyle(fontSize: AppData.shared.getSmallFontSize()),
+                  ),
                   items: widget.shops?.map((value) {
                     return DropdownMenuItem(
                         value: value, child: Text(value.name ?? ''));
@@ -270,10 +274,14 @@ class _MaintenanceAndFillOutRequestPageState extends State<MaintenanceAndFillOut
                   isExpanded: true,
                   underline: Container(),
                   hint: Text(
-                      AppLocalizations.of(context)?.kSelectTypeIssueLabel ??
-                          '',style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),),
+                    AppLocalizations.of(context)?.kSelectTypeIssueLabel ?? '',
+                    style:
+                        TextStyle(fontSize: AppData.shared.getSmallFontSize()),
+                  ),
                   items: bloc.typeOfIssues.asMap().entries.map((entry) {
-                    return DropdownMenuItem(value: entry.value.id, child: Text(entry.value.name ?? ''));
+                    return DropdownMenuItem(
+                        value: entry.value.id,
+                        child: Text(entry.value.name ?? ''));
                   }).toList(),
                   onChanged: ((value) {
                     bloc.onChangeIssue(value ?? '');

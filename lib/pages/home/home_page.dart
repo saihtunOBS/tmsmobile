@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -39,7 +41,7 @@ class HomePage extends StatelessWidget {
               padding: EdgeInsets.only(
                   left: kMarginXLarge,
                   right: kMarginXLarge,
-                  top: MediaQuery.of(context).size.height * 0.45,
+                  top: MediaQuery.of(context).size.height * 0.44,
                   bottom: MediaQuery.of(context).size.height * 0.15),
               shrinkWrap: true,
               itemCount: 6,
@@ -71,7 +73,7 @@ class HomePage extends StatelessWidget {
                         PageNavigator(ctx: context)
                             .nextPage(page: AnnouncementPage());
                         break;
-
+    
                       default:
                     }
                   },
@@ -82,6 +84,8 @@ class HomePage extends StatelessWidget {
                   ),
                 );
               }),
+    
+          //banner
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.4,
             width: double.infinity,
@@ -152,7 +156,9 @@ class HomePage extends StatelessWidget {
   Widget _buildBannerView(BuildContext context) {
     final ValueNotifier<int> sliderIndex = ValueNotifier(0);
     final CarouselSliderController controller = CarouselSliderController();
-    final double bannerHeight = MediaQuery.of(context).size.height * 0.2;
+    final double bannerHeight = Platform.isAndroid
+        ? MediaQuery.of(context).size.height * 0.215
+        : MediaQuery.of(context).size.height * 0.2;
     return ValueListenableBuilder(
       valueListenable: sliderIndex,
       builder: (context, value, child) {
@@ -168,7 +174,8 @@ class HomePage extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                kSize80.vGap,
+                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                // 95.vGap,
                 SizedBox(
                   height: bannerHeight,
                   width: double.infinity,
@@ -181,7 +188,7 @@ class HomePage extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(kMarginMedium),
                             child: cacheImage(
-                                'https://hanoirealestate.com.vn/images/products/modern-3-bedroom-apartment-with-large-balcony-on-to-ngoc-van_2024581453612.jpg'),
+                                'https://www.animalfriends.co.uk/siteassets/media/images/article-images/cat-articles/51_afi_article1_the-secret-language-of-cats.png'),
                           ),
                         );
                       }).toList(),

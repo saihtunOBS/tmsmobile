@@ -12,7 +12,7 @@ class MaintenanceBloc extends ChangeNotifier {
   List<File> imageArray = [];
   bool isUploadImage = false;
   String? token;
-  Tenant? tenant;
+  String? tenantId;
   String? description;
   Shop? selectedRoomShopName;
   String? validationMessage;
@@ -24,8 +24,10 @@ class MaintenanceBloc extends ChangeNotifier {
 
   final TmsModel _tmsModel = TmsModelImpl();
 
-  MaintenanceBloc({this.tenant, this.context}) {
+  MaintenanceBloc({this.context}) {
     token = PersistenceData.shared.getToken();
+    tenantId = PersistenceData.shared.getUser()?.id ?? '';
+    print(tenantId);
     _showLoading();
     _tmsModel.getTypeOfIssues(token ?? '').then((response) {
       typeOfIssues = response;
@@ -36,7 +38,7 @@ class MaintenanceBloc extends ChangeNotifier {
     _showLoading();
     List<File> files = imageArray.map((photo) => File(photo.path)).toList();
     return _tmsModel
-        .createFillOut(token ?? '', files, tenant?.id ?? '',
+        .createFillOut(token ?? '', files, tenantId ?? '',
             selectedRoomShopName?.id ?? '', description ?? '')
         .whenComplete(() {
       _hideLoading();
@@ -51,7 +53,7 @@ class MaintenanceBloc extends ChangeNotifier {
         .createMaintenance(
             token ?? '',
             files,
-            tenant?.id ?? '',
+            tenantId ?? '',
             selectedRoomShopName?.id ?? '',
             description ?? '',
             selectedIssue ?? '')

@@ -72,7 +72,7 @@ class ResidentListItem extends StatelessWidget {
           SizedBox(
             width: MediaQuery.sizeOf(context).width / 2.3,
             child: Text(
-              (houseHoldData.nrc ?? ''),
+              (houseHoldData.nrc == '' || houseHoldData.nrc == null ? '-' : houseHoldData.nrc ?? ''),
               softWrap: true,
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,

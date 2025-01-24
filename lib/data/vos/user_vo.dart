@@ -10,7 +10,7 @@ class UserVO {
   @JsonKey(name: "tenantName")
   final String? tenantName;
 
-  @JsonKey(name: "_id")
+  @JsonKey(name: "id")
   final String? id;
 
   @JsonKey(name: "nrc")

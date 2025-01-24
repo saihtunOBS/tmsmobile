@@ -2,7 +2,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:tmsmobile/data/vos/login_data_vo.dart';
 import 'package:tmsmobile/data/vos/user_vo.dart';
 
-enum PersistenceList { user, locale, isFirstTime, token, userData }
+enum PersistenceList { loginUser, locale, isFirstTime, token, userData, tenant }
 
 class PersistenceData {
   static var shared = PersistenceData();
@@ -15,12 +15,11 @@ class PersistenceData {
     await GetStorage().write(PersistenceList.token.name, token);
   }
 
-  Future<void> saveLoginResponse(LoginDataVO userData) async {
-    // Convert LoginDataVO to a JSON map
-    Map<String, dynamic> user = userData.toJson();
+  Future<void> saveLoginResponse(LoginDataVO loginUserData) async {
+    Map<String, dynamic> user = loginUserData.toJson();
 
     // Save the JSON map to GetStorage
-    await GetStorage().write(PersistenceList.user.name, user);
+    await GetStorage().write(PersistenceList.loginUser.name, user);
   }
 
   saveLocale(String locale) async {
@@ -42,27 +41,17 @@ class PersistenceData {
     return GetStorage().read(PersistenceList.token.name);
   }
 
-  // Future<LoginDataVO?> getLoginResponse() async {
-  //   // Retrieve the JSON map from GetStorage
-  //   Map<String, dynamic>? user = GetStorage().read(PersistenceList.user.name);
-
-  //   if (user != null) {
-  //     // Convert JSON map back to LoginDataVO
-  //     return LoginDataVO.fromJson(user);
-  //   }
-  //   return null; // Return null if no data is found
-  // }
-
-  UserVO getUserData() {
-    // Retrieve the JSON map from GetStorage
-    Map<String, dynamic>? user =
-        GetStorage().read(PersistenceList.userData.name);
-
-    if (user != null) {
-      // Convert JSON map back to LoginDataVO
-      return UserVO.fromJson(user);
+  UserVO? getUser() {
+    final userJson = GetStorage().read<Map<String, dynamic>>(
+        PersistenceList.userData.name); // Read JSON map
+    if (userJson != null) {
+      return UserVO.fromJson(userJson); // Convert back to UserVO
     }
-    return UserVO(); // Return null if no data is found
+    return null; // Return null if no user is found
+  }
+
+  LoginDataVO getLoginResponse() {
+    return GetStorage().read(PersistenceList.loginUser.name);
   }
 
   getLocale() {
@@ -71,5 +60,9 @@ class PersistenceData {
 
   clearToken() {
     GetStorage().remove(PersistenceList.token.name);
+  }
+
+  clearUserData() {
+    GetStorage().remove(PersistenceList.userData.name);
   }
 }

@@ -136,9 +136,6 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                     shops: _currentIndex == 0
                         ? bloc.maintenanceShops
                         : bloc.filloutShops,
-                    tenant: _currentIndex == 0
-                        ? bloc.maintenanceLists.first.tenant
-                        : bloc.fillOutLists.first.tenant,
                     isMaintanence: _currentIndex == 0 ? true : false,
                   ))
                       .whenComplete(() {

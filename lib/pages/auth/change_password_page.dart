@@ -10,7 +10,7 @@ import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/auth/login_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
-import 'package:tmsmobile/widgets/appbar_back.dart';
+import 'package:tmsmobile/widgets/appbar_back_view.dart';
 import 'package:tmsmobile/widgets/check_password.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
 import '../../data/app_data/app_data.dart';

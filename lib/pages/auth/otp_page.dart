@@ -16,7 +16,7 @@ import 'package:tmsmobile/widgets/gradient_button.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
 import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
-import '../../widgets/appbar_back.dart';
+import '../../widgets/appbar_back_view.dart';
 import 'package:pinput/pinput.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

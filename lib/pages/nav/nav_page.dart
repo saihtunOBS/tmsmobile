@@ -23,6 +23,7 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(() {
       if (_tabController.index != _currentIndex) {
@@ -31,6 +32,7 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
         });
       }
     });
+   
   }
 
   @override
@@ -73,12 +75,11 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
                 child: TabBar(
                     controller: _tabController,
                     indicatorSize: TabBarIndicatorSize.tab,
-
                     indicatorPadding: EdgeInsets.only(
                         top: kMargin52, left: kMargin24, right: kMargin24),
                     indicatorWeight: 4.0,
                     indicator: ShapeDecoration(
-                       shape: UnderlineInputBorder(),
+                      shape: UnderlineInputBorder(),
                       gradient: LinearGradient(
                         colors: [kPrimaryColor, kThirdColor],
                       ),

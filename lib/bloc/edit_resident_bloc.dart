@@ -45,6 +45,13 @@ class EditResidentBloc extends ChangeNotifier {
     if (houseHoldVO?.nrcType == 2) {
       passportController.text = houseHoldVO?.nrc ?? '';
     }
+
+    RegExp regex = RegExp(r'^(\d+)/([a-zA-Z]+)\((\w)\)(\d+)$');
+    Match? match = regex.firstMatch(houseHoldVO?.nrc ?? '');
+
+    if (match != null) {
+      editNrcNumber = houseHoldVO?.nrc;
+    }
   }
 
   var nameController = TextEditingController();
@@ -68,13 +75,9 @@ class EditResidentBloc extends ChangeNotifier {
           race: raceController.text.trim(),
           nationality: nationalityController.text.trim(),
           nrc: nrcType == 'Citizen'
-              ? editNrcNumber ?? responseNrc
+              ? editNrcNumber ?? ''
               : passportController.text.trim(),
-          nrcType: nrcType == 'Citizen'
-              ? editNrcNumber == null
-                  ? 2
-                  : 1
-              : passportController.text.isEmpty ? 1 : 2,
+          nrcType: nrcType == 'Citizen' ? 1 : 2,
           contactNumber: contactController.text.trim(),
           email: emailAddressController.text.trim());
 
@@ -91,13 +94,9 @@ class EditResidentBloc extends ChangeNotifier {
           race: raceController.text.trim(),
           nationality: nationalityController.text.trim(),
           nrc: nrcType == 'Citizen'
-              ? editNrcNumber ?? responseNrc
+              ? editNrcNumber ?? ''
               : passportController.text.trim(),
-          nrcType: nrcType == 'Citizen'
-              ? editNrcNumber == null
-                  ? 2
-                  : 1
-              : passportController.text.isEmpty ? 1 : 2,
+          nrcType: nrcType == 'Citizen' ? 1 : 2,
           contactNumber: contactController.text.trim(),
           relatedToOwner: relatedToController.text.trim());
 

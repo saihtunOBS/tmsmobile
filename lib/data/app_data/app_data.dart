@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 
 class AppData {
@@ -54,5 +55,9 @@ class AppData {
     } else {
       return 20;
     }
+  }
+
+  bool hasNotch(BuildContext context) {
+    return MediaQuery.of(context).viewPadding.top > 0;
   }
 }

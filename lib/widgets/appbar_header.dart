@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../bloc/profile_bloc.dart';
 import '../utils/colors.dart';
 import '../utils/dimens.dart';
@@ -13,8 +12,8 @@ class AppbarHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => ProfileBloc(context: context),
-      child: Consumer<ProfileBloc>(
-        builder: (context, bloc, child) => Row(
+      child: Consumer<ProfileBloc>(builder: (context, bloc, child) {
+        return Row(
           spacing: kMargin10,
           children: [
             Container(
@@ -45,8 +44,8 @@ class AppbarHeader extends StatelessWidget {
               ],
             )
           ],
-        ),
-      ),
+        );
+      }),
     );
   }
 }

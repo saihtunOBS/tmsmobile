@@ -388,7 +388,7 @@ class _EditResidentPageState extends State<EditResidentPage> {
               type: 'edit',
               editNRC: widget.houseHoldData?.nrcType == 2
                   ? null
-                  : widget.houseHoldData?.nrc,
+                  : widget.houseHoldData?.nrc?.isEmpty ?? true ? null : widget.houseHoldData?.nrc,
             )),
       ],
     );

@@ -13,6 +13,9 @@ class LoginDataVO {
   @JsonKey(name: "email")
   final String? email;
 
+  @JsonKey(name: "name")
+  final String? name;
+
   @JsonKey(name: "phone_number")
   final String? phoneNo;
 
@@ -29,6 +32,7 @@ class LoginDataVO {
       {this.id,
         this.email,
         this.phoneNo,
+        this.name,
         this.photo,
         this.businessUnit,
         this.token,
