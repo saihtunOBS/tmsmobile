@@ -12,7 +12,7 @@ Widget cacheImage(
     fit: BoxFit.cover,
     placeholder: (context, url) => Shimmer.fromColors(
         direction: ShimmerDirection.ltr,
-        baseColor: Colors.grey,
+        baseColor: kGreyColor,
         highlightColor: kWhiteColor,
         child: Container(
           color: kGreyColor,

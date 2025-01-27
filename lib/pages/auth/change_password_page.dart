@@ -52,7 +52,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           automaticallyImplyLeading: false,
           flexibleSpace: SizedBox(
             width: double.infinity,
-            child: Stack( children: [
+            child: Stack(children: [
               SizedBox(
                 width: double.infinity,
                 child: Image.asset(
@@ -141,14 +141,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                                     ?.kPasswordCriteiraLabel ??
                                 '',
                             style: TextStyle(
-                                fontSize:
-                                    AppData.shared.getSmallXFontSize(),
+                                fontSize: AppData.shared.getSmallXFontSize(),
                                 color: kRedColor),
                           ),
                         ),
                       ),
                     ),
-                    
                     CheckPasswordView(),
                     const SizedBox(
                       height: kMargin110,
@@ -184,7 +182,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       showCommonDialog(
                           context: context,
                           dialogWidget: ErrorDialogView(
-                              errorMessage: 'Password does not match!'));
+                              errorMessage: AppLocalizations.of(context)
+                                  ?.kPasswordDoesNotMatchLabel));
                     } else {
                       bloc
                           .onTapResetPassword(

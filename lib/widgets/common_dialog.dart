@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 Future<bool?> showCommonDialog({
   required BuildContext context,
   Widget? dialogWidget,
+  bool? isBarrierDismiss
 }) async {
   return showGeneralDialog(
     barrierLabel: "Label",
-    barrierDismissible: true,
+    barrierDismissible: isBarrierDismiss ?? true,
     barrierColor: Colors.black.withValues(alpha: 0.5),
     transitionDuration: const Duration(milliseconds: 300),
     context: context,

@@ -19,6 +19,7 @@ import '../vos/contract_information_vo.dart';
 import '../vos/contract_vo.dart';
 import '../vos/emergency_vo.dart';
 import '../vos/household_vo.dart';
+import '../vos/room_shop_vo.dart';
 import '../vos/service_request_vo.dart';
 import '../vos/type_of_issue_vo.dart';
 
@@ -64,4 +65,6 @@ abstract class TmsModel {
   Future<OTPResponse> verifyOTP(String token, VerifyOtpRequest request);
   Future<void> updateProfile(String token, File photo);
   Future<List<TypeOfIssueVO>> getTypeOfIssues(String token);
+  Future<List<RoomShopVO>> getProperties(String token);
+
 }

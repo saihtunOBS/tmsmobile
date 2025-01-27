@@ -5,8 +5,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tmsmobile/data/model/tms_model.dart';
 import 'package:tmsmobile/data/model/tms_model_impl.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
-import 'package:tmsmobile/data/vos/service_request_vo.dart';
 import 'package:tmsmobile/data/vos/type_of_issue_vo.dart';
+
+import '../data/vos/room_shop_vo.dart';
 
 class MaintenanceBloc extends ChangeNotifier {
   List<File> imageArray = [];
@@ -14,21 +15,28 @@ class MaintenanceBloc extends ChangeNotifier {
   String? token;
   String? tenantId;
   String? description;
-  Shop? selectedRoomShopName;
+  RoomShopVO? selectedRoomShopName;
   String? validationMessage;
   String? selectedIssue;
   bool isLoading = false;
   bool isDisposed = false;
   BuildContext? context;
   List<TypeOfIssueVO> typeOfIssues = [];
+  List<RoomShopVO> roomShops = [];
 
   final TmsModel _tmsModel = TmsModelImpl();
 
   MaintenanceBloc({this.context}) {
     token = PersistenceData.shared.getToken();
     tenantId = PersistenceData.shared.getUser()?.id ?? '';
-    print(tenantId);
     _showLoading();
+
+    ///property list
+    _tmsModel.getProperties(token ?? '').then((response) {
+      roomShops = response;
+    }).whenComplete(()=> _hideLoading());
+
+    ///type of issues
     _tmsModel.getTypeOfIssues(token ?? '').then((response) {
       typeOfIssues = response;
     }).whenComplete(() => _hideLoading());
@@ -39,7 +47,7 @@ class MaintenanceBloc extends ChangeNotifier {
     List<File> files = imageArray.map((photo) => File(photo.path)).toList();
     return _tmsModel
         .createFillOut(token ?? '', files, tenantId ?? '',
-            selectedRoomShopName?.id ?? '', description ?? '')
+            selectedRoomShopName?.shop?.id ?? '', description ?? '')
         .whenComplete(() {
       _hideLoading();
       Navigator.pop(context!);
@@ -54,7 +62,7 @@ class MaintenanceBloc extends ChangeNotifier {
             token ?? '',
             files,
             tenantId ?? '',
-            selectedRoomShopName?.id ?? '',
+            selectedRoomShopName?.shop?.id ?? '',
             description ?? '',
             selectedIssue ?? '')
         .whenComplete(() => Navigator.pop(context!));
@@ -98,7 +106,7 @@ class MaintenanceBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  onChangeRoomShopName(Shop value) {
+  onChangeRoomShopName(RoomShopVO value) {
     selectedRoomShopName = value;
     notifyListeners();
   }

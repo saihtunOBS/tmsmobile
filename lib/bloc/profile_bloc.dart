@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/data/vos/user_vo.dart';
-import 'package:tmsmobile/extension/route_navigator.dart';
-import 'package:tmsmobile/pages/auth/login_page.dart';
+import 'package:tmsmobile/widgets/common_dialog.dart';
+import 'package:tmsmobile/widgets/error_dialog_view.dart';
 
 import '../data/model/tms_model.dart';
 import '../data/model/tms_model_impl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileBloc extends ChangeNotifier {
   String? token;
@@ -23,7 +24,6 @@ class ProfileBloc extends ChangeNotifier {
   getUser() {
     _tmsModel.getUser(token ?? '').then((response) {
       userData = response.data;
-      print(response.data?.id);
       var userVo =
           UserVO(tenantName: response.data?.tenantName, id: response.data?.id);
       PersistenceData.shared.saveUserData(userVo);
@@ -31,7 +31,13 @@ class ProfileBloc extends ChangeNotifier {
     }).catchError((error) {
       if (error.toString().contains('Authentication failed!')) {
         PersistenceData.shared.clearToken();
-        PageNavigator(ctx: context).nextPageOnly(page: LoginPage());
+        showCommonDialog(
+            isBarrierDismiss: false,
+            context: context!,
+            dialogWidget: ErrorDialogView(
+                isLogin: true,
+                errorMessage:
+                    AppLocalizations.of(context!)?.kSessionExpireLabel ?? ''));
       }
     });
   }

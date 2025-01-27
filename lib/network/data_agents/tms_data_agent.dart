@@ -5,6 +5,7 @@ import 'package:tmsmobile/data/vos/complaint_vo.dart';
 import 'package:tmsmobile/data/vos/contract_vo.dart';
 import 'package:tmsmobile/data/vos/emergency_vo.dart';
 import 'package:tmsmobile/data/vos/household_vo.dart';
+import 'package:tmsmobile/data/vos/room_shop_vo.dart';
 import 'package:tmsmobile/data/vos/service_request_vo.dart';
 import 'package:tmsmobile/network/requests/change_password_request.dart';
 import 'package:tmsmobile/network/requests/complaint_request.dart';
@@ -65,4 +66,5 @@ abstract class TmsDataAgent {
   Future<OTPResponse> verifyOTP(String token, VerifyOtpRequest request);
   Future<void> updateProfile(String token,File photo);
   Future<List<TypeOfIssueVO>> getTypeOfIssues(String token);
+  Future<List<RoomShopVO>> getProperties(String token);
 }

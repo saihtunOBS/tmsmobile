@@ -25,6 +25,7 @@ import 'responses/complaint_detail_response.dart';
 import 'responses/contract_information_response.dart';
 import 'responses/login_response.dart';
 import 'responses/parking_response.dart';
+import 'responses/property_response.dart';
 import 'responses/type_of_issue_response.dart';
 import 'responses/user_response.dart';
 
@@ -184,5 +185,10 @@ abstract class TmsApi {
     @Header(kHeaderAuthorization) String token,
     @Query("page") int page,
     @Query("limit") int limit,
+  );
+
+  @GET(kEndPointProperty)
+  Future<PropertyResponse> getProperties(
+    @Header(kHeaderAuthorization) String token,
   );
 }

@@ -8,7 +8,7 @@ import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/maintenance_bloc.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
-import 'package:tmsmobile/data/vos/service_request_vo.dart';
+import 'package:tmsmobile/data/vos/room_shop_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
@@ -22,10 +22,8 @@ import '../../widgets/gradient_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MaintenanceAndFillOutRequestPage extends StatefulWidget {
-  const MaintenanceAndFillOutRequestPage(
-      {super.key, this.isMaintanence, this.shops});
+  const MaintenanceAndFillOutRequestPage({super.key, this.isMaintanence});
   final bool? isMaintanence;
-  final List<Shop>? shops;
 
   @override
   State<MaintenanceAndFillOutRequestPage> createState() =>
@@ -228,12 +226,12 @@ class _MaintenanceAndFillOutRequestPageState
                     style:
                         TextStyle(fontSize: AppData.shared.getSmallFontSize()),
                   ),
-                  items: widget.shops?.map((value) {
+                  items: bloc.roomShops.map((value) {
                     return DropdownMenuItem(
-                        value: value, child: Text(value.name ?? ''));
+                        value: value, child: Text(value.shop?.name ?? ''));
                   }).toList(),
                   onChanged: ((value) {
-                    bloc.onChangeRoomShopName(value as Shop);
+                    bloc.onChangeRoomShopName(value ?? RoomShopVO());
                   })),
             ),
           )

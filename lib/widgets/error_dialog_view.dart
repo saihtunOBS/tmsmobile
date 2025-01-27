@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:tmsmobile/extension/route_navigator.dart';
+import 'package:tmsmobile/pages/auth/login_page.dart';
 import '../../data/app_data/app_data.dart';
 
 import '../utils/colors.dart';
 import '../utils/dimens.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ErrorDialogView extends StatelessWidget {
   final String? errorMessage;
-  const ErrorDialogView({super.key, required this.errorMessage});
+  final bool? isLogin;
+  const ErrorDialogView({super.key, required this.errorMessage, this.isLogin});
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +68,10 @@ class ErrorDialogView extends StatelessWidget {
             Center(
               child: GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pop();
+                  isLogin == true
+                      ? PageNavigator(ctx: context)
+                          .nextPageOnly(page: LoginPage())
+                      : Navigator.of(context).pop();
                 },
                 child: Container(
                   height: 40,
@@ -75,10 +82,11 @@ class ErrorDialogView extends StatelessWidget {
                         stops: [0.0, 1.0],
                       ),
                       borderRadius: BorderRadius.circular(6)),
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      'Okay',
-                      style: TextStyle(color: kBackgroundColor),
+                      AppLocalizations.of(context)?.kOkLabel ?? '',
+                      style: TextStyle(
+                          color: kBackgroundColor, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),

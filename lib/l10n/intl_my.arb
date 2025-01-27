@@ -223,5 +223,7 @@
     "kOrLabel": "သို့မဟုတ်",
     "kGalleryLabel": "ပုံရွေးမည်",
     "kChooseOptionLabel": "အမျိုးအစားရွေးပါ",
-    "kSelectOneOptionLabel": "အောက်ပါ များထဲမှ တစ်ခုကိုရွေးပါ။"
+    "kSelectOneOptionLabel": "အောက်ပါ များထဲမှ တစ်ခုကိုရွေးပါ။",
+    "kSessionExpireLabel": "အချိန်ကုန်လွန်သွားပါသဖြင့် ကျေးဇူးပြု၍ လော့အင်ပြန်ဝင်ပါ!",
+    "kPasswordDoesNotMatchLabel": "စကားဝှက်မကိုက်ညီပါ!"
 }

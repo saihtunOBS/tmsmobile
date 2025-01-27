@@ -225,5 +225,7 @@
     "kOrLabel": "Or",
     "kGalleryLabel": "Gallery",
     "kChooseOptionLabel": "Choose an Option",
-    "kSelectOneOptionLabel": "Select one of the options below."
+    "kSelectOneOptionLabel": "Select one of the options below.",
+    "kSessionExpireLabel": "Your session have expired. Please Login again.!",
+    "kPasswordDoesNotMatchLabel": "Password does not match!"
 }

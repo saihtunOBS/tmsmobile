@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_indicator/loading_indicator.dart';
@@ -113,29 +115,33 @@ class ChangeProfilePage extends StatelessWidget {
       builder: (context, bloc, child) => SingleChildScrollView(
         physics: ClampingScrollPhysics(),
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          Container(
-            height: kSize100,
-            width: kSize100,
-            padding: EdgeInsets.all(kMargin5 - 1),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LinearGradient(
-                colors: [kPrimaryColor, kThirdColor],
-                stops: [0.0, 1.0],
-              ),
-            ),
+          InkWell(
+            onTap: () => showDialogImage(context,
+                bloc.imgFile == null ? userData?.photo : bloc.imgFile!),
             child: Container(
               height: kSize100,
-              decoration:
-                  BoxDecoration(color: kWhiteColor, shape: BoxShape.circle),
               width: kSize100,
-              child: ClipOval(
-                  child: bloc.imgFile != null
-                      ? Image.file(
-                          bloc.imgFile!,
-                          fit: BoxFit.cover,
-                        )
-                      : cacheImage(userData?.photo ?? '')),
+              padding: EdgeInsets.all(kMargin5 - 1),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  colors: [kPrimaryColor, kThirdColor],
+                  stops: [0.0, 1.0],
+                ),
+              ),
+              child: Container(
+                height: kSize100,
+                decoration:
+                    BoxDecoration(color: kWhiteColor, shape: BoxShape.circle),
+                width: kSize100,
+                child: ClipOval(
+                    child: bloc.imgFile != null
+                        ? Image.file(
+                            bloc.imgFile!,
+                            fit: BoxFit.cover,
+                          )
+                        : cacheImage(userData?.photo ?? '')),
+              ),
             ),
           ),
           10.vGap,
@@ -161,6 +167,48 @@ class ChangeProfilePage extends StatelessWidget {
           ),
         ]),
       ),
+    );
+  }
+
+  void showDialogImage(BuildContext context, dynamic imageUrl) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          insetPadding: const EdgeInsets.all(10),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          backgroundColor: Colors.transparent,
+          child: Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: imageUrl is File
+                    ? InteractiveViewer(
+                        maxScale: 5.0,
+                        minScale: 0.01,
+                        child: Image.file(imageUrl))
+                    : InteractiveViewer(
+                        maxScale: 5.0,
+                        minScale: 0.01,
+                        child: cacheImage(imageUrl)),
+              ),
+              Positioned(
+                top: 0,
+                right: 0,
+                  child: IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: Icon(
+                        Icons.cancel,
+                        color: kRedColor,
+                      )))
+            ],
+          ),
+        );
+      },
     );
   }
 

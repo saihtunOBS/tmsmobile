@@ -34,62 +34,69 @@ class HomePage extends StatelessWidget {
           Positioned(bottom: kMargin10 + 4, child: AppbarHeader())
         ]),
       ),
-      body: Stack(
+      body: Column(
         children: [
-          GridView.builder(
-              physics: ClampingScrollPhysics(),
-              padding: EdgeInsets.only(
-                  left: kMarginXLarge,
-                  right: kMarginXLarge,
-                  top: MediaQuery.of(context).size.height * 0.44,
-                  bottom: MediaQuery.of(context).size.height * 0.15),
-              shrinkWrap: true,
-              itemCount: 6,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: kMargin45,
-                  crossAxisSpacing: kMarginMedium3,
-                  mainAxisExtent: kSize75),
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    switch (index) {
-                      case 0:
-                        PageNavigator(ctx: context)
-                            .nextPage(page: ContractPage());
-                      case 1:
-                        PageNavigator(ctx: context)
-                            .nextPage(page: BillingPage());
-                      case 2:
-                        PageNavigator(ctx: context)
-                            .nextPage(page: ServiceRequestPage());
-                      case 3:
-                        PageNavigator(ctx: context)
-                            .nextPage(page: ComplainPage());
-                      case 4:
-                        PageNavigator(ctx: context)
-                            .nextPage(page: CarParkingPage());
-                      case 5:
-                        PageNavigator(ctx: context)
-                            .nextPage(page: AnnouncementPage());
-                        break;
-    
-                      default:
-                    }
-                  },
-                  child: HomeListItem(
-                    backgroundColor: _separateColor(index),
-                    label: _separateLabel(index, context),
-                    imageLogo: _separateLogo(index),
-                  ),
-                );
-              }),
-    
           //banner
-          SizedBox(
+          Container(
+            color: Colors.white,
             height: MediaQuery.of(context).size.height * 0.4,
             width: double.infinity,
             child: _buildBannerView(context),
+          ),
+          // 35.vGap,
+          Expanded(
+            child: SingleChildScrollView(
+              physics: ClampingScrollPhysics(),
+              child: GridView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.only(
+                      left: kMarginXLarge,
+                      right: kMarginXLarge,
+                      top: 35,
+                      bottom: 100
+                      ),
+                  shrinkWrap: true,
+                  itemCount: 6,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: kMargin45,
+                      crossAxisSpacing: kMarginMedium3,
+                      mainAxisExtent: kSize75),
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        switch (index) {
+                          case 0:
+                            PageNavigator(ctx: context)
+                                .nextPage(page: ContractPage());
+                          case 1:
+                            PageNavigator(ctx: context)
+                                .nextPage(page: BillingPage());
+                          case 2:
+                            PageNavigator(ctx: context)
+                                .nextPage(page: ServiceRequestPage());
+                          case 3:
+                            PageNavigator(ctx: context)
+                                .nextPage(page: ComplainPage());
+                          case 4:
+                            PageNavigator(ctx: context)
+                                .nextPage(page: CarParkingPage());
+                          case 5:
+                            PageNavigator(ctx: context)
+                                .nextPage(page: AnnouncementPage());
+                            break;
+              
+                          default:
+                        }
+                      },
+                      child: HomeListItem(
+                        backgroundColor: _separateColor(index),
+                        label: _separateLabel(index, context),
+                        imageLogo: _separateLogo(index),
+                      ),
+                    );
+                  }),
+            ),
           ),
         ],
       ),
@@ -193,7 +200,7 @@ class HomePage extends StatelessWidget {
                         );
                       }).toList(),
                       options: CarouselOptions(
-                        autoPlay: true,
+                        autoPlay: false,
                         disableCenter: true,
                         viewportFraction: 1,
                         onPageChanged: (index, reason) =>

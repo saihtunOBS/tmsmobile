@@ -128,7 +128,7 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
           value,
           style: TextStyle(
               color: isNumber == true ? kBlueColor : kBlackColor,
-              fontSize: AppData.shared.getRegularFontSize(),
+              fontSize: kTextRegular2x + 1,
               fontWeight: FontWeight.w700,
               decoration: isNumber == true ? TextDecoration.underline : null,
               decorationColor: kBlueColor,

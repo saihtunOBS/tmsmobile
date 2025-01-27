@@ -133,9 +133,6 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                   PageNavigator(ctx: context)
                       .nextPage(
                           page: MaintenanceAndFillOutRequestPage(
-                    shops: _currentIndex == 0
-                        ? bloc.maintenanceShops
-                        : bloc.filloutShops,
                     isMaintanence: _currentIndex == 0 ? true : false,
                   ))
                       .whenComplete(() {

@@ -8,6 +8,7 @@ import 'package:tmsmobile/data/vos/contract_information_vo.dart';
 import 'package:tmsmobile/data/vos/contract_vo.dart';
 import 'package:tmsmobile/data/vos/emergency_vo.dart';
 import 'package:tmsmobile/data/vos/household_vo.dart';
+import 'package:tmsmobile/data/vos/room_shop_vo.dart';
 import 'package:tmsmobile/data/vos/service_request_vo.dart';
 import 'package:tmsmobile/data/vos/type_of_issue_vo.dart';
 import 'package:tmsmobile/network/data_agents/tms_data_agent.dart';
@@ -393,6 +394,18 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
   Future<List<TypeOfIssueVO>> getTypeOfIssues(String token) {
     return tmsApi
         .getTypeOfIssues('Bearer $token')
+        .asStream()
+        .map((response) => response.data ?? [])
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<List<RoomShopVO>> getProperties(String token) {
+    return tmsApi
+        .getProperties('Bearer $token')
         .asStream()
         .map((response) => response.data ?? [])
         .first

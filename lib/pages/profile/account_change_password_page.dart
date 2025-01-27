@@ -158,7 +158,7 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                                     context: context,
                                     dialogWidget: ErrorDialogView(
                                         errorMessage:
-                                            'Password does not match!'));
+                                            AppLocalizations.of(context)?.kPasswordDoesNotMatchLabel));
                               } else {
                                 bloc
                                     .onTapContinueChangePassword(

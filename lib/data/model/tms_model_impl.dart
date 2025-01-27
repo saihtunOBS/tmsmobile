@@ -9,6 +9,7 @@ import 'package:tmsmobile/data/vos/contract_vo.dart';
 import 'package:tmsmobile/data/vos/emergency_vo.dart';
 import 'package:tmsmobile/data/vos/household_vo.dart';
 import 'package:tmsmobile/data/vos/login_data_vo.dart';
+import 'package:tmsmobile/data/vos/room_shop_vo.dart';
 import 'package:tmsmobile/data/vos/service_request_vo.dart';
 import 'package:tmsmobile/data/vos/type_of_issue_vo.dart';
 import 'package:tmsmobile/network/data_agents/tms_data_agent.dart';
@@ -197,7 +198,7 @@ class TmsModelImpl extends TmsModel {
   Future<OTPResponse> verifyOTP(String token, VerifyOtpRequest request) {
     return tmsDataAgent.verifyOTP(token, request);
   }
-  
+
   @override
   Future<void> updateProfile(String token, File photo) {
     return tmsDataAgent.updateProfile(token, photo);
@@ -206,5 +207,10 @@ class TmsModelImpl extends TmsModel {
   @override
   Future<List<TypeOfIssueVO>> getTypeOfIssues(String token) {
     return tmsDataAgent.getTypeOfIssues(token);
+  }
+
+  @override
+  Future<List<RoomShopVO>> getProperties(String token) {
+    return tmsDataAgent.getProperties(token);
   }
 }
