@@ -48,13 +48,12 @@ class HomePage extends StatelessWidget {
             child: SingleChildScrollView(
               physics: ClampingScrollPhysics(),
               child: GridView.builder(
-                physics: NeverScrollableScrollPhysics(),
+                  physics: NeverScrollableScrollPhysics(),
                   padding: EdgeInsets.only(
                       left: kMarginXLarge,
                       right: kMarginXLarge,
                       top: 35,
-                      bottom: 100
-                      ),
+                      bottom: 100),
                   shrinkWrap: true,
                   itemCount: 6,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -85,7 +84,7 @@ class HomePage extends StatelessWidget {
                             PageNavigator(ctx: context)
                                 .nextPage(page: AnnouncementPage());
                             break;
-              
+
                           default:
                         }
                       },
@@ -200,7 +199,7 @@ class HomePage extends StatelessWidget {
                         );
                       }).toList(),
                       options: CarouselOptions(
-                        autoPlay: false,
+                        autoPlay: true,
                         disableCenter: true,
                         viewportFraction: 1,
                         onPageChanged: (index, reason) =>

@@ -23,6 +23,11 @@ class HomeListItem extends StatelessWidget {
         Container(
           width: double.infinity,
           decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    offset: Offset(0, 5), color: 
+                    kGreyColor, blurRadius: 6.0)
+              ],
               color: backgroundColor,
               borderRadius: BorderRadius.circular(kMargin5)),
           child: Center(
@@ -31,8 +36,8 @@ class HomeListItem extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontFamily: PersistenceData.shared.getLocale() == 'my'
-                                    ? AppData.shared.fontFamily3
-                                    : AppData.shared.fontFamily2,
+                      ? AppData.shared.fontFamily3
+                      : AppData.shared.fontFamily2,
                   fontSize: AppData.shared.getRegularFontSize(),
                   color: kWhiteColor,
                   fontWeight: FontWeight.bold),
@@ -40,11 +45,11 @@ class HomeListItem extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: -kSize40,
+          top: -kSize40 + 5,
           left: 20,
           child: Container(
-            height: kMargin60,
-            width: kMargin60,
+            height: kMargin60 - 3,
+            width: kMargin60 - 3,
             decoration: BoxDecoration(
                 color: kWhiteColor,
                 borderRadius: BorderRadius.circular(kSize40)),
