@@ -194,7 +194,7 @@ class HomePage extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(kMarginMedium),
                             child: cacheImage(
-                                'https://www.animalfriends.co.uk/siteassets/media/images/article-images/cat-articles/51_afi_article1_the-secret-language-of-cats.png'),
+                                'https://www.parcelpending.com/wp-content/uploads/2021/10/8-Ways-Apartment-Complexes-Are-Evolving-in-a-Post-COVID-World.jpg'),
                           ),
                         );
                       }).toList(),

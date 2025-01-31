@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/emergency_bloc.dart';
@@ -50,63 +51,63 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
                   fit: BoxFit.fill,
                 ),
               ),
-              bloc.isLoading == true
-                  ? LoadingView(
-                      indicator: Indicator.ballBeat,
-                      indicatorColor: kPrimaryColor)
-                  : bloc.emergencyLists?.isEmpty ?? true
-                      ? EmptyView(
-                          imagePath: kNoAnnouncementImage,
-                          title: 'No Emergency contacts.',
-                          subTitle: 'There is no emergency contact right now.')
-                      : Column(
-                          spacing: kMarginMedium2,
-                          children: [
-                            SizedBox(
-                              height: 120,
-                            ),
-                            Expanded(
-                              child: RefreshIndicator(
-                                onRefresh: () async => bloc.getEmergency(),
-                                child: ListView.builder(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: kMarginMedium2),
-                                  physics: AlwaysScrollableScrollPhysics(),
-                                  itemCount: bloc.isLoadMore == true
-                                      ? bloc.emergencyLists?.length ?? 0 + 1
-                                      : bloc.emergencyLists?.length,
-                                  itemBuilder: (context, index) {
-                                    if (index == bloc.emergencyLists?.length) {
-                                      return LoadingView(
-                                          indicator: Indicator.ballBeat,
-                                          indicatorColor: kPrimaryColor);
+              Column(children: [
+                ///appbar
+                ProfileAppbar(
+                  title: AppLocalizations.of(context)?.kEmergencyContactLabel,
+                ),
+                Expanded(
+                  child: RefreshIndicator(
+                    backgroundColor: kBackgroundColor,
+                    elevation: 0.0,
+                    onRefresh: () async {
+                      HapticFeedback.mediumImpact();
+                      bloc.getEmergency();
+                    },
+                    child: bloc.isLoading == true
+                        ? LoadingView(
+                            indicator: Indicator.ballBeat,
+                            indicatorColor: kPrimaryColor)
+                        : bloc.emergencyLists?.isEmpty ?? true
+                            ? EmptyView(
+                                imagePath: kNoAnnouncementImage,
+                                title: AppLocalizations.of(context)
+                                        ?.kNoEmergencyLabel ??
+                                    '',
+                                subTitle: AppLocalizations.of(context)
+                                        ?.kThereIsNoEmergencyLabel ??
+                                    '')
+                            : ListView.builder(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: kMarginMedium2,vertical: 15),
+                                physics: AlwaysScrollableScrollPhysics(),
+                                itemCount: bloc.isLoadMore == true
+                                    ? bloc.emergencyLists?.length ?? 0 + 1
+                                    : bloc.emergencyLists?.length,
+                                itemBuilder: (context, index) {
+                                  if (index == bloc.emergencyLists?.length) {
+                                    return LoadingView(
+                                        indicator: Indicator.ballBeat,
+                                        indicatorColor: kPrimaryColor);
+                                  }
+                                  return _buildListItem(
+                                      data: bloc.emergencyLists?[index],
+                                      index: index,
+                                      title: bloc
+                                          .emergencyLists?[index].contractName);
+                                },
+                                controller: scrollController
+                                  ..addListener(() {
+                                    if (scrollController.position.pixels ==
+                                        scrollController
+                                            .position.maxScrollExtent) {
+                                      bloc.loadMoreData();
                                     }
-                                    return _buildListItem(
-                                        data: bloc.emergencyLists?[index],
-                                        index: index,
-                                        title: bloc.emergencyLists?[index]
-                                            .contractName);
-                                  },
-                                  controller: scrollController
-                                    ..addListener(() {
-                                      if (scrollController.position.pixels ==
-                                          scrollController
-                                              .position.maxScrollExtent) {
-                                        bloc.loadMoreData();
-                                      }
-                                    }),
-                                ),
+                                  }),
                               ),
-                            ),
-                          ],
-                        ),
-
-              ///appbar
-              Positioned(
-                  top: 0,
-                  child: ProfileAppbar(
-                    title: AppLocalizations.of(context)?.kEmergencyContactLabel,
-                  )),
+                  ),
+                ),
+              ]),
             ],
           ),
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/parking_bloc.dart';
@@ -47,49 +48,54 @@ class _CarParkingPageState extends State<CarParkingPage> {
                 child: GradientAppBar(
                     AppLocalizations.of(context)?.kCarParkingLabel ?? '')),
             body: Consumer<ParkingBloc>(
-              builder: (context, bloc, child) => bloc.isLoading == true
-                  ? LoadingView(
-                      indicator: Indicator.ballBeat,
-                      indicatorColor: kPrimaryColor)
-                  : bloc.parkings?.isEmpty ?? true
-                      ? EmptyView(
-                          imagePath: kNoAnnouncementImage,
-                          title: 'No Parking.',
-                          subTitle: 'There is no parking right now.')
-                      : RefreshIndicator(
-                          onRefresh: () async => bloc.getParking(),
-                          child: SizedBox(
-                            height: double.infinity,
-                            child: ListView.builder(
-                              physics: AlwaysScrollableScrollPhysics(),
-                              padding: EdgeInsets.symmetric(
-                                  vertical: kMarginMedium2,
-                                  horizontal: kMarginMedium2 + 2),
-                              itemCount: bloc.isLoadMore == true
-                                  ? (bloc.parkings?.length ?? 0 + 1)
-                                  : bloc.parkings?.length,
-                              itemBuilder: (context, index) {
-                                if (index == bloc.parkings?.length) {
-                                  return LoadingView(
-                                      indicator: Indicator.ballBeat,
-                                      indicatorColor: kPrimaryColor);
+              builder: (context, bloc, child) => RefreshIndicator(
+                backgroundColor: kBackgroundColor,
+                elevation: 0.0,
+                onRefresh: () async{
+                  HapticFeedback.mediumImpact();
+                  bloc.getParking();
+                },
+                child: bloc.isLoading == true
+                    ? LoadingView(
+                        indicator: Indicator.ballBeat,
+                        indicatorColor: kPrimaryColor)
+                    : bloc.parkings?.isEmpty ?? true
+                        ? EmptyView(
+                            imagePath: kNoAnnouncementImage,
+                            title: AppLocalizations.of(context)?.kNoParkingLabel ?? '',
+                            subTitle: AppLocalizations.of(context)?.kThereIsNoParkingLabel ?? '')
+                        : SizedBox(
+                          height: double.infinity,
+                          child: ListView.builder(
+                            physics: AlwaysScrollableScrollPhysics(),
+                            padding: EdgeInsets.symmetric(
+                                vertical: kMarginMedium2,
+                                horizontal: kMarginMedium2 + 2),
+                            itemCount: bloc.isLoadMore == true
+                                ? (bloc.parkings?.length ?? 0 + 1)
+                                : bloc.parkings?.length,
+                            itemBuilder: (context, index) {
+                              if (index == bloc.parkings?.length) {
+                                return LoadingView(
+                                    indicator: Indicator.ballBeat,
+                                    indicatorColor: kPrimaryColor);
+                              }
+                              return _buildBody(
+                                  bloc.parkings?[index]
+                                      as PropertyInformation,
+                                  index);
+                            },
+                            controller: scrollController
+                              ..addListener(() {
+                                if (scrollController.position.pixels ==
+                                    scrollController
+                                        .position.maxScrollExtent) {
+                                  bloc.loadMoreData();
                                 }
-                                return _buildBody(
-                                    bloc.parkings?[index]
-                                        as PropertyInformation,
-                                    index);
-                              },
-                              controller: scrollController
-                                ..addListener(() {
-                                  if (scrollController.position.pixels ==
-                                      scrollController
-                                          .position.maxScrollExtent) {
-                                    bloc.loadMoreData();
-                                  }
-                                }),
-                            ),
+                              }),
                           ),
                         ),
+              ),
             )),
       ),
     );

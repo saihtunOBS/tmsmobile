@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/service_request_bloc.dart';
@@ -97,7 +98,8 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                             Tab(
                               child: Text(kMaintenanceLabel,
                                   style: TextStyle(
-                                      fontSize: AppData.shared.getSmallFontSize(),
+                                      fontSize:
+                                          AppData.shared.getSmallFontSize(),
                                       fontWeight: FontWeight.w700)),
                             ),
                             Tab(
@@ -149,7 +151,12 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
   Widget _buildMaintenanceTab() {
     return Consumer<ServiceRequestBloc>(
       builder: (context, bloc, child) => RefreshIndicator(
-        onRefresh: () async => bloc.getMaintenances(),
+        backgroundColor: kBackgroundColor,
+        elevation: 0.0,
+        onRefresh: () async {
+          HapticFeedback.mediumImpact();
+          bloc.getMaintenances();
+        },
         child: SizedBox(
           height: double.infinity,
           child: bloc.isLoading == true
@@ -198,7 +205,12 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
   Widget _buildFillOutTab() {
     return Consumer<ServiceRequestBloc>(
       builder: (context, bloc, child) => RefreshIndicator(
-        onRefresh: () async => bloc.getFillOuts(),
+        backgroundColor: kBackgroundColor,
+        elevation: 0.0,
+        onRefresh: () async {
+          HapticFeedback.mediumImpact();
+          bloc.getFillOuts();
+        },
         child: bloc.isLoading == true
             ?
 

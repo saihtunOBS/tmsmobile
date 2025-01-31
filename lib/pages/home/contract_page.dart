@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/contract_bloc.dart';
@@ -10,7 +11,6 @@ import 'package:tmsmobile/widgets/appbar.dart';
 import 'package:tmsmobile/widgets/empty_view.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 
 import '../../utils/colors.dart';
 import '../../utils/images.dart';
@@ -46,21 +46,27 @@ class _ContractPageState extends State<ContractPage> {
           backgroundColor: Colors.transparent,
           appBar: PreferredSize(
               preferredSize: Size(double.infinity, kMargin60),
-              child: GradientAppBar(AppLocalizations.of(context)?.kContractLabel ?? '')),
+              child: GradientAppBar(
+                  AppLocalizations.of(context)?.kContractLabel ?? '')),
           body: Consumer<ContractBloc>(
-            builder: (context, bloc, child) => bloc.isLoading == true
-                ? LoadingView(
-                    indicator: Indicator.ballBeat,
-                    indicatorColor: kPrimaryColor)
-                : bloc.contracts.isEmpty
-                    ? EmptyView(
-                        imagePath: kNoAnnouncementImage,
-                        title: 'No Contract.',
-                        subTitle: 'There is no contract right now.')
-                    : SizedBox(
-                        height: double.infinity,
-                        child: RefreshIndicator(
-                          onRefresh: () async => bloc.getContract(),
+            builder: (context, bloc, child) => RefreshIndicator(
+              backgroundColor: kBackgroundColor,
+              elevation: 0.0,
+              onRefresh: () async {
+                HapticFeedback.mediumImpact();
+                bloc.getContract();
+              },
+              child: bloc.isLoading == true
+                  ? LoadingView(
+                      indicator: Indicator.ballBeat,
+                      indicatorColor: kPrimaryColor)
+                  : bloc.contracts.isEmpty
+                      ? EmptyView(
+                          imagePath: kNoAnnouncementImage,
+                          title: AppLocalizations.of(context)?.kNoContractLabel ?? '',
+                          subTitle: AppLocalizations.of(context)?.kThereIsNoContractLabel ?? '')
+                      : SizedBox(
+                          height: double.infinity,
                           child: ListView.builder(
                             physics: AlwaysScrollableScrollPhysics(),
                             itemCount: bloc.isLoadMore
@@ -95,7 +101,7 @@ class _ContractPageState extends State<ContractPage> {
                               }),
                           ),
                         ),
-                      ),
+            ),
           ),
         ),
       ),

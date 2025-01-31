@@ -102,9 +102,12 @@ class ProfileAppbar extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                title ?? AppLocalizations.of(context)?.kBackLabel ?? '',
+                                title ??
+                                    AppLocalizations.of(context)?.kBackLabel ??
+                                    '',
                                 style: TextStyle(
-                                    fontSize: AppData.shared.getRegularFontSize(),
+                                    fontSize:
+                                        AppData.shared.getRegularFontSize(),
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600),
                               ),

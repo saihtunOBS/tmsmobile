@@ -227,5 +227,11 @@
     "kChooseOptionLabel": "Choose an Option",
     "kSelectOneOptionLabel": "Select one of the options below.",
     "kSessionExpireLabel": "Your session have expired. Please Login again.!",
-    "kPasswordDoesNotMatchLabel": "Password does not match!"
+    "kPasswordDoesNotMatchLabel": "Password does not match!",
+    "kNoContractLabel": "No contracts.",
+    "kThereIsNoContractLabel": "There is no contracts to show right now.",
+    "kNoParkingLabel": "No parking.",
+    "kThereIsNoParkingLabel": "There is no parking to show right now.",
+    "kNoEmergencyLabel": "No emergency.",
+    "kThereIsNoEmergencyLabel": "There is no emergency to show right now."
 }

@@ -45,7 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ProfileBloc(),
+      create: (context) => ProfileBloc(context: context),
       child: Scaffold(
         backgroundColor: kBackgroundColor,
         body: Consumer<ProfileBloc>(

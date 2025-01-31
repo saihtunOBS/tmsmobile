@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/complaint_bloc.dart';
@@ -133,71 +134,81 @@ class _ComplainPageState extends State<ComplainPage>
 
   Widget _buildPendingTab() {
     return Consumer<ComplaintBloc>(
-      builder: (context, bloc, child) => bloc.isLoading
-          ? LoadingView(
-              indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor)
-          : bloc.pendingComplainList.isEmpty
-              ? Center(
-                  child: EmptyView(
-                      imagePath: kNoComplainImage,
-                      title:
-                          AppLocalizations.of(context)?.kEmptyComplaintLabel ??
+      builder: (context, bloc, child) => RefreshIndicator(
+        backgroundColor: kBackgroundColor,
+        elevation: 0.0,
+        onRefresh: () async {
+          HapticFeedback.mediumImpact();
+          bloc.getComplaint();
+        },
+        child: SizedBox(
+          height: double.infinity,
+          child: bloc.isLoading
+              ? LoadingView(
+                  indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor)
+              : bloc.pendingComplainList.isEmpty
+                  ? Center(
+                      child: EmptyView(
+                          imagePath: kNoComplainImage,
+                          title: AppLocalizations.of(context)
+                                  ?.kEmptyComplaintLabel ??
                               '',
-                      subTitle: AppLocalizations.of(context)
-                              ?.kThereIsNoComplaintLabel ??
-                          ''),
-                )
-              : SizedBox(
-                  height: double.infinity,
-                  child: RefreshIndicator(
-                    onRefresh: () async => bloc.getComplaint(),
-                    child: ListView.builder(
-                        physics: AlwaysScrollableScrollPhysics(),
-                        padding: EdgeInsets.symmetric(
-                            vertical: kMargin24, horizontal: kMargin24),
-                        itemCount: bloc.pendingComplainList.length,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                              onTap: () {
-                                PageNavigator(ctx: context).nextPage(
-                                    page: ComplainDetailPage(
-                                  isPending: true,
-                                  complaintId: bloc.pendingComplainList[index].id,
-                                ));
-                              },
-                              child: ComplainListItem(
-                                isLast:
-                                    index == bloc.pendingComplainList.length - 1,
-                                data: bloc.pendingComplainList[index],
+                          subTitle: AppLocalizations.of(context)
+                                  ?.kThereIsNoComplaintLabel ??
+                              ''),
+                    )
+                  : ListView.builder(
+                      physics: AlwaysScrollableScrollPhysics(),
+                      padding: EdgeInsets.symmetric(
+                          vertical: kMargin24, horizontal: kMargin24),
+                      itemCount: bloc.pendingComplainList.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                            onTap: () {
+                              PageNavigator(ctx: context).nextPage(
+                                  page: ComplainDetailPage(
+                                isPending: true,
+                                complaintId: bloc.pendingComplainList[index].id,
                               ));
-                        }),
-                  ),
-                ),
+                            },
+                            child: ComplainListItem(
+                              isLast:
+                                  index == bloc.pendingComplainList.length - 1,
+                              data: bloc.pendingComplainList[index],
+                            ));
+                      }),
+        ),
+      ),
     );
   }
 
   Widget _buildSolvedTab() {
     return Consumer<ComplaintBloc>(
-      builder: (context, bloc, child) => bloc.isLoading
-          ? LoadingView(
-              indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor)
-          : bloc.solvedComplainList.isEmpty
-              ? Center(
-                  child: EmptyView(
-                      imagePath: kNoComplainImage,
-                      title:
-                          AppLocalizations.of(context)?.kEmptyComplaintLabel ??
+      builder: (context, bloc, child) => RefreshIndicator(
+        backgroundColor: kBackgroundColor,
+        elevation: 0.0,
+        onRefresh: () async {
+          HapticFeedback.mediumImpact();
+          bloc.getComplaint();
+        },
+        child: SizedBox(
+          height: double.infinity,
+          child: bloc.isLoading
+              ? LoadingView(
+                  indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor)
+              : bloc.solvedComplainList.isEmpty
+                  ? Center(
+                      child: EmptyView(
+                          imagePath: kNoComplainImage,
+                          title: AppLocalizations.of(context)
+                                  ?.kEmptyComplaintLabel ??
                               '',
-                      subTitle: AppLocalizations.of(context)
-                              ?.kThereIsNoComplaintLabel ??
-                          ''),
-                )
-              : SizedBox(
-                height: double.infinity,
-                child: RefreshIndicator(
-                  onRefresh: () async => bloc.getComplaint(),
-                  child: ListView.builder(
-                    physics: AlwaysScrollableScrollPhysics(),
+                          subTitle: AppLocalizations.of(context)
+                                  ?.kThereIsNoComplaintLabel ??
+                              ''),
+                    )
+                  : ListView.builder(
+                      physics: AlwaysScrollableScrollPhysics(),
                       padding: EdgeInsets.symmetric(
                           vertical: kMargin24, horizontal: kMargin24),
                       itemCount: bloc.solvedComplainList.length,
@@ -214,8 +225,8 @@ class _ComplainPageState extends State<ComplainPage>
                           ),
                         );
                       }),
-                ),
-              ),
+        ),
+      ),
     );
   }
 }
