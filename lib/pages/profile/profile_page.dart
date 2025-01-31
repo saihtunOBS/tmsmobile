@@ -273,7 +273,6 @@ class _ProfilePageState extends State<ProfilePage> {
             style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: AppData.shared.getSmallFontSize(),
-                // fontFamily: AppData.shared.getLocaleFont(),
                 color: kPrimaryColor),
           ),
           Spacer(),

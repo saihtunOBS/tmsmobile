@@ -3,7 +3,6 @@ import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/parking_bloc.dart';
 import 'package:tmsmobile/data/vos/contract_information_vo.dart';
-import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/widgets/empty_view.dart';
@@ -257,7 +256,6 @@ class _CarParkingPageState extends State<CarParkingPage> {
                         title:
                             AppLocalizations.of(context)?.kVehicleNoLabel ?? '',
                         value: '0001'),
-                    5.vGap,
                     // _buildParkingInformation(),
                   ],
                 ),

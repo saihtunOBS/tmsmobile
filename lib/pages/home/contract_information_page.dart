@@ -248,10 +248,14 @@ class ContractInformationPage extends StatelessWidget {
                         title:
                             AppLocalizations.of(context)?.kTotalAreaLabel ?? '',
                         value: '${data.totalArea ?? ''} sq ft'),
-                    10.vGap,
+                    data.shop?.parkingData?.isNotEmpty ?? true
+                        ? 10.vGap
+                        : 0.vGap,
                     data.shop?.parkingData?.isNotEmpty ?? true
                         ? _buildParkingInformation(
-                            data.shop?.parkingData?.first ?? ParkingVO(), data,context)
+                            data.shop?.parkingData?.first ?? ParkingVO(),
+                            data,
+                            context)
                         : Container(),
                   ],
                 ),
@@ -264,7 +268,7 @@ class ContractInformationPage extends StatelessWidget {
   }
 
   Widget _buildParkingInformation(
-      ParkingVO parkingData, PropertyInformation data,BuildContext context) {
+      ParkingVO parkingData, PropertyInformation data, BuildContext context) {
     return ListTileTheme(
       dense: true,
       child: Container(
@@ -301,7 +305,7 @@ class ContractInformationPage extends StatelessWidget {
           ),
           children: [
             Container(
-              padding: EdgeInsets.symmetric(vertical: kMargin10),
+              padding: EdgeInsets.only(top: kMargin10,bottom: 5),
               decoration: BoxDecoration(
                 color: kWhiteColor,
               ),
@@ -309,14 +313,20 @@ class ContractInformationPage extends StatelessWidget {
                 spacing: kMargin10,
                 children: [
                   _listItem(
-                      title: AppLocalizations.of(context)?.kBranchLabel ?? '', value: data.branch?.name ?? ''),
+                      title: AppLocalizations.of(context)?.kBranchLabel ?? '',
+                      value: data.branch?.name ?? ''),
                   _listItem(
-                      title: AppLocalizations.of(context)?.kBuildingLabel ?? '', value: data.building?.name ?? ''),
-                  _listItem(title: AppLocalizations.of(context)?.kFloorLabel ?? '', value: data.floor?.name ?? ''),
+                      title: AppLocalizations.of(context)?.kBuildingLabel ?? '',
+                      value: data.building?.name ?? ''),
                   _listItem(
-                      title: AppLocalizations.of(context)?.kZoneViewLabel ?? '', value: data.zone?.name ?? ''),
+                      title: AppLocalizations.of(context)?.kFloorLabel ?? '',
+                      value: data.floor?.name ?? ''),
                   _listItem(
-                      title: AppLocalizations.of(context)?.kParkingCodeLabel ?? '',
+                      title: AppLocalizations.of(context)?.kZoneViewLabel ?? '',
+                      value: data.zone?.name ?? ''),
+                  _listItem(
+                      title:
+                          AppLocalizations.of(context)?.kParkingCodeLabel ?? '',
                       value: data.shop?.parkingData?.first.parkingCode
                               ?.parkingCode ??
                           ''),
@@ -324,7 +334,10 @@ class ContractInformationPage extends StatelessWidget {
                       title: AppLocalizations.of(context)?.kStatusLabel ?? '',
                       value: filterStatus(data.shop?.status ?? 0),
                       isStatus: true),
-                  _listItem(title: AppLocalizations.of(context)?.kVehicleNoLabel ?? '', value: '0002'),
+                  _listItem(
+                      title:
+                          AppLocalizations.of(context)?.kVehicleNoLabel ?? '',
+                      value: '0002'),
                 ],
               ),
             ),
