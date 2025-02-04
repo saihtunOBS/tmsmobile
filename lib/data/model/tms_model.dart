@@ -11,6 +11,7 @@ import '../../network/requests/login_request.dart';
 import '../../network/requests/reset_password_request.dart';
 import '../../network/requests/send_otp_request.dart';
 import '../../network/requests/verify_otp_request.dart';
+import '../../network/responses/maintenance_process_response.dart';
 import '../../network/responses/otp_response.dart';
 import '../../network/responses/service_request_response.dart';
 import '../vos/announcement_vo.dart';
@@ -66,5 +67,6 @@ abstract class TmsModel {
   Future<void> updateProfile(String token, File photo);
   Future<List<TypeOfIssueVO>> getTypeOfIssues(String token);
   Future<List<RoomShopVO>> getProperties(String token);
+  Future<MaintenanceProcessResponse> getMaintenanceProcess(String token,String id);
 
 }

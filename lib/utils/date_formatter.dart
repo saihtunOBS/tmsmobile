@@ -1,4 +1,3 @@
-
 import 'package:intl/intl.dart';
 
 class DateFormatter {
@@ -7,5 +6,16 @@ class DateFormatter {
     String formatted = formatter.format(dateTime);
 
     return formatted;
+  }
+
+  static String formatStringDate(String date) {
+    try {
+      final formatter = DateFormat('EEE MMM d yyyy HH:mm:ss');
+      final dateTime = formatter.parse(date);
+
+      return formatDate(dateTime);
+    } catch (e) {
+      return ""; // Handle errors
+    }
   }
 }

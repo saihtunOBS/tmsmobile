@@ -21,6 +21,7 @@ import '../../data/vos/type_of_issue_vo.dart';
 import '../requests/household_resident_request.dart';
 import '../requests/login_request.dart';
 import '../responses/login_response.dart';
+import '../responses/maintenance_process_response.dart';
 import '../responses/service_request_response.dart';
 import '../responses/user_response.dart';
 
@@ -67,4 +68,5 @@ abstract class TmsDataAgent {
   Future<void> updateProfile(String token,File photo);
   Future<List<TypeOfIssueVO>> getTypeOfIssues(String token);
   Future<List<RoomShopVO>> getProperties(String token);
+  Future<MaintenanceProcessResponse> getMaintenanceProcess(String token,String id);
 }

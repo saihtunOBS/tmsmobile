@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
+import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/cache_image.dart';
 
 import '../../data/app_data/app_data.dart';
+import '../../data/vos/pending_vo.dart';
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
 
 class MaintenancePendingPage extends StatelessWidget {
-  const MaintenancePendingPage({super.key});
+  const MaintenancePendingPage({super.key, required this.pendingData});
+  final PendingVO pendingData;
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +39,17 @@ class MaintenancePendingPage extends StatelessWidget {
             child: Column(
               spacing: kMargin12,
               children: [
-                _buildListDetail(title: kIDLabel, value: 'value'),
-                _buildListDetail(title: kDateLabel, value: 'value'),
-                _buildListDetail(title: kTenantNameLabel, value: 'value'),
-                _buildListDetail(title: kRoomShopNameLabel, value: 'value'),
-                _buildListDetail(title: kTypeOfIssueLabel, value: 'value'),
+                // _buildListDetail(title: kIDLabel, value: 'value'),
+                _buildListDetail(
+                    title: kDateLabel,
+                    value: DateFormatter.formatStringDate(
+                        pendingData.pendingDate ?? '')),
+                _buildListDetail(
+                    title: kTenantNameLabel, value: pendingData.tenant ?? ''),
+                _buildListDetail(
+                    title: kRoomShopNameLabel, value: pendingData.shop ?? ''),
+                _buildListDetail(
+                    title: kTypeOfIssueLabel, value: pendingData.issue ?? ''),
                 _buildStatusListItem(status: 'Pending'),
                 _buildDescription(context)
               ],
@@ -110,20 +119,20 @@ class MaintenancePendingPage extends StatelessWidget {
         Text(
           kDescriptionLabel,
           style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
-            fontSize: kTextRegular3x,fontWeight: FontWeight.w700
-          ),
+              fontFamily: AppData.shared.fontFamily2,
+              fontSize: kTextRegular3x,
+              fontWeight: FontWeight.w700),
         ),
         10.vGap,
         Text(
-          'Lorem ipsum dolor sit amet consectetur. Eget neque gravida tellus vitae quis a. Aliquam a sagittis nibh ipsum. Tincidunt tristique bibendum adipiscing id volutpat lectus. Ullamcorper magna amet nibh venenatis risus. ',
+          pendingData.description ?? '',
           style: TextStyle(fontSize: kTextRegular),
         ),
         kMarginMedium2.vGap,
         GridView.builder(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
-            itemCount: 2,
+            itemCount: pendingData.attach?.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisSpacing: kMarginMedium2,
@@ -132,8 +141,7 @@ class MaintenancePendingPage extends StatelessWidget {
             itemBuilder: (context, index) {
               return SizedBox(
                 width: MediaQuery.of(context).size.width / 2.5,
-                child: cacheImage(
-                    'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/23rd_St_6th_Av_19_-_Chelsea_Stratus.jpg/640px-23rd_St_6th_Av_19_-_Chelsea_Stratus.jpg'),
+                child: cacheImage(pendingData.attach?[index] ?? ''),
               );
             })
       ],

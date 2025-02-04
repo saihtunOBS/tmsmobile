@@ -148,8 +148,10 @@ class ServiceRequestListItem extends StatelessWidget {
       case 4:
         return kRedColor;
       case 5:
-        return kYellowColor;
+        return kPrimaryColor;
       case 6:
+        return kYellowColor;
+      case 7:
         return kPurpleColor;
       default:
         return kPrimaryColor;
@@ -167,8 +169,10 @@ class ServiceRequestListItem extends StatelessWidget {
       case 4:
         return 'Reject';
       case 5:
-        return 'Processing';
+        return 'Accept';
       case 6:
+        return 'Processing';
+      case 7: 
         return 'Finished';
       default:
         return 'Pending';

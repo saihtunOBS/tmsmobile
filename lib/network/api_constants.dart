@@ -35,6 +35,8 @@ const String kEndPointParking = '/home/packing/list';
 const String kEndPointEmergency = '/account/emergency-list';
 const String kEndPointTypeOfIssues = '/common/issue/list';
 const String kEndPointProperty = '/common/property-list';
+const String kEndPointMaintenanceProcess = '/home/service/maintenance/format';
+const String kEndPointFilOutProcess = '/home/service/fill-out-request/format';
 
 ///Parameters
 const String kParamApiKey = "api_key";

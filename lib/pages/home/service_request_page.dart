@@ -178,7 +178,9 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                               onTap: () {
                                 PageNavigator(ctx: context).nextPage(
                                     page: MaintenanceProcessPage(
-                                  status: 2,
+                                  status:
+                                      bloc.maintenanceLists[index].status ?? 0,
+                                      id: bloc.maintenanceLists[index].id,
                                 ));
                               },
                               child: ServiceRequestListItem(

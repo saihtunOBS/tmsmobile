@@ -23,6 +23,7 @@ import 'package:tmsmobile/network/requests/reset_password_request.dart';
 import 'package:tmsmobile/network/requests/send_otp_request.dart';
 import 'package:tmsmobile/network/requests/verify_otp_request.dart';
 import 'package:tmsmobile/network/responses/login_response.dart';
+import 'package:tmsmobile/network/responses/maintenance_process_response.dart';
 import 'package:tmsmobile/network/responses/otp_response.dart';
 
 import '../../network/data_agents/retrofit_data_agent_impl.dart';
@@ -212,5 +213,11 @@ class TmsModelImpl extends TmsModel {
   @override
   Future<List<RoomShopVO>> getProperties(String token) {
     return tmsDataAgent.getProperties(token);
+  }
+
+  @override
+  Future<MaintenanceProcessResponse> getMaintenanceProcess(
+      String token, String id) {
+    return tmsDataAgent.getMaintenanceProcess(token, id);
   }
 }

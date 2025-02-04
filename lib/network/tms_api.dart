@@ -13,6 +13,7 @@ import 'package:tmsmobile/network/responses/complaint_response.dart';
 import 'package:tmsmobile/network/responses/contract_response.dart';
 import 'package:tmsmobile/network/responses/emergency_response.dart';
 import 'package:tmsmobile/network/responses/household_response.dart';
+import 'package:tmsmobile/network/responses/maintenance_process_response.dart';
 import 'package:tmsmobile/network/responses/otp_response.dart';
 import 'package:tmsmobile/network/responses/service_request_response.dart';
 
@@ -190,5 +191,11 @@ abstract class TmsApi {
   @GET(kEndPointProperty)
   Future<PropertyResponse> getProperties(
     @Header(kHeaderAuthorization) String token,
+  );
+
+  @GET('$kEndPointMaintenanceProcess/{id}')
+  Future<MaintenanceProcessResponse> getMaintenanceProcess(
+    @Header(kHeaderAuthorization) String token,
+    @Path() String id
   );
 }

@@ -1,25 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
+import 'package:provider/provider.dart';
+import 'package:tmsmobile/bloc/maintenance_process_bloc.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/home/invoice_detail_page.dart';
 import 'package:tmsmobile/pages/home/maintenance_pending_page.dart';
 import 'package:tmsmobile/pages/home/maintenance_processing_page.dart';
 import 'package:tmsmobile/pages/home/maintenance_quotation_page.dart';
+import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/strings.dart';
+import 'package:tmsmobile/widgets/loading_view.dart';
 
+import '../../data/vos/pending_vo.dart';
 import '../../extension/text_ext.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
 
 class MaintenanceProcessPage extends StatefulWidget {
-  const MaintenanceProcessPage({super.key, this.status});
+  const MaintenanceProcessPage({super.key, this.status, this.id});
   final int? status;
+  final String? id;
   @override
   State<MaintenanceProcessPage> createState() => _MaintenanceProcessPageState();
 }
-
-final _surveyKey = GlobalKey();
 
 class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
   bool isSelectedPending = true;
@@ -36,10 +41,10 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       isWrapSurveyText = isTextWrapped(
-          text: 'We will arrive to survey within two days,',
+          text: 'We will arrive to survey within two days.',
           maxWidth: MediaQuery.of(context).size.width);
       isWrapProcessingText = isTextWrapped(
-          text: 'We will arrive to survey within two days.We will arrive to survey within two days,',
+          text: 'We will arrive to fix within two days.',
           maxWidth: MediaQuery.of(context).size.width);
       implementStatus(widget.status ?? 1);
       setState(() {});
@@ -49,14 +54,22 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      appBar: PreferredSize(
-          preferredSize: Size(double.infinity, kMargin60),
-          child: GradientAppBar(
-            kMaintenanceProcessLabel,
-          )),
-      body: _buildSetpper(),
+    return ChangeNotifierProvider(
+      create: (context) => MaintenanceProcessBloc(widget.id),
+      child: Scaffold(
+        backgroundColor: kBackgroundColor,
+        appBar: PreferredSize(
+            preferredSize: Size(double.infinity, kMargin60),
+            child: GradientAppBar(
+              kMaintenanceProcessLabel,
+            )),
+        body: Consumer<MaintenanceProcessBloc>(
+            builder: (context, bloc, child) => bloc.isLoading
+                ? LoadingView(
+                    indicator: Indicator.ballBeat,
+                    indicatorColor: kPrimaryColor)
+                : _buildSetpper()),
+      ),
     );
   }
 
@@ -81,15 +94,19 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
         isSelectedSurvey = true;
         isSelectedQuotation = true;
         isSelectedAcceptReject = true;
-        isSelectedProcessing = true;
       case 6:
         isSelectedPending = true;
         isSelectedSurvey = true;
         isSelectedQuotation = true;
         isSelectedAcceptReject = true;
         isSelectedProcessing = true;
+      case 7:
+        isSelectedPending = true;
+        isSelectedSurvey = true;
+        isSelectedQuotation = true;
+        isSelectedAcceptReject = true;
+        isSelectedProcessing = true;
         isSelectedFinish = true;
-        break;
       default:
         isSelectedPending = false;
         setState(() {});
@@ -97,132 +114,155 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
   }
 
   Widget _buildSetpper() {
-    return SingleChildScrollView(
-      child: Column(
-          spacing: kMargin30,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            1.vGap,
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: kMarginMedium2 + kMargin5, top: kMargin5),
-                  child: Column(
-                    children: [
-                      _buildDotView(isSelectedIndex: isSelectedPending),
-                      _buildDotView(
-                          isSelectedIndex: isSelectedSurvey, isSurvey: true),
-                      _buildDotView(isSelectedIndex: isSelectedQuotation),
-                      _buildDotView(isSelectedIndex: isSelectedAcceptReject),
-                      _buildDotView(
-                          isSelectedIndex: isSelectedProcessing,
-                          isProcessing: true),
-                      _buildDotView(
-                          isLast: true, isSelectedIndex: isSelectedFinish),
-                    ],
+    return Consumer<MaintenanceProcessBloc>(
+      builder: (context, bloc, child) => SingleChildScrollView(
+        child: Column(
+            spacing: kMargin30,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              1.vGap,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: kMarginMedium2 + kMargin5, top: kMargin5),
+                    child: Column(
+                      children: [
+                        _buildDotView(isSelectedIndex: isSelectedPending),
+                        _buildDotView(
+                            isSelectedIndex: isSelectedSurvey, isSurvey: true),
+                        _buildDotView(isSelectedIndex: isSelectedQuotation),
+                        _buildDotView(isSelectedIndex: isSelectedAcceptReject),
+                        _buildDotView(
+                            isSelectedIndex: isSelectedProcessing,
+                            isProcessing: true),
+                        _buildDotView(
+                            isLast: true, isSelectedIndex: isSelectedFinish),
+                      ],
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: Column(
-                    spacing: kMarginMedium2,
-                    children: [
-                      _buildProcessView(
-                          title: kPendingLabel,
-                          onPressedDetail: () => PageNavigator(ctx: context)
-                              .nextPage(page: MaintenancePendingPage()),
-                          onPressed: () {
-                            setState(() {
-                              isSelectedPending = true;
-                            });
-                          },
-                          label: 'Maintenance Request',
-                          isSelected: isSelectedPending,
-                          color: kBlackColor),
-                      _buildProcessView(
-                          title: kSurveyLabel,
-                          key: _surveyKey,
-                          surveyProcessingText:
-                              'We will arrive to survey within two days.',
-                          onPressed: () {
-                            setState(() {
-                              if (isSelectedPending == false) return;
-                              isSelectedSurvey = true;
-                            });
-                          },
-                          label: kSurveyStateLabel,
-                          isSelected: isSelectedSurvey,
-                          color: kOrangeColor),
-                      _buildProcessView(
-                          title: kQuotationLabel,
-                          onPressedDetail: () => PageNavigator(ctx: context)
-                              .nextPage(page: MaintenanceQuotationPage()),
-                          onPressed: () {
-                            setState(() {
-                              if (isSelectedSurvey == false) return;
-                              isSelectedQuotation = true;
-                            });
-                          },
-                          label: kQuotationStateLabel,
-                          isSelected: isSelectedQuotation,
-                          color: kGreenColor),
-                      _buildProcessView(
-                          title: kAcceptRejectLabel,
-                          onPressed: () {
-                            setState(() {
-                              if (isSelectedQuotation == false) return;
-                              isSelectedAcceptReject = true;
-                            });
-                          },
-                          label: kDecisionStateLabel,
-                          isSelected: isSelectedAcceptReject,
-                          color: kBlueColor),
-                      _buildProcessView(
-                          title: kProcessingLabel,
-                          surveyProcessingText:
-                              'We will arrive to survey within two days..We will arrive to survey within two days,',
-                          onPressedDetail: () => PageNavigator(ctx: context)
-                              .nextPage(page: MaintenanceProcessingPage()),
-                          onPressed: () {
-                            setState(() {
-                              if (isSelectedAcceptReject == false) return;
-                              isSelectedProcessing = true;
-                            });
-                          },
-                          label: kProcessingStateLabel,
-                          isSelected: isSelectedProcessing,
-                          color: kYellowColor),
-                      _buildProcessView(
-                          title: kFinishLabel,
-                          onPressedDetail: () => PageNavigator(ctx: context)
-                              .nextPage(page: InvoiceDetailPage()),
-                          onPressed: () {
-                            setState(() {
-                              if (isSelectedProcessing == false) return;
-                              isSelectedFinish = true;
-                            });
-                          },
-                          label: kSuccessFinishLabel,
-                          isSelected: isSelectedFinish,
-                          color: kPurpleColor),
-                    ],
+                  Expanded(
+                    child: Column(
+                      spacing: kMarginMedium2,
+                      children: [
+                        _buildProcessView(
+                            date: DateFormatter.formatStringDate(
+                                bloc.pendingDate ?? ''),
+                            title: kPendingLabel,
+                            onPressedDetail: () =>
+                                PageNavigator(ctx: context).nextPage(
+                                    page: MaintenancePendingPage(
+                                  pendingData: bloc.pendingVO ?? PendingVO(),
+                                )),
+                            onPressed: () {
+                              // setState(() {
+                              //   isSelectedPending = true;
+                              // });
+                            },
+                            label: 'Maintenance Request',
+                            isSelected: isSelectedPending,
+                            color: kBlackColor),
+                        _buildProcessView(
+                            date: bloc.surveyDate != null
+                                ? DateFormatter.formatStringDate(
+                                    bloc.surveyDate ?? '')
+                                : '',
+                            title: kSurveyLabel,
+                            surveyProcessingText:
+                                'We will arrive to survey within two days.',
+                            onPressed: () {
+                              // setState(() {
+                              //   if (isSelectedPending == false) return;
+                              //   isSelectedSurvey = true;
+                              // });
+                            },
+                            label: kSurveyStateLabel,
+                            isSelected: isSelectedSurvey,
+                            color: kOrangeColor),
+                        _buildProcessView(
+                            date: 'Dec 12,2025',
+                            title: kQuotationLabel,
+                            onPressedDetail: () => PageNavigator(ctx: context)
+                                .nextPage(page: MaintenanceQuotationPage()),
+                            onPressed: () {
+                              // setState(() {
+                              //   if (isSelectedSurvey == false) return;
+                              //   isSelectedQuotation = true;
+                              // });
+                            },
+                            label: kQuotationStateLabel,
+                            isSelected: isSelectedQuotation,
+                            color: kGreenColor),
+                        _buildProcessView(
+                            date: bloc.acceptRejectDate != null
+                                ? DateFormatter.formatStringDate(
+                                    bloc.acceptRejectDate ?? '')
+                                : '',
+                            title: kAcceptRejectLabel,
+                            onPressed: () {
+                              // setState(() {
+                              //   if (isSelectedQuotation == false) return;
+                              //   isSelectedAcceptReject = true;
+                              // });
+                            },
+                            label: kDecisionStateLabel,
+                            isSelected: isSelectedAcceptReject,
+                            color: kBlueColor),
+                        _buildProcessView(
+                            date: bloc.processingDate != null
+                                ? DateFormatter.formatStringDate(
+                                    bloc.processingDate ?? '')
+                                : '',
+                            title: kProcessingLabel,
+                            surveyProcessingText:
+                                'We will arrive to fix within two days.',
+                            onPressedDetail: () => PageNavigator(ctx: context)
+                                .nextPage(page: MaintenanceProcessingPage()),
+                            onPressed: () {
+                              // setState(() {
+                              //   if (isSelectedAcceptReject == false) return;
+                              //   isSelectedProcessing = true;
+                              // });
+                            },
+                            label: kProcessingStateLabel,
+                            isSelected: isSelectedProcessing,
+                            color: kYellowColor),
+                        _buildProcessView(
+                            date: bloc.finishedDate != null
+                                ? DateFormatter.formatStringDate(
+                                    bloc.finishedDate ?? '')
+                                : '',
+                            title: kFinishLabel,
+                            onPressedDetail: () => PageNavigator(ctx: context)
+                                .nextPage(page: InvoiceDetailPage()),
+                            onPressed: () {
+                              // setState(() {
+                              //   if (isSelectedProcessing == false) return;
+                              //   isSelectedFinish = true;
+                              // });
+                            },
+                            label: kSuccessFinishLabel,
+                            isSelected: isSelectedFinish,
+                            color: kPurpleColor),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-            24.vGap
-          ]),
+                ],
+              ),
+              24.vGap
+            ]),
+      ),
     );
   }
 
   Widget _buildProcessView(
       {required String title,
       required VoidCallback onPressed,
-      Key? key,
       String? label,
       bool? isSelected,
       String? surveyProcessingText,
+      String? date,
       VoidCallback? onPressedDetail,
       required Color color}) {
     return Padding(
@@ -236,7 +276,6 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
               onPressed();
             },
             child: Container(
-                key: key,
                 height: kSize26,
                 padding: EdgeInsets.symmetric(
                     horizontal: kMargin12, vertical: kMargin5 - 2),
@@ -280,7 +319,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Dec 12, 2024',
+                            date ?? '',
                             style: TextStyle(fontSize: kTextRegular13),
                           ),
                           6.vGap,
@@ -364,7 +403,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                               ? isWrapProcessingText == true
                                   ? kSize130 + 17
                                   : kSize130
-                              : kSize110 
+                              : kSize110
                       : kSize43,
                 ),
               ),

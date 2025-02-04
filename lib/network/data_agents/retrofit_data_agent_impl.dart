@@ -27,6 +27,7 @@ import 'package:tmsmobile/network/tms_api.dart';
 import '../../data/vos/error_vo.dart';
 import '../../exception/custom_exception.dart';
 import '../requests/household_resident_request.dart';
+import '../responses/maintenance_process_response.dart';
 import '../responses/service_request_response.dart';
 import '../responses/user_response.dart';
 
@@ -408,6 +409,21 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
         .getProperties('Bearer $token')
         .asStream()
         .map((response) => response.data ?? [])
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<MaintenanceProcessResponse> getMaintenanceProcess(
+      String token, String id) {
+    return tmsApi
+        .getMaintenanceProcess('Bearer $token', id)
+        .asStream()
+        .map((response) {
+          return response;
+      })
         .first
         .catchError((error) {
       throw _createException(error);
