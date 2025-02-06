@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/contract_information_bloc.dart';
 import 'package:tmsmobile/data/vos/contract_information_vo.dart';
@@ -35,7 +34,7 @@ class ContractInformationPage extends StatelessWidget {
           selector: (p0, p1) => p1.isLoading,
           builder: (context, isLoading, child) => isLoading == true
               ? LoadingView(
-                  indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor)
+                  )
               : Consumer<ContractInformationBloc>(
                   builder: (context, bloc, child) => SingleChildScrollView(
                     child: Column(

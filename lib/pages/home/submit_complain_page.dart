@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/complaint_bloc.dart';
 import 'package:tmsmobile/widgets/common_dialog.dart';
@@ -43,8 +42,7 @@ class SubmitComplainPage extends StatelessWidget {
                 if (isLoading)
                   Center(
                     child: LoadingView(
-                        indicator: Indicator.ballBeat,
-                        indicatorColor: kPrimaryColor),
+                        ),
                   )
               ]),
             ),

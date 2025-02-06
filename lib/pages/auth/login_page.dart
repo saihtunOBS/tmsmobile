@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/login_bloc.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
@@ -156,8 +155,7 @@ class _LoginPageState extends State<LoginPage> {
                 /// loading
                 if (isLoading == true)
                   LoadingView(
-                      indicator: Indicator.ballBeat,
-                      indicatorColor: kPrimaryColor),
+                      ),
               ]),
             ),
             bottomNavigationBar: Consumer<LogInBloc>(

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/change_profile_bloc.dart';
 import 'package:tmsmobile/data/vos/user_vo.dart';
@@ -58,8 +57,7 @@ class ChangeProfilePage extends StatelessWidget {
               ///loading
               if (bloc.isLoading == true)
                 LoadingView(
-                    indicator: Indicator.ballBeat,
-                    indicatorColor: kPrimaryColor)
+                    )
             ],
           ),
         ),

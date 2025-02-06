@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/add_resident_bloc.dart';
 import 'package:tmsmobile/extension/extension.dart';
@@ -59,8 +58,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
               ///loading
               if (loading == true)
                 LoadingView(
-                    indicator: Indicator.ballBeat,
-                    indicatorColor: kPrimaryColor)
+                    )
             ],
           ),
         ),

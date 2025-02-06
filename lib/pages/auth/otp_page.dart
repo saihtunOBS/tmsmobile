@@ -2,7 +2,6 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/auth_bloc.dart';
 import 'package:tmsmobile/extension/extension.dart';
@@ -76,163 +75,167 @@ class _OTPPageState extends State<OTPPage> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => AuthBloc(),
-      child: Scaffold(
-        backgroundColor: kBackgroundColor,
-        extendBody: true,
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          toolbarHeight: MediaQuery.of(context).size.height * 0.21,
-          automaticallyImplyLeading: false,
-          surfaceTintColor: kBackgroundColor,
-          backgroundColor: Colors.transparent,
-          flexibleSpace: SizedBox(
-            width: double.infinity,
-            child: Stack( children: [
-              SizedBox(
+      child: Material(
+        child: InkWell(
+          onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+          child: Scaffold(
+            backgroundColor: kBackgroundColor,
+            extendBody: true,
+            extendBodyBehindAppBar: true,
+            appBar: AppBar(
+              toolbarHeight: MediaQuery.of(context).size.height * 0.21,
+              automaticallyImplyLeading: false,
+              surfaceTintColor: kBackgroundColor,
+              backgroundColor: Colors.transparent,
+              flexibleSpace: SizedBox(
                 width: double.infinity,
-                child: Image.asset(
-                  kAppBarTopImage,
-                  fit: BoxFit.fill,
-                ),
+                child: Stack( children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: Image.asset(
+                      kAppBarTopImage,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  Positioned(top: kSize45, child: AppbarBackView())
+                ]),
               ),
-              Positioned(top: kSize45, child: AppbarBackView())
-            ]),
-          ),
-        ),
-        body: Consumer<AuthBloc>(
-          builder: (context, bloc, child) => Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kMargin24),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.2,
-                      ),
-                      kMarginMedium2.vGap,
-                      Center(
-                        child: SizedBox(
-                          height: kSize89,
-                          width: kSize58,
-                          child: Image.asset(
-                            kAppLogoImage,
-                            fit: BoxFit.contain,
+            ),
+            body: Consumer<AuthBloc>(
+              builder: (context, bloc, child) => Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: kMargin24),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.2,
                           ),
-                        ),
+                          kMarginMedium2.vGap,
+                          Center(
+                            child: SizedBox(
+                              height: kSize89,
+                              width: kSize58,
+                              child: Image.asset(
+                                kAppLogoImage,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                          kSize40.vGap,
+                          Text(
+                            AppLocalizations.of(context)?.kVerificationCodeLabel ??
+                                '',
+                            style: TextStyle(
+                                fontFamily: AppData.shared.fontFamily2,
+                                fontWeight: FontWeight.w600,
+                                fontSize: AppData.shared.getExtraFontSize()),
+                          ),
+                          kMarginMedium2.vGap,
+                          Text(
+                            AppLocalizations.of(context)?.kSendCodeToNumberLabel ??
+                                '',
+                            style: TextStyle(
+                                fontSize: AppData.shared.getSmallFontSize()),
+                          ),
+                          kMarginMedium2.vGap,
+                          _buildPinView(),
+                          kMarginMedium2.vGap,
+                          Row(
+                            spacing: 5,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                AppLocalizations.of(context)?.kExpireIn ?? '',
+                                style: TextStyle(
+                                    fontSize: AppData.shared.getSmallFontSize()),
+                              ),
+                              Text(
+                                timerText,
+                                style: TextStyle(
+                                    fontSize: AppData.shared.getSmallFontSize()),
+                              )
+                            ],
+                          ),
+                        ],
                       ),
-                      kSize40.vGap,
-                      Text(
-                        AppLocalizations.of(context)?.kVerificationCodeLabel ??
-                            '',
-                        style: TextStyle(
-                            fontFamily: AppData.shared.fontFamily2,
-                            fontWeight: FontWeight.w600,
-                            fontSize: AppData.shared.getExtraFontSize()),
+                    ),
+                  ),
+          
+                  ///loading
+                  if (bloc.isLoading == true)
+                    LoadingView(
+                        )
+                ],
+              ),
+            ),
+            bottomNavigationBar: Consumer<AuthBloc>(
+              builder: (context, bloc, child) => Stack(
+                  alignment: Alignment.center,
+                  clipBehavior: Clip.none,
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.21,
+                      width: double.infinity,
+                      child: Image.asset(
+                        kAppBarBottonImage,
+                        fit: BoxFit.fill,
                       ),
-                      kMarginMedium2.vGap,
-                      Text(
-                        AppLocalizations.of(context)?.kSendCodeToNumberLabel ??
-                            '',
-                        style: TextStyle(
-                            fontSize: AppData.shared.getSmallFontSize()),
-                      ),
-                      kMarginMedium2.vGap,
-                      _buildPinView(),
-                      kMarginMedium2.vGap,
-                      Row(
-                        spacing: 5,
+                    ),
+                    gradientButton(
+                        onPress: () {
+                          bloc
+                              .verifyOtp(pinController.text, token)
+                              .then((response) {
+                            PageNavigator(ctx: context).nextPage(
+                                page: ChangePasswordPage(
+                              isChangePassword: false,
+                              token: response.token,
+                            ));
+                          }).catchError((error) {
+                            showCommonDialog(
+                                context: context,
+                                dialogWidget: ErrorDialogView(
+                                    errorMessage: error.toString()));
+                          });
+                        },
+                        context: context),
+                    Positioned(
+                      top: -10,
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            AppLocalizations.of(context)?.kExpireIn ?? '',
+                            AppLocalizations.of(context)?.kDidNotReceiveCode ?? '',
                             style: TextStyle(
                                 fontSize: AppData.shared.getSmallFontSize()),
                           ),
-                          Text(
-                            timerText,
-                            style: TextStyle(
-                                fontSize: AppData.shared.getSmallFontSize()),
-                          )
+                          TextButton(
+                              onPressed: () {
+                                if (_start == 300) {
+                                  bloc
+                                      .onTapForgorPasswordSend(widget.phone ?? '')
+                                      .then((response) {
+                                    token = response.data?.token ?? '';
+                                    startTimer();
+                                  });
+                                }
+                              },
+                              child: Text(
+                                AppLocalizations.of(context)?.kResend ?? '',
+                                style: TextStyle(
+                                    color: kPrimaryColor,
+                                    fontWeight: FontWeight.w700),
+                              ))
                         ],
                       ),
-                    ],
-                  ),
-                ),
-              ),
-
-              ///loading
-              if (bloc.isLoading == true)
-                LoadingView(
-                    indicator: Indicator.ballBeat,
-                    indicatorColor: kPrimaryColor)
-            ],
+                    ),
+                  ]),
+            ),
           ),
-        ),
-        bottomNavigationBar: Consumer<AuthBloc>(
-          builder: (context, bloc, child) => Stack(
-              alignment: Alignment.center,
-              clipBehavior: Clip.none,
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.21,
-                  width: double.infinity,
-                  child: Image.asset(
-                    kAppBarBottonImage,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                gradientButton(
-                    onPress: () {
-                      bloc
-                          .verifyOtp(pinController.text, token)
-                          .then((response) {
-                        PageNavigator(ctx: context).nextPage(
-                            page: ChangePasswordPage(
-                          isChangePassword: false,
-                          token: response.token,
-                        ));
-                      }).catchError((error) {
-                        showCommonDialog(
-                            context: context,
-                            dialogWidget: ErrorDialogView(
-                                errorMessage: error.toString()));
-                      });
-                    },
-                    context: context),
-                Positioned(
-                  top: -10,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        AppLocalizations.of(context)?.kDidNotReceiveCode ?? '',
-                        style: TextStyle(
-                            fontSize: AppData.shared.getSmallFontSize()),
-                      ),
-                      TextButton(
-                          onPressed: () {
-                            if (_start == 300) {
-                              bloc
-                                  .onTapForgorPasswordSend(widget.phone ?? '')
-                                  .then((response) {
-                                token = response.data?.token ?? '';
-                                startTimer();
-                              });
-                            }
-                          },
-                          child: Text(
-                            AppLocalizations.of(context)?.kResend ?? '',
-                            style: TextStyle(
-                                color: kPrimaryColor,
-                                fontWeight: FontWeight.w700),
-                          ))
-                    ],
-                  ),
-                ),
-              ]),
         ),
       ),
     );

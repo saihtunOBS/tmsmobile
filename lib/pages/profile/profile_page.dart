@@ -2,7 +2,6 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/profile_bloc.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
@@ -99,8 +98,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ///loading
               if (bloc.isLoading == true)
                 LoadingView(
-                    indicator: Indicator.ballBeat,
-                    indicatorColor: kPrimaryColor)
+                    )
             ],
           ),
         ),

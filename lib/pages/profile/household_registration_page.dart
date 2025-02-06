@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/house_hold_bloc.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
@@ -65,8 +64,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                 bloc.isLoading
                     ? Center(
                         child: LoadingView(
-                            indicator: Indicator.ballBeat,
-                            indicatorColor: kPrimaryColor),
+                            ),
                       )
                     : SingleChildScrollView(
                         child: Column(
@@ -140,8 +138,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                 //submit loading
                 if (bloc.isSubmitLoading == true)
                   LoadingView(
-                      indicator: Indicator.ballBeat,
-                      indicatorColor: kPrimaryColor),
+                      ),
 
                 ///appbar
                 Positioned(

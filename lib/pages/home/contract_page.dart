@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/contract_bloc.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
@@ -57,14 +56,16 @@ class _ContractPageState extends State<ContractPage> {
                 bloc.getContract();
               },
               child: bloc.isLoading == true
-                  ? LoadingView(
-                      indicator: Indicator.ballBeat,
-                      indicatorColor: kPrimaryColor)
+                  ? LoadingView()
                   : bloc.contracts.isEmpty
                       ? EmptyView(
                           imagePath: kNoAnnouncementImage,
-                          title: AppLocalizations.of(context)?.kNoContractLabel ?? '',
-                          subTitle: AppLocalizations.of(context)?.kThereIsNoContractLabel ?? '')
+                          title:
+                              AppLocalizations.of(context)?.kNoContractLabel ??
+                                  '',
+                          subTitle: AppLocalizations.of(context)
+                                  ?.kThereIsNoContractLabel ??
+                              '')
                       : SizedBox(
                           height: double.infinity,
                           child: ListView.builder(
@@ -77,9 +78,8 @@ class _ContractPageState extends State<ContractPage> {
                             itemBuilder: (context, index) {
                               if (index == bloc.contracts.length) {
                                 return LoadingView(
-                                    bgColor: Colors.transparent,
-                                    indicator: Indicator.ballBeat,
-                                    indicatorColor: kPrimaryColor);
+                                  bgColor: Colors.transparent,
+                                );
                               }
                               return ContractListItem(
                                 onPress: () =>

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/maintenance_process_bloc.dart';
 import 'package:tmsmobile/extension/extension.dart';
@@ -66,8 +65,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
         body: Consumer<MaintenanceProcessBloc>(
             builder: (context, bloc, child) => bloc.isLoading
                 ? LoadingView(
-                    indicator: Indicator.ballBeat,
-                    indicatorColor: kPrimaryColor)
+                    )
                 : _buildSetpper()),
       ),
     );
@@ -397,14 +395,14 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                   height: isSelectedIndex == true
                       ? isSurvey == true
                           ? isWrapSurveyText == true
-                              ? kSize130 + 12
-                              : kSize130
+                              ? kSize130 + 9
+                              : kSize130 - 4
                           : isProcessing == true
                               ? isWrapProcessingText == true
-                                  ? kSize130 + 17
-                                  : kSize130
-                              : kSize110
-                      : kSize43,
+                                  ? kSize130 + 15
+                                  : kSize130 - 4
+                              : kSize110 
+                      : kSize43, 
                 ),
               ),
       ],

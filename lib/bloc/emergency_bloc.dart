@@ -14,7 +14,7 @@ class EmergencyBloc extends ChangeNotifier {
   int page = 1;
   bool isLoadMore = false;
 
-  List<EmergencyVO>? emergencyLists;
+  List<EmergencyVO> emergencyLists = [];
 
   final TmsModel _tmsModel = TmsModelImpl();
 
@@ -38,7 +38,7 @@ class EmergencyBloc extends ChangeNotifier {
     page += 1;
     _tmsModel
         .getEmergency(token, page, 10)
-        .then((response) => emergencyLists?.addAll(response))
+        .then((response) => emergencyLists.addAll(response))
         .whenComplete(() => _hideLoadMoreLoading());
   }
 

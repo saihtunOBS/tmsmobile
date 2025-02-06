@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/parking_bloc.dart';
 import 'package:tmsmobile/data/vos/contract_information_vo.dart';
@@ -51,50 +50,50 @@ class _CarParkingPageState extends State<CarParkingPage> {
               builder: (context, bloc, child) => RefreshIndicator(
                 backgroundColor: kBackgroundColor,
                 elevation: 0.0,
-                onRefresh: () async{
+                onRefresh: () async {
                   HapticFeedback.mediumImpact();
                   bloc.getParking();
                 },
                 child: bloc.isLoading == true
-                    ? LoadingView(
-                        indicator: Indicator.ballBeat,
-                        indicatorColor: kPrimaryColor)
+                    ? LoadingView()
                     : bloc.parkings?.isEmpty ?? true
                         ? EmptyView(
                             imagePath: kNoAnnouncementImage,
-                            title: AppLocalizations.of(context)?.kNoParkingLabel ?? '',
-                            subTitle: AppLocalizations.of(context)?.kThereIsNoParkingLabel ?? '')
+                            title:
+                                AppLocalizations.of(context)?.kNoParkingLabel ??
+                                    '',
+                            subTitle: AppLocalizations.of(context)
+                                    ?.kThereIsNoParkingLabel ??
+                                '')
                         : SizedBox(
-                          height: double.infinity,
-                          child: ListView.builder(
-                            physics: AlwaysScrollableScrollPhysics(),
-                            padding: EdgeInsets.symmetric(
-                                vertical: kMarginMedium2,
-                                horizontal: kMarginMedium2 + 2),
-                            itemCount: bloc.isLoadMore == true
-                                ? (bloc.parkings?.length ?? 0 + 1)
-                                : bloc.parkings?.length,
-                            itemBuilder: (context, index) {
-                              if (index == bloc.parkings?.length) {
-                                return LoadingView(
-                                    indicator: Indicator.ballBeat,
-                                    indicatorColor: kPrimaryColor);
-                              }
-                              return _buildBody(
-                                  bloc.parkings?[index]
-                                      as PropertyInformation,
-                                  index);
-                            },
-                            controller: scrollController
-                              ..addListener(() {
-                                if (scrollController.position.pixels ==
-                                    scrollController
-                                        .position.maxScrollExtent) {
-                                  bloc.loadMoreData();
+                            height: double.infinity,
+                            child: ListView.builder(
+                              physics: AlwaysScrollableScrollPhysics(),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: kMarginMedium2,
+                                  horizontal: kMarginMedium2 + 2),
+                              itemCount: bloc.isLoadMore == true
+                                  ? (bloc.parkings?.length ?? 0 + 1)
+                                  : bloc.parkings?.length,
+                              itemBuilder: (context, index) {
+                                if (index == bloc.parkings?.length) {
+                                  return LoadingView();
                                 }
-                              }),
+                                return _buildBody(
+                                    bloc.parkings?[index]
+                                        as PropertyInformation,
+                                    index);
+                              },
+                              controller: scrollController
+                                ..addListener(() {
+                                  if (scrollController.position.pixels ==
+                                      scrollController
+                                          .position.maxScrollExtent) {
+                                    bloc.loadMoreData();
+                                  }
+                                }),
+                            ),
                           ),
-                        ),
               ),
             )),
       ),
@@ -134,7 +133,8 @@ class _CarParkingPageState extends State<CarParkingPage> {
             : Text(
                 value,
                 style: TextStyle(
-                    fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w700),
+                    fontSize: AppData.shared.getSmallFontSize(),
+                    fontWeight: FontWeight.w700),
               ),
       ],
     );

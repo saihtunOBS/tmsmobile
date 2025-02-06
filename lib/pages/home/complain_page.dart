@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/complaint_bloc.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
@@ -145,7 +144,7 @@ class _ComplainPageState extends State<ComplainPage>
           height: double.infinity,
           child: bloc.isLoading
               ? LoadingView(
-                  indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor)
+                  )
               : bloc.pendingComplainList.isEmpty
                   ? Center(
                       child: EmptyView(
@@ -195,7 +194,7 @@ class _ComplainPageState extends State<ComplainPage>
           height: double.infinity,
           child: bloc.isLoading
               ? LoadingView(
-                  indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor)
+                  )
               : bloc.solvedComplainList.isEmpty
                   ? Center(
                       child: EmptyView(

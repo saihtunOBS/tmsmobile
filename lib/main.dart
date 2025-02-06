@@ -59,7 +59,7 @@ class TMSMobile extends StatelessWidget {
             builder: (context, child) {
               return MediaQuery(
                 data: MediaQuery.of(context)
-                    .copyWith(textScaler: TextScaler.linear(1.0)),
+                    .copyWith(textScaler: TextScaler.linear(0.95)),
                 child: child!,
               );
             },

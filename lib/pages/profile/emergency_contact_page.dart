@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/emergency_bloc.dart';
 import 'package:tmsmobile/data/vos/emergency_vo.dart';
@@ -41,7 +40,6 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
         extendBody: true,
         body: Consumer<EmergencyBloc>(
           builder: (context, bloc, child) => Stack(
-            fit: StackFit.expand,
             children: [
               SizedBox(
                 height: double.infinity,
@@ -66,9 +64,8 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
                     },
                     child: bloc.isLoading == true
                         ? LoadingView(
-                            indicator: Indicator.ballBeat,
-                            indicatorColor: kPrimaryColor)
-                        : bloc.emergencyLists?.isEmpty ?? true
+                            )
+                        : bloc.emergencyLists.isEmpty
                             ? EmptyView(
                                 imagePath: kNoAnnouncementImage,
                                 title: AppLocalizations.of(context)
@@ -82,19 +79,18 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
                                     horizontal: kMarginMedium2,vertical: 15),
                                 physics: AlwaysScrollableScrollPhysics(),
                                 itemCount: bloc.isLoadMore == true
-                                    ? bloc.emergencyLists?.length ?? 0 + 1
-                                    : bloc.emergencyLists?.length,
+                                    ? bloc.emergencyLists.length + 1
+                                    : bloc.emergencyLists.length,
                                 itemBuilder: (context, index) {
-                                  if (index == bloc.emergencyLists?.length) {
+                                  if (index == bloc.emergencyLists.length) {
                                     return LoadingView(
-                                        indicator: Indicator.ballBeat,
-                                        indicatorColor: kPrimaryColor);
+                                        bgColor: Colors.transparent,);
                                   }
                                   return _buildListItem(
-                                      data: bloc.emergencyLists?[index],
+                                      data: bloc.emergencyLists[index],
                                       index: index,
                                       title: bloc
-                                          .emergencyLists?[index].contractName);
+                                          .emergencyLists[index].contractName);
                                 },
                                 controller: scrollController
                                   ..addListener(() {

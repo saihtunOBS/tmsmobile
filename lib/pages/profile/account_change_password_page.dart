@@ -3,7 +3,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/auth_bloc.dart';
 import 'package:tmsmobile/utils/colors.dart';
@@ -138,10 +137,7 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                 Positioned(top: 0, child: ProfileAppbar()),
 
                 /// loading
-                if (isLoading == true)
-                  LoadingView(
-                      indicator: Indicator.ballBeat,
-                      indicatorColor: kPrimaryColor),
+                if (isLoading == true) LoadingView(),
               ],
             ),
             bottomNavigationBar: Consumer<AuthBloc>(
@@ -158,7 +154,8 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                                     context: context,
                                     dialogWidget: ErrorDialogView(
                                         errorMessage:
-                                            AppLocalizations.of(context)?.kPasswordDoesNotMatchLabel));
+                                            AppLocalizations.of(context)
+                                                ?.kPasswordDoesNotMatchLabel));
                               } else {
                                 bloc
                                     .onTapContinueChangePassword(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/service_request_bloc.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
@@ -163,8 +162,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
               ?
 
               ///loading
-              LoadingView(
-                  indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor)
+              LoadingView()
               : bloc.maintenanceLists.isNotEmpty
                   ? SizedBox(
                       height: double.infinity,
@@ -180,7 +178,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                                     page: MaintenanceProcessPage(
                                   status:
                                       bloc.maintenanceLists[index].status ?? 0,
-                                      id: bloc.maintenanceLists[index].id,
+                                  id: bloc.maintenanceLists[index].id,
                                 ));
                               },
                               child: ServiceRequestListItem(
@@ -217,8 +215,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
             ?
 
             ///loading
-            LoadingView(
-                indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor)
+            LoadingView()
             : bloc.fillOutLists.isNotEmpty
                 ? SizedBox(
                     height: double.infinity,
@@ -236,8 +233,6 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                         if (index == bloc.fillOutLists.length) {
                           return LoadingView(
                             bgColor: Colors.transparent,
-                            indicator: Indicator.ballBeat,
-                            indicatorColor: kPrimaryColor,
                           );
                         }
                         return InkWell(

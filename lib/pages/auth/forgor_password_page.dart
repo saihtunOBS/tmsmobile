@@ -3,7 +3,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/auth_bloc.dart';
 import 'package:tmsmobile/utils/colors.dart';
@@ -49,7 +48,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               backgroundColor: Colors.transparent,
               flexibleSpace: SizedBox(
                 width: double.infinity,
-                child: Stack( children: [
+                child: Stack(children: [
                   SizedBox(
                     width: double.infinity,
                     child: Image.asset(
@@ -118,10 +117,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   ),
 
                   ///loading
-                  if (loading == true)
-                    LoadingView(
-                        indicator: Indicator.ballBeat,
-                        indicatorColor: kPrimaryColor)
+                  if (loading == true) LoadingView()
                 ],
               ),
             ),
@@ -144,7 +140,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           .then((response) {
                         PageNavigator(ctx: context).nextPage(
                             page: OTPPage(
-                          phone: _phoneController.text.trim(),token: response.data?.token,
+                          phone: _phoneController.text.trim(),
+                          token: response.data?.token,
                         ));
                       }).catchError((e) {
                         showCommonDialog(

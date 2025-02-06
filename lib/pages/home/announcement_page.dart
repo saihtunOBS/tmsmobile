@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/announcement_bloc.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
@@ -45,9 +44,7 @@ class AnnouncementPage extends StatelessWidget {
                 bloc.getAnnouncement();
               },
               child: bloc.isLoading == true
-                  ? LoadingView(
-                      indicator: Indicator.ballBeat,
-                      indicatorColor: kPrimaryColor)
+                  ? LoadingView()
                   : Stack(children: [
                       bloc.announcementList.isEmpty
                           ? Center(
@@ -75,10 +72,7 @@ class AnnouncementPage extends StatelessWidget {
                               }),
 
                       ///loading
-                      if (bloc.isLoading == true)
-                        LoadingView(
-                            indicator: Indicator.ballBeat,
-                            indicatorColor: kPrimaryColor)
+                      if (bloc.isLoading == true) LoadingView()
                     ]),
             ),
           ),

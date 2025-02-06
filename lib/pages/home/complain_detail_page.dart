@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/complaint_bloc.dart';
 import 'package:tmsmobile/extension/extension.dart';
@@ -12,7 +11,6 @@ import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class ComplainDetailPage extends StatelessWidget {
   ComplainDetailPage({super.key, this.isPending, this.complaintId});
   final bool? isPending;
@@ -21,7 +19,8 @@ class ComplainDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ComplaintBloc(complaintId: complaintId,isDetail: true),
+      create: (context) =>
+          ComplaintBloc(complaintId: complaintId, isDetail: true),
       child: Scaffold(
         backgroundColor: kBackgroundColor,
         appBar: PreferredSize(
@@ -32,8 +31,7 @@ class ComplainDetailPage extends StatelessWidget {
         body: Selector<ComplaintBloc, bool>(
           selector: (p0, p1) => p1.isLoading,
           builder: (context, isLoading, child) => isLoading
-              ? LoadingView(
-                  indicator: Indicator.ballBeat, indicatorColor: kPrimaryColor)
+              ? LoadingView()
               : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   isPending == true ? 4.vGap : kMargin24.vGap,
                   isPending == true ? SizedBox.shrink() : _buildHeader(context),

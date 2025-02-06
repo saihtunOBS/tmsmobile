@@ -3,7 +3,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/auth_bloc.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
@@ -156,10 +155,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               ),
 
               ///
-              if (isLoading == true)
-                LoadingView(
-                    indicator: Indicator.ballBeat,
-                    indicatorColor: kPrimaryColor),
+              if (isLoading == true) LoadingView(),
             ],
           ),
         ),

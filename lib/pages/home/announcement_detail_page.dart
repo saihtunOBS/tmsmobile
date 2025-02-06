@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/announcement_detail_bloc.dart';
 import 'package:tmsmobile/data/vos/announcement_vo.dart';
@@ -33,8 +32,7 @@ class AnnouncementDetailPage extends StatelessWidget {
         body: Consumer<AnnouncementDetailBloc>(
             builder: (context, bloc, child) => bloc.isLoading == true
                 ? LoadingView(
-                    indicator: Indicator.ballBeat,
-                    indicatorColor: kPrimaryColor)
+                    )
                 : _buildBody(bloc.announcementDetail as AnnouncementVO)),
       ),
     );
