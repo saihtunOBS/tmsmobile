@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/invoice_detai_bloc.dart';
+import 'package:tmsmobile/data/vos/billing_vo.dart';
+import 'package:tmsmobile/data/vos/utility_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
+import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/strings.dart';
 
 import '../../data/app_data/app_data.dart';
@@ -11,9 +14,9 @@ import '../../widgets/appbar.dart';
 import '../../widgets/gradient_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class InvoiceDetailPage extends StatelessWidget {
-  InvoiceDetailPage({super.key});
+  InvoiceDetailPage({super.key, this.billingData});
+  final BillingVO? billingData;
 
   final GlobalKey contentKey = GlobalKey();
   @override
@@ -34,8 +37,8 @@ class InvoiceDetailPage extends StatelessWidget {
             body: Stack(
               children: [
                 SingleChildScrollView(
-                    child:
-                        RepaintBoundary(key: contentKey, child: _buildBody(context))),
+                    child: RepaintBoundary(
+                        key: contentKey, child: _buildBody(context))),
 
                 ///download progress loading
                 Center(
@@ -71,7 +74,10 @@ class InvoiceDetailPage extends StatelessWidget {
                   ]),
                   child: Center(
                       child: gradientButton(
-                          title: AppLocalizations.of(context)?.kMakePaymentLabel, onPress: () {},context: context))),
+                          title:
+                              AppLocalizations.of(context)?.kMakePaymentLabel,
+                          onPress: () {},
+                          context: context))),
             ),
           ),
         ),
@@ -104,19 +110,38 @@ class InvoiceDetailPage extends StatelessWidget {
             child: Column(
               spacing: kMargin12,
               children: [
-                _buildListDetail(title: AppLocalizations.of(context)?.kInvoiceNoLabel ?? '', value: 'value'),
-                _buildListDetail(title: AppLocalizations.of(context)?.kDateLabel ?? '', value: 'value'),
-                _buildListDetail(title: AppLocalizations.of(context)?.kTenantNameLabel ?? '', value: 'value'),
-                _buildListDetail(title: AppLocalizations.of(context)?.kRoomShopNameLabel ?? '', value: 'value'),
-                _buildListDetail(title: AppLocalizations.of(context)?.kPhoneNumberLabel ?? '', value: 'value'),
-                _buildListDetail(title: AppLocalizations.of(context)?.kMonthLabel ?? '', value: 'value'),
-                _buildListDetail(title: AppLocalizations.of(context)?.kDueDateLabel ?? '', value: 'value'),
+                _buildListDetail(
+                    title: AppLocalizations.of(context)?.kInvoiceNoLabel ?? '',
+                    value: billingData?.invoiceCode ?? ''),
+                _buildListDetail(
+                    title: AppLocalizations.of(context)?.kDateLabel ?? '',
+                    value: DateFormatter.formatDate(
+                        billingData?.date ?? DateTime.now())),
+                _buildListDetail(
+                    title: AppLocalizations.of(context)?.kTenantNameLabel ?? '',
+                    value: billingData?.tenant ?? ''),
+                _buildListDetail(
+                    title:
+                        AppLocalizations.of(context)?.kRoomShopNameLabel ?? '',
+                    value: billingData?.shop?.first ?? ''),
+                _buildListDetail(
+                    title:
+                        AppLocalizations.of(context)?.kPhoneNumberLabel ?? '',
+                    value: '-'),
+                _buildListDetail(
+                    title: AppLocalizations.of(context)?.kMonthLabel ?? '',
+                    value: billingData?.month ?? ''),
+                _buildListDetail(
+                    title: AppLocalizations.of(context)?.kDueDateLabel ?? '',
+                    value: DateFormatter.formatDate(
+                        billingData?.dueDate ?? DateTime.now())),
               ],
             ),
           ),
           1.vGap,
-          _buildMaintenanceInvoice(context),
-          _buildMonthyInvoice(context),
+          billingData?.invoiceType == 'Monthly'
+              ? _buildMonthyInvoice(context)
+              : _buildMaintenanceInvoice(context),
           _buildPrice(context),
           10.vGap
         ],
@@ -168,7 +193,7 @@ class InvoiceDetailPage extends StatelessWidget {
           Container(
               height: kSize46,
               width: double.infinity,
-              padding: EdgeInsets.only(left: kMarginMedium2, top: kMargin12),
+              padding: EdgeInsets.only(left: kMarginMedium2),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(kMargin5),
@@ -178,15 +203,18 @@ class InvoiceDetailPage extends StatelessWidget {
                   stops: [0.0, 1.0],
                 ),
               ),
-              child: Text(
-                AppLocalizations.of(context)?.kMaintenanceInvoiceLabel ?? '',
-                style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: AppData.shared.getSmallFontSize(),
-                    color: kWhiteColor),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  AppLocalizations.of(context)?.kMaintenanceInvoiceLabel ?? '',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: AppData.shared.getSmallFontSize(),
+                      color: kWhiteColor),
+                ),
               )),
           ListView.builder(
-              itemCount: 2,
+              itemCount: billingData?.utilities?.length,
               shrinkWrap: true,
               padding: EdgeInsets.symmetric(
                   horizontal: kMarginMedium2, vertical: kMargin10),
@@ -194,7 +222,8 @@ class InvoiceDetailPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Column(
                   children: [
-                    _buildMaintenanceInvoiceChild(context),
+                    _buildMaintenanceInvoiceChild(
+                        context, billingData?.utilities?[index] ?? UtilityVO()),
                     index == 1 ? SizedBox.shrink() : Divider()
                   ],
                 );
@@ -204,7 +233,7 @@ class InvoiceDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildMaintenanceInvoiceChild(BuildContext context) {
+  Widget _buildMaintenanceInvoiceChild(BuildContext context, UtilityVO data) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: kMargin10),
       child: Column(
@@ -212,13 +241,22 @@ class InvoiceDetailPage extends StatelessWidget {
         children: [
           _buildListDetail(
               title: AppLocalizations.of(context)?.kDetailLabel ?? '',
-              value:
-                  'this is description this is descriptionthis is descriptionthis is descriptionthis is descriptionthis is descriptionthis is descriptionthis is description'),
-          _buildListDetail(title: AppLocalizations.of(context)?.kUnitLabel ?? '', value: 'value'),
-          _buildListDetail(title: AppLocalizations.of(context)?.kQtyLabel ?? '', value: 'value'),
-          _buildListDetail(title: AppLocalizations.of(context)?.kTaxPercentLabel ?? '', value: 'value'),
-          _buildListDetail(title: AppLocalizations.of(context)?.kRateLabel ?? '', value: 'value'),
-          _buildListDetail(title: AppLocalizations.of(context)?.kAmountLabel ?? '', value: 'value'),
+              value: data.title ?? ''),
+          _buildListDetail(
+              title: AppLocalizations.of(context)?.kUnitLabel ?? '',
+              value: data.unit ?? ''),
+          _buildListDetail(
+              title: AppLocalizations.of(context)?.kQtyLabel ?? '',
+              value: '${data.qty ?? 0}'),
+          _buildListDetail(
+              title: AppLocalizations.of(context)?.kTaxPercentLabel ?? '',
+              value: '-'),
+          _buildListDetail(
+              title: AppLocalizations.of(context)?.kRateLabel ?? '',
+              value: '${data.rate ?? 0}'),
+          _buildListDetail(
+              title: AppLocalizations.of(context)?.kAmountLabel ?? '',
+              value: '${data.amount ?? 0} MMK'),
         ],
       ),
     );
@@ -243,10 +281,18 @@ class InvoiceDetailPage extends StatelessWidget {
       child: Column(
         spacing: kMargin12,
         children: [
-          _buildListDetail(title: AppLocalizations.of(context)?.kSubTotal ?? '', value: 'value'),
-          _buildListDetail(title:AppLocalizations.of(context)?. kTaxLabel ?? '', value: 'value'),
-          _buildListDetail(title: AppLocalizations.of(context)?.kLateFeeLabel ?? '', value: 'value'),
-          _buildListDetail(title: AppLocalizations.of(context)?.kGrandTotalLabel ?? '', value: 'value'),
+          _buildListDetail(
+              title: AppLocalizations.of(context)?.kSubTotal ?? '',
+              value: '${billingData?.subTotal ?? 0} MMK'),
+          _buildListDetail(
+              title: AppLocalizations.of(context)?.kTaxLabel ?? '',
+              value: '${billingData?.tax ?? 0} MMK'),
+          _buildListDetail(
+              title: AppLocalizations.of(context)?.kLateFeeLabel ?? '',
+              value: '${billingData?.lateFee ?? 0} MMK'),
+          _buildListDetail(
+              title: AppLocalizations.of(context)?.kGrandTotalLabel ?? '',
+              value: '${billingData?.grandTotal ?? 0} MMK'),
         ],
       ),
     );
@@ -271,7 +317,7 @@ class InvoiceDetailPage extends StatelessWidget {
           Container(
               height: kSize46,
               width: double.infinity,
-              padding: EdgeInsets.only(left: kMarginMedium2, top: kMargin12),
+              padding: EdgeInsets.only(left: kMarginMedium2),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(kMargin5),
@@ -281,12 +327,15 @@ class InvoiceDetailPage extends StatelessWidget {
                   stops: [0.0, 1.0],
                 ),
               ),
-              child: Text(
-                AppLocalizations.of(context)?.kMonthlyInvoiceLabel ?? '',
-                style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: AppData.shared.getSmallFontSize(),
-                    color: kWhiteColor),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  AppLocalizations.of(context)?.kMonthlyInvoiceLabel ?? '',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: AppData.shared.getSmallFontSize(),
+                      color: kWhiteColor),
+                ),
               )),
           Container(
             margin: EdgeInsets.only(
@@ -295,17 +344,37 @@ class InvoiceDetailPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: kMargin12,
               children: [
-                _buildListDetail(title: AppLocalizations.of(context)?.kRentalFeeLabel ?? '', value: 'value'),
-                _buildListDetail(title: AppLocalizations.of(context)?.kCommercialTaxLabel ?? '', value: 'value'),
-                _buildListDetail(title: AppLocalizations.of(context)?.kAdvertisingFeeLabel ?? '', value: 'value'),
                 _buildListDetail(
-                    title: AppLocalizations.of(context)?.kCleanAndSecurityFeeLabel ?? '', value: 'value'),
+                    title: AppLocalizations.of(context)?.kRentalFeeLabel ?? '',
+                    value: '-'),
                 _buildListDetail(
-                    title: AppLocalizations.of(context)?.kAirconAndElevatorFeeLabel ?? '', value: 'value'),
+                    title:
+                        AppLocalizations.of(context)?.kCommercialTaxLabel ?? '',
+                    value: '-'),
                 _buildListDetail(
-                    title: AppLocalizations.of(context)?.kPetAndMosquitoControlLabel ?? '', value: 'value'),
+                    title: AppLocalizations.of(context)?.kAdvertisingFeeLabel ??
+                        '',
+                    value: '-'),
                 _buildListDetail(
-                    title: AppLocalizations.of(context)?.kBillBoardAdvertisingChargeLabel ?? '', value: 'value'),
+                    title: AppLocalizations.of(context)
+                            ?.kCleanAndSecurityFeeLabel ??
+                        '',
+                    value: '-'),
+                _buildListDetail(
+                    title: AppLocalizations.of(context)
+                            ?.kAirconAndElevatorFeeLabel ??
+                        '',
+                    value: '-'),
+                _buildListDetail(
+                    title: AppLocalizations.of(context)
+                            ?.kPetAndMosquitoControlLabel ??
+                        '',
+                    value: '-'),
+                _buildListDetail(
+                    title: AppLocalizations.of(context)
+                            ?.kBillBoardAdvertisingChargeLabel ??
+                        '',
+                    value: '-'),
                 Text(
                   AppLocalizations.of(context)?.kElectricFeeLabel ?? '',
                   style: TextStyle(
@@ -318,14 +387,18 @@ class InvoiceDetailPage extends StatelessWidget {
             ),
           ),
           ListView.builder(
-              itemCount: 2,
+              itemCount: billingData?.utilities?.length,
               shrinkWrap: true,
               padding: EdgeInsets.symmetric(horizontal: kMarginMedium2),
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return Column(
                   spacing: kMargin12,
-                  children: [_buildMonthyInvoiceChild(context), Divider(), 1.vGap],
+                  children: [
+                    _buildMonthyInvoiceChild(context,billingData?.utilities?[index] ?? UtilityVO()),
+                    Divider(),
+                    1.vGap
+                  ],
                 );
               }),
         ],
@@ -333,7 +406,7 @@ class InvoiceDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildMonthyInvoiceChild(BuildContext context) {
+  Widget _buildMonthyInvoiceChild(BuildContext context,UtilityVO data) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -366,11 +439,11 @@ class InvoiceDetailPage extends StatelessWidget {
                   fontWeight: FontWeight.w700, fontSize: kTextRegular),
             ),
             Text(
-              '10',
+              '${data.previousMonth ?? 0}' ,
               style: TextStyle(fontSize: kTextRegular),
             ),
             Text(
-              '6',
+              '${data.thisMonth ?? 0}',
               style: TextStyle(fontSize: kTextRegular),
             )
           ],
@@ -385,11 +458,11 @@ class InvoiceDetailPage extends StatelessWidget {
                   fontWeight: FontWeight.w700, fontSize: kTextRegular),
             ),
             Text(
-              '50000 MMK'.replaceRange(2, 2, ','),
+              '${data.amount} MMK'.replaceRange(2, 2, ','),
               style: TextStyle(fontSize: kTextRegular),
             ),
             Text(
-              '',
+              '-',
               style: TextStyle(fontSize: kTextRegular),
             )
           ],

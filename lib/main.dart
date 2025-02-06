@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/add_resident_bloc.dart';
+import 'package:tmsmobile/bloc/complaint_bloc.dart';
 import 'package:tmsmobile/bloc/edit_resident_bloc.dart';
 import 'package:tmsmobile/bloc/house_hold_bloc.dart';
 import 'package:tmsmobile/bloc/language_bloc.dart';
@@ -30,6 +31,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => HouseHoldBloc()),
     ChangeNotifierProvider(create: (_) => ServiceRequestBloc()),
     ChangeNotifierProvider(create: (_) => InvoiceDetaiBloc()),
+    ChangeNotifierProvider(create: (_) => ComplaintBloc()),
   ], child: const TMSMobile()));
 }
 

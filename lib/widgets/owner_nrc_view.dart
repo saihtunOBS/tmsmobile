@@ -240,7 +240,7 @@ class NRCViewState extends State<OwnerNrcView> {
                     if (bloc.isEmptyNrc == false) {
                       if (bloc.selectedStateRegionCode == null ||
                           bloc.selectedTownshipCode == null ||
-                          bloc.selectedNRCType == null) {
+                          bloc.selectedNRCType == null || _nrcTextController.text.length != 6) {
                         ///alert
                       } else {
                         bloc.onTapConfirm(

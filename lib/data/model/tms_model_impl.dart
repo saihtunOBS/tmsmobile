@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:tmsmobile/data/model/tms_model.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/data/vos/announcement_vo.dart';
+import 'package:tmsmobile/data/vos/billing_vo.dart';
 import 'package:tmsmobile/data/vos/complaint_vo.dart';
 import 'package:tmsmobile/data/vos/contract_information_vo.dart';
 import 'package:tmsmobile/data/vos/contract_vo.dart';
@@ -19,9 +20,11 @@ import 'package:tmsmobile/network/requests/household_owner_request.dart';
 import 'package:tmsmobile/network/requests/household_request.dart';
 import 'package:tmsmobile/network/requests/household_resident_request.dart';
 import 'package:tmsmobile/network/requests/login_request.dart';
+import 'package:tmsmobile/network/requests/maintenance_status_request.dart';
 import 'package:tmsmobile/network/requests/reset_password_request.dart';
 import 'package:tmsmobile/network/requests/send_otp_request.dart';
 import 'package:tmsmobile/network/requests/verify_otp_request.dart';
+import 'package:tmsmobile/network/responses/fillout_process_response.dart';
 import 'package:tmsmobile/network/responses/login_response.dart';
 import 'package:tmsmobile/network/responses/maintenance_process_response.dart';
 import 'package:tmsmobile/network/responses/otp_response.dart';
@@ -159,8 +162,9 @@ class TmsModelImpl extends TmsModel {
   }
 
   @override
-  Future<List<ServiceRequestVo>> getMaintenances(String token) {
-    return tmsDataAgent.getMaintenances(token);
+  Future<List<ServiceRequestVo>> getMaintenances(
+      String token, int page, int limit) {
+    return tmsDataAgent.getMaintenances(token, page, limit);
   }
 
   @override
@@ -219,5 +223,21 @@ class TmsModelImpl extends TmsModel {
   Future<MaintenanceProcessResponse> getMaintenanceProcess(
       String token, String id) {
     return tmsDataAgent.getMaintenanceProcess(token, id);
+  }
+
+  @override
+  Future<void> changeMaintenanceStatus(
+      String token, String id, MaintenanceStatusRequest request) {
+    return tmsDataAgent.changeMaintenanceStatus(token, id, request);
+  }
+
+  @override
+  Future<List<BillingVO>> getBillingLists(String token) {
+    return tmsDataAgent.getBillingLists(token);
+  }
+
+  @override
+  Future<FilloutProcessResponse> getFilloutProcess(String token, String id) {
+    return tmsDataAgent.getFilloutProcess(token, id);
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/data/vos/pending_vo.dart';
+import 'package:tmsmobile/data/vos/quotation_vo.dart';
 
 import '../data/model/tms_model.dart';
 import '../data/model/tms_model_impl.dart';
@@ -18,21 +19,23 @@ class MaintenanceProcessBloc extends ChangeNotifier {
   String? processingDate;
   String? finishedDate;
   PendingVO? pendingVO;
-
+  QuotationVO? quotationVO;
+  String? token;
   MaintenanceProcessBloc(this.id) {
-    var token = PersistenceData.shared.getToken();
-    getMaintenanceProcess(token);
+    token = PersistenceData.shared.getToken();
+    getMaintenanceProcess();
   }
 
-  getMaintenanceProcess(token) {
+  getMaintenanceProcess() {
     _showLoading();
-    _tmsModel.getMaintenanceProcess(token, id ?? '').then((response) {
+    _tmsModel.getMaintenanceProcess(token ?? '', id ?? '').then((response) {
       
       try {
         pendingVO = response.data?.first.pending;
         pendingDate = response.data?.first.pending?.pendingDate ?? '';
         surveyDate = response.data?[1].survey?.surveyDate ?? '';
-        quotationDate = '8/8/2025';
+        quotationDate = response.data?[2].quotation?.date ?? '';
+        quotationVO = response.data?[2].quotation;
         acceptRejectDate =
             response.data?[3].acceptReject?.acceptRejectDate ?? '';
         processingDate = response.data?[4].processing?.processingDate ?? '';

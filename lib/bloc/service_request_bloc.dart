@@ -35,7 +35,9 @@ class ServiceRequestBloc extends ChangeNotifier {
 
   getMaintenances() {
     _showLoading();
-    _tmsModel.getMaintenances(token ?? '').then((response) {
+    _tmsModel
+        .getMaintenances(token ?? '', maintenancePage, 10)
+        .then((response) {
       maintenanceLists = response;
     }).whenComplete(() => _hideLoading());
   }
@@ -50,6 +52,23 @@ class ServiceRequestBloc extends ChangeNotifier {
       fillOutLists.addAll(response);
     }).whenComplete(() {
       isLoadMoreFillOut = false;
+      notifyListeners();
+      _hideLoading();
+    });
+  }
+
+  getLoadMoreMaintenance() {
+    if (isLoadMoreMaintenance) return;
+    isLoadMoreMaintenance = true;
+    notifyListeners();
+
+    maintenancePage += 1;
+    _tmsModel
+        .getMaintenances(token ?? '', maintenancePage, 10)
+        .then((response) {
+      maintenanceLists.addAll(response);
+    }).whenComplete(() {
+      isLoadMoreMaintenance = false;
       notifyListeners();
       _hideLoading();
     });

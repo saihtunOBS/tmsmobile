@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tmsmobile/data/vos/billing_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/list_items/noti_list_item.dart';
@@ -85,8 +86,8 @@ class NotificationPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: kMarginMedium2),
             itemBuilder: (context, index) {
               return InkWell(
-                onTap: () => PageNavigator(ctx: context)
-                    .nextPage(page: InvoiceDetailPage()),
+                // onTap: () => PageNavigator(ctx: context)
+                //     .nextPage(page: InvoiceDetailPage(billingData: BillingVO(),)),
                 child: Padding(
                   padding: EdgeInsets.only(bottom: kMargin10),
                   child: NotiListItem(),

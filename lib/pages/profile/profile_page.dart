@@ -351,16 +351,16 @@ class _ProfilePageState extends State<ProfilePage> {
               InkWell(
                 onTap: () {
                   if (isDeleteAccount == true) {
-                    bloc
-                        ?.onTapDelete()
-                        .then((_) => PageNavigator(ctx: context)
-                            .nextPageOnly(page: LoginPage()))
-                        .catchError((error) {
-                      showCommonDialog(
-                          context: context,
-                          dialogWidget:
-                              ErrorDialogView(errorMessage: error.toString()));
-                    });
+                    // bloc
+                    //     ?.onTapDelete()
+                    //     .then((_) => PageNavigator(ctx: context)
+                    //         .nextPageOnly(page: LoginPage()))
+                    //     .catchError((error) {
+                    //   showCommonDialog(
+                    //       context: context,
+                    //       dialogWidget:
+                    //           ErrorDialogView(errorMessage: error.toString()));
+                   // });
                   } else {
                     PersistenceData.shared.clearToken();
                     PersistenceData.shared.clearUserData();

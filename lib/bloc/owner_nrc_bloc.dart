@@ -94,7 +94,8 @@ class OwnerNRCBloc extends ChangeNotifier {
   }
 
   onChangeNrcNumber(String value) {
-    value.isEmpty ? isEmptyNrc = true : isEmptyNrc = false;
+    value.isEmpty ? isEmptyNrc = true : value.length != 6
+            ? isEmptyNrc = true : isEmptyNrc = false;
     notifyListeners();
   }
 }

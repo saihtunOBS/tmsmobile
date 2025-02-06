@@ -37,6 +37,8 @@ const String kEndPointTypeOfIssues = '/common/issue/list';
 const String kEndPointProperty = '/common/property-list';
 const String kEndPointMaintenanceProcess = '/home/service/maintenance/format';
 const String kEndPointFilOutProcess = '/home/service/fill-out-request/format';
+const String kChangeMaintenanceStatus = '/home/service/maintenance/change-status';
+const String kEndPointBilling = '/home/billing/list';
 
 ///Parameters
 const String kParamApiKey = "api_key";

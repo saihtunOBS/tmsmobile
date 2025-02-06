@@ -37,6 +37,8 @@ class _ComplainPageState extends State<ComplainPage>
         setState(() {
           _currentIndex = _tabController.index;
         });
+        var bloc = context.read<ComplaintBloc>();
+        bloc.getComplaint();
       }
     });
   }

@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
+import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/network/requests/household_owner_request.dart';
 import 'package:tmsmobile/network/requests/household_registration_request.dart';
 import 'package:tmsmobile/network/requests/household_resident_request.dart';
+import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
+import 'package:tmsmobile/utils/dimens.dart';
 
 import '../data/model/tms_model.dart';
 import '../data/model/tms_model_impl.dart';
@@ -200,12 +203,42 @@ class EditResidentBloc extends ChangeNotifier {
             ),
           ),
           height: size.height * 0.27,
-          child: CupertinoDatePicker(
-            mode: CupertinoDatePickerMode.date,
-            onDateTimeChanged: (value) {
-              selectedDate = value;
-              notifyListeners();
-            },
+          child: Column(
+            children: [
+              Expanded(
+                child: CupertinoDatePicker(
+                  initialDateTime: houseHoldVO?.dateOfBirth,
+                  maximumYear: DateTime.now().year,
+                  mode: CupertinoDatePickerMode.date,
+                  onDateTimeChanged: (value) {
+                    selectedDate = value;
+                    notifyListeners();
+                  },
+                ),
+              ),
+              5.vGap,
+              Material(
+                child: InkWell(
+                  onTap: () => Navigator.pop(context!),
+                  child: Container(
+                    margin: EdgeInsets.only(
+                        left: kMargin24, right: kMargin24,bottom: kMargin24),
+                    width: double.infinity,
+                    height: 45,
+                    decoration: BoxDecoration(
+                        color: kPrimaryColor,
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Center(
+                      child: Text(
+                        'Done',
+                        style: TextStyle(
+                            color: kWhiteColor, fontWeight: FontWeight.w700,fontSize: kTextRegular),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
           ),
         );
       },

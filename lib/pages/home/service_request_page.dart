@@ -32,6 +32,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
   late TabController _tabController;
 
   final fillOutScrollController = ScrollController();
+  final maintenanceScrollController = ScrollController();
 
   @override
   void initState() {
@@ -41,6 +42,12 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
         setState(() {
           _currentIndex = _tabController.index;
         });
+        var bloc = context.read<ServiceRequestBloc>();
+        if (_currentIndex == 0) {
+          bloc.getMaintenances();
+        } else {
+          bloc.getFillOuts();
+        }
       }
     });
 
@@ -170,8 +177,15 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                         physics: AlwaysScrollableScrollPhysics(),
                         padding: EdgeInsets.symmetric(
                             vertical: kMargin24, horizontal: kMarginMedium2),
-                        itemCount: bloc.maintenanceLists.length,
+                        itemCount: bloc.isLoadMoreMaintenance == true
+                            ? bloc.maintenanceLists.length + 1
+                            : bloc.maintenanceLists.length,
                         itemBuilder: (context, index) {
+                          if (index == bloc.maintenanceLists.length) {
+                            return LoadingView(
+                              bgColor: Colors.transparent,
+                            );
+                          }
                           return InkWell(
                               onTap: () {
                                 PageNavigator(ctx: context).nextPage(
@@ -187,6 +201,14 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                                     bloc.maintenanceLists[index].status ?? 0,
                               ));
                         },
+                        controller: maintenanceScrollController
+                          ..addListener(() {
+                            if (maintenanceScrollController.position.pixels ==
+                                maintenanceScrollController
+                                    .position.maxScrollExtent) {
+                              bloc.getLoadMoreMaintenance();
+                            }
+                          }),
                       ),
                     )
                   : EmptyView(
@@ -238,7 +260,8 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                         return InkWell(
                           onTap: () => PageNavigator(ctx: context).nextPage(
                               page: FillOutProcessPage(
-                            status: 1,
+                            status: bloc.fillOutLists[index].status ?? 0,
+                            id: bloc.fillOutLists[index].id ?? '',
                           )),
                           child: ServiceRequestListItem(
                             status: bloc.fillOutLists[index].status ?? 0,

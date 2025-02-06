@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:marquee/marquee.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:tmsmobile/data/dummy/dummy.dart';
 import 'package:tmsmobile/extension/extension.dart';
@@ -43,7 +44,12 @@ class HomePage extends StatelessWidget {
             width: double.infinity,
             child: _buildBannerView(context),
           ),
-          // 35.vGap,
+
+          12.vGap,
+
+          ///marquee
+          _marqueeView(),
+          6.vGap,
           Expanded(
             child: SingleChildScrollView(
               physics: ClampingScrollPhysics(),
@@ -199,7 +205,7 @@ class HomePage extends StatelessWidget {
                         );
                       }).toList(),
                       options: CarouselOptions(
-                        autoPlay: true,
+                        autoPlay: false,
                         disableCenter: true,
                         viewportFraction: 1,
                         onPageChanged: (index, reason) =>
@@ -219,6 +225,27 @@ class HomePage extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  //marquee view
+  Widget _marqueeView() {
+    return Container(
+      height: 35,
+      width: double.infinity,
+      color: kGreenColor,
+      child: Center(
+        child: Marquee(
+          text: 'ယခုမီးလာနေပါသည်               ',
+          style: TextStyle(fontSize: kTextRegular - 1,color: kWhiteColor),
+          pauseAfterRound: Duration(seconds: 1),
+          startPadding: 50.0,
+          accelerationDuration: Duration(seconds: 1),
+          accelerationCurve: Curves.linear,
+          decelerationDuration: Duration(milliseconds: 1500),
+          decelerationCurve: Curves.easeOut,
+        ),
+      ),
     );
   }
 }

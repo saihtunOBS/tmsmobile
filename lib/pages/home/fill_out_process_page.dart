@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tmsmobile/bloc/fillout_process_bloc.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/home/fill_out_process_detail_page.dart';
 import 'package:tmsmobile/utils/strings.dart';
+import 'package:tmsmobile/widgets/loading_view.dart';
 
 import '../../utils/colors.dart';
+import '../../utils/date_formatter.dart';
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FillOutProcessPage extends StatefulWidget {
-  const FillOutProcessPage({super.key, this.status});
+  const FillOutProcessPage({super.key, this.status, required this.id});
   final int? status;
+  final String id;
   @override
   State<FillOutProcessPage> createState() => _FillOutProcessPageState();
 }
@@ -29,14 +34,19 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      appBar: PreferredSize(
-          preferredSize: Size(double.infinity, kMargin60),
-          child: GradientAppBar(
-            AppLocalizations.of(context)?.kFillOutProcessLabel ?? '',
-          )),
-      body: _buildSetpper(),
+    return ChangeNotifierProvider(
+      create: (context) => FilloutProcessBloc(widget.id),
+      child: Consumer<FilloutProcessBloc>(
+        builder: (context, bloc, child) => Scaffold(
+          backgroundColor: kBackgroundColor,
+          appBar: PreferredSize(
+              preferredSize: Size(double.infinity, kMargin60),
+              child: GradientAppBar(
+                AppLocalizations.of(context)?.kFillOutProcessLabel ?? '',
+              )),
+          body: bloc.isLoading == true ? LoadingView() : _buildSetpper(bloc),
+        ),
+      ),
     );
   }
 
@@ -58,7 +68,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
     }
   }
 
-  Widget _buildSetpper() {
+  Widget _buildSetpper(FilloutProcessBloc bloc) {
     return SingleChildScrollView(
       child: Column(
           spacing: kMargin30,
@@ -85,6 +95,10 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                     spacing: kMarginMedium2,
                     children: [
                       _buildProcessView(
+                          date: bloc.pendingDate != null
+                              ? DateFormatter.formatDate(
+                                  bloc.pendingDate ?? DateTime.now())
+                              : '',
                           title: kPendingLabel,
                           onPressDetail: () =>
                               PageNavigator(ctx: context).nextPage(
@@ -92,25 +106,29 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                                 isApproved: false,
                               )),
                           onPressed: () {
-                            setState(() {
-                              isSelectedPending = true;
-                            });
+                            // setState(() {
+                            //   isSelectedPending = true;
+                            // });
                           },
                           label: 'Fill Out Request',
                           isSelected: isSelectedPending,
                           color: kBlackColor),
                       _buildProcessView(
+                          date: bloc.approvedDate,
                           title: kApprovedLabel,
-                          onPressDetail: () =>
-                              PageNavigator(ctx: context).nextPage(
-                                  page: FillOutProcessDetailPage(
+                          onPressDetail: () => PageNavigator(ctx: context)
+                                  .nextPage(
+                                      page: FillOutProcessDetailPage(
                                 isApproved: true,
-                              )),
+                              ))
+                                  .whenComplete(() {
+                                bloc.getFilloutProcess();
+                              }),
                           onPressed: () {
-                            setState(() {
-                              if (isSelectedPending == false) return;
-                              isSelectedApprove = true;
-                            });
+                            // setState(() {
+                            //   if (isSelectedPending == false) return;
+                            //   isSelectedApprove = true;
+                            // });
                           },
                           label: 'Fill Out Request Approve',
                           isSelected: isSelectedApprove,
@@ -139,6 +157,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
   Widget _buildProcessView(
       {required String title,
       required VoidCallback onPressed,
+      String? date,
       Key? key,
       String? label,
       VoidCallback? onPressDetail,
@@ -199,7 +218,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Dec 12, 2024',
+                            date ?? '',
                             style: TextStyle(fontSize: kTextRegular13),
                           ),
                           6.vGap,

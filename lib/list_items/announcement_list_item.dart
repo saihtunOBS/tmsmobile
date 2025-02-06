@@ -5,6 +5,8 @@ import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../utils/html_text.dart';
+
 class AnnouncementListItem extends StatelessWidget {
   const AnnouncementListItem({
     super.key,
@@ -61,7 +63,7 @@ class AnnouncementListItem extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: kMarginMedium2),
                   child: Text(
-                    data.description ?? '',
+                    htmlParser(data.description ?? ''),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     softWrap: true,

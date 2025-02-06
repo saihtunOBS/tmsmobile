@@ -39,7 +39,7 @@ class NRCBloc extends ChangeNotifier {
   NRCBloc({String? nrc, int? nrcType}) {
     final nrcResponse = NRCResponse.fromJson(jsonData);
     nrcNumber = null;
-    
+
     _townships = nrcResponse.data;
     if (nrcType == 1) {
       nrcNumber = nrc!;
@@ -100,7 +100,11 @@ class NRCBloc extends ChangeNotifier {
   }
 
   onChangeNrcNumber(String value) {
-    value.isEmpty ? isEmptyNrc = true : isEmptyNrc = false;
+    value.isEmpty
+        ? isEmptyNrc = true
+        : value.length != 6
+            ? isEmptyNrc = true
+            : isEmptyNrc = false;
     notifyListeners();
   }
 }

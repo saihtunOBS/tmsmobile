@@ -63,8 +63,7 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
                       bloc.getEmergency();
                     },
                     child: bloc.isLoading == true
-                        ? LoadingView(
-                            )
+                        ? LoadingView()
                         : bloc.emergencyLists.isEmpty
                             ? EmptyView(
                                 imagePath: kNoAnnouncementImage,
@@ -76,7 +75,7 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
                                     '')
                             : ListView.builder(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: kMarginMedium2,vertical: 15),
+                                    horizontal: kMarginMedium2, vertical: 15),
                                 physics: AlwaysScrollableScrollPhysics(),
                                 itemCount: bloc.isLoadMore == true
                                     ? bloc.emergencyLists.length + 1
@@ -84,13 +83,14 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
                                 itemBuilder: (context, index) {
                                   if (index == bloc.emergencyLists.length) {
                                     return LoadingView(
-                                        bgColor: Colors.transparent,);
+                                      bgColor: Colors.transparent,
+                                    );
                                   }
                                   return _buildListItem(
                                       data: bloc.emergencyLists[index],
                                       index: index,
                                       title: bloc
-                                          .emergencyLists[index].contractName);
+                                          .emergencyLists[index].emergencyCategory?.name);
                                 },
                                 controller: scrollController
                                   ..addListener(() {
@@ -199,7 +199,7 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
                         title:
                             AppLocalizations.of(context)?.kContactNameLabel ??
                                 '',
-                        value: data?.emergencyCategory?.name ?? ''),
+                        value: data?.contractName ?? ''),
                     _listItem(
                         title:
                             AppLocalizations.of(context)?.kAddressLabel ?? '',

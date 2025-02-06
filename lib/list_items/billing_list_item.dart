@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:tmsmobile/data/vos/billing_vo.dart';
 import 'package:tmsmobile/utils/colors.dart';
+import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
 
 import '../data/app_data/app_data.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BillingListItem extends StatelessWidget {
-  const BillingListItem(
-      {super.key, required this.statusColor, required this.status});
-  final int statusColor;
-  final String status;
+  const BillingListItem({super.key, this.biling});
+
+  final BillingVO? biling;
 
   @override
   Widget build(BuildContext context) {
@@ -35,22 +37,27 @@ class BillingListItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Dec / 12 / 2024',
+                DateFormatter.formatDate(biling?.date ?? DateTime.now()),
                 style: TextStyle(fontSize: kTextRegular13, color: kThirdColor),
               ),
               Container(
                 height: kSize26,
                 padding: EdgeInsets.symmetric(horizontal: kMargin12),
                 decoration: BoxDecoration(
-                    color: _filterStatusColor(status: statusColor)
+                    color: _filterStatusColor(status: biling?.status ?? 0)
                         .withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(kMarginMedium14)),
                 child: Center(
                   child: Text(
-                    status,
+                    biling?.status == 0
+                        ? 'Unpaid'
+                        : biling?.status == 1
+                            ? 'Partially Paid'
+                            : 'Paid',
                     style: TextStyle(
                         fontSize: kTextSmall,
-                        color: _filterStatusColor(status: statusColor)),
+                        fontWeight: FontWeight.w600,
+                        color: _filterStatusColor(status: biling?.status ?? 0)),
                   ),
                 ),
               )
@@ -60,15 +67,16 @@ class BillingListItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'MT #00001',
+                biling?.invoiceCode ?? '',
                 style: TextStyle(
                   fontSize: kTextRegular13,
                 ),
               ),
               Text(
-                '600000 MMK',
+                '${biling?.grandTotal} MMK',
                 style: TextStyle(
-                    fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w700),
+                    fontSize: AppData.shared.getSmallFontSize(),
+                    fontWeight: FontWeight.w700),
               ),
             ],
           ),
@@ -76,11 +84,13 @@ class BillingListItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                kMaintenanceInvoiceLabel,
+                biling?.invoiceType ?? '',
                 style: TextStyle(fontSize: kTextRegular13),
               ),
               Text(
-                '$kDueDateLabel 11/12/2024',
+                biling?.status == 2
+                    ? 'Paid Date ${DateFormatter.formatDate(biling?.date ?? DateTime.now())}'
+                    : '$kDueDateLabel ${DateFormatter.formatDate(biling?.dueDate ?? DateTime.now())}',
                 style: TextStyle(fontSize: kTextSmall),
               ),
             ],
@@ -88,9 +98,13 @@ class BillingListItem extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                '#C001',
-                style: TextStyle(fontSize: kTextRegular13),
+              SizedBox(
+                width: 150,
+                child: Text(
+                  overflow: TextOverflow.ellipsis,
+                  '#${biling?.shop?.first ?? ''}',
+                  style: TextStyle(fontSize: kTextRegular13),
+                ),
               ),
               Container(
                 height: kSize26,
@@ -100,8 +114,11 @@ class BillingListItem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(kMargin5 + 1)),
                 child: Center(
                   child: Text(
-                    kDetailLabel,
-                    style: TextStyle(fontSize: kTextSmall, color: kWhiteColor,fontWeight: FontWeight.w700),
+                    AppLocalizations.of(context)?.kDetailLabel ?? '',
+                    style: TextStyle(
+                        fontSize: kTextSmall,
+                        color: kWhiteColor,
+                        fontWeight: FontWeight.w700),
                   ),
                 ),
               )
@@ -117,8 +134,8 @@ class BillingListItem extends StatelessWidget {
       case 0:
         return kPrimaryColor;
       case 1:
-        return kYellowColor;
-      case 2: 
+        return kOrangeColor;
+      case 2:
         return kGreenColor;
       default:
         return kPrimaryColor;

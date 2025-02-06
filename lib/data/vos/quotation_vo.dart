@@ -12,6 +12,8 @@ class QuotationVO {
   final String? tenant;
   final List<String>? attach;
   final String? description;
+  @JsonKey(name: 'quotation_date')
+  final String? date;
   final List<QuotationDetailVO>? details;
   @JsonKey(name: "invoice_setting")
   final InvoiceSettingVO? invoiceSetting;
@@ -19,10 +21,12 @@ class QuotationVO {
   final int? subTotal;
   @JsonKey(name: "grand_total")
   final int? grandTotal;
+  
 
   QuotationVO(
       {this.status,
       this.shop,
+      this.date,
       this.issue,
       this.tenant,
       this.attach,

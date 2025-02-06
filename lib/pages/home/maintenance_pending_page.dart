@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
-import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/cache_image.dart';
 
 import '../../data/app_data/app_data.dart';
 import '../../data/vos/pending_vo.dart';
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MaintenancePendingPage extends StatelessWidget {
   const MaintenancePendingPage({super.key, required this.pendingData});
@@ -21,7 +21,7 @@ class MaintenancePendingPage extends StatelessWidget {
       appBar: PreferredSize(
           preferredSize: Size(double.infinity, kMargin60),
           child: GradientAppBar(
-            kDetailLabel,
+            AppLocalizations.of(context)?.kDetailLabel ?? '',
           )),
       body: _buildBody(context),
     );
@@ -41,16 +41,17 @@ class MaintenancePendingPage extends StatelessWidget {
               children: [
                 // _buildListDetail(title: kIDLabel, value: 'value'),
                 _buildListDetail(
-                    title: kDateLabel,
+                    title: AppLocalizations.of(context)?.kDateLabel ?? '',
                     value: DateFormatter.formatStringDate(
                         pendingData.pendingDate ?? '')),
                 _buildListDetail(
-                    title: kTenantNameLabel, value: pendingData.tenant ?? ''),
+                    title: AppLocalizations.of(context)?.kTenantNameLabel ?? '', value: pendingData.tenant ?? ''),
                 _buildListDetail(
-                    title: kRoomShopNameLabel, value: pendingData.shop ?? ''),
+                    title: AppLocalizations.of(context)?.kRoomShopNameLabel ?? '', value: pendingData.shop ?? ''),
                 _buildListDetail(
-                    title: kTypeOfIssueLabel, value: pendingData.issue ?? ''),
-                _buildStatusListItem(status: 'Pending'),
+                    title: AppLocalizations.of(context)?.kTypeOfIssueLabel ?? '', value: pendingData.issue ?? ''),
+                _buildStatusListItem(status: 'Pending',context: context),
+                5.vGap,
                 _buildDescription(context)
               ],
             ),
@@ -61,12 +62,12 @@ class MaintenancePendingPage extends StatelessWidget {
     );
   }
 
-  Widget _buildStatusListItem({required String status}) {
+  Widget _buildStatusListItem({required String status,required BuildContext context}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          kStatusLabel,
+          AppLocalizations.of(context)?.kStatusLabel ?? '',
           style: TextStyle(fontSize: kTextRegular),
         ),
         kSize40.hGap,
@@ -117,7 +118,7 @@ class MaintenancePendingPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          kDescriptionLabel,
+          AppLocalizations.of(context)?.kDescriptionLabel ?? '',
           style: TextStyle(
               fontFamily: AppData.shared.fontFamily2,
               fontSize: kTextRegular3x,

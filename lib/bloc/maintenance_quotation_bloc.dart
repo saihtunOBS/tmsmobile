@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:tmsmobile/data/model/tms_model.dart';
-import 'package:tmsmobile/data/model/tms_model_impl.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
-import 'package:tmsmobile/data/vos/contract_information_vo.dart';
+import 'package:tmsmobile/network/requests/maintenance_status_request.dart';
 
-class ContractInformationBloc extends ChangeNotifier {
-  ContractInformationVO? contract;
+import '../data/model/tms_model.dart';
+import '../data/model/tms_model_impl.dart';
+
+class MaintenanceQuotationBloc extends ChangeNotifier {
   bool isLoading = false;
   bool isDisposed = false;
   String? id;
-  int selectedExpensionIndex = -1;
-  int selectedParkingExpensionIndex = -1;
-
+  String? token;
   final TmsModel _tmsModel = TmsModelImpl();
 
-  ContractInformationBloc(this.id) {
-    var token = PersistenceData.shared.getToken();
+  MaintenanceQuotationBloc(this.id) {
+    token = PersistenceData.shared.getToken();
+  }
+
+  Future changeStatus(bool isReject) {
     _showLoading();
-    _tmsModel
-        .getContractInformation(token, id ?? '')
-        .then((response) => contract = response)
+    var request = MaintenanceStatusRequest(isReject == true ? 5 : 6);
+    return _tmsModel
+        .changeMaintenanceStatus(token ?? '', id ?? '', request)
         .whenComplete(() => _hideLoading());
   }
 
@@ -37,10 +38,6 @@ class ContractInformationBloc extends ChangeNotifier {
     if (!isDisposed) {
       notifyListeners();
     }
-  }
-
-  onTapExpansion() {
-    notifyListeners();
   }
 
   @override

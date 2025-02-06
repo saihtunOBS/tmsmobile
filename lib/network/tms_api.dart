@@ -5,10 +5,12 @@ import 'package:retrofit/retrofit.dart';
 import 'package:tmsmobile/network/api_constants.dart';
 import 'package:tmsmobile/network/requests/complaint_request.dart';
 import 'package:tmsmobile/network/requests/household_request.dart';
+import 'package:tmsmobile/network/requests/maintenance_status_request.dart';
 import 'package:tmsmobile/network/requests/reset_password_request.dart';
 import 'package:tmsmobile/network/requests/send_otp_request.dart';
 import 'package:tmsmobile/network/responses/announcement_detail_response.dart';
 import 'package:tmsmobile/network/responses/announcement_response.dart';
+import 'package:tmsmobile/network/responses/billing_response.dart';
 import 'package:tmsmobile/network/responses/complaint_response.dart';
 import 'package:tmsmobile/network/responses/contract_response.dart';
 import 'package:tmsmobile/network/responses/emergency_response.dart';
@@ -24,6 +26,7 @@ import 'requests/login_request.dart';
 import 'requests/verify_otp_request.dart';
 import 'responses/complaint_detail_response.dart';
 import 'responses/contract_information_response.dart';
+import 'responses/fillout_process_response.dart';
 import 'responses/login_response.dart';
 import 'responses/parking_response.dart';
 import 'responses/property_response.dart';
@@ -122,6 +125,8 @@ abstract class TmsApi {
   @GET(kEndPointMaintenanceRequest)
   Future<ServiceRequestResponse> getMaintenance(
     @Header(kHeaderAuthorization) String token,
+    @Query("page") int page,
+    @Query("limit") int limit,
   );
 
   @MultiPart()
@@ -195,7 +200,18 @@ abstract class TmsApi {
 
   @GET('$kEndPointMaintenanceProcess/{id}')
   Future<MaintenanceProcessResponse> getMaintenanceProcess(
-    @Header(kHeaderAuthorization) String token,
-    @Path() String id
-  );
+      @Header(kHeaderAuthorization) String token, @Path() String id);
+  
+  @GET('$kEndPointFilOutProcess/{id}')
+  Future<FilloutProcessResponse> getFilloutProcess(
+      @Header(kHeaderAuthorization) String token, @Path() String id);
+
+  @PATCH('$kChangeMaintenanceStatus/{id}')
+  Future<void> changeMaintenanceStatus(
+      @Header(kHeaderAuthorization) String token,
+      @Body() MaintenanceStatusRequest request,
+      @Path() String id);
+
+  @GET(kEndPointBilling)
+  Future<BillingResponse> getBiling(@Header(kHeaderAuthorization) String token);
 }

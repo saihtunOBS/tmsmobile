@@ -11,15 +11,18 @@ import 'package:tmsmobile/network/requests/change_password_request.dart';
 import 'package:tmsmobile/network/requests/complaint_request.dart';
 import 'package:tmsmobile/network/requests/household_owner_request.dart';
 import 'package:tmsmobile/network/requests/household_request.dart';
+import 'package:tmsmobile/network/requests/maintenance_status_request.dart';
 import 'package:tmsmobile/network/requests/reset_password_request.dart';
 import 'package:tmsmobile/network/requests/send_otp_request.dart';
 import 'package:tmsmobile/network/requests/verify_otp_request.dart';
 import 'package:tmsmobile/network/responses/otp_response.dart';
 
+import '../../data/vos/billing_vo.dart';
 import '../../data/vos/contract_information_vo.dart';
 import '../../data/vos/type_of_issue_vo.dart';
 import '../requests/household_resident_request.dart';
 import '../requests/login_request.dart';
+import '../responses/fillout_process_response.dart';
 import '../responses/login_response.dart';
 import '../responses/maintenance_process_response.dart';
 import '../responses/service_request_response.dart';
@@ -55,7 +58,7 @@ abstract class TmsDataAgent {
       String shop,
       String description,
       String issue);
-  Future<List<ServiceRequestVo>> getMaintenances(String token);
+  Future<List<ServiceRequestVo>> getMaintenances(String token,int page, int limit);
   Future<List<ContractVO>> getContracts(String token, int page, int limit);
   Future<ContractInformationVO> getContractInformation(String token, String id);
   Future<List<AnnouncementVO>> getAnnouncements(String token);
@@ -69,4 +72,7 @@ abstract class TmsDataAgent {
   Future<List<TypeOfIssueVO>> getTypeOfIssues(String token);
   Future<List<RoomShopVO>> getProperties(String token);
   Future<MaintenanceProcessResponse> getMaintenanceProcess(String token,String id);
+  Future<FilloutProcessResponse> getFilloutProcess(String token,String id);
+  Future<void> changeMaintenanceStatus(String token,String id,MaintenanceStatusRequest request);
+  Future<List<BillingVO>> getBillingLists(String token);
 }

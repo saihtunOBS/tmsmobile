@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/maintenance_process_bloc.dart';
+import 'package:tmsmobile/data/vos/quotation_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/home/invoice_detail_page.dart';
@@ -10,6 +11,7 @@ import 'package:tmsmobile/pages/home/maintenance_quotation_page.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../data/vos/pending_vo.dart';
 import '../../extension/text_ext.dart';
@@ -60,13 +62,11 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
         appBar: PreferredSize(
             preferredSize: Size(double.infinity, kMargin60),
             child: GradientAppBar(
-              kMaintenanceProcessLabel,
+              AppLocalizations.of(context)?.kMaintenanceProcessLabel ?? '',
             )),
         body: Consumer<MaintenanceProcessBloc>(
-            builder: (context, bloc, child) => bloc.isLoading
-                ? LoadingView(
-                    )
-                : _buildSetpper()),
+            builder: (context, bloc, child) =>
+                bloc.isLoading ? LoadingView() : _buildSetpper()),
       ),
     );
   }
@@ -179,10 +179,20 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                             isSelected: isSelectedSurvey,
                             color: kOrangeColor),
                         _buildProcessView(
-                            date: 'Dec 12,2025',
+                            date: bloc.quotationDate != null
+                                ? DateFormatter.formatStringDate(
+                                    bloc.quotationDate ?? '')
+                                : '',
                             title: kQuotationLabel,
                             onPressedDetail: () => PageNavigator(ctx: context)
-                                .nextPage(page: MaintenanceQuotationPage()),
+                                    .nextPage(
+                                        page: MaintenanceQuotationPage(
+                                  quotation: bloc.quotationVO ?? QuotationVO(),id: widget.id ?? '',
+                                ))
+                                    .whenComplete(() {
+                                  bloc.getMaintenanceProcess();
+                                  implementStatus(bloc.pendingVO?.status ?? 0);
+                                }),
                             onPressed: () {
                               // setState(() {
                               //   if (isSelectedSurvey == false) return;
@@ -401,8 +411,8 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                               ? isWrapProcessingText == true
                                   ? kSize130 + 15
                                   : kSize130 - 4
-                              : kSize110 
-                      : kSize43, 
+                              : kSize110
+                      : kSize43,
                 ),
               ),
       ],

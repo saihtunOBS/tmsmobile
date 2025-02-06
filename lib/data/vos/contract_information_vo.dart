@@ -98,8 +98,8 @@ class PropertyInformation {
   @JsonKey(name: "price")
   final int? price;
 
-  @JsonKey(name: "parking_information")
-  final List<ParkingVO>? parkingInformation;
+  // @JsonKey(name: "parking_information")
+  // final List<ParkingVO>? parkingInformation;
 
   PropertyInformation({
     this.id,
@@ -111,7 +111,6 @@ class PropertyInformation {
     this.roomType,
     this.totalArea,
     this.price,
-    this.parkingInformation,
   });
 
   factory PropertyInformation.fromJson(Map<String, dynamic> json) =>

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:tmsmobile/data/vos/announcement_vo.dart';
+import 'package:tmsmobile/data/vos/billing_vo.dart';
 import 'package:tmsmobile/data/vos/complaint_vo.dart';
 import 'package:tmsmobile/data/vos/contract_information_vo.dart';
 import 'package:tmsmobile/data/vos/contract_vo.dart';
@@ -17,9 +18,11 @@ import 'package:tmsmobile/network/requests/complaint_request.dart';
 import 'package:tmsmobile/network/requests/household_owner_request.dart';
 import 'package:tmsmobile/network/requests/household_request.dart';
 import 'package:tmsmobile/network/requests/login_request.dart';
+import 'package:tmsmobile/network/requests/maintenance_status_request.dart';
 import 'package:tmsmobile/network/requests/reset_password_request.dart';
 import 'package:tmsmobile/network/requests/send_otp_request.dart';
 import 'package:tmsmobile/network/requests/verify_otp_request.dart';
+import 'package:tmsmobile/network/responses/fillout_process_response.dart';
 import 'package:tmsmobile/network/responses/login_response.dart';
 import 'package:tmsmobile/network/responses/otp_response.dart';
 import 'package:tmsmobile/network/tms_api.dart';
@@ -282,9 +285,10 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
   }
 
   @override
-  Future<List<ServiceRequestVo>> getMaintenances(String token) {
+  Future<List<ServiceRequestVo>> getMaintenances(
+      String token, int page, int limit) {
     return tmsApi
-        .getMaintenance('Bearer $token')
+        .getMaintenance('Bearer $token', page, 10)
         .asStream()
         .map((response) => response.data ?? [])
         .first
@@ -423,7 +427,44 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
         .asStream()
         .map((response) {
           return response;
-      })
+        })
+        .first
+        .catchError((error) {
+          throw _createException(error);
+        });
+  }
+
+  @override
+  Future<void> changeMaintenanceStatus(
+      String token, String id, MaintenanceStatusRequest request) {
+    return tmsApi
+        .changeMaintenanceStatus('Bearer $token', request, id)
+        .asStream()
+        .map((response) => response)
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<List<BillingVO>> getBillingLists(String token) {
+    return tmsApi
+        .getBiling('Bearer $token')
+        .asStream()
+        .map((response) => response.data ?? [])
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<FilloutProcessResponse> getFilloutProcess(String token, String id) {
+    return tmsApi
+        .getFilloutProcess('Bearer $token', id)
+        .asStream()
+        .map((response) => response)
         .first
         .catchError((error) {
       throw _createException(error);

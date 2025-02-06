@@ -142,11 +142,11 @@
     "kUnStatisfiedLabel": "UnStatisfied",
     "kCarParkingLabel": "Car Parking",
     "kThereisNoInvoiceHistoryLabel": "There is no Invoice history to show right now.",
-    "kNoServiceRequestLabel": "No Service Request Here",
+    "kNoServiceRequestLabel": "No Service Request Here.",
     "kThereisNoServiceRequestLabel": "There is no service request to show right now.",
-    "kNoNotificationLabel": "No Notification Here",
+    "kNoNotificationLabel": "No Notification Here.",
     "kThereisNoNotificationLabel": "There is no notification to show right now.",
-    "kNoAnnouncementLabel": "No Announcement Here",
+    "kNoAnnouncementLabel": "No Announcement Here.",
     "kThereisNoAnnouncementLabel": "There is no announcement to show right now.",
     "kNewNotificationLabel": "New Nofitications",
     "kApprovedLabel": "Approved",
@@ -219,7 +219,7 @@
     "kPasswordCriteiraLabel": "*Password does not meet the required criteria",
     "kAddNrcLabel": "Add NRC number",
     "kEntereNrcLabel": "Enter NRC number",
-    "kPleaseSelectNrcLabel": "* Please select your NRC and enter number",
+    "kPleaseSelectNrcLabel": "* Please select your NRC and enter 6 number.",
     "kPassportLabel": "Passport",
     "kCameraLabel": "Camera",
     "kOrLabel": "Or",
@@ -233,5 +233,8 @@
     "kNoParkingLabel": "No parking.",
     "kThereIsNoParkingLabel": "There is no parking to show right now.",
     "kNoEmergencyLabel": "No emergency.",
-    "kThereIsNoEmergencyLabel": "There is no emergency to show right now."
+    "kThereIsNoEmergencyLabel": "There is no emergency to show right now.",
+    "kNoBillingLabel": "No Billing.",
+    "kThereIsNoBillingLabel": "There is no billing to show right now."
+
 }

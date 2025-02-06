@@ -33,26 +33,25 @@ class ContractInformationPage extends StatelessWidget {
         body: Selector<ContractInformationBloc, bool?>(
           selector: (p0, p1) => p1.isLoading,
           builder: (context, isLoading, child) => isLoading == true
-              ? LoadingView(
-                  )
+              ? LoadingView()
               : Consumer<ContractInformationBloc>(
                   builder: (context, bloc, child) => SingleChildScrollView(
                     child: Column(
                       children: [
                         _buildHeader(
-                            bloc.contract as ContractInformationVO, context),
+                            bloc.contract ?? ContractInformationVO(), context),
                         ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             padding: EdgeInsets.symmetric(
-                                vertical: kMarginMedium2,
+                                vertical: kMarginMedium,
                                 horizontal: kMarginMedium2 + 2),
                             itemCount:
                                 bloc.contract?.propertyInformation?.length,
                             itemBuilder: (context, index) {
                               return _buildBody(
-                                  bloc.contract?.propertyInformation?[index]
-                                      as PropertyInformation,
+                                  bloc.contract?.propertyInformation?[index] ??
+                                      PropertyInformation(),
                                   index);
                             })
                       ],
@@ -146,7 +145,7 @@ class ContractInformationPage extends StatelessWidget {
   Widget _buildBody(PropertyInformation data, int index) {
     return Consumer<ContractInformationBloc>(
       builder: (context, bloc, child) => Container(
-        margin: EdgeInsets.only(bottom: kMarginMedium2 + 4),
+        margin: EdgeInsets.only(bottom: kMargin10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(kMargin10),
           boxShadow: [
@@ -248,13 +247,23 @@ class ContractInformationPage extends StatelessWidget {
                             AppLocalizations.of(context)?.kTotalAreaLabel ?? '',
                         value: '${data.totalArea ?? ''} sq ft'),
                     data.shop?.parkingData?.isNotEmpty ?? true
-                        ? 10.vGap
+                        ? 5.vGap
                         : 0.vGap,
                     data.shop?.parkingData?.isNotEmpty ?? true
-                        ? _buildParkingInformation(
-                            data.shop?.parkingData?.first ?? ParkingVO(),
-                            data,
-                            context)
+                        ? ListView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: data.shop?.parkingData?.length,
+                            itemBuilder: (context, index) {
+                              return _buildParkingInformation(
+                                  data.shop?.parkingData?[index] ??
+                                      ParkingVO(),
+                                  data,
+                                  context,
+                                  bloc,
+                                  index);
+                            })
                         : Container(),
                   ],
                 ),
@@ -267,10 +276,15 @@ class ContractInformationPage extends StatelessWidget {
   }
 
   Widget _buildParkingInformation(
-      ParkingVO parkingData, PropertyInformation data, BuildContext context) {
+      ParkingVO parkingData,
+      PropertyInformation data,
+      BuildContext context,
+      ContractInformationBloc bloc,
+      int index) {
     return ListTileTheme(
       dense: true,
       child: Container(
+        margin: EdgeInsets.only(top: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(kMargin5),
           gradient: LinearGradient(
@@ -281,6 +295,16 @@ class ContractInformationPage extends StatelessWidget {
         child: ExpansionTile(
           expansionAnimationStyle:
               AnimationStyle(duration: Duration(milliseconds: 10)),
+          key: Key(bloc.selectedParkingExpensionIndex.toString()),
+          initiallyExpanded: bloc.selectedParkingExpensionIndex == index,
+          onExpansionChanged: (isExpanded) {
+            if (isExpanded) {
+              bloc.selectedParkingExpensionIndex = index;
+            } else {
+              bloc.selectedParkingExpensionIndex = -1;
+            }
+            bloc.onTapExpansion();
+          },
           shape: Border(),
           collapsedShape: Border(),
           iconColor: kWhiteColor,
@@ -304,7 +328,7 @@ class ContractInformationPage extends StatelessWidget {
           ),
           children: [
             Container(
-              padding: EdgeInsets.only(top: kMargin10,bottom: 5),
+              padding: EdgeInsets.only(top: kMargin10, bottom: 5),
               decoration: BoxDecoration(
                 color: kWhiteColor,
               ),
@@ -326,9 +350,7 @@ class ContractInformationPage extends StatelessWidget {
                   _listItem(
                       title:
                           AppLocalizations.of(context)?.kParkingCodeLabel ?? '',
-                      value: data.shop?.parkingData?.first.parkingCode
-                              ?.parkingCode ??
-                          ''),
+                      value: parkingData.parkingCode?.parkingCode ?? ''),
                   _listItem(
                       title: AppLocalizations.of(context)?.kStatusLabel ?? '',
                       value: filterStatus(data.shop?.status ?? 0),

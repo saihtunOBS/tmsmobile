@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/data/vos/household_vo.dart';
+import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/network/requests/household_registration_request.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
 
 import '../data/model/tms_model.dart';
 import '../data/model/tms_model_impl.dart';
 import '../network/requests/household_request.dart';
+import '../utils/colors.dart';
+import '../utils/dimens.dart';
 import 'nrc_bloc.dart';
 
 String? ownerNrc;
@@ -247,21 +250,50 @@ class HouseHoldBloc extends ChangeNotifier {
             ),
           ),
           height: size.height * 0.27,
-          child: CupertinoDatePicker(
-            mode: CupertinoDatePickerMode.date,
-            onDateTimeChanged: (value) {
-              if (isRegistration == true) {
-                registrationDate = DateFormatter.formatDate(value);
-              } else if (isMoveIn == true) {
-                moveInDate = DateFormatter.formatDate(value);
-              } else if (isOwner == true) {
-                ownerDob = DateFormatter.formatDate(value);
-              } else if (isResident == true) {
-                residentDob = DateFormatter.formatDate(value);
-              }
+          child: Column(
+            children: [
+              Expanded(
+                child: CupertinoDatePicker(
+                  maximumYear: DateTime.now().year,
+                  mode: CupertinoDatePickerMode.date,
+                  onDateTimeChanged: (value) {
+                    if (isRegistration == true) {
+                      registrationDate = DateFormatter.formatDate(value);
+                    } else if (isMoveIn == true) {
+                      moveInDate = DateFormatter.formatDate(value);
+                    } else if (isOwner == true) {
+                      ownerDob = DateFormatter.formatDate(value);
+                    } else if (isResident == true) {
+                      residentDob = DateFormatter.formatDate(value);
+                    }
 
-              notifyListeners();
-            },
+                    notifyListeners();
+                  },
+                ),
+              ),
+              5.vGap,
+              Material(
+                child: InkWell(
+                  onTap: () => Navigator.pop(context!),
+                  child: Container(
+                    margin: EdgeInsets.only(
+                        left: kMargin24, right: kMargin24,bottom: kMargin24),
+                    width: double.infinity,
+                    height: 45,
+                    decoration: BoxDecoration(
+                        color: kPrimaryColor,
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Center(
+                      child: Text(
+                        'Done',
+                        style: TextStyle(
+                            color: kWhiteColor, fontWeight: FontWeight.w700,fontSize: kTextRegular),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
           ),
         );
       },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tmsmobile/data/vos/billing_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/home/invoice_detail_page.dart';
@@ -11,7 +12,9 @@ import '../../data/app_data/app_data.dart';
 import '../../widgets/appbar.dart';
 
 class BillingInvoicePage extends StatelessWidget {
-  const BillingInvoicePage({super.key});
+  const BillingInvoicePage({super.key, required this.status, required this.data});
+  final int status;
+  final BillingVO data;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class BillingInvoicePage extends StatelessWidget {
                 title: AppLocalizations.of(context)?.kViewInvoiceDetailLabel,
                 onPress: () {
                   PageNavigator(ctx: context)
-                      .nextPage(page: InvoiceDetailPage());
+                      .nextPage(page: InvoiceDetailPage(billingData: data,));
                 },
                 context: context),
           )),
@@ -57,7 +60,7 @@ class BillingInvoicePage extends StatelessWidget {
             ),
             Center(
               child: Text(
-                '650000 MMK'.replaceRange(2, 2, ','),
+                '${data.grandTotal} MMK'.replaceRange(2, 2, ','),
                 style: TextStyle(
                     fontWeight: FontWeight.w700, fontSize: kTextRegular28),
               ),
@@ -66,48 +69,55 @@ class BillingInvoicePage extends StatelessWidget {
             _buildListDetail(
                 title:
                     AppLocalizations.of(context)?.kTransactionTimeLabel ?? '',
-                value: 'value'),
+                value: '-'),
             _buildListDetail(
                 title: AppLocalizations.of(context)?.kInvoiceNoLabel ?? '',
-                value: 'value'),
+                value: data.invoiceCode ?? ''),
             _buildListDetail(
                 title: AppLocalizations.of(context)?.kTenantNameLabel ?? '',
-                value: 'value'),
+                value: data.tenant ?? ''),
             _buildListDetail(
                 title: AppLocalizations.of(context)?.kRoomShopNameLabel ?? '',
-                value: 'value'),
+                value: data.shop?.first ?? ''),
             _buildListDetail(
                 title: AppLocalizations.of(context)?.kPhoneNumberLabel ?? '',
-                value: 'value'),
+                value: '-'),
             _buildListDetail(
                 title:
                     AppLocalizations.of(context)?.kTransactionTypeLabel ?? '',
-                value: 'value'),
+                value: '-'),
             _buildListDetail(
                 title: AppLocalizations.of(context)?.kPaymentTypeLabel ?? '',
-                value: 'value'),
+                value: data.payment ?? ''),
             _buildListDetail(
                 title: AppLocalizations.of(context)?.kTotalAmountLabel ?? '',
-                value: 'value'),
+                value: '${data.grandTotal.toString()} MMK'),
 
             5.vGap,
 
             ///partially paid history
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(
-                AppLocalizations.of(context)?.kPartiallyPaidHistoryLabel ?? '',
-                style: TextStyle(
-                    fontSize: kTextRegular, fontWeight: FontWeight.w700),
-              ),
-              10.vGap,
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 3,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return _buidPartiallyPaidHistory(context);
-                  }),
-            ])
+            status == 2
+                ? SizedBox.shrink()
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                        Text(
+                          AppLocalizations.of(context)
+                                  ?.kPartiallyPaidHistoryLabel ??
+                              '',
+                          style: TextStyle(
+                              fontSize: kTextRegular,
+                              fontWeight: FontWeight.w700),
+                        ),
+                        10.vGap,
+                        ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: 3,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return _buidPartiallyPaidHistory(context);
+                            }),
+                      ])
           ],
         ),
       ),
@@ -128,7 +138,7 @@ class BillingInvoicePage extends StatelessWidget {
         Expanded(
           flex: 1,
           child: Text(
-            'testing',
+            value,
             textAlign: TextAlign.end,
             style:
                 TextStyle(fontSize: kTextRegular, fontWeight: FontWeight.w700),

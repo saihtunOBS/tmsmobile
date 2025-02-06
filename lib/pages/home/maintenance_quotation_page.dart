@@ -1,84 +1,111 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tmsmobile/bloc/maintenance_quotation_bloc.dart';
+import 'package:tmsmobile/data/vos/quotation_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
-import 'package:tmsmobile/extension/route_navigator.dart';
-import 'package:tmsmobile/pages/home/submit_complain_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
-import 'package:tmsmobile/utils/strings.dart';
+import 'package:tmsmobile/utils/date_formatter.dart';
+import 'package:tmsmobile/widgets/loading_view.dart';
 
 import '../../data/app_data/app_data.dart';
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MaintenanceQuotationPage extends StatelessWidget {
-  const MaintenanceQuotationPage({super.key});
+  const MaintenanceQuotationPage({super.key, required this.quotation, required this.id});
+  final QuotationVO quotation;
+  final String id;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      appBar: PreferredSize(
-          preferredSize: Size(double.infinity, kMargin60),
-          child: GradientAppBar(
-            kDetailLabel,
-          )),
-      body: _buildBody(),
-      bottomNavigationBar: Container(
-          padding: EdgeInsets.only(left: kMarginMedium2,right: kMarginMedium2,bottom: kMargin12),
-          height: kBottomBarHeight,
-          decoration: BoxDecoration(color: Colors.white, boxShadow: [
-            BoxShadow(offset: Offset(8, 0), blurRadius: 10, color: kGreyColor)
+    return ChangeNotifierProvider(
+      create: (context) => MaintenanceQuotationBloc(id),
+      child: Consumer<MaintenanceQuotationBloc>(
+        builder: (context, bloc, child) => Scaffold(
+          backgroundColor: kBackgroundColor,
+          appBar: PreferredSize(
+              preferredSize: Size(double.infinity, kMargin60),
+              child: GradientAppBar(
+                AppLocalizations.of(context)?.kDetailLabel ?? '',
+              )),
+          body: Stack(children: [
+            _buildBody(context, quotation),
+
+            ///loading
+            if (bloc.isLoading == true) LoadingView()
           ]),
-          child: Center(child: _buildAcceptRejectButton(context))),
+          bottomNavigationBar: Container(
+              padding: EdgeInsets.only(
+                  left: kMarginMedium2,
+                  right: kMarginMedium2,
+                  bottom: kMargin12),
+              height: kBottomBarHeight,
+              decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                BoxShadow(
+                    offset: Offset(8, 0), blurRadius: 10, color: kGreyColor)
+              ]),
+              child: Center(child: _buildAcceptRejectButton(context))),
+        ),
+      ),
     );
   }
 
   Widget _buildAcceptRejectButton(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        InkWell(
-          onTap: () => PageNavigator(ctx: context).nextPage(page: SubmitComplainPage()),
-          child: Container(
-            height: kSize45,
-            width: kSize147,
-            decoration: BoxDecoration(
-                color: kRedColor.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(kMargin6)),
-            child: Center(
-              child: Text(
-                kRejectLabel,
-                style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: AppData.shared.getRegularFontSize(),
-                    color: kRedColor),
+    return Consumer<MaintenanceQuotationBloc>(
+      builder: (context, bloc, child) => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          InkWell(
+            onTap: () => bloc.changeStatus(true).then((_) {
+              Navigator.of(context).pop();
+            }),
+            child: Container(
+              height: kSize45,
+              width: kSize147,
+              decoration: BoxDecoration(
+                  color: kRedColor.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(kMargin6)),
+              child: Center(
+                child: Text(
+                  AppLocalizations.of(context)?.kRejectLabel ?? '',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: AppData.shared.getRegularFontSize(),
+                      color: kRedColor),
+                ),
               ),
             ),
           ),
-        ),
-        InkWell(
-          onTap: () => Navigator.pop(context),
-          child: Container(
-            height: kSize45,
-            width: kSize147,
-            decoration: BoxDecoration(
-                color: kPrimaryColor.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(kMargin6)),
-            child: Center(
-              child: Text(
-                kAcceptLabel,
-                style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: AppData.shared.getRegularFontSize(),
-                    color: kPrimaryColor),
+          InkWell(
+            onTap: () => bloc.changeStatus(false).then((_) {
+              Navigator.of(context).pop();
+            }),
+            child: Container(
+              height: kSize45,
+              width: kSize147,
+              decoration: BoxDecoration(
+                  color: kPrimaryColor.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(kMargin6)),
+              child: Center(
+                child: Text(
+                  AppLocalizations.of(context)?.kAcceptLabel ?? '',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: AppData.shared.getRegularFontSize(),
+                      color: kPrimaryColor),
+                ),
               ),
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(BuildContext context, QuotationVO data) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,20 +117,36 @@ class MaintenanceQuotationPage extends StatelessWidget {
             child: Column(
               spacing: kMargin12,
               children: [
-                _buildListDetail(title: kInvoiceNoLabel, value: 'value'),
-                _buildListDetail(title: kDateLabel, value: 'value'),
-                _buildListDetail(title: kTenantNameLabel, value: 'value'),
-                _buildListDetail(title: kRoomShopNameLabel, value: 'value'),
-                _buildListDetail(title: kPhoneNumberLabel, value: 'value'),
-                _buildListDetail(title: kMonthLabel, value: 'value'),
-                _buildListDetail(title: kDueDateLabel, value: 'value'),
+                _buildListDetail(
+                    title: AppLocalizations.of(context)?.kInvoiceNoLabel ?? '',
+                    value: '-'),
+                _buildListDetail(
+                    title: AppLocalizations.of(context)?.kDateLabel ?? '',
+                    value: DateFormatter.formatStringDate(data.date ?? '')),
+                _buildListDetail(
+                    title: AppLocalizations.of(context)?.kTenantNameLabel ?? '',
+                    value: data.tenant ?? ''),
+                _buildListDetail(
+                    title:
+                        AppLocalizations.of(context)?.kRoomShopNameLabel ?? '',
+                    value: data.shop ?? ''),
+                _buildListDetail(
+                    title:
+                        AppLocalizations.of(context)?.kPhoneNumberLabel ?? '',
+                    value: '-'),
+                _buildListDetail(
+                    title: AppLocalizations.of(context)?.kMonthLabel ?? '',
+                    value: '-'),
+                _buildListDetail(
+                    title: AppLocalizations.of(context)?.kDueDateLabel ?? '',
+                    value: '-'),
               ],
             ),
           ),
           1.vGap,
-          _buildMaintenanceInvoice(),
-          _buildMonthyInvoice(),
-          _buildPrice(),
+          _buildMaintenanceInvoice(context),
+          //_buildMonthyInvoice(context),
+          _buildPrice(context),
           10.vGap
         ],
       ),
@@ -132,7 +175,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
     );
   }
 
-  Widget _buildMaintenanceInvoice() {
+  Widget _buildMaintenanceInvoice(context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: kMarginMedium2),
       decoration: BoxDecoration(
@@ -151,7 +194,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
           Container(
               height: kSize46,
               width: double.infinity,
-              padding: EdgeInsets.only(left: kMarginMedium2, top: kMargin10),
+              padding: EdgeInsets.only(left: kMarginMedium2),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(kMargin5),
@@ -161,12 +204,15 @@ class MaintenanceQuotationPage extends StatelessWidget {
                   stops: [0.0, 1.0],
                 ),
               ),
-              child: Text(
-                kMaintenanceInvoiceLabel,
-                style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: AppData.shared.getSmallFontSize(),
-                    color: kWhiteColor),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  AppLocalizations.of(context)?.kMaintenanceInvoiceLabel ?? '',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: AppData.shared.getSmallFontSize(),
+                      color: kWhiteColor),
+                ),
               )),
           ListView.builder(
               itemCount: 2,
@@ -177,7 +223,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Column(
                   children: [
-                    _buildMaintenanceInvoiceChild(),
+                    _buildMaintenanceInvoiceChild(context),
                     index == 1 ? SizedBox.shrink() : Divider()
                   ],
                 );
@@ -187,27 +233,37 @@ class MaintenanceQuotationPage extends StatelessWidget {
     );
   }
 
-  Widget _buildMaintenanceInvoiceChild() {
+  Widget _buildMaintenanceInvoiceChild(context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: kMargin10),
       child: Column(
         spacing: kMargin12,
         children: [
           _buildListDetail(
-              title: kDetailLabel,
+              title: AppLocalizations.of(context)?.kDetailLabel ?? '',
               value:
                   'this is description this is descriptionthis is descriptionthis is descriptionthis is descriptionthis is descriptionthis is descriptionthis is description'),
-          _buildListDetail(title: kUnitLabel, value: 'value'),
-          _buildListDetail(title: kQtyLabel, value: 'value'),
-          _buildListDetail(title: kTaxPercentLabel, value: 'value'),
-          _buildListDetail(title: kRateLabel, value: 'value'),
-          _buildListDetail(title: kAmountLabel, value: 'value'),
+          _buildListDetail(
+              title: AppLocalizations.of(context)?.kUnitLabel ?? '',
+              value: 'value'),
+          _buildListDetail(
+              title: AppLocalizations.of(context)?.kQtyLabel ?? '',
+              value: 'value'),
+          _buildListDetail(
+              title: AppLocalizations.of(context)?.kTaxPercentLabel ?? '',
+              value: 'value'),
+          _buildListDetail(
+              title: AppLocalizations.of(context)?.kRateLabel ?? '',
+              value: 'value'),
+          _buildListDetail(
+              title: AppLocalizations.of(context)?.kAmountLabel ?? '',
+              value: 'value'),
         ],
       ),
     );
   }
 
-  Widget _buildPrice() {
+  Widget _buildPrice(context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: kMarginMedium2),
       padding:
@@ -226,157 +282,193 @@ class MaintenanceQuotationPage extends StatelessWidget {
       child: Column(
         spacing: kMargin12,
         children: [
-          _buildListDetail(title: kSubTotal, value: 'value'),
-          _buildListDetail(title: kTaxLabel, value: 'value'),
-          _buildListDetail(title: kLateFeeLabel, value: 'value'),
-          _buildListDetail(title: kGrandTotalLabel, value: 'value'),
+          _buildListDetail(
+              title: AppLocalizations.of(context)?.kSubTotal ?? '',
+              value: 'value'),
+          _buildListDetail(
+              title: AppLocalizations.of(context)?.kTaxLabel ?? '',
+              value: 'value'),
+          _buildListDetail(
+              title: AppLocalizations.of(context)?.kLateFeeLabel ?? '',
+              value: 'value'),
+          _buildListDetail(
+              title: AppLocalizations.of(context)?.kGrandTotalLabel ?? '',
+              value: 'value'),
         ],
       ),
     );
   }
 
-  Widget _buildMonthyInvoice() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: kMarginMedium2),
-      decoration: BoxDecoration(
-        color: kWhiteColor,
-        borderRadius: BorderRadius.circular(kMargin5),
-        boxShadow: [
-          BoxShadow(
-            offset: Offset(0, 4),
-            blurRadius: 5,
-            color: kGreyColor,
-          )
-        ],
-      ),
-      child: Column(
-        children: [
-          Container(
-              height: kSize46,
-              width: double.infinity,
-              padding: EdgeInsets.only(left: kMarginMedium2, top: kMargin10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(kMargin5),
-                    topRight: Radius.circular(kMargin5)),
-                gradient: LinearGradient(
-                  colors: [kPrimaryColor, kThirdColor],
-                  stops: [0.0, 1.0],
-                ),
-              ),
-              child: Text(
-                kMonthlyInvoiceLabel,
-                style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: AppData.shared.getSmallFontSize(),
-                    color: kWhiteColor),
-              )),
-          Container(
-            margin: EdgeInsets.only(
-                left: kMarginMedium2, right: kMarginMedium2, top: kMargin10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: kMargin12,
-              children: [
-                _buildListDetail(title: kRentalFeeLabel, value: 'value'),
-                _buildListDetail(title: kCommercialTaxLabel, value: 'value'),
-                _buildListDetail(title: kAdvertisingFeeLabel, value: 'value'),
-                _buildListDetail(
-                    title: kCleanAndSecurityFeeLabel, value: 'value'),
-                _buildListDetail(
-                    title: kAirconAndElevatorFeeLabel, value: 'value'),
-                _buildListDetail(
-                    title: kPetAndMosquitoControlLabel, value: 'value'),
-                _buildListDetail(
-                    title: kBillBoardAdvertisingChargeLabel, value: 'value'),
-                Text(
-                  kElectricFeeLabel,
-                  style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
-                      fontSize: kTextRegular3x, fontWeight: FontWeight.w600),
-                ),
-                1.vGap
-              ],
-            ),
-          ),
-          ListView.builder(
-              itemCount: 2,
-              shrinkWrap: true,
-              padding: EdgeInsets.symmetric(horizontal: kMarginMedium2),
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return Column(
-                  spacing: kMargin12,
-                  children: [_buildMonthyInvoiceChild(), Divider(), 1.vGap],
-                );
-              }),
-        ],
-      ),
-    );
-  }
+  // Widget _buildMonthyInvoice(context) {
+  //   return Container(
+  //     margin: EdgeInsets.symmetric(horizontal: kMarginMedium2),
+  //     decoration: BoxDecoration(
+  //       color: kWhiteColor,
+  //       borderRadius: BorderRadius.circular(kMargin5),
+  //       boxShadow: [
+  //         BoxShadow(
+  //           offset: Offset(0, 4),
+  //           blurRadius: 5,
+  //           color: kGreyColor,
+  //         )
+  //       ],
+  //     ),
+  //     child: Column(
+  //       children: [
+  //         Container(
+  //             height: kSize46,
+  //             width: double.infinity,
+  //             padding: EdgeInsets.only(left: kMarginMedium2),
+  //             decoration: BoxDecoration(
+  //               borderRadius: BorderRadius.only(
+  //                   topLeft: Radius.circular(kMargin5),
+  //                   topRight: Radius.circular(kMargin5)),
+  //               gradient: LinearGradient(
+  //                 colors: [kPrimaryColor, kThirdColor],
+  //                 stops: [0.0, 1.0],
+  //               ),
+  //             ),
+  //             child: Align(
+  //               alignment: Alignment.centerLeft,
+  //               child: Text(
+  //                 AppLocalizations.of(context)?.kMonthlyInvoiceLabel ?? '',
+  //                 style: TextStyle(
+  //                     fontWeight: FontWeight.w700,
+  //                     fontSize: AppData.shared.getSmallFontSize(),
+  //                     color: kWhiteColor),
+  //               ),
+  //             )),
+  //         Container(
+  //           margin: EdgeInsets.only(
+  //               left: kMarginMedium2, right: kMarginMedium2, top: kMargin10),
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             spacing: kMargin12,
+  //             children: [
+  //               _buildListDetail(
+  //                   title: AppLocalizations.of(context)?.kRentalFeeLabel ?? '',
+  //                   value: 'value'),
+  //               _buildListDetail(
+  //                   title:
+  //                       AppLocalizations.of(context)?.kCommercialTaxLabel ?? '',
+  //                   value: 'value'),
+  //               _buildListDetail(
+  //                   title: AppLocalizations.of(context)?.kAdvertisingFeeLabel ??
+  //                       '',
+  //                   value: 'value'),
+  //               _buildListDetail(
+  //                   title: AppLocalizations.of(context)
+  //                           ?.kCleanAndSecurityFeeLabel ??
+  //                       '',
+  //                   value: 'value'),
+  //               _buildListDetail(
+  //                   title: AppLocalizations.of(context)
+  //                           ?.kAirconAndElevatorFeeLabel ??
+  //                       '',
+  //                   value: 'value'),
+  //               _buildListDetail(
+  //                   title: AppLocalizations.of(context)
+  //                           ?.kPetAndMosquitoControlLabel ??
+  //                       '',
+  //                   value: 'value'),
+  //               _buildListDetail(
+  //                   title: AppLocalizations.of(context)
+  //                           ?.kBillBoardAdvertisingChargeLabel ??
+  //                       '',
+  //                   value: 'value'),
+  //               Text(
+  //                 kElectricFeeLabel,
+  //                 style: TextStyle(
+  //                     fontFamily: AppData.shared.fontFamily2,
+  //                     fontSize: kTextRegular3x,
+  //                     fontWeight: FontWeight.w600),
+  //               ),
+  //               1.vGap
+  //             ],
+  //           ),
+  //         ),
+  //         ListView.builder(
+  //             itemCount: 2,
+  //             shrinkWrap: true,
+  //             padding: EdgeInsets.symmetric(horizontal: kMarginMedium2),
+  //             physics: NeverScrollableScrollPhysics(),
+  //             itemBuilder: (context, index) {
+  //               return Column(
+  //                 spacing: kMargin12,
+  //                 children: [
+  //                   _buildMonthyInvoiceChild(context),
+  //                   Divider(),
+  //                   1.vGap
+  //                 ],
+  //               );
+  //             }),
+  //       ],
+  //     ),
+  //   );
+  // }
 
-  Widget _buildMonthyInvoiceChild() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
-          spacing: kMargin12,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              kYesbLabel,
-              style: TextStyle(
-                  fontWeight: FontWeight.w700, fontSize: kTextRegular),
-            ),
-            Text(
-              kPreviousMonthLabel,
-              style: TextStyle(fontSize: kTextRegular),
-            ),
-            Text(
-              kThisMonthLabel,
-              style: TextStyle(fontSize: kTextRegular),
-            )
-          ],
-        ),
-        Column(
-          spacing: kMargin12,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              kUnitLabel,
-              style: TextStyle(
-                  fontWeight: FontWeight.w700, fontSize: kTextRegular),
-            ),
-            Text(
-              '10',
-              style: TextStyle(fontSize: kTextRegular),
-            ),
-            Text(
-              '6',
-              style: TextStyle(fontSize: kTextRegular),
-            )
-          ],
-        ),
-        Column(
-          spacing: kMargin12,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(
-              kRateLabel,
-              style: TextStyle(
-                  fontWeight: FontWeight.w700, fontSize: kTextRegular),
-            ),
-            Text(
-              '50000 MMK'.replaceRange(2, 2, ','),
-              style: TextStyle(fontSize: kTextRegular),
-            ),
-            Text(
-              '',
-              style: TextStyle(fontSize: kTextRegular),
-            )
-          ],
-        ),
-      ],
-    );
-  }
+  // Widget _buildMonthyInvoiceChild(context) {
+  //   return Row(
+  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //     children: [
+  //       Column(
+  //         spacing: kMargin12,
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           Text(
+  //             kYesbLabel,
+  //             style: TextStyle(
+  //                 fontWeight: FontWeight.w700, fontSize: kTextRegular),
+  //           ),
+  //           Text(
+  //             AppLocalizations.of(context)?.kPreviousMonthLabel ?? '',
+  //             style: TextStyle(fontSize: kTextRegular),
+  //           ),
+  //           Text(
+  //             AppLocalizations.of(context)?.kThisMonthLabel ?? '',
+  //             style: TextStyle(fontSize: kTextRegular),
+  //           )
+  //         ],
+  //       ),
+  //       Column(
+  //         spacing: kMargin12,
+  //         crossAxisAlignment: CrossAxisAlignment.center,
+  //         children: [
+  //           Text(
+  //             AppLocalizations.of(context)?.kUnitLabel ?? '',
+  //             style: TextStyle(
+  //                 fontWeight: FontWeight.w700, fontSize: kTextRegular),
+  //           ),
+  //           Text(
+  //             '10',
+  //             style: TextStyle(fontSize: kTextRegular),
+  //           ),
+  //           Text(
+  //             '6',
+  //             style: TextStyle(fontSize: kTextRegular),
+  //           )
+  //         ],
+  //       ),
+  //       Column(
+  //         spacing: kMargin12,
+  //         crossAxisAlignment: CrossAxisAlignment.end,
+  //         children: [
+  //           Text(
+  //             AppLocalizations.of(context)?.kRateLabel ?? '',
+  //             style: TextStyle(
+  //                 fontWeight: FontWeight.w700, fontSize: kTextRegular),
+  //           ),
+  //           Text(
+  //             '50000 MMK'.replaceRange(2, 2, ','),
+  //             style: TextStyle(fontSize: kTextRegular),
+  //           ),
+  //           Text(
+  //             '',
+  //             style: TextStyle(fontSize: kTextRegular),
+  //           )
+  //         ],
+  //       ),
+  //     ],
+  //   );
+  // }
 }

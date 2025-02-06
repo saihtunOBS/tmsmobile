@@ -10,6 +10,7 @@ import 'package:tmsmobile/widgets/loading_view.dart';
 import '../../data/app_data/app_data.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimens.dart';
+import '../../utils/html_text.dart';
 import '../../widgets/appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -46,7 +47,7 @@ class AnnouncementDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+           data.photos?.isEmpty ?? true ? SizedBox() : SizedBox(
               height: kSize180,
               width: double.infinity,
               child: ClipRRect(
@@ -76,7 +77,7 @@ class AnnouncementDetailPage extends StatelessWidget {
             ),
             kMarginMedium2.vGap,
             Text(
-              data.description ?? '',
+              htmlParser(data.description ?? ''),
               style: TextStyle(
                 fontSize: kTextRegular,
               ),

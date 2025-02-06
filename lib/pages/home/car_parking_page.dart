@@ -165,7 +165,7 @@ class _CarParkingPageState extends State<CarParkingPage> {
   Widget _buildBody(PropertyInformation data, int index) {
     return Consumer<ParkingBloc>(
       builder: (context, bloc, child) => Container(
-        margin: EdgeInsets.only(bottom: kMarginMedium2),
+        margin: EdgeInsets.only(bottom: kMargin10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(kMargin10),
           boxShadow: [

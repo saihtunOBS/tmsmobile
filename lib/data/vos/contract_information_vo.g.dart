@@ -80,9 +80,6 @@ PropertyInformation _$PropertyInformationFromJson(Map<String, dynamic> json) =>
           : RoomType.fromJson(json['room_type'] as Map<String, dynamic>),
       totalArea: json['total_area'] as String?,
       price: (json['price'] as num?)?.toInt(),
-      parkingInformation: (json['parking_information'] as List<dynamic>?)
-          ?.map((e) => ParkingVO.fromJson(e as Map<String, dynamic>))
-          .toList(),
     );
 
 Map<String, dynamic> _$PropertyInformationToJson(
@@ -97,7 +94,6 @@ Map<String, dynamic> _$PropertyInformationToJson(
       'room_type': instance.roomType,
       'total_area': instance.totalArea,
       'price': instance.price,
-      'parking_information': instance.parkingInformation,
     };
 
 PropertyDetail _$PropertyDetailFromJson(Map<String, dynamic> json) =>

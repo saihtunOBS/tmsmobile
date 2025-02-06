@@ -9,6 +9,7 @@ part of 'quotation_vo.dart';
 QuotationVO _$QuotationVOFromJson(Map<String, dynamic> json) => QuotationVO(
       status: (json['status'] as num?)?.toInt(),
       shop: json['shop'] as String?,
+      date: json['quotation_date'] as String?,
       issue: json['issue'] as String?,
       tenant: json['tenant'] as String?,
       attach:
@@ -33,6 +34,7 @@ Map<String, dynamic> _$QuotationVOToJson(QuotationVO instance) =>
       'tenant': instance.tenant,
       'attach': instance.attach,
       'description': instance.description,
+      'quotation_date': instance.date,
       'details': instance.details,
       'invoice_setting': instance.invoiceSetting,
       'sub_total': instance.subTotal,

@@ -252,7 +252,7 @@ class NRCViewState extends State<NRCView> {
                           height: bloc.isEmptyNrc == true ||
                                   bloc.selectedStateRegionCode == null ||
                                   bloc.selectedTownshipCode == null ||
-                                  bloc.selectedNRCType == null
+                                  bloc.selectedNRCType == null 
                               ? null
                               : 0,
                           child: Text(
@@ -275,7 +275,7 @@ class NRCViewState extends State<NRCView> {
                     if (bloc.isEmptyNrc == false) {
                       if (bloc.selectedStateRegionCode == null ||
                           bloc.selectedTownshipCode == null ||
-                          bloc.selectedNRCType == null) {
+                          bloc.selectedNRCType == null || _nrcTextController.text.length != 6) {
                         ///alert
                       } else {
                         bloc.onTapConfirm(
