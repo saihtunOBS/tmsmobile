@@ -24,6 +24,7 @@ import 'requests/household_owner_request.dart';
 import 'requests/household_resident_request.dart';
 import 'requests/login_request.dart';
 import 'requests/verify_otp_request.dart';
+import 'responses/banner_response.dart';
 import 'responses/complaint_detail_response.dart';
 import 'responses/contract_information_response.dart';
 import 'responses/fillout_process_response.dart';
@@ -69,6 +70,7 @@ abstract class TmsApi {
   @GET(kEndPointComplaint)
   Future<ComplaintResponse> getComplaint(
     @Header(kHeaderAuthorization) String token,
+    @Query('status') int id
   );
 
   @GET('$kEndPointComplaintDetail/{id}')
@@ -201,7 +203,7 @@ abstract class TmsApi {
   @GET('$kEndPointMaintenanceProcess/{id}')
   Future<MaintenanceProcessResponse> getMaintenanceProcess(
       @Header(kHeaderAuthorization) String token, @Path() String id);
-  
+
   @GET('$kEndPointFilOutProcess/{id}')
   Future<FilloutProcessResponse> getFilloutProcess(
       @Header(kHeaderAuthorization) String token, @Path() String id);
@@ -214,4 +216,7 @@ abstract class TmsApi {
 
   @GET(kEndPointBilling)
   Future<BillingResponse> getBiling(@Header(kHeaderAuthorization) String token);
+
+  @GET(kEndPointBanner)
+  Future<BannerResponse> getBanner(@Header(kHeaderAuthorization) String token);
 }

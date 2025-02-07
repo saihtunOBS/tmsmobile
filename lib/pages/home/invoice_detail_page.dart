@@ -337,55 +337,21 @@ class InvoiceDetailPage extends StatelessWidget {
                       color: kWhiteColor),
                 ),
               )),
-          Container(
-            margin: EdgeInsets.only(
-                left: kMarginMedium2, right: kMarginMedium2, top: kMargin10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: kMargin12,
-              children: [
-                _buildListDetail(
-                    title: AppLocalizations.of(context)?.kRentalFeeLabel ?? '',
-                    value: '-'),
-                _buildListDetail(
-                    title:
-                        AppLocalizations.of(context)?.kCommercialTaxLabel ?? '',
-                    value: '-'),
-                _buildListDetail(
-                    title: AppLocalizations.of(context)?.kAdvertisingFeeLabel ??
-                        '',
-                    value: '-'),
-                _buildListDetail(
-                    title: AppLocalizations.of(context)
-                            ?.kCleanAndSecurityFeeLabel ??
-                        '',
-                    value: '-'),
-                _buildListDetail(
-                    title: AppLocalizations.of(context)
-                            ?.kAirconAndElevatorFeeLabel ??
-                        '',
-                    value: '-'),
-                _buildListDetail(
-                    title: AppLocalizations.of(context)
-                            ?.kPetAndMosquitoControlLabel ??
-                        '',
-                    value: '-'),
-                _buildListDetail(
-                    title: AppLocalizations.of(context)
-                            ?.kBillBoardAdvertisingChargeLabel ??
-                        '',
-                    value: '-'),
-                Text(
-                  AppLocalizations.of(context)?.kElectricFeeLabel ?? '',
-                  style: TextStyle(
-                      fontFamily: AppData.shared.fontFamily2,
-                      fontSize: AppData.shared.getMediumFontSize(),
-                      fontWeight: FontWeight.w600),
-                ),
-                1.vGap
-              ],
+          12.vGap,
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: Text(
+                AppLocalizations.of(context)?.kElectricFeeLabel ?? '',
+                style: TextStyle(
+                    fontFamily: AppData.shared.fontFamily2,
+                    fontSize: AppData.shared.getMediumFontSize(),
+                    fontWeight: FontWeight.w600),
+              ),
             ),
           ),
+          12.vGap,
           ListView.builder(
               itemCount: billingData?.utilities?.length,
               shrinkWrap: true,
@@ -395,7 +361,8 @@ class InvoiceDetailPage extends StatelessWidget {
                 return Column(
                   spacing: kMargin12,
                   children: [
-                    _buildMonthyInvoiceChild(context,billingData?.utilities?[index] ?? UtilityVO()),
+                    _buildMonthyInvoiceChild(
+                        context, billingData?.utilities?[index] ?? UtilityVO()),
                     Divider(),
                     1.vGap
                   ],
@@ -406,7 +373,7 @@ class InvoiceDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildMonthyInvoiceChild(BuildContext context,UtilityVO data) {
+  Widget _buildMonthyInvoiceChild(BuildContext context, UtilityVO data) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -439,7 +406,7 @@ class InvoiceDetailPage extends StatelessWidget {
                   fontWeight: FontWeight.w700, fontSize: kTextRegular),
             ),
             Text(
-              '${data.previousMonth ?? 0}' ,
+              '${data.previousMonth ?? 0}',
               style: TextStyle(fontSize: kTextRegular),
             ),
             Text(
@@ -471,3 +438,36 @@ class InvoiceDetailPage extends StatelessWidget {
     );
   }
 }
+
+
+// _buildListDetail(
+                //     title: AppLocalizations.of(context)?.kRentalFeeLabel ?? '',
+                //     value: '-'),
+                // _buildListDetail(
+                //     title:
+                //         AppLocalizations.of(context)?.kCommercialTaxLabel ?? '',
+                //     value: '-'),
+                // _buildListDetail(
+                //     title: AppLocalizations.of(context)?.kAdvertisingFeeLabel ??
+                //         '',
+                //     value: '-'),
+                // _buildListDetail(
+                //     title: AppLocalizations.of(context)
+                //             ?.kCleanAndSecurityFeeLabel ??
+                //         '',
+                //     value: '-'),
+                // _buildListDetail(
+                //     title: AppLocalizations.of(context)
+                //             ?.kAirconAndElevatorFeeLabel ??
+                //         '',
+                //     value: '-'),
+                // _buildListDetail(
+                //     title: AppLocalizations.of(context)
+                //             ?.kPetAndMosquitoControlLabel ??
+                //         '',
+                //     value: '-'),
+                // _buildListDetail(
+                //     title: AppLocalizations.of(context)
+                //             ?.kBillBoardAdvertisingChargeLabel ??
+                //         '',
+                //     value: '-'),

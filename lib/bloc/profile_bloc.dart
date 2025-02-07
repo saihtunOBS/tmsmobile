@@ -24,9 +24,6 @@ class ProfileBloc extends ChangeNotifier {
   getUser() {
     _tmsModel.getUser(token ?? '').then((response) {
       userData = response.data;
-      var userVo =
-          UserVO(tenantName: response.data?.tenantName, id: response.data?.id);
-      PersistenceData.shared.saveUserData(userVo);
       notifyListeners();
     }).catchError((error) {
       if (error.toString().contains('Authentication failed!')) {

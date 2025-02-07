@@ -104,6 +104,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                               PageNavigator(ctx: context).nextPage(
                                   page: FillOutProcessDetailPage(
                                 isApproved: false,
+                                data: bloc.pendingVO,
                               )),
                           onPressed: () {
                             // setState(() {
@@ -120,6 +121,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                                   .nextPage(
                                       page: FillOutProcessDetailPage(
                                 isApproved: true,
+                                data: bloc.approveVO,
                               ))
                                   .whenComplete(() {
                                 bloc.getFilloutProcess();

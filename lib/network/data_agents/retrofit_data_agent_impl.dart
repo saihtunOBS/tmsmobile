@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/data/vos/announcement_vo.dart';
 import 'package:tmsmobile/data/vos/billing_vo.dart';
 import 'package:tmsmobile/data/vos/complaint_vo.dart';
@@ -12,6 +13,7 @@ import 'package:tmsmobile/data/vos/household_vo.dart';
 import 'package:tmsmobile/data/vos/room_shop_vo.dart';
 import 'package:tmsmobile/data/vos/service_request_vo.dart';
 import 'package:tmsmobile/data/vos/type_of_issue_vo.dart';
+import 'package:tmsmobile/data/vos/user_vo.dart';
 import 'package:tmsmobile/network/data_agents/tms_data_agent.dart';
 import 'package:tmsmobile/network/requests/change_password_request.dart';
 import 'package:tmsmobile/network/requests/complaint_request.dart';
@@ -22,6 +24,7 @@ import 'package:tmsmobile/network/requests/maintenance_status_request.dart';
 import 'package:tmsmobile/network/requests/reset_password_request.dart';
 import 'package:tmsmobile/network/requests/send_otp_request.dart';
 import 'package:tmsmobile/network/requests/verify_otp_request.dart';
+import 'package:tmsmobile/network/responses/banner_response.dart';
 import 'package:tmsmobile/network/responses/fillout_process_response.dart';
 import 'package:tmsmobile/network/responses/login_response.dart';
 import 'package:tmsmobile/network/responses/otp_response.dart';
@@ -104,9 +107,9 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
   }
 
   @override
-  Future<List<ComplaintVO>> getComplaints(String token) {
+  Future<List<ComplaintVO>> getComplaints(String token,int status) {
     return tmsApi
-        .getComplaint('Bearer $token')
+        .getComplaint('Bearer $token',status)
         .asStream()
         .map((response) => response.data ?? [])
         .first
@@ -132,11 +135,17 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
     return tmsApi
         .getUser('Bearer $token')
         .asStream()
-        .map((response) => response)
+        .map((response) {
+          var userVo = UserVO(
+              tenantName: response.data?.tenantName,
+              photo: response.data?.photo,phoneNumber: response.data?.phoneNumber);
+          PersistenceData.shared.saveUserData(userVo);
+          return response;
+        })
         .first
         .catchError((error) {
-      throw _createException(error);
-    });
+          throw _createException(error);
+        });
   }
 
   @override
@@ -463,6 +472,18 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
   Future<FilloutProcessResponse> getFilloutProcess(String token, String id) {
     return tmsApi
         .getFilloutProcess('Bearer $token', id)
+        .asStream()
+        .map((response) => response)
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<BannerResponse> getBannerLists(String token) {
+    return tmsApi
+        .getBanner('Bearer $token')
         .asStream()
         .map((response) => response)
         .first

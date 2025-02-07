@@ -37,9 +37,7 @@ class NotificationPage extends StatelessWidget {
                 stops: [0.0, 1.0],
               ),
             ),
-            child: Stack(children: [
-              Positioned(bottom: kMargin10 + 4, child: AppbarHeader())
-            ]),
+            child: AppbarHeader(),
           ),
         ),
         body: SingleChildScrollView(

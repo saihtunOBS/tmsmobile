@@ -18,8 +18,7 @@ import '../../widgets/cache_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChangeProfilePage extends StatelessWidget {
-  const ChangeProfilePage({super.key, this.userData});
-  final UserVO? userData;
+  const ChangeProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -50,14 +49,12 @@ class ChangeProfilePage extends StatelessWidget {
                     child: _buildHeader(context),
                   ),
                   18.vGap,
-                  _buildListView(userData ?? UserVO(), context)
+                  _buildListView(bloc.userData ?? UserVO(), context)
                 ],
               ),
 
               ///loading
-              if (bloc.isLoading == true)
-                LoadingView(
-                    )
+              if (bloc.isLoading == true) LoadingView()
             ],
           ),
         ),
@@ -115,7 +112,7 @@ class ChangeProfilePage extends StatelessWidget {
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           InkWell(
             onTap: () => showDialogImage(context,
-                bloc.imgFile == null ? userData?.photo : bloc.imgFile!),
+                bloc.imgFile == null ? bloc.userData?.photo : bloc.imgFile!),
             child: Container(
               height: kSize100,
               width: kSize100,
@@ -138,7 +135,7 @@ class ChangeProfilePage extends StatelessWidget {
                             bloc.imgFile!,
                             fit: BoxFit.cover,
                           )
-                        : cacheImage(userData?.photo ?? '')),
+                        : cacheImage(bloc.userData?.photo ?? '')),
               ),
             ),
           ),
@@ -193,8 +190,8 @@ class ChangeProfilePage extends StatelessWidget {
                         child: cacheImage(imageUrl)),
               ),
               Positioned(
-                top: 0,
-                right: 0,
+                  top: 0,
+                  right: 0,
                   child: IconButton(
                       onPressed: () {
                         Navigator.of(context).pop();

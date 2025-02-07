@@ -12,7 +12,8 @@ import '../../data/app_data/app_data.dart';
 import '../../widgets/appbar.dart';
 
 class BillingInvoicePage extends StatelessWidget {
-  const BillingInvoicePage({super.key, required this.status, required this.data});
+  const BillingInvoicePage(
+      {super.key, required this.status, required this.data});
   final int status;
   final BillingVO data;
 
@@ -32,8 +33,10 @@ class BillingInvoicePage extends StatelessWidget {
             child: gradientButton(
                 title: AppLocalizations.of(context)?.kViewInvoiceDetailLabel,
                 onPress: () {
-                  PageNavigator(ctx: context)
-                      .nextPage(page: InvoiceDetailPage(billingData: data,));
+                  PageNavigator(ctx: context).nextPage(
+                      page: InvoiceDetailPage(
+                    billingData: data,
+                  ));
                 },
                 context: context),
           )),
@@ -49,52 +52,78 @@ class BillingInvoicePage extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: kMargin12,
           children: [
-            1.vGap,
-            Center(
-              child: Text(
-                AppLocalizations.of(context)?.kPaymentLabel ?? '',
-                style: TextStyle(fontSize: AppData.shared.getRegularFontSize()),
-              ),
-            ),
-            Center(
-              child: Text(
-                '${data.grandTotal} MMK'.replaceRange(2, 2, ','),
-                style: TextStyle(
-                    fontWeight: FontWeight.w700, fontSize: kTextRegular28),
-              ),
-            ),
-            10.vGap,
-            _buildListDetail(
-                title:
-                    AppLocalizations.of(context)?.kTransactionTimeLabel ?? '',
-                value: '-'),
+            12.vGap,
+            status == 1
+                ? SizedBox.shrink()
+                : Column(
+                    children: [
+                      Center(
+                        child: Text(
+                          AppLocalizations.of(context)?.kPaymentLabel ?? '',
+                          style: TextStyle(
+                              fontSize: AppData.shared.getRegularFontSize()),
+                        ),
+                      ),
+                      Center(
+                        child: Text(
+                          '${data.grandTotal} MMK'.replaceRange(2, 2, ','),
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: kTextRegular28),
+                        ),
+                      ),
+                      10.vGap,
+                    ],
+                  ),
+            status == 1
+                ? SizedBox.shrink()
+                : _buildListDetail(
+                    title:
+                        AppLocalizations.of(context)?.kTransactionTimeLabel ??
+                            '',
+                    value: '-'),
+            12.vGap,
             _buildListDetail(
                 title: AppLocalizations.of(context)?.kInvoiceNoLabel ?? '',
                 value: data.invoiceCode ?? ''),
+            12.vGap,
             _buildListDetail(
                 title: AppLocalizations.of(context)?.kTenantNameLabel ?? '',
                 value: data.tenant ?? ''),
+            12.vGap,
             _buildListDetail(
                 title: AppLocalizations.of(context)?.kRoomShopNameLabel ?? '',
                 value: data.shop?.first ?? ''),
+            12.vGap,
             _buildListDetail(
                 title: AppLocalizations.of(context)?.kPhoneNumberLabel ?? '',
                 value: '-'),
+            12.vGap,
             _buildListDetail(
                 title:
                     AppLocalizations.of(context)?.kTransactionTypeLabel ?? '',
                 value: '-'),
-            _buildListDetail(
-                title: AppLocalizations.of(context)?.kPaymentTypeLabel ?? '',
-                value: data.payment ?? ''),
-            _buildListDetail(
-                title: AppLocalizations.of(context)?.kTotalAmountLabel ?? '',
-                value: '${data.grandTotal.toString()} MMK'),
+            status == 2 ? 0.vGap : 12.vGap,
+            Visibility(
+                visible: status!= 2,
+                child: _status(
+                  AppLocalizations.of(context)?.kStatusLabel ?? '',
+                  true,
+                )),
+            12.vGap,
+            _status(
+                AppLocalizations.of(context)?.kPaymentTypeLabel ?? '', false,
+                isPartially: status == 1 ? true : false),
+            12.vGap,
+            status == 1
+                ? SizedBox.shrink()
+                : _buildListDetail(
+                    title:
+                        AppLocalizations.of(context)?.kTotalAmountLabel ?? '',
+                    value: '${data.grandTotal.toString()} MMK'),
 
-            5.vGap,
-
+            12.vGap,
             ///partially paid history
             status == 2
                 ? SizedBox.shrink()
@@ -122,6 +151,53 @@ class BillingInvoicePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _status(String value, bool isStatus, {bool? isPartially}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          value,
+          style: TextStyle(fontSize: kTextRegular),
+        ),
+        Container(
+          height: kSize26,
+          padding: EdgeInsets.symmetric(horizontal: kMargin12),
+          decoration: BoxDecoration(
+              color: _filterStatusColor(status: status).withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(kMarginMedium14)),
+          child: Center(
+            child: Text(
+              status == 2
+                  ? 'Fully Paid'
+                  : isPartially == true
+                      ? 'Partially Paid'
+                      : 'Unpaid',
+              style: TextStyle(
+                  fontSize: kTextSmall,
+                  fontWeight: FontWeight.w600,
+                  color: isStatus == true
+                      ? _filterStatusColor(status: status == 2 ? 2 : 0)
+                      : _filterStatusColor(status: status)),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Color _filterStatusColor({required int status}) {
+    switch (status) {
+      case 0:
+        return kRedColor;
+      case 1:
+        return kOrangeColor;
+      case 2:
+        return kGreenColor;
+      default:
+        return kPrimaryColor;
+    }
   }
 
   Widget _buildListDetail({required String title, required String value}) {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tmsmobile/extension/extension.dart';
+import 'package:tmsmobile/network/responses/fillout_process_response.dart';
 import 'package:tmsmobile/utils/colors.dart';
+import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/strings.dart';
 
 import '../../data/app_data/app_data.dart';
@@ -8,8 +10,9 @@ import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
 
 class FillOutProcessDetailPage extends StatelessWidget {
-  const FillOutProcessDetailPage({super.key, this.isApproved});
+  const FillOutProcessDetailPage({super.key, this.isApproved, this.data});
   final bool? isApproved;
+  final FilloutProcessData? data;
 
   @override
   Widget build(BuildContext context) {
@@ -35,23 +38,23 @@ class FillOutProcessDetailPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: kMarginMedium2),
             child: Column(
               children: [
-                _buildListDetail(title: kIDLabel, value: 'value'),
+                _buildListDetail(title: kIDLabel, value: '-'),
                 kMargin12.vGap,
-                _buildListDetail(title: kDateLabel, value: 'value'),
+                _buildListDetail(title: kDateLabel, value: isApproved == true ? data?.serviceDate ?? '' : DateFormatter.formatDate(data?.pendingDate ?? DateTime.now())),
                 Visibility(
                   visible: isApproved ?? false,
                   child: Padding(
                     padding: const EdgeInsets.only(top: kMargin12),
                     child: _buildListDetail(
                         title: kServicingDateLabel,
-                        value: 'kMargin12 Dec, 2024',
+                        value: data?.serviceDate ?? '',
                         isServicingDate: true),
                   ),
                 ),
                 kMargin12.vGap,
-                _buildListDetail(title: kTenantNameLabel, value: 'value'),
+                _buildListDetail(title: kTenantNameLabel, value: '-'),
                 kMargin12.vGap,
-                _buildListDetail(title: kRoomShopNameLabel, value: 'value'),
+                _buildListDetail(title: kRoomShopNameLabel, value: '-'),
                 10.vGap,
                 Visibility(
                     visible: isApproved ?? true,
@@ -59,17 +62,17 @@ class FillOutProcessDetailPage extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: kMargin10),
                       child: _buildListDetail(
                           title: kDepositLabel,
-                          value: '50000000 ks',
+                          value: '${data?.depositAmount} ks',
                           isDeposit: true),
                     )),
-                _buildStatusListItem(status: 'Processing'),
-                10.vGap,
-                Visibility(
-                    visible: isApproved == false,
-                    child: _buildDescription(context)),
-                Visibility(
-                  visible: isApproved == true,
-                  child: _buildDayExtension()),
+                _buildStatusListItem(status: data?.statusName ?? ''),
+                // 10.vGap,
+                // Visibility(
+                //     visible: isApproved == false,
+                //     child: _buildDescription(context)),
+                // Visibility(
+                //   visible: isApproved == true,
+                //   child: _buildDayExtension()),
               ],
             ),
           ),
@@ -122,7 +125,7 @@ class FillOutProcessDetailPage extends StatelessWidget {
               horizontal: kMarginMedium, vertical: kMargin5),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(kMarginMedium2),
-              color: kBlackColor.withValues(alpha: 0.12)),
+              color: status == 'approve' ? kPrimaryColor.withValues(alpha: 0.12) : kBlackColor.withValues(alpha: 0.12)),
           child: FittedBox(
             child: Text(
               status,

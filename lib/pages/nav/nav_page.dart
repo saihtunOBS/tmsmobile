@@ -32,7 +32,6 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
         });
       }
     });
-   
   }
 
   @override
@@ -54,10 +53,10 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          TabBarView(
-              physics: const NeverScrollableScrollPhysics(),
-              controller: _tabController,
-              children: [HomePage(), NotificationPage(), ProfilePage()]),
+          IndexedStack(
+            index: _currentIndex,
+            children: [HomePage(), NotificationPage(), ProfilePage()],
+          ),
           Container(
             margin: EdgeInsets.only(
                 bottom: kMargin24, left: kMarginMedium2, right: kMarginMedium2),

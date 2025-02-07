@@ -24,6 +24,7 @@ import 'package:tmsmobile/network/requests/maintenance_status_request.dart';
 import 'package:tmsmobile/network/requests/reset_password_request.dart';
 import 'package:tmsmobile/network/requests/send_otp_request.dart';
 import 'package:tmsmobile/network/requests/verify_otp_request.dart';
+import 'package:tmsmobile/network/responses/banner_response.dart';
 import 'package:tmsmobile/network/responses/fillout_process_response.dart';
 import 'package:tmsmobile/network/responses/login_response.dart';
 import 'package:tmsmobile/network/responses/maintenance_process_response.dart';
@@ -87,8 +88,8 @@ class TmsModelImpl extends TmsModel {
   }
 
   @override
-  Future<List<ComplaintVO>> getComplaints(String token) {
-    return tmsDataAgent.getComplaints(token);
+  Future<List<ComplaintVO>> getComplaints(String token,status) {
+    return tmsDataAgent.getComplaints(token,status);
   }
 
   @override
@@ -239,5 +240,10 @@ class TmsModelImpl extends TmsModel {
   @override
   Future<FilloutProcessResponse> getFilloutProcess(String token, String id) {
     return tmsDataAgent.getFilloutProcess(token, id);
+  }
+
+  @override
+  Future<BannerResponse> getBannerLists(String token) {
+    return tmsDataAgent.getBannerLists(token);
   }
 }

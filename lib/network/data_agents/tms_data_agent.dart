@@ -22,6 +22,7 @@ import '../../data/vos/contract_information_vo.dart';
 import '../../data/vos/type_of_issue_vo.dart';
 import '../requests/household_resident_request.dart';
 import '../requests/login_request.dart';
+import '../responses/banner_response.dart';
 import '../responses/fillout_process_response.dart';
 import '../responses/login_response.dart';
 import '../responses/maintenance_process_response.dart';
@@ -46,7 +47,7 @@ abstract class TmsDataAgent {
       String inforId, HouseholdResidentRequest request);
   Future resetPassword(String token, ResetPasswordRequest resetPasswordRequest);
   Future createComplaint(String token, ComplaintRequest request);
-  Future<List<ComplaintVO>> getComplaints(String token);
+  Future<List<ComplaintVO>> getComplaints(String token,int status);
   Future<ComplaintVO> getComplaintDetails(String token, String id);
   Future<List<ServiceRequestVo>> getFillOuts(String token, int page, int limit);
   Future<ServiceRequestResponse> createFillOut(String token, List<File> files,
@@ -75,4 +76,6 @@ abstract class TmsDataAgent {
   Future<FilloutProcessResponse> getFilloutProcess(String token,String id);
   Future<void> changeMaintenanceStatus(String token,String id,MaintenanceStatusRequest request);
   Future<List<BillingVO>> getBillingLists(String token);
+  Future<BannerResponse> getBannerLists(String token);
+
 }

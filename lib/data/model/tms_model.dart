@@ -12,6 +12,7 @@ import '../../network/requests/maintenance_status_request.dart';
 import '../../network/requests/reset_password_request.dart';
 import '../../network/requests/send_otp_request.dart';
 import '../../network/requests/verify_otp_request.dart';
+import '../../network/responses/banner_response.dart';
 import '../../network/responses/fillout_process_response.dart';
 import '../../network/responses/maintenance_process_response.dart';
 import '../../network/responses/otp_response.dart';
@@ -45,7 +46,7 @@ abstract class TmsModel {
       String token, String houseHoldId, String inforId);
   Future resetPassword(String token, ResetPasswordRequest resetPasswordRequest);
   Future createComplaint(String token, ComplaintRequest request);
-  Future<List<ComplaintVO>> getComplaints(String token);
+  Future<List<ComplaintVO>> getComplaints(String token,int status);
   Future<ComplaintVO> getComplaintDetails(String token, String id);
   Future<List<ServiceRequestVo>> getFillOuts(String token, int page, int limit);
   Future<ServiceRequestResponse> createFillOut(String token, List<File> files,
@@ -74,5 +75,5 @@ abstract class TmsModel {
   Future<FilloutProcessResponse> getFilloutProcess(String token,String id);
   Future<void> changeMaintenanceStatus(String token,String id,MaintenanceStatusRequest request);
   Future<List<BillingVO>> getBillingLists(String token);
-
+  Future<BannerResponse> getBannerLists(String token);
 }

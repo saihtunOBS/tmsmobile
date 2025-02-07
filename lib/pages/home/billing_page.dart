@@ -70,7 +70,7 @@ class _BillingPageState extends State<BillingPage> {
                             return InkWell(
                               onTap: () => bloc.billingLists[index].status == 0
                                   ? PageNavigator(ctx: context)
-                                      .nextPage(page: InvoiceDetailPage())
+                                      .nextPage(page: InvoiceDetailPage(billingData: bloc.billingLists[index],))
                                   : PageNavigator(ctx: context).nextPage(
                                       page: BillingInvoicePage(
                                       status:

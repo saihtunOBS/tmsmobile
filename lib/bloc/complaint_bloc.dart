@@ -13,15 +13,14 @@ class ComplaintBloc extends ChangeNotifier {
   var token = '';
 
   final TmsModel _tmsModel = TmsModelImpl();
-  List<ComplaintVO> pendingComplainList = [];
-  List<ComplaintVO> solvedComplainList = [];
+  List<ComplaintVO> complainList = [];
 
   String? complaintId;
   ComplaintVO? complaintDetail;
 
   ComplaintBloc({this.complaintId, bool? isDetail}) {
     token = PersistenceData.shared.getToken();
-    getComplaint();
+    getComplaint(1);
 
     if (isDetail == true) {
       getComplaintDetails(complaintId);
@@ -41,6 +40,7 @@ class ComplaintBloc extends ChangeNotifier {
     _showLoading();
     _tmsModel.getComplaintDetails(token, id).then((value) {
       complaintDetail = value;
+    
     }).whenComplete(() {
       _hideLoading();
       notifyListeners();
@@ -57,13 +57,16 @@ class ComplaintBloc extends ChangeNotifier {
     _notifySafely();
   }
 
-  getComplaint() {
+  onChangeTab(int status){
+    getComplaint(status);
+  }
+
+  getComplaint(int status) {
     _showLoading();
-    _tmsModel.getComplaints(token).then((data) {
-      pendingComplainList = data.where((value) => value.status == 1).toList();
-      solvedComplainList = data.where((value) => value.status == 2).toList();
+    _tmsModel.getComplaints(token, status).then((data) {
+      complainList = data;
+      notifyListeners();
     }).whenComplete(() => _hideLoading());
-    notifyListeners();
   }
 
   _showLoading() {

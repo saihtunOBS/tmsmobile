@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/profile_bloc.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
-import 'package:tmsmobile/data/vos/user_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/auth/login_page.dart';
@@ -19,8 +18,6 @@ import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
 import 'package:tmsmobile/widgets/cache_image.dart';
-import 'package:tmsmobile/widgets/common_dialog.dart';
-import 'package:tmsmobile/widgets/error_dialog_view.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
@@ -96,9 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
 
               ///loading
-              if (bloc.isLoading == true)
-                LoadingView(
-                    )
+              if (bloc.isLoading == true) LoadingView()
             ],
           ),
         ),
@@ -129,25 +124,26 @@ class _ProfilePageState extends State<ProfilePage> {
               decoration:
                   BoxDecoration(color: kWhiteColor, shape: BoxShape.circle),
               width: kSize100,
-              child: ClipOval(child: cacheImage(bloc.userData?.photo ?? '')),
+              child: ClipOval(
+                  child: cacheImage(
+                      PersistenceData.shared.getUser()?.photo ?? '')),
             ),
           ),
           Text(
-            bloc.userData?.tenantName ?? '****',
+            PersistenceData.shared.getUser()?.tenantName ??  '****',
             style: TextStyle(
                 fontFamily: AppData.shared.fontFamily2,
                 fontSize: AppData.shared.getExtraFontSize(),
                 fontWeight: FontWeight.w600),
           ),
           Text(
-            bloc.userData?.phoneNumber?.replaceRange(3, 8, '*****') ?? '****',
+            PersistenceData.shared.getUser()?.phoneNumber?.replaceRange(3, 8, '*****') ?? '****',
           ),
           Consumer<ProfileBloc>(
             builder: (context, bloc, child) => InkWell(
               onTap: () => PageNavigator(ctx: context)
                   .nextPage(
                       page: ChangeProfilePage(
-                    userData: bloc.userData ?? UserVO(),
                   ))
                   .whenComplete(() => bloc.getUser()),
               child: FittedBox(
@@ -360,7 +356,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     //       context: context,
                     //       dialogWidget:
                     //           ErrorDialogView(errorMessage: error.toString()));
-                   // });
+                    // });
                   } else {
                     PersistenceData.shared.clearToken();
                     PersistenceData.shared.clearUserData();

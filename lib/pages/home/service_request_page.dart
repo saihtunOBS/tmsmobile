@@ -36,13 +36,14 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
 
   @override
   void initState() {
+    var bloc = context.read<ServiceRequestBloc>();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() {
       if (_tabController.index != _currentIndex) {
         setState(() {
           _currentIndex = _tabController.index;
         });
-        var bloc = context.read<ServiceRequestBloc>();
+
         if (_currentIndex == 0) {
           bloc.getMaintenances();
         } else {
@@ -63,92 +64,86 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ServiceRequestBloc(),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-            color: kBackgroundColor,
-            image: DecorationImage(
-                image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: PreferredSize(
-              preferredSize: Size(double.infinity, kMargin60),
-              child: GradientAppBar(
-                AppLocalizations.of(context)?.kServiceRequestLabel ?? '',
-              )),
-          body: Consumer<ServiceRequestBloc>(builder: (context, bloc, child) {
-            return Stack(children: [
-              Column(
-                children: [
-                  DefaultTabController(
-                      length: 2,
-                      child: TabBar(
-                          dividerColor: Colors.transparent,
-                          controller: _tabController,
-                          indicatorSize: TabBarIndicatorSize.tab,
-                          indicatorPadding: EdgeInsets.only(
-                              top: kMargin45,
-                              left: kMargin24,
-                              right: kMargin24),
-                          indicatorWeight: 4.0,
-                          indicator: ShapeDecoration(
-                            shape: UnderlineInputBorder(),
-                            gradient: LinearGradient(
-                              colors: [kPrimaryColor, kThirdColor],
-                            ),
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      decoration: BoxDecoration(
+          color: kBackgroundColor,
+          image: DecorationImage(
+              image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: PreferredSize(
+            preferredSize: Size(double.infinity, kMargin60),
+            child: GradientAppBar(
+              AppLocalizations.of(context)?.kServiceRequestLabel ?? '',
+            )),
+        body: Consumer<ServiceRequestBloc>(builder: (context, bloc, child) {
+          return Stack(children: [
+            Column(
+              children: [
+                DefaultTabController(
+                    length: 2,
+                    child: TabBar(
+                        dividerColor: Colors.transparent,
+                        controller: _tabController,
+                        indicatorSize: TabBarIndicatorSize.tab,
+                        indicatorPadding: EdgeInsets.only(
+                            top: kMargin45, left: kMargin24, right: kMargin24),
+                        indicatorWeight: 4.0,
+                        indicator: ShapeDecoration(
+                          shape: UnderlineInputBorder(),
+                          gradient: LinearGradient(
+                            colors: [kPrimaryColor, kThirdColor],
                           ),
-                          tabs: [
-                            Tab(
-                              child: Text(kMaintenanceLabel,
-                                  style: TextStyle(
-                                      fontSize:
-                                          AppData.shared.getSmallFontSize(),
-                                      fontWeight: FontWeight.w700)),
-                            ),
-                            Tab(
-                              child: Text(
-                                kFillOutLabel,
+                        ),
+                        tabs: [
+                          Tab(
+                            child: Text(kMaintenanceLabel,
                                 style: TextStyle(
                                     fontSize: AppData.shared.getSmallFontSize(),
-                                    fontWeight: FontWeight.w700),
-                              ),
-                            )
-                          ])),
-                  Expanded(
-                    child: TabBarView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        controller: _tabController,
-                        children: [_buildMaintenanceTab(), _buildFillOutTab()]),
-                  ),
-                ],
-              ),
-            ]);
-          }),
-          floatingActionButton: Consumer<ServiceRequestBloc>(
-            builder: (context, bloc, child) => FloatingActionButton(
-                shape: CircleBorder(),
-                backgroundColor: kPrimaryColor,
-                child: Center(
-                  child: Icon(
-                    Icons.edit,
-                    color: kWhiteColor,
-                  ),
+                                    fontWeight: FontWeight.w700)),
+                          ),
+                          Tab(
+                            child: Text(
+                              kFillOutLabel,
+                              style: TextStyle(
+                                  fontSize: AppData.shared.getSmallFontSize(),
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          )
+                        ])),
+                Expanded(
+                  child: TabBarView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      controller: _tabController,
+                      children: [_buildMaintenanceTab(), _buildFillOutTab()]),
                 ),
-                onPressed: () {
-                  PageNavigator(ctx: context)
-                      .nextPage(
-                          page: MaintenanceAndFillOutRequestPage(
-                    isMaintanence: _currentIndex == 0 ? true : false,
-                  ))
-                      .whenComplete(() {
-                    bloc.getMaintenances();
-                    bloc.getFillOuts();
-                  });
-                }),
-          ),
+              ],
+            ),
+          ]);
+        }),
+        floatingActionButton: Consumer<ServiceRequestBloc>(
+          builder: (context, bloc, child) => FloatingActionButton(
+              shape: CircleBorder(),
+              backgroundColor: kPrimaryColor,
+              child: Center(
+                child: Icon(
+                  Icons.edit,
+                  color: kWhiteColor,
+                ),
+              ),
+              onPressed: () {
+                PageNavigator(ctx: context)
+                    .nextPage(
+                        page: MaintenanceAndFillOutRequestPage(
+                  isMaintanence: _currentIndex == 0 ? true : false,
+                ))
+                    .whenComplete(() {
+                  bloc.getMaintenances();
+                  bloc.getFillOuts();
+                });
+              }),
         ),
       ),
     );

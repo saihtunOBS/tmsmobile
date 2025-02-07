@@ -2,8 +2,9 @@ import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:marquee/marquee.dart';
+import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:tmsmobile/bloc/banner_bloc.dart';
 import 'package:tmsmobile/data/dummy/dummy.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
@@ -26,84 +27,86 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        flexibleSpace: Stack(children: [
-          Positioned(bottom: kMargin10 + 4, child: AppbarHeader())
-        ]),
-      ),
-      body: Column(
-        children: [
-          //banner
-          Container(
-            color: Colors.white,
-            height: MediaQuery.of(context).size.height * 0.4,
-            width: double.infinity,
-            child: _buildBannerView(context),
+    return ChangeNotifierProvider(
+      create: (context) => BannerBloc(),
+      child: Scaffold(
+        backgroundColor: kBackgroundColor,
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          flexibleSpace: AppbarHeader(
+            action: _alertView(),
           ),
+        ),
+        body: Consumer<BannerBloc>(
+          builder: (context, bloc, child) => Column(
+            children: [
+              //banner
+              Container(
+                color: Colors.white,
+                height: MediaQuery.of(context).size.height * 0.4,
+                width: double.infinity,
+                child: _buildBannerView(context, bloc),
+              ),
 
-          12.vGap,
+              6.vGap,
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: ClampingScrollPhysics(),
+                  child: GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.only(
+                          left: kMarginXLarge,
+                          right: kMarginXLarge,
+                          top: 35,
+                          bottom: 100),
+                      shrinkWrap: true,
+                      itemCount: 6,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: kMargin45,
+                              crossAxisSpacing: kMarginMedium3,
+                              mainAxisExtent: kSize75),
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            switch (index) {
+                              case 0:
+                                PageNavigator(ctx: context)
+                                    .nextPage(page: ContractPage());
+                              case 1:
+                                PageNavigator(ctx: context)
+                                    .nextPage(page: BillingPage());
+                              case 2:
+                                PageNavigator(ctx: context)
+                                    .nextPage(page: ServiceRequestPage());
+                              case 3:
+                                PageNavigator(ctx: context)
+                                    .nextPage(page: ComplainPage());
+                              case 4:
+                                PageNavigator(ctx: context)
+                                    .nextPage(page: CarParkingPage());
+                              case 5:
+                                PageNavigator(ctx: context)
+                                    .nextPage(page: AnnouncementPage());
+                                break;
 
-          ///marquee
-          _marqueeView(),
-          6.vGap,
-          Expanded(
-            child: SingleChildScrollView(
-              physics: ClampingScrollPhysics(),
-              child: GridView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  padding: EdgeInsets.only(
-                      left: kMarginXLarge,
-                      right: kMarginXLarge,
-                      top: 35,
-                      bottom: 100),
-                  shrinkWrap: true,
-                  itemCount: 6,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: kMargin45,
-                      crossAxisSpacing: kMarginMedium3,
-                      mainAxisExtent: kSize75),
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {
-                        switch (index) {
-                          case 0:
-                            PageNavigator(ctx: context)
-                                .nextPage(page: ContractPage());
-                          case 1:
-                            PageNavigator(ctx: context)
-                                .nextPage(page: BillingPage());
-                          case 2:
-                            PageNavigator(ctx: context)
-                                .nextPage(page: ServiceRequestPage());
-                          case 3:
-                            PageNavigator(ctx: context)
-                                .nextPage(page: ComplainPage());
-                          case 4:
-                            PageNavigator(ctx: context)
-                                .nextPage(page: CarParkingPage());
-                          case 5:
-                            PageNavigator(ctx: context)
-                                .nextPage(page: AnnouncementPage());
-                            break;
-
-                          default:
-                        }
-                      },
-                      child: HomeListItem(
-                        backgroundColor: _separateColor(index),
-                        label: _separateLabel(index, context),
-                        imageLogo: _separateLogo(index),
-                      ),
-                    );
-                  }),
-            ),
+                              default:
+                            }
+                          },
+                          child: HomeListItem(
+                            backgroundColor: _separateColor(index),
+                            label: _separateLabel(index, context),
+                            imageLogo: _separateLogo(index),
+                          ),
+                        );
+                      }),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -165,7 +168,7 @@ class HomePage extends StatelessWidget {
     }
   }
 
-  Widget _buildBannerView(BuildContext context) {
+  Widget _buildBannerView(BuildContext context, BannerBloc bloc) {
     final ValueNotifier<int> sliderIndex = ValueNotifier(0);
     final CarouselSliderController controller = CarouselSliderController();
     final double bannerHeight = Platform.isAndroid
@@ -193,17 +196,29 @@ class HomePage extends StatelessWidget {
                   width: double.infinity,
                   child: CarouselSlider(
                       carouselController: controller,
-                      items: bannerArray.map((value) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: kMarginMedium2),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(kMarginMedium),
-                            child: cacheImage(
-                                'https://www.parcelpending.com/wp-content/uploads/2021/10/8-Ways-Apartment-Complexes-Are-Evolving-in-a-Post-COVID-World.jpg'),
-                          ),
-                        );
-                      }).toList(),
+                      items: bloc.bannerResponse?.data?.photos?.isEmpty ?? true
+                          ? bannerArray.map((value) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: kMarginMedium2),
+                                child: ClipRRect(
+                                  borderRadius:
+                                      BorderRadius.circular(kMarginMedium),
+                                  child: cacheImage(value),
+                                ),
+                              );
+                            }).toList()
+                          : bloc.bannerResponse?.data?.photos?.map((value) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: kMarginMedium2),
+                                child: ClipRRect(
+                                  borderRadius:
+                                      BorderRadius.circular(kMarginMedium),
+                                  child: cacheImage(value),
+                                ),
+                              );
+                            }).toList(),
                       options: CarouselOptions(
                         autoPlay: false,
                         disableCenter: true,
@@ -219,7 +234,9 @@ class HomePage extends StatelessWidget {
                         dotWidth: kMargin6,
                         activeDotColor: kWhiteColor),
                     activeIndex: sliderIndex.value,
-                    count: bannerArray.length),
+                    count: bloc.bannerResponse?.data?.photos?.isEmpty ?? true
+                        ? bannerArray.length
+                        : bloc.bannerResponse?.data?.photos?.length ?? 0),
               ],
             ),
           ],
@@ -229,22 +246,35 @@ class HomePage extends StatelessWidget {
   }
 
   //marquee view
-  Widget _marqueeView() {
+  Widget _alertView() {
     return Container(
-      height: 35,
-      width: double.infinity,
-      color: kGreenColor,
-      child: Center(
-        child: Marquee(
-          text: 'ယခုမီးလာနေပါသည်               ',
-          style: TextStyle(fontSize: kTextRegular - 1,color: kWhiteColor),
-          pauseAfterRound: Duration(seconds: 1),
-          startPadding: 50.0,
-          accelerationDuration: Duration(seconds: 1),
-          accelerationCurve: Curves.linear,
-          decelerationDuration: Duration(milliseconds: 1500),
-          decelerationCurve: Curves.easeOut,
-        ),
+      height: 30,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: kWhiteColor,
+      ),
+      child: Row(
+        children: [
+          Container(
+            height: 30,
+            width: 30,
+            decoration:
+                BoxDecoration(shape: BoxShape.circle, color: kGreenColor),
+            child: Center(
+              child: Icon(
+                Icons.light_mode,
+                color: kWhiteColor,
+                size: 18,
+              ),
+            ),
+          ),
+          6.hGap,
+          Text(
+            'မီးလာနေပါသည်',
+            style: TextStyle(color: Colors.black, fontSize: 12),
+          ),
+          12.hGap
+        ],
       ),
     );
   }

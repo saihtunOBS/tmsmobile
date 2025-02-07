@@ -31,14 +31,14 @@ class _ComplainPageState extends State<ComplainPage>
   @override
   void initState() {
     super.initState();
+    var bloc = context.read<ComplaintBloc>();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() {
       if (_tabController.index != _currentIndex) {
         setState(() {
           _currentIndex = _tabController.index;
+          bloc.onChangeTab(_currentIndex == 0 ? 1 : 2);
         });
-        var bloc = context.read<ComplaintBloc>();
-        bloc.getComplaint();
       }
     });
   }
@@ -51,23 +51,22 @@ class _ComplainPageState extends State<ComplainPage>
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ComplaintBloc(),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-            color: kBackgroundColor,
-            image: DecorationImage(
-                image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: PreferredSize(
-              preferredSize: Size(double.infinity, kMargin60),
-              child: GradientAppBar(
-                AppLocalizations.of(context)?.kCompliantLabel ?? '',
-              )),
-          body: Stack(children: [
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      decoration: BoxDecoration(
+          color: kBackgroundColor,
+          image: DecorationImage(
+              image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: PreferredSize(
+            preferredSize: Size(double.infinity, kMargin60),
+            child: GradientAppBar(
+              AppLocalizations.of(context)?.kCompliantLabel ?? '',
+            )),
+        body: Consumer<ComplaintBloc>(builder: (context, bloc, child) {
+          return Stack(children: [
             Column(
               children: [
                 DefaultTabController(
@@ -109,25 +108,25 @@ class _ComplainPageState extends State<ComplainPage>
                 ),
               ],
             )
-          ]),
-          floatingActionButton: Consumer<ComplaintBloc>(
-            builder: (context, bloc, child) => FloatingActionButton(
-                shape: CircleBorder(),
-                backgroundColor: kPrimaryColor,
-                child: Center(
-                  child: Icon(
-                    Icons.edit,
-                    color: kWhiteColor,
-                  ),
+          ]);
+        }),
+        floatingActionButton: Consumer<ComplaintBloc>(
+          builder: (context, bloc, child) => FloatingActionButton(
+              shape: CircleBorder(),
+              backgroundColor: kPrimaryColor,
+              child: Center(
+                child: Icon(
+                  Icons.edit,
+                  color: kWhiteColor,
                 ),
-                onPressed: () {
-                  PageNavigator(ctx: context)
-                      .nextPage(page: SubmitComplainPage())
-                      .whenComplete(() {
-                    bloc.getComplaint();
-                  });
-                }),
-          ),
+              ),
+              onPressed: () {
+                PageNavigator(ctx: context)
+                    .nextPage(page: SubmitComplainPage())
+                    .whenComplete(() {
+                  bloc.getComplaint(_currentIndex == 0 ? 1 : 2);
+                });
+              }),
         ),
       ),
     );
@@ -140,14 +139,13 @@ class _ComplainPageState extends State<ComplainPage>
         elevation: 0.0,
         onRefresh: () async {
           HapticFeedback.mediumImpact();
-          bloc.getComplaint();
+          bloc.getComplaint(1);
         },
         child: SizedBox(
           height: double.infinity,
           child: bloc.isLoading
-              ? LoadingView(
-                  )
-              : bloc.pendingComplainList.isEmpty
+              ? LoadingView()
+              : bloc.complainList.isEmpty
                   ? Center(
                       child: EmptyView(
                           imagePath: kNoComplainImage,
@@ -162,20 +160,19 @@ class _ComplainPageState extends State<ComplainPage>
                       physics: AlwaysScrollableScrollPhysics(),
                       padding: EdgeInsets.symmetric(
                           vertical: kMargin24, horizontal: kMargin24),
-                      itemCount: bloc.pendingComplainList.length,
+                      itemCount: bloc.complainList.length,
                       itemBuilder: (context, index) {
                         return InkWell(
                             onTap: () {
                               PageNavigator(ctx: context).nextPage(
                                   page: ComplainDetailPage(
                                 isPending: true,
-                                complaintId: bloc.pendingComplainList[index].id,
+                                complaintId: bloc.complainList[index].id,
                               ));
                             },
                             child: ComplainListItem(
-                              isLast:
-                                  index == bloc.pendingComplainList.length - 1,
-                              data: bloc.pendingComplainList[index],
+                              isLast: index == bloc.complainList.length - 1,
+                              data: bloc.complainList[index],
                             ));
                       }),
         ),
@@ -190,14 +187,13 @@ class _ComplainPageState extends State<ComplainPage>
         elevation: 0.0,
         onRefresh: () async {
           HapticFeedback.mediumImpact();
-          bloc.getComplaint();
+          bloc.getComplaint(2);
         },
         child: SizedBox(
           height: double.infinity,
           child: bloc.isLoading
-              ? LoadingView(
-                  )
-              : bloc.solvedComplainList.isEmpty
+              ? LoadingView()
+              : bloc.complainList.isEmpty
                   ? Center(
                       child: EmptyView(
                           imagePath: kNoComplainImage,
@@ -212,17 +208,17 @@ class _ComplainPageState extends State<ComplainPage>
                       physics: AlwaysScrollableScrollPhysics(),
                       padding: EdgeInsets.symmetric(
                           vertical: kMargin24, horizontal: kMargin24),
-                      itemCount: bloc.solvedComplainList.length,
+                      itemCount: bloc.complainList.length,
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () => PageNavigator(ctx: context).nextPage(
                               page: ComplainDetailPage(
                             isPending: false,
-                            complaintId: bloc.solvedComplainList[index].id,
+                            complaintId: bloc.complainList[index].id,
                           )),
                           child: ComplainListItem(
-                            data: bloc.solvedComplainList[index],
-                            isLast: index == bloc.solvedComplainList.length - 1,
+                            data: bloc.complainList[index],
+                            isLast: index == bloc.complainList.length - 1,
                           ),
                         );
                       }),
