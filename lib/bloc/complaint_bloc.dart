@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/data/vos/complaint_vo.dart';
 import 'package:tmsmobile/network/requests/complaint_request.dart';
@@ -11,6 +14,8 @@ class ComplaintBloc extends ChangeNotifier {
   bool isSubmitLoading = false;
   bool isDisposed = false;
   var token = '';
+  File? image;
+  bool isUploadImage = false;
 
   final TmsModel _tmsModel = TmsModelImpl();
   List<ComplaintVO> complainList = [];
@@ -40,11 +45,34 @@ class ComplaintBloc extends ChangeNotifier {
     _showLoading();
     _tmsModel.getComplaintDetails(token, id).then((value) {
       complaintDetail = value;
-    
     }).whenComplete(() {
       _hideLoading();
       notifyListeners();
     });
+  }
+
+  void onTapUploadFile() {
+    isUploadImage = !isUploadImage;
+    notifyListeners();
+  }
+
+  void removeImage(){
+    image = null;
+    notifyListeners();
+  }
+
+  void selectImage() async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? result = await picker.pickImage(source: ImageSource.gallery);
+      if (result == null) return;
+
+      image = File(result.path);
+
+      notifyListeners();
+    } catch (e) {
+      ///
+    }
   }
 
   _showSubmitLoading() {
@@ -57,7 +85,7 @@ class ComplaintBloc extends ChangeNotifier {
     _notifySafely();
   }
 
-  onChangeTab(int status){
+  onChangeTab(int status) {
     getComplaint(status);
   }
 

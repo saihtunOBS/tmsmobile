@@ -28,19 +28,25 @@ class _ComplainPageState extends State<ComplainPage>
     with SingleTickerProviderStateMixin {
   int _currentIndex = 0;
   late TabController _tabController;
+  late ComplaintBloc complainBloc;
   @override
   void initState() {
-    super.initState();
-    var bloc = context.read<ComplaintBloc>();
+    
+    complainBloc = context.read<ComplaintBloc>();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      complainBloc.getComplaint(1);
+    });
+
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(() {
       if (_tabController.index != _currentIndex) {
         setState(() {
           _currentIndex = _tabController.index;
-          bloc.onChangeTab(_currentIndex == 0 ? 1 : 2);
+          complainBloc.onChangeTab(_currentIndex == 0 ? 1 : 2);
         });
       }
     });
+    super.initState();
   }
 
   @override
