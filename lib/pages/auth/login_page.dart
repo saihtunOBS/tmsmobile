@@ -187,7 +187,7 @@ class _LoginPageState extends State<LoginPage> {
                                 PersistenceData.shared.saveFirstTime(false);
                                 Navigator.pushAndRemoveUntil(
                                     context,
-                                    createRoute(NavPage(), duration: 400),
+                                    createRoute(NavPage(), duration: 500),
                                     (route) => false);
                               } else {
                                 PageNavigator(ctx: context).nextPage(

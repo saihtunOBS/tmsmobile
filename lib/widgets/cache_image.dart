@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:tmsmobile/utils/colors.dart';
+import 'package:tmsmobile/utils/images.dart';
 
 Widget cacheImage(
   String url,
@@ -17,9 +18,6 @@ Widget cacheImage(
         child: Container(
           color: kGreyColor,
         )),
-    errorWidget: (context, url, error) => Image.network(
-      'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png',
-      fit: BoxFit.fill,
-    ),
+        errorWidget: (context, url, error) => Image.asset(kPlaceholderImage,fit: BoxFit.cover,),
   );
 }

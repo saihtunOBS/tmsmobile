@@ -29,6 +29,7 @@ class NotificationPage extends StatelessWidget {
           foregroundColor: kWhiteColor,
           backgroundColor: Colors.transparent,
           elevation: 0.0,
+          title: AppbarHeader(),
           flexibleSpace: Container(
             width: double.infinity,
             decoration: BoxDecoration(
@@ -37,7 +38,6 @@ class NotificationPage extends StatelessWidget {
                 stops: [0.0, 1.0],
               ),
             ),
-            child: AppbarHeader(),
           ),
         ),
         body: SingleChildScrollView(

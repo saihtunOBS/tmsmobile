@@ -19,6 +19,8 @@ class OwnerNrcView extends StatefulWidget {
 class NRCViewState extends State<OwnerNrcView> {
   final List<String> _nrcTypes = ['C', 'N', 'P', 'T'];
   final _nrcTextController = TextEditingController();
+    final FocusNode _nrcFocusNode = FocusNode();
+
 
   @override
   void initState() {
@@ -38,7 +40,9 @@ class NRCViewState extends State<OwnerNrcView> {
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
           showModalBottomSheet(
+              backgroundColor: kWhiteColor,
               isScrollControlled: true,
+              useRootNavigator: true,
               context: context,
               builder: (_) => Padding(
                     padding: MediaQuery.of(context).viewInsets,
@@ -88,6 +92,8 @@ class NRCViewState extends State<OwnerNrcView> {
                             value: bloc.selectedStateRegionCode,
                             iconDisabledColor: Colors.black,
                             iconEnabledColor: Colors.black,
+                            onTap: () => FocusScope.of(context)
+                                .requestFocus(_nrcFocusNode),
                             isExpanded: true,
                             hint: Text('0 /'),
                             menuMaxHeight: kMargin110,
@@ -122,6 +128,8 @@ class NRCViewState extends State<OwnerNrcView> {
                         child: DropdownButton<String>(
                           value: bloc.selectedTownshipCode ?? 'Select',
                           isExpanded: true,
+                          onTap: () => FocusScope.of(context)
+                                .requestFocus(_nrcFocusNode),
                           menuMaxHeight: kMargin110,
                           iconDisabledColor: Colors.black,
                           iconEnabledColor: Colors.black,
@@ -154,6 +162,8 @@ class NRCViewState extends State<OwnerNrcView> {
                         height: 40,
                         child: DropdownButton<String>(
                           value: bloc.selectedNRCType,
+                          onTap: () => FocusScope.of(context)
+                                .requestFocus(_nrcFocusNode),
                           isExpanded: true,
                           hint: Text('Type'),
                           menuMaxHeight: kMargin110,
@@ -193,20 +203,29 @@ class NRCViewState extends State<OwnerNrcView> {
                       decoration: BoxDecoration(
                           color: kInputBackgroundColor,
                           borderRadius: BorderRadius.circular(kMarginMedium)),
-                      child: TextField(
-                        keyboardType: TextInputType.number,
-                        maxLength: 6,
-                        controller: _nrcTextController,
-                        onChanged: (value) => bloc.onChangeNrcNumber(value),
-                        decoration: InputDecoration(
-                            counterText: '',
-                            hintText:
-                                AppLocalizations.of(context)?.kEntereNrcLabel ??
-                                    '',
-                            hintStyle: TextStyle(
-                              fontSize: AppData.shared.getSmallFontSize(),
-                            ),
-                            border: InputBorder.none),
+                      child: Focus(
+                         onFocusChange: (focused) {
+                          setState(() {
+                            FocusScope.of(context).requestFocus(_nrcFocusNode);
+                          });
+                        },
+                        child: TextField(
+                          focusNode: _nrcFocusNode,
+                          keyboardType: TextInputType.number,
+                          autofocus: true,
+                          maxLength: 6,
+                          controller: _nrcTextController,
+                          onChanged: (value) => bloc.onChangeNrcNumber(value),
+                          decoration: InputDecoration(
+                              counterText: '',
+                              hintText:
+                                  AppLocalizations.of(context)?.kEntereNrcLabel ??
+                                      '',
+                              hintStyle: TextStyle(
+                                fontSize: AppData.shared.getSmallFontSize(),
+                              ),
+                              border: InputBorder.none),
+                        ),
                       ),
                     ),
                     5.vGap,
@@ -240,7 +259,8 @@ class NRCViewState extends State<OwnerNrcView> {
                     if (bloc.isEmptyNrc == false) {
                       if (bloc.selectedStateRegionCode == null ||
                           bloc.selectedTownshipCode == null ||
-                          bloc.selectedNRCType == null || _nrcTextController.text.length != 6) {
+                          bloc.selectedNRCType == null ||
+                          _nrcTextController.text.length != 6) {
                         ///alert
                       } else {
                         bloc.onTapConfirm(

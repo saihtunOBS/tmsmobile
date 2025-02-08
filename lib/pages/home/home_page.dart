@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:tmsmobile/bloc/banner_bloc.dart';
@@ -34,74 +35,96 @@ class HomePage extends StatelessWidget {
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          flexibleSpace: AppbarHeader(
-            action: _alertView(),
-          ),
+          title: AppbarHeader(action: _alertView(),),
+          // flexibleSpace: AppbarHeader(
+          //   action: _alertView(),
+          // ),
         ),
         body: Consumer<BannerBloc>(
           builder: (context, bloc, child) => Column(
             children: [
-              //banner
-              Container(
-                color: Colors.white,
+              // banner
+              SizedBox(
                 height: MediaQuery.of(context).size.height * 0.4,
                 width: double.infinity,
-                child: _buildBannerView(context, bloc),
+                child: Stack(children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: Image.asset(
+                      kAppBarBackgroundImage,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  AnimatedOpacity(
+                    opacity:
+                        bloc.isLoading ? 0.0 : 1.0, // Fully hidden when loading
+                    duration: Duration(milliseconds: 500),
+                    child: bloc.isLoading
+                        ? SizedBox.shrink()
+                        : _buildBannerView(context, bloc),
+                  )
+                ]),
               ),
 
               6.vGap,
               Expanded(
-                child: SingleChildScrollView(
-                  physics: ClampingScrollPhysics(),
-                  child: GridView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      padding: EdgeInsets.only(
-                          left: kMarginXLarge,
-                          right: kMarginXLarge,
-                          top: 35,
-                          bottom: 100),
-                      shrinkWrap: true,
-                      itemCount: 6,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: kMargin45,
-                              crossAxisSpacing: kMarginMedium3,
-                              mainAxisExtent: kSize75),
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            switch (index) {
-                              case 0:
-                                PageNavigator(ctx: context)
-                                    .nextPage(page: ContractPage());
-                              case 1:
-                                PageNavigator(ctx: context)
-                                    .nextPage(page: BillingPage());
-                              case 2:
-                                PageNavigator(ctx: context)
-                                    .nextPage(page: ServiceRequestPage());
-                              case 3:
-                                PageNavigator(ctx: context)
-                                    .nextPage(page: ComplainPage());
-                              case 4:
-                                PageNavigator(ctx: context)
-                                    .nextPage(page: CarParkingPage());
-                              case 5:
-                                PageNavigator(ctx: context)
-                                    .nextPage(page: AnnouncementPage());
-                                break;
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    HapticFeedback.mediumImpact();
+                    await bloc.getBanner();
+                  },
+                  child: SingleChildScrollView(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    child: GridView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        padding: EdgeInsets.only(
+                            left: kMarginXLarge,
+                            right: kMarginXLarge,
+                            top: 35,
+                            bottom: 100),
+                        shrinkWrap: true,
+                        itemCount: 6,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: kMargin45,
+                                crossAxisSpacing: kMarginMedium3,
+                                mainAxisExtent: kSize75),
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {
+                              switch (index) {
+                                case 0:
+                                  PageNavigator(ctx: context)
+                                      .nextPage(page: ContractPage());
+                                case 1:
+                                  PageNavigator(ctx: context)
+                                      .nextPage(page: BillingPage());
+                                case 2:
+                                  PageNavigator(ctx: context)
+                                      .nextPage(page: ServiceRequestPage());
+                                case 3:
+                                  PageNavigator(ctx: context)
+                                      .nextPage(page: ComplainPage());
+                                case 4:
+                                  PageNavigator(ctx: context)
+                                      .nextPage(page: CarParkingPage());
+                                case 5:
+                                  PageNavigator(ctx: context)
+                                      .nextPage(page: AnnouncementPage());
+                                  break;
 
-                              default:
-                            }
-                          },
-                          child: HomeListItem(
-                            backgroundColor: _separateColor(index),
-                            label: _separateLabel(index, context),
-                            imageLogo: _separateLogo(index),
-                          ),
-                        );
-                      }),
+                                default:
+                              }
+                            },
+                            child: HomeListItem(
+                              backgroundColor: _separateColor(index),
+                              label: _separateLabel(index, context),
+                              imageLogo: _separateLogo(index),
+                            ),
+                          );
+                        }),
+                  ),
                 ),
               ),
             ],
@@ -179,13 +202,6 @@ class HomePage extends StatelessWidget {
       builder: (context, value, child) {
         return Stack(
           children: [
-            SizedBox(
-              width: double.infinity,
-              child: Image.asset(
-                kAppBarBackgroundImage,
-                fit: BoxFit.fill,
-              ),
-            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -248,7 +264,7 @@ class HomePage extends StatelessWidget {
   //marquee view
   Widget _alertView() {
     return Container(
-      height: 30,
+      height: 28,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         color: kWhiteColor,
@@ -256,15 +272,15 @@ class HomePage extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            height: 30,
-            width: 30,
+            height: 28,
+            width: 28,
             decoration:
                 BoxDecoration(shape: BoxShape.circle, color: kGreenColor),
             child: Center(
               child: Icon(
                 Icons.light_mode,
                 color: kWhiteColor,
-                size: 18,
+                size: 16,
               ),
             ),
           ),

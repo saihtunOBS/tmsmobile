@@ -196,7 +196,7 @@ class EditResidentBloc extends ChangeNotifier {
         final size = MediaQuery.of(context!).size;
         return Container(
           decoration: const BoxDecoration(
-            color: Colors.white,
+            color: kWhiteColor,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(12),
               topRight: Radius.circular(12),
@@ -218,6 +218,7 @@ class EditResidentBloc extends ChangeNotifier {
               ),
               5.vGap,
               Material(
+                color: kWhiteColor,
                 child: InkWell(
                   onTap: () => Navigator.pop(context!),
                   child: Container(
@@ -226,7 +227,7 @@ class EditResidentBloc extends ChangeNotifier {
                     width: double.infinity,
                     height: 45,
                     decoration: BoxDecoration(
-                        color: kPrimaryColor,
+                        color: kDarkBlueColor,
                         borderRadius: BorderRadius.circular(8)),
                     child: Center(
                       child: Text(

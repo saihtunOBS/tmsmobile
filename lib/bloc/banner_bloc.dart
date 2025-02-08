@@ -11,14 +11,40 @@ class BannerBloc extends ChangeNotifier {
   final TmsModel _tmsModel = TmsModelImpl();
   BuildContext? context;
   BannerResponse? bannerResponse;
+  String? token;
 
   BannerBloc({this.context}) {
-    var token = PersistenceData.shared.getToken();
-   _tmsModel.getBannerLists(token).then((response){
-    bannerResponse = response;
-    notifyListeners();
-   });
+    token = PersistenceData.shared.getToken();
+    getBanner();
   }
-  
 
+  getBanner() {
+    _showLoading();
+    _tmsModel.getBannerLists(token ?? '').then((response) {
+      bannerResponse = response;
+      notifyListeners();
+    }).whenComplete(() => _hideLoading());
+  }
+
+  _showLoading() {
+    isLoading = true;
+    _notifySafely();
+  }
+
+  _hideLoading() {
+    isLoading = false;
+    _notifySafely();
+  }
+
+  void _notifySafely() {
+    if (!isDisposed) {
+      notifyListeners();
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    isDisposed = true;
+  }
 }
