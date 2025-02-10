@@ -18,6 +18,12 @@ ServiceRequestVo _$ServiceRequestVoFromJson(Map<String, dynamic> json) =>
       status: (json['status'] as num?)?.toInt(),
       photos:
           (json['photos'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      pendingDate: json['pending_date'] as String?,
+      surveyDate: json['survey_date'] as String?,
+      quotationDate: json['quotation_date'] as String?,
+      acceptRejectDate: json['accept_reject_date'] as String?,
+      processingDate: json['processing_date'] as String?,
+      finishDate: json['finished_date'] as String?,
       businessUnit: json['business_unit'] as String?,
       createdAt: json['createdAt'] == null
           ? null
@@ -42,6 +48,12 @@ Map<String, dynamic> _$ServiceRequestVoToJson(ServiceRequestVo instance) =>
       'description': instance.description,
       'photos': instance.photos,
       'business_unit': instance.businessUnit,
+      'pending_date': instance.pendingDate,
+      'finished_date': instance.finishDate,
+      'survey_date': instance.surveyDate,
+      'quotation_date': instance.quotationDate,
+      'accept_reject_date': instance.acceptRejectDate,
+      'processing_date': instance.processingDate,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
       '__v': instance.version,

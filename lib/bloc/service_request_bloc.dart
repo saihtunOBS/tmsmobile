@@ -28,16 +28,15 @@ class ServiceRequestBloc extends ChangeNotifier {
   getFillOuts() {
     _showLoading();
     filloutPage = 1;
-    _tmsModel.getFillOuts(token ?? '', filloutPage, 10).then((response) {
+    _tmsModel.getFillOuts(token ?? '', 1, 10).then((response) {
       fillOutLists = response;
     }).whenComplete(() => _hideLoading());
   }
 
   getMaintenances() {
     _showLoading();
-    _tmsModel
-        .getMaintenances(token ?? '', maintenancePage, 10)
-        .then((response) {
+
+    _tmsModel.getMaintenances(token ?? '', 1, 10).then((response) {
       maintenanceLists = response;
     }).whenComplete(() => _hideLoading());
   }

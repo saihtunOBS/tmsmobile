@@ -57,11 +57,11 @@ class ContractListItem extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: -kMargin24,
+            top: - kMarginMedium3,
             left: kMargin50 + kMargin30,
             child: Text(
               'Dec 1, 2024',
-              style: TextStyle(fontSize: kTextRegular13),
+              style: TextStyle(fontSize: kTextSmall,fontWeight: FontWeight.bold),
             ),
           )
         ],

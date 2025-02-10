@@ -27,6 +27,24 @@ class ServiceRequestVo {
   @JsonKey(name: "business_unit")
   final String? businessUnit;
 
+  @JsonKey(name: "pending_date")
+  final String? pendingDate;
+
+  @JsonKey(name: "finished_date")
+  final String? finishDate;
+
+  @JsonKey(name: "survey_date")
+  final String? surveyDate;
+
+  @JsonKey(name: "quotation_date")
+  final String? quotationDate;
+
+  @JsonKey(name: "accept_reject_date")
+  final String? acceptRejectDate;
+
+  @JsonKey(name: "processing_date")
+  final String? processingDate;
+
   @JsonKey(name: "createdAt")
   final DateTime? createdAt;
 
@@ -42,6 +60,12 @@ class ServiceRequestVo {
     this.shop,
     this.status,
     this.photos,
+    this.pendingDate,
+    this.surveyDate,
+    this.quotationDate,
+    this.acceptRejectDate,
+    this.processingDate,
+    this.finishDate,
     this.businessUnit,
     this.createdAt,
     this.updatedAt,

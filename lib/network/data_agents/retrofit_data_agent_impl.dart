@@ -137,6 +137,7 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
         .asStream()
         .map((response) {
           var userVo = UserVO(
+              id: response.data?.id ?? '',
               tenantName: response.data?.tenantName,
               photo: response.data?.photo,phoneNumber: response.data?.phoneNumber);
           PersistenceData.shared.saveUserData(userVo);

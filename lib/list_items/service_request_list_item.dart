@@ -57,8 +57,11 @@ class ServiceRequestListItem extends StatelessWidget {
                       height: kSize26,
                       padding: EdgeInsets.symmetric(horizontal: kMargin12),
                       decoration: BoxDecoration(
-                          color: isFillOut == true ? _filterFillOutStatusColor(status: status).withValues(alpha: 0.12) : _filterStatusColor(status: status)
-                              .withValues(alpha: 0.12),
+                          color: isFillOut == true
+                              ? _filterFillOutStatusColor(status: status)
+                                  .withValues(alpha: 0.12)
+                              : _filterStatusColor(status: status)
+                                  .withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(kMarginMedium14)),
                       child: Center(
                         child: Text(
@@ -85,7 +88,8 @@ class ServiceRequestListItem extends StatelessWidget {
                 Text(
                   isFillOut == true ? 'Fill Out' : 'Electric Fault',
                   style: TextStyle(
-                      fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w700),
+                      fontSize: AppData.shared.getSmallFontSize(),
+                      fontWeight: FontWeight.w700),
                 ),
                 Text(
                   isFillOut == true
@@ -127,7 +131,23 @@ class ServiceRequestListItem extends StatelessWidget {
                 isFillOut == true
                     ? DateFormatter.formatDate(
                         data?.createdAt ?? DateTime.now())
-                    : '',
+                    : data?.status == 1
+                        ? DateFormatter.formatStringDate(
+                            data?.pendingDate ?? '')
+                        : data?.status == 2
+                            ? DateFormatter.formatStringDate(
+                                data?.surveyDate ?? '')
+                            : data?.status == 3
+                                ? DateFormatter.formatStringDate(
+                                    data?.quotationDate ?? '')
+                                : data?.status == 5 || data?.status == 6
+                                    ? DateFormatter.formatStringDate(
+                                        data?.acceptRejectDate ?? '')
+                                    : data?.status == 6
+                                        ? DateFormatter.formatStringDate(
+                                            data?.pendingDate ?? '')
+                                        : DateFormatter.formatStringDate(
+                                            data?.finishDate ?? ''),
                 style: TextStyle(fontSize: kTextRegular13),
               )
             ],
@@ -172,7 +192,7 @@ class ServiceRequestListItem extends StatelessWidget {
         return 'Accept';
       case 6:
         return 'Processing';
-      case 7: 
+      case 7:
         return 'Finished';
       default:
         return 'Pending';
