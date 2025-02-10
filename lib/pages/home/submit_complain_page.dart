@@ -118,7 +118,7 @@ class SubmitComplainPage extends StatelessWidget {
               ),
             ),
             20.vGap,
-            _buildUploadImage()
+            //_buildUploadImage()
           ],
         ),
       ),

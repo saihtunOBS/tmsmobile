@@ -33,8 +33,8 @@ class ComplainDetailPage extends StatelessWidget {
           builder: (context, isLoading, child) => isLoading
               ? LoadingView()
               : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  isPending == true ? 4.vGap : kMargin24.vGap,
-                  isPending == true ? SizedBox.shrink() : _buildHeader(context),
+                  // isPending == true ? 4.vGap : kMargin24.vGap,
+                  // isPending == true ? SizedBox.shrink() : _buildHeader(context),
                   _buildBody()
                 ]),
         ),

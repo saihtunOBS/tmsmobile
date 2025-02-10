@@ -130,7 +130,7 @@ class InvoiceDetailPage extends StatelessWidget {
                     value: '-'),
                 _buildListDetail(
                     title: AppLocalizations.of(context)?.kMonthLabel ?? '',
-                    value: billingData?.month ?? ''),
+                    value: billingData?.month ?? '-'),
                 _buildListDetail(
                     title: AppLocalizations.of(context)?.kDueDateLabel ?? '',
                     value: DateFormatter.formatDate(

@@ -53,7 +53,7 @@ class AppbarHeader extends StatelessWidget {
                           fontSize: kTextRegular,
                             color: kWhiteColor, fontWeight: FontWeight.w600),
                       ),
-                      5.vGap,
+                      3.vGap,
                       Text(
                         'Good Morning',
                         style: TextStyle(

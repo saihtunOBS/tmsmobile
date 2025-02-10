@@ -103,7 +103,7 @@ class BillingInvoicePage extends StatelessWidget {
             _buildListDetail(
                 title:
                     AppLocalizations.of(context)?.kTransactionTypeLabel ?? '',
-                value: '-'),
+                value: data.transactionType == 0 ? 'Cash' : 'Bank'),
             status == 2 ? 0.vGap : 12.vGap,
             Visibility(
                 visible: status!= 2,

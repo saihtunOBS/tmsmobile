@@ -76,7 +76,7 @@ class InvoiceDetaiBloc extends ChangeNotifier {
                   },
                   child: Container(
                     height: 28,
-                    width: 100,
+                    padding: EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
                         color: kBackgroundColor,
                         borderRadius: BorderRadius.circular(20)),
@@ -96,9 +96,35 @@ class InvoiceDetaiBloc extends ChangeNotifier {
       ScaffoldMessenger.of(context!).showSnackBar(
         SnackBar(
             backgroundColor: kPrimaryColor,
-            content: Text(
-              'Error generating PDF: $e',
-              style: TextStyle(color: kWhiteColor, fontWeight: FontWeight.bold),
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Permission denied',
+                  style: TextStyle(
+                      color: kWhiteColor, fontWeight: FontWeight.bold),
+                ),
+                20.hGap,
+                InkWell(
+                  onTap: () async {
+                    openSettings();
+                  },
+                  child: Container(
+                    height: 28,
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                        color: kBackgroundColor,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Center(
+                      child: Text(
+                        'Endble Permission',
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                )
+              ],
             )),
       );
     }
@@ -130,6 +156,13 @@ class InvoiceDetaiBloc extends ChangeNotifier {
     var status = await Permission.storage.status;
     if (!status.isGranted) {
       await Permission.storage.request();
+    }
+  }
+
+  void openSettings() async {
+    bool opened = await openAppSettings();
+    if (!opened) {
+      print("Failed to open settings.");
     }
   }
 
