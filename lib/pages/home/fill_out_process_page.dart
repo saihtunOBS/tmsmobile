@@ -98,7 +98,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                           date: bloc.pendingDate != null
                               ? DateFormatter.formatDate(
                                   bloc.pendingDate ?? DateTime.now())
-                              : '',
+                              : 'hello',
                           title: kPendingLabel,
                           onPressDetail: () =>
                               PageNavigator(ctx: context).nextPage(

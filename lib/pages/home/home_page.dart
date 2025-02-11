@@ -34,6 +34,7 @@ class HomePage extends StatelessWidget {
         backgroundColor: kBackgroundColor,
         extendBodyBehindAppBar: true,
         appBar: AppBar(
+          surfaceTintColor: Colors.transparent,
           backgroundColor: Colors.transparent,
           title: AppbarHeader(action: _alertView(),),
           // flexibleSpace: AppbarHeader(
@@ -45,7 +46,7 @@ class HomePage extends StatelessWidget {
             children: [
               // banner
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.4,
+                height: MediaQuery.of(context).size.height * 0.415,
                 width: double.infinity,
                 child: Stack(children: [
                   SizedBox(
@@ -205,8 +206,8 @@ class HomePage extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-                // 95.vGap,
+                //SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                90.vGap,
                 SizedBox(
                   height: bannerHeight,
                   width: double.infinity,
