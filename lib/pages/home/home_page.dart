@@ -22,6 +22,7 @@ import 'package:tmsmobile/utils/images.dart';
 import 'package:tmsmobile/widgets/appbar_header.dart';
 import 'package:tmsmobile/widgets/cache_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/widgets/image_view.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -196,7 +197,7 @@ class HomePage extends StatelessWidget {
     final ValueNotifier<int> sliderIndex = ValueNotifier(0);
     final CarouselSliderController controller = CarouselSliderController();
     final double bannerHeight = Platform.isAndroid
-        ? MediaQuery.of(context).size.height * 0.215
+        ? MediaQuery.of(context).size.height * 0.22
         : MediaQuery.of(context).size.height * 0.2;
     return ValueListenableBuilder(
       valueListenable: sliderIndex,
@@ -206,8 +207,8 @@ class HomePage extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                //SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-                90.vGap,
+                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                //80.vGap,
                 SizedBox(
                   height: bannerHeight,
                   width: double.infinity,
@@ -218,10 +219,13 @@ class HomePage extends StatelessWidget {
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: kMarginMedium2),
-                                child: ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.circular(kMarginMedium),
-                                  child: cacheImage(value),
+                                child: InkWell(
+                                  onTap: () => showDialogImage(context, value),
+                                  child: ClipRRect(
+                                    borderRadius:
+                                        BorderRadius.circular(kMarginMedium),
+                                    child: cacheImage(value),
+                                  ),
                                 ),
                               );
                             }).toList()
@@ -229,10 +233,13 @@ class HomePage extends StatelessWidget {
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: kMarginMedium2),
-                                child: ClipRRect(
-                                  borderRadius:
-                                      BorderRadius.circular(kMarginMedium),
-                                  child: cacheImage(value),
+                                child: InkWell(
+                                  onTap: () => showDialogImage(context, value),
+                                  child: ClipRRect(
+                                    borderRadius:
+                                        BorderRadius.circular(kMarginMedium),
+                                    child: cacheImage(value),
+                                  ),
                                 ),
                               );
                             }).toList(),
@@ -287,8 +294,8 @@ class HomePage extends StatelessWidget {
           ),
           6.hGap,
           Text(
-            'မီးလာနေပါသည်',
-            style: TextStyle(color: Colors.black, fontSize: 12),
+            'ယခုမီးလာနေပါသည်',
+            style: TextStyle(color: Colors.black, fontSize: 11),
           ),
           12.hGap
         ],

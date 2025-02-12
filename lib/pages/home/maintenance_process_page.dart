@@ -406,12 +406,12 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                       ? isSurvey == true
                           ? isWrapSurveyText == true
                               ? kSize130 + 9
-                              : kSize130 - 4
+                              : kSize130 - 7
                           : isProcessing == true
                               ? isWrapProcessingText == true
                                   ? kSize130 + 15
                                   : kSize130 - 4
-                              : kSize110
+                              : kSize110 - 2.5
                       : kSize43,
                 ),
               ),

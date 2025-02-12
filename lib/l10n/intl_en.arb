@@ -33,7 +33,7 @@
     "kVerificationCodeLabel": "Verification Code",
     "kSendCodeToNumberLabel": "We will send a verification code to the number",
     "kExpireIn": "Expired in",
-    "kDidNotReceiveCode": "Did\"t receive code?",
+    "kDidNotReceiveCode": "Didn't receive code?",
     "kResend": "Resend",
     "kResetPassword": "Reset Your Password",
     "kContractLabel": "Contracts",

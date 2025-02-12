@@ -17,7 +17,7 @@ class MaintenanceProcessDataVO {
   final SurveyVO? survey;
   @JsonKey(name: "quotation")
   final QuotationVO? quotation;
-  @JsonKey(name: "acceptReject")
+  @JsonKey(name: "accept_reject")
   final AcceptRejectVO? acceptReject;
   @JsonKey(name: "processing")
   final ProcessingVO? processing;

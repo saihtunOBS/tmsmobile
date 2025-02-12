@@ -89,7 +89,7 @@ class _OTPPageState extends State<OTPPage> {
               backgroundColor: Colors.transparent,
               flexibleSpace: SizedBox(
                 width: double.infinity,
-                child: Stack( children: [
+                child: Stack(children: [
                   SizedBox(
                     width: double.infinity,
                     child: Image.asset(
@@ -127,7 +127,8 @@ class _OTPPageState extends State<OTPPage> {
                           ),
                           kSize40.vGap,
                           Text(
-                            AppLocalizations.of(context)?.kVerificationCodeLabel ??
+                            AppLocalizations.of(context)
+                                    ?.kVerificationCodeLabel ??
                                 '',
                             style: TextStyle(
                                 fontFamily: AppData.shared.fontFamily2,
@@ -135,11 +136,23 @@ class _OTPPageState extends State<OTPPage> {
                                 fontSize: AppData.shared.getExtraFontSize()),
                           ),
                           kMarginMedium2.vGap,
-                          Text(
-                            AppLocalizations.of(context)?.kSendCodeToNumberLabel ??
-                                '',
-                            style: TextStyle(
-                                fontSize: AppData.shared.getSmallFontSize()),
+                          Wrap(
+                            children: [
+                              Text(
+                                AppLocalizations.of(context)
+                                        ?.kSendCodeToNumberLabel ??
+                                    '',
+                                style: TextStyle(
+                                  fontSize: AppData.shared.getSmallFontSize(),
+                                ),
+                              ),
+                              Text(
+                                widget.phone ?? '',
+                                style: TextStyle(
+                                    fontSize: AppData.shared.getSmallFontSize(),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
                           ),
                           kMarginMedium2.vGap,
                           _buildPinView(),
@@ -151,12 +164,14 @@ class _OTPPageState extends State<OTPPage> {
                               Text(
                                 AppLocalizations.of(context)?.kExpireIn ?? '',
                                 style: TextStyle(
-                                    fontSize: AppData.shared.getSmallFontSize()),
+                                    fontSize:
+                                        AppData.shared.getSmallFontSize()),
                               ),
                               Text(
                                 timerText,
                                 style: TextStyle(
-                                    fontSize: AppData.shared.getSmallFontSize()),
+                                    fontSize:
+                                        AppData.shared.getSmallFontSize()),
                               )
                             ],
                           ),
@@ -164,11 +179,9 @@ class _OTPPageState extends State<OTPPage> {
                       ),
                     ),
                   ),
-          
+
                   ///loading
-                  if (bloc.isLoading == true)
-                    LoadingView(
-                        )
+                  if (bloc.isLoading == true) LoadingView()
                 ],
               ),
             ),
@@ -190,6 +203,8 @@ class _OTPPageState extends State<OTPPage> {
                           bloc
                               .verifyOtp(pinController.text, token)
                               .then((response) {
+                                _start = 300;
+                                _timer?.cancel();
                             PageNavigator(ctx: context).nextPage(
                                 page: ChangePasswordPage(
                               isChangePassword: false,
@@ -209,7 +224,8 @@ class _OTPPageState extends State<OTPPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            AppLocalizations.of(context)?.kDidNotReceiveCode ?? '',
+                            AppLocalizations.of(context)?.kDidNotReceiveCode ??
+                                '',
                             style: TextStyle(
                                 fontSize: AppData.shared.getSmallFontSize()),
                           ),
@@ -217,7 +233,8 @@ class _OTPPageState extends State<OTPPage> {
                               onPressed: () {
                                 if (_start == 300) {
                                   bloc
-                                      .onTapForgorPasswordSend(widget.phone ?? '')
+                                      .onTapForgorPasswordSend(
+                                          widget.phone ?? '')
                                       .then((response) {
                                     token = response.data?.token ?? '';
                                     startTimer();

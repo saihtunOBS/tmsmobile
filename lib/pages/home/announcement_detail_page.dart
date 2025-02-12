@@ -6,6 +6,7 @@ import 'package:tmsmobile/data/vos/announcement_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/widgets/cache_image.dart';
+import 'package:tmsmobile/widgets/image_view.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
 import '../../data/app_data/app_data.dart';
 import '../../utils/colors.dart';
@@ -13,7 +14,6 @@ import '../../utils/dimens.dart';
 import '../../utils/html_text.dart';
 import '../../widgets/appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 
 class AnnouncementDetailPage extends StatelessWidget {
   const AnnouncementDetailPage({super.key, required this.id});
@@ -32,14 +32,13 @@ class AnnouncementDetailPage extends StatelessWidget {
             )),
         body: Consumer<AnnouncementDetailBloc>(
             builder: (context, bloc, child) => bloc.isLoading == true
-                ? LoadingView(
-                    )
-                : _buildBody(bloc.announcementDetail as AnnouncementVO)),
+                ? LoadingView()
+                : _buildBody(bloc.announcementDetail as AnnouncementVO,context)),
       ),
     );
   }
 
-  Widget _buildBody(AnnouncementVO data) {
+  Widget _buildBody(AnnouncementVO data,BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
           horizontal: kMarginMedium2, vertical: kMarginMedium2),
@@ -47,14 +46,19 @@ class AnnouncementDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-           data.photos?.isEmpty ?? true ? SizedBox() : SizedBox(
-              height: kSize180,
-              width: double.infinity,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(kMarginMedium),
-                child: cacheImage(data.photos?.first ?? ''),
-              ),
-            ),
+            data.photos?.isEmpty ?? true
+                ? SizedBox()
+                : InkWell(
+                  onTap: () => showDialogImage(context, data.photos?.first),
+                  child: SizedBox(
+                      height: kSize180,
+                      width: double.infinity,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(kMarginMedium),
+                        child: cacheImage(data.photos?.first ?? ''),
+                      ),
+                    ),
+                ),
             5.vGap,
             Row(
               spacing: kMarginMedium,

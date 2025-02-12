@@ -18,10 +18,10 @@ MaintenanceProcessDataVO _$MaintenanceProcessDataVOFromJson(
       quotation: json['quotation'] == null
           ? null
           : QuotationVO.fromJson(json['quotation'] as Map<String, dynamic>),
-      acceptReject: json['acceptReject'] == null
+      acceptReject: json['accept_reject'] == null
           ? null
           : AcceptRejectVO.fromJson(
-              json['acceptReject'] as Map<String, dynamic>),
+              json['accept_reject'] as Map<String, dynamic>),
       processing: json['processing'] == null
           ? null
           : ProcessingVO.fromJson(json['processing'] as Map<String, dynamic>),
@@ -36,7 +36,7 @@ Map<String, dynamic> _$MaintenanceProcessDataVOToJson(
       'pending': instance.pending,
       'survey': instance.survey,
       'quotation': instance.quotation,
-      'acceptReject': instance.acceptReject,
+      'accept_reject': instance.acceptReject,
       'processing': instance.processing,
       'finished': instance.finished,
     };

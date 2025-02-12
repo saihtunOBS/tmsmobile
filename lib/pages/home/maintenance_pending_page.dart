@@ -3,6 +3,7 @@ import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/widgets/cache_image.dart';
+import 'package:tmsmobile/widgets/image_view.dart';
 
 import '../../data/app_data/app_data.dart';
 import '../../data/vos/pending_vo.dart';
@@ -140,9 +141,12 @@ class MaintenancePendingPage extends StatelessWidget {
                 crossAxisSpacing: kMarginMedium2,
                 mainAxisExtent: 216),
             itemBuilder: (context, index) {
-              return SizedBox(
-                width: MediaQuery.of(context).size.width / 2.5,
-                child: cacheImage(pendingData.attach?[index] ?? ''),
+              return InkWell(
+                onTap: () => showDialogImage(context, pendingData.attach?[index] ?? ''),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width / 2.5,
+                  child: cacheImage(pendingData.attach?[index] ?? ''),
+                ),
               );
             })
       ],

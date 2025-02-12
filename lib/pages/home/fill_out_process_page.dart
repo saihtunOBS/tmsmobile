@@ -285,7 +285,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                 child: Container(
                   width: 2,
                   color: isSelectedIndex == true ? kPrimaryColor : kGreyColor,
-                  height: isSelectedIndex == true ? kSize110 + 2 : kSize43,
+                  height: isSelectedIndex == true ? kSize110 - 2 : kSize43,
                 ),
               ),
       ],
