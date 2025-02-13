@@ -24,12 +24,16 @@ class ComplaintBloc extends ChangeNotifier {
   ComplaintVO? complaintDetail;
 
   ComplaintBloc({this.complaintId, bool? isDetail}) {
-    token = PersistenceData.shared.getToken();
     getComplaint(1);
 
     if (isDetail == true) {
       getComplaintDetails(complaintId);
     }
+  }
+
+  void updateToken() {
+    token = PersistenceData.shared.getToken();
+    notifyListeners();
   }
 
   Future createComplaint(String value) {
@@ -56,7 +60,7 @@ class ComplaintBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeImage(){
+  void removeImage() {
     image = null;
     notifyListeners();
   }

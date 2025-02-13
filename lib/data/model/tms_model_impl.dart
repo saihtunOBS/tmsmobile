@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:tmsmobile/data/model/tms_model.dart';
-import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/data/vos/announcement_vo.dart';
 import 'package:tmsmobile/data/vos/billing_vo.dart';
 import 'package:tmsmobile/data/vos/complaint_vo.dart';
@@ -9,7 +8,6 @@ import 'package:tmsmobile/data/vos/contract_information_vo.dart';
 import 'package:tmsmobile/data/vos/contract_vo.dart';
 import 'package:tmsmobile/data/vos/emergency_vo.dart';
 import 'package:tmsmobile/data/vos/household_vo.dart';
-import 'package:tmsmobile/data/vos/login_data_vo.dart';
 import 'package:tmsmobile/data/vos/room_shop_vo.dart';
 import 'package:tmsmobile/data/vos/service_request_vo.dart';
 import 'package:tmsmobile/data/vos/type_of_issue_vo.dart';
@@ -46,18 +44,7 @@ class TmsModelImpl extends TmsModel {
 
   @override
   Future<LoginResponse> login(LoginRequest loginRequest) {
-    return tmsDataAgent.login(loginRequest).then((response) async {
-      var loginResponse = LoginDataVO(
-          id: response.data?.id ?? '',
-          verify: response.data?.verify ?? 0,
-          phoneNo: response.data?.phoneNo,
-          email: response.data?.email,
-          businessUnit: response.data?.businessUnit,
-          token: response.data?.token);
-      PersistenceData.shared.saveLoginResponse(loginResponse);
-      PersistenceData.shared.saveToken(response.data?.token ?? '');
-      return response;
-    });
+    return tmsDataAgent.login(loginRequest);
   }
 
   @override
@@ -88,8 +75,8 @@ class TmsModelImpl extends TmsModel {
   }
 
   @override
-  Future<List<ComplaintVO>> getComplaints(String token,status) {
-    return tmsDataAgent.getComplaints(token,status);
+  Future<List<ComplaintVO>> getComplaints(String token, status) {
+    return tmsDataAgent.getComplaints(token, status);
   }
 
   @override

@@ -33,6 +33,7 @@ class _ComplainPageState extends State<ComplainPage>
     
     complainBloc = context.read<ComplaintBloc>();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      complainBloc.updateToken();
       complainBloc.getComplaint(1);
     });
 

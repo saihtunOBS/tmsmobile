@@ -15,13 +15,6 @@ class PersistenceData {
     await GetStorage().write(PersistenceList.token.name, token);
   }
 
-  Future<void> saveLoginResponse(LoginDataVO loginUserData) async {
-    Map<String, dynamic> user = loginUserData.toJson();
-
-    // Save the JSON map to GetStorage
-    await GetStorage().write(PersistenceList.loginUser.name, user);
-  }
-
   saveLocale(String locale) async {
     await GetStorage().write(PersistenceList.locale.name, locale);
   }
@@ -58,8 +51,9 @@ class PersistenceData {
     return GetStorage().read(PersistenceList.locale.name);
   }
 
-  clearToken() {
-    GetStorage().remove(PersistenceList.token.name);
+  clearToken() async {
+    saveToken('');
+    await GetStorage().remove(PersistenceList.token.name);
   }
 
   clearUserData() {

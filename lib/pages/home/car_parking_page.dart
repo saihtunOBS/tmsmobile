@@ -132,8 +132,7 @@ class _CarParkingPageState extends State<CarParkingPage> {
             : Text(
                 value,
                 style: TextStyle(
-                    fontSize: kTextRegular,
-                    fontWeight: FontWeight.w700),
+                    fontSize: kTextRegular, fontWeight: FontWeight.w700),
               ),
       ],
     );

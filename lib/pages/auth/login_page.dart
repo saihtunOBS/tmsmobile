@@ -140,8 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                                         '',
                                     style: TextStyle(
                                         color: kPrimaryColor,
-                                        fontSize:
-                                            kTextRegular,
+                                        fontSize: kTextRegular,
                                         fontWeight: FontWeight.w700),
                                   ))
                             ],
@@ -153,9 +152,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
 
                 /// loading
-                if (isLoading == true)
-                  LoadingView(
-                      ),
+                if (isLoading == true) LoadingView(),
               ]),
             ),
             bottomNavigationBar: Consumer<LogInBloc>(
@@ -184,6 +181,8 @@ class _LoginPageState extends State<LoginPage> {
                               .then((value) {
                             if (value.status == true) {
                               if (value.data?.verify == 1) {
+                                PersistenceData.shared
+                                    .saveToken(value.data?.token ?? '');
                                 PersistenceData.shared.saveFirstTime(false);
                                 Navigator.pushAndRemoveUntil(
                                     context,
@@ -228,8 +227,7 @@ class _LoginPageState extends State<LoginPage> {
           Text(
             AppLocalizations.of(context)?.kTermAndConditionLabel ?? '',
             style: GoogleFonts.nunito(
-                fontSize: kTextRegular,
-                fontWeight: FontWeight.w600),
+                fontSize: kTextRegular, fontWeight: FontWeight.w600),
           )
         ],
       ),
@@ -277,8 +275,7 @@ class _LoginPageState extends State<LoginPage> {
                         decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: title,
-                            hintStyle: TextStyle(
-                                fontSize: kTextRegular)))),
+                            hintStyle: TextStyle(fontSize: kTextRegular)))),
                 const SizedBox(
                   width: kMargin5,
                 ),
