@@ -58,7 +58,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
       builder: (context, bloc, child) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          InkWell(
+          GestureDetector(
             onTap: () => bloc.changeStatus(true).then((_) {
               Navigator.of(context).pop();
             }),
@@ -79,7 +79,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
               ),
             ),
           ),
-          InkWell(
+          GestureDetector(
             onTap: () => bloc.changeStatus(false).then((_) {
               Navigator.of(context).pop();
             }),

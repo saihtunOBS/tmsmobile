@@ -91,7 +91,7 @@ class ComplainDetailPage extends StatelessWidget {
                   ],
                 ),
               ),
-              InkWell(
+              GestureDetector(
                 onTap: () => _showAlertDialog(context),
                 child: Container(
                   width: kSize70,

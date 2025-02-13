@@ -82,7 +82,7 @@ class _EditResidentPageState extends State<EditResidentPage> {
                               height: kSize28,
                               fit: BoxFit.fill,
                             ),
-                            InkWell(
+                            GestureDetector(
                               onTap: () => bloc
                                   .onTapDelete()
                                   .then((_) => Navigator.of(context).pop()),
@@ -159,7 +159,7 @@ class _EditResidentPageState extends State<EditResidentPage> {
                   12.vGap,
                   _buildGenderDropDown(),
                   12.vGap,
-                  InkWell(
+                  GestureDetector(
                       onTap: () => bloc.showDate(),
                       child: _buildDateOfBirthDatePicker(
                           value: DateFormatter.formatDate(bloc.selectedDate))),

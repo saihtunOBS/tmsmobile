@@ -31,7 +31,7 @@ class EmptyHousehold extends StatelessWidget {
                 fontWeight: FontWeight.w600, fontSize: AppData.shared.getRegularFontSize()),
           ),
           5.vGap,
-          InkWell(
+          GestureDetector(
             onTap: () => onPress!(),
             child: Container(
               height: 50,

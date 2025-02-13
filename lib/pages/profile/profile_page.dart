@@ -87,7 +87,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             context: context,
                             isLogout: true,
                             title: AppLocalizations.of(context)?.kLogoutLabel),
-                        kMargin110.vGap
+                        80.vGap
                       ]),
                 ),
               ),
@@ -140,7 +140,7 @@ class _ProfilePageState extends State<ProfilePage> {
             PersistenceData.shared.getUser()?.phoneNumber?.replaceRange(3, 8, '*****') ?? '****',
           ),
           Consumer<ProfileBloc>(
-            builder: (context, bloc, child) => InkWell(
+            builder: (context, bloc, child) => GestureDetector(
               onTap: () => PageNavigator(ctx: context)
                   .nextPage(
                       page: ChangeProfilePage(
@@ -209,7 +209,8 @@ class _ProfilePageState extends State<ProfilePage> {
           Column(
             spacing: kMargin5 + 1,
             children: settings.asMap().entries.map((entry) {
-              return InkWell(
+              return GestureDetector(
+                behavior: HitTestBehavior.opaque,
                 onTap: () {
                   switch (entry.key) {
                     case 5:
@@ -330,7 +331,7 @@ class _ProfilePageState extends State<ProfilePage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              InkWell(
+              GestureDetector(
                 onTap: () => Navigator.of(context).pop(),
                 child: Container(
                   height: 38,
@@ -344,7 +345,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
-              InkWell(
+              GestureDetector(
                 onTap: () {
                   if (isDeleteAccount == true) {
                     // bloc

@@ -279,7 +279,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           //body
-          InkWell(
+          GestureDetector(
             onTap: () {
               onPressed();
             },
@@ -300,7 +300,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                 )),
           ),
           10.vGap,
-          InkWell(
+          GestureDetector(
             onTap: onPressedDetail,
             child: AnimatedSize(
               duration: Duration(milliseconds: 100),

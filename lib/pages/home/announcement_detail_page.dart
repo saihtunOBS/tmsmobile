@@ -48,7 +48,7 @@ class AnnouncementDetailPage extends StatelessWidget {
           children: [
             data.photos?.isEmpty ?? true
                 ? SizedBox()
-                : InkWell(
+                : GestureDetector(
                   onTap: () => showDialogImage(context, data.photos?.first),
                   child: SizedBox(
                       height: kSize180,

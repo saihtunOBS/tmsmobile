@@ -232,7 +232,7 @@ class _AccountChangePasswordPageState extends State<AccountChangePasswordPage> {
                 ),
 
                 ///icon
-                InkWell(onTap: () => onTap!(), child: icon)
+                GestureDetector(onTap: () => onTap!(), child: icon)
               ],
             ),
           ),

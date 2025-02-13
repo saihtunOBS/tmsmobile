@@ -21,7 +21,7 @@ class ContractListItem extends StatelessWidget {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          InkWell(
+          GestureDetector(
             onTap: onPress,
             child: Container(
               height: 66,

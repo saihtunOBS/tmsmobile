@@ -70,7 +70,7 @@ class InvoiceDetaiBloc extends ChangeNotifier {
                       fontWeight: FontWeight.bold, fontSize: kTextRegular),
                 ),
                 20.hGap,
-                InkWell(
+                GestureDetector(
                   onTap: () async {
                     await OpenFile.open(file.path);
                   },
@@ -96,6 +96,8 @@ class InvoiceDetaiBloc extends ChangeNotifier {
       ScaffoldMessenger.of(context!).showSnackBar(
         SnackBar(
             backgroundColor: kPrimaryColor,
+            elevation: 6.0,
+            behavior: SnackBarBehavior.floating,
             content: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -105,7 +107,7 @@ class InvoiceDetaiBloc extends ChangeNotifier {
                       color: kWhiteColor, fontWeight: FontWeight.bold),
                 ),
                 20.hGap,
-                InkWell(
+                GestureDetector(
                   onTap: () async {
                     openSettings();
                   },

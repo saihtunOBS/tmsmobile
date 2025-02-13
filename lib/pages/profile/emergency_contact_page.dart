@@ -204,7 +204,7 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
                         title:
                             AppLocalizations.of(context)?.kAddressLabel ?? '',
                         value: data?.address ?? ''),
-                    InkWell(
+                    GestureDetector(
                       onTap: () => makePhoneCall(data?.phone1 ?? ''),
                       child: _listItem(
                           title:
@@ -212,7 +212,7 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
                           value: data?.phone1 ?? '',
                           isNumber: true),
                     ),
-                    InkWell(
+                    GestureDetector(
                       onTap: () => makePhoneCall(data?.phone2 ?? ''),
                       child: _listItem(
                           title: AppLocalizations.of(context)

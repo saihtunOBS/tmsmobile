@@ -12,7 +12,7 @@ Widget gradientButton(
     required VoidCallback? onPress,
     bool? isLogout,
     required BuildContext? context}) {
-  return InkWell(
+  return GestureDetector(
     onTap: onPress,
     child: Container(
       height: 55,

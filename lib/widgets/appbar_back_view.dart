@@ -11,7 +11,7 @@ class AppbarBackView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: () => Navigator.pop(context),
       child: Row(
         children: [

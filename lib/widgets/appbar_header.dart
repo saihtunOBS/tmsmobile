@@ -21,7 +21,7 @@ class AppbarHeader extends StatelessWidget {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            InkWell(
+            GestureDetector(
               onTap: () {
                 PageNavigator(ctx: context)
                     .nextPage(

@@ -184,7 +184,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                               bgColor: Colors.transparent,
                             );
                           }
-                          return InkWell(
+                          return GestureDetector(
                               onTap: () {
                                 PageNavigator(ctx: context).nextPage(
                                     page: MaintenanceProcessPage(
@@ -255,7 +255,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                             bgColor: Colors.transparent,
                           );
                         }
-                        return InkWell(
+                        return GestureDetector(
                           onTap: () => PageNavigator(ctx: context).nextPage(
                               page: FillOutProcessPage(
                             status: bloc.fillOutLists[index].status ?? 0,

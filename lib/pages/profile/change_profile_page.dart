@@ -110,7 +110,7 @@ class ChangeProfilePage extends StatelessWidget {
       builder: (context, bloc, child) => SingleChildScrollView(
         physics: ClampingScrollPhysics(),
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          InkWell(
+          GestureDetector(
             onTap: () => showDialogImage(context,
                 bloc.imgFile == null ? bloc.userData?.photo : bloc.imgFile!),
             child: Container(
@@ -140,7 +140,7 @@ class ChangeProfilePage extends StatelessWidget {
             ),
           ),
           10.vGap,
-          InkWell(
+          GestureDetector(
             onTap: () => _showCupertinoActionSheet(context, bloc),
             child: Container(
               height: kSize28,

@@ -219,7 +219,7 @@ class EditResidentBloc extends ChangeNotifier {
               5.vGap,
               Material(
                 color: kWhiteColor,
-                child: InkWell(
+                child: GestureDetector(
                   onTap: () => Navigator.pop(context!),
                   child: Container(
                     margin: EdgeInsets.only(

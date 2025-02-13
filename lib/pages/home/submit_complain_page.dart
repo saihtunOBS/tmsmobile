@@ -27,7 +27,7 @@ class SubmitComplainPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => ComplaintBloc(),
       child: Material(
-        child: InkWell(
+        child: GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
           child: Scaffold(
             backgroundColor: kBackgroundColor,
@@ -214,7 +214,7 @@ class SubmitComplainPage extends StatelessWidget {
                                 style: TextStyle(fontSize: kTextSmall),
                               ),
                               Consumer<ComplaintBloc>(
-                                builder: (context, bloc, child) => InkWell(
+                                builder: (context, bloc, child) => GestureDetector(
                                   onTap: () => bloc.selectImage(),
                                   child: Container(
                                     width: kSize73,

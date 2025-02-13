@@ -67,7 +67,7 @@ class NRCViewState extends State<NRCView> {
   @override
   Widget build(BuildContext context) {
     return Consumer<NRCBloc>(
-      builder: (context, bloc, child) => InkWell(
+      builder: (context, bloc, child) => GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
           showModalBottomSheet(
@@ -290,7 +290,7 @@ class NRCViewState extends State<NRCView> {
                   ],
                 ),
                 40.vGap,
-                InkWell(
+                GestureDetector(
                   onTap: () {
                     if (bloc.isEmptyNrc == false) {
                       if (bloc.selectedStateRegionCode == null ||

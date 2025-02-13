@@ -263,7 +263,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 ),
 
                 ///icon
-                InkWell(onTap: () => onTap!(), child: icon)
+                GestureDetector(onTap: () => onTap!(), child: icon)
               ],
             ),
           ),

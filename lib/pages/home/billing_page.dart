@@ -67,7 +67,7 @@ class _BillingPageState extends State<BillingPage> {
                               horizontal: kMargin24 - 2,
                               vertical: kMarginMedium3 - 2),
                           itemBuilder: (context, index) {
-                            return InkWell(
+                            return GestureDetector(
                               onTap: () => bloc.billingLists[index].status == 0
                                   ? PageNavigator(ctx: context)
                                       .nextPage(page: InvoiceDetailPage(billingData: bloc.billingLists[index],))

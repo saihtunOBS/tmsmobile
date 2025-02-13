@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
     return ChangeNotifierProvider(
       create: (context) => LogInBloc(),
       child: Material(
-        child: InkWell(
+        child: GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
           child: Scaffold(
             backgroundColor: kBackgroundColor,
@@ -129,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: Row(
                             children: [
                               Spacer(),
-                              InkWell(
+                              GestureDetector(
                                   onTap: () {
                                     PageNavigator(ctx: context)
                                         .nextPage(page: ForgotPasswordPage());
@@ -284,7 +284,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
 
                 ///icon
-                InkWell(onTap: () => onTap!(), child: icon)
+                GestureDetector(onTap: () => onTap!(), child: icon)
               ],
             ),
           ),

@@ -59,7 +59,7 @@ class AnnouncementPage extends StatelessWidget {
                                   vertical: kMarginMedium2),
                               itemCount: bloc.announcementList.length,
                               itemBuilder: (context, index) {
-                                return InkWell(
+                                return GestureDetector(
                                     onTap: () => Navigator.of(context).push(
                                             PageNavigator(ctx: context)
                                                 .popUp(AnnouncementDetailPage(

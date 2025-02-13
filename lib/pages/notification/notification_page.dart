@@ -74,7 +74,7 @@ class NotificationPage extends StatelessWidget {
           AppLocalizations.of(context)?.kNewNotificationLabel ?? '',
           style: TextStyle(
               fontSize: AppData.shared.getSmallFontSize(),
-              color: kPrimaryColor),
+              color: kPrimaryColor,fontWeight: FontWeight.bold),
         ),
         10.vGap,
         ListView.builder(
@@ -83,7 +83,7 @@ class NotificationPage extends StatelessWidget {
             physics: NeverScrollableScrollPhysics(),
             padding: EdgeInsets.symmetric(horizontal: kMarginMedium2),
             itemBuilder: (context, index) {
-              return InkWell(
+              return GestureDetector(
                 // onTap: () => PageNavigator(ctx: context)
                 //     .nextPage(page: InvoiceDetailPage(billingData: BillingVO(),)),
                 child: Padding(

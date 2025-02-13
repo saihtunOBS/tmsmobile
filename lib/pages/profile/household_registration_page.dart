@@ -322,7 +322,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                               child: Row(
                                 children:
                                     houseHoldData.asMap().entries.map((entry) {
-                                  return InkWell(
+                                  return GestureDetector(
                                     onTap: () {
                                       PageNavigator(ctx: context)
                                           .nextPage(
@@ -356,7 +356,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
           Row(
             children: [
               Spacer(),
-              InkWell(
+              GestureDetector(
                 onTap: () => PageNavigator(ctx: context)
                     .nextPage(
                         page: AddResidentPage(
@@ -393,12 +393,12 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: kMarginMedium2,
           children: [
-            InkWell(
+            GestureDetector(
                 onTap: () => bloc.showDate(isRegistration: true),
                 child: _buildDatePicker(
                     AppLocalizations.of(context)?.kRegistrationDateLabel ?? '',
                     bloc.registrationDate ?? '')),
-            InkWell(
+            GestureDetector(
                 onTap: () => bloc.showDate(isMoveIn: true),
                 child: _buildDatePicker(
                     AppLocalizations.of(context)?.kMoveInDateLabel ?? '',
@@ -708,7 +708,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                   12.vGap,
                   _buildGenderDropDown(isOwner: true),
                   12.vGap,
-                  InkWell(
+                  GestureDetector(
                       onTap: () => bloc.showDate(isOwner: true),
                       child: _buildDatePicker(
                           AppLocalizations.of(context)?.kDobLabel ?? '',
@@ -802,7 +802,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                     12.vGap,
                     _buildGenderDropDown(),
                     12.vGap,
-                    InkWell(
+                    GestureDetector(
                         onTap: () => bloc.showDate(isResident: true),
                         child: _buildDatePicker(
                             AppLocalizations.of(context)?.kDobLabel ?? '',
@@ -840,7 +840,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                     // Row(
                     //   children: [
                     //     Spacer(),
-                    //     InkWell(
+                    //     GestureDetector(
                     //       onTap: () {
                     //         // var residentVo = ResidentVo(
                     //         //     bloc.residentNameController.text.trim(),

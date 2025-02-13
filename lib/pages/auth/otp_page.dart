@@ -76,7 +76,7 @@ class _OTPPageState extends State<OTPPage> {
     return ChangeNotifierProvider(
       create: (context) => AuthBloc(),
       child: Material(
-        child: InkWell(
+        child: GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
           child: Scaffold(
             backgroundColor: kBackgroundColor,

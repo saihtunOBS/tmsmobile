@@ -118,7 +118,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
                   12.vGap,
                   _buildGenderDropDown(),
                   12.vGap,
-                  InkWell(
+                  GestureDetector(
                       onTap: () => bloc.showDate(),
                       child: _buildDateOfBirthDatePicker(
                           value: DateFormatter.formatDate(bloc.selectedDate))),

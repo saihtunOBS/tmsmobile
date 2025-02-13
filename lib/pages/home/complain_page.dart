@@ -168,7 +168,8 @@ class _ComplainPageState extends State<ComplainPage>
                           vertical: kMargin24, horizontal: kMargin24),
                       itemCount: bloc.complainList.length,
                       itemBuilder: (context, index) {
-                        return InkWell(
+                        return GestureDetector(
+                          behavior: HitTestBehavior.opaque,
                             onTap: () {
                               PageNavigator(ctx: context).nextPage(
                                   page: ComplainDetailPage(
@@ -216,7 +217,7 @@ class _ComplainPageState extends State<ComplainPage>
                           vertical: kMargin24, horizontal: kMargin24),
                       itemCount: bloc.complainList.length,
                       itemBuilder: (context, index) {
-                        return InkWell(
+                        return GestureDetector(
                           onTap: () => PageNavigator(ctx: context).nextPage(
                               page: ComplainDetailPage(
                             isPending: false,

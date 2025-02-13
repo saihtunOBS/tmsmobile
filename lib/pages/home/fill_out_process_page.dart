@@ -171,7 +171,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           //body
-          InkWell(
+          GestureDetector(
             onTap: () {
               onPressed();
             },
@@ -193,7 +193,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                 )),
           ),
           10.vGap,
-          InkWell(
+          GestureDetector(
             onTap: onPressDetail,
             child: AnimatedSize(
               duration: Duration(milliseconds: 100),

@@ -35,7 +35,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     return ChangeNotifierProvider(
       create: (context) => AuthBloc(),
       child: Material(
-        child: InkWell(
+        child: GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
           child: Scaffold(
             extendBody: true,

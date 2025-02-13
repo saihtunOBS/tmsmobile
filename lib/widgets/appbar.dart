@@ -27,7 +27,7 @@ class GradientAppBar extends StatelessWidget {
       child: Center(
         child: Row(
           children: [
-            InkWell(
+            GestureDetector(
               onTap: () => Navigator.pop(context),
               child: Row(
                 children: [
@@ -87,7 +87,7 @@ class ProfileAppbar extends StatelessWidget {
                 : Center(
                     child: Row(
                       children: [
-                        InkWell(
+                        GestureDetector(
                           onTap: () => Navigator.pop(context),
                           child: Row(
                             children: [

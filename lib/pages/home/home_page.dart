@@ -93,7 +93,7 @@ class HomePage extends StatelessWidget {
                                 crossAxisSpacing: kMarginMedium3,
                                 mainAxisExtent: kSize75),
                         itemBuilder: (context, index) {
-                          return InkWell(
+                          return GestureDetector(
                             onTap: () {
                               switch (index) {
                                 case 0:
@@ -197,7 +197,7 @@ class HomePage extends StatelessWidget {
     final ValueNotifier<int> sliderIndex = ValueNotifier(0);
     final CarouselSliderController controller = CarouselSliderController();
     final double bannerHeight = Platform.isAndroid
-        ? MediaQuery.of(context).size.height * 0.22
+        ? MediaQuery.of(context).size.height * 0.21
         : MediaQuery.of(context).size.height * 0.2;
     return ValueListenableBuilder(
       valueListenable: sliderIndex,
@@ -207,7 +207,7 @@ class HomePage extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                SizedBox(height: Platform.isAndroid ? MediaQuery.of(context).size.height * 0.09 : MediaQuery.of(context).size.height * 0.1),
                 //80.vGap,
                 SizedBox(
                   height: bannerHeight,
@@ -219,7 +219,7 @@ class HomePage extends StatelessWidget {
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: kMarginMedium2),
-                                child: InkWell(
+                                child: GestureDetector(
                                   onTap: () => showDialogImage(context, value),
                                   child: ClipRRect(
                                     borderRadius:
@@ -233,7 +233,7 @@ class HomePage extends StatelessWidget {
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: kMarginMedium2),
-                                child: InkWell(
+                                child: GestureDetector(
                                   onTap: () => showDialogImage(context, value),
                                   child: ClipRRect(
                                     borderRadius:
@@ -295,7 +295,7 @@ class HomePage extends StatelessWidget {
           6.hGap,
           Text(
             'ယခုမီးလာနေပါသည်',
-            style: TextStyle(color: Colors.black, fontSize: 11),
+            style: TextStyle(color: Colors.black, fontSize: 11.5),
           ),
           12.hGap
         ],

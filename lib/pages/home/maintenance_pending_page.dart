@@ -141,7 +141,7 @@ class MaintenancePendingPage extends StatelessWidget {
                 crossAxisSpacing: kMarginMedium2,
                 mainAxisExtent: 216),
             itemBuilder: (context, index) {
-              return InkWell(
+              return GestureDetector(
                 onTap: () => showDialogImage(context, pendingData.attach?[index] ?? ''),
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width / 2.5,

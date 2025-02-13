@@ -44,7 +44,7 @@ class _MaintenanceAndFillOutRequestPageState
     return ChangeNotifierProvider(
       create: (context) => MaintenanceBloc(context: context),
       child: Material(
-        child: InkWell(
+        child: GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
           child: Scaffold(
             backgroundColor: kBackgroundColor,
@@ -389,7 +389,7 @@ class _MaintenanceAndFillOutRequestPageState
                                 style: TextStyle(fontSize: kTextSmall),
                               ),
                               Consumer<MaintenanceBloc>(
-                                builder: (context, bloc, child) => InkWell(
+                                builder: (context, bloc, child) => GestureDetector(
                                   onTap: () => bloc.selectImage(),
                                   child: Container(
                                     width: kSize73,
@@ -454,7 +454,7 @@ class _MaintenanceAndFillOutRequestPageState
           Consumer<MaintenanceBloc>(
             builder: (context, bloc, child) => bloc.imageArray.length == 2
                 ? SizedBox.shrink()
-                : InkWell(
+                : GestureDetector(
                     onTap: () => bloc.selectImage(),
                     child: Center(
                       child: Container(
