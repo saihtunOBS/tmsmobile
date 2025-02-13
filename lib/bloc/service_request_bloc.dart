@@ -5,7 +5,6 @@ import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/data/vos/service_request_vo.dart';
 
 class ServiceRequestBloc extends ChangeNotifier {
-  
   List<ServiceRequestVo> fillOutLists = [];
   List<ServiceRequestVo> maintenanceLists = [];
   bool isLoading = false;
@@ -21,14 +20,13 @@ class ServiceRequestBloc extends ChangeNotifier {
   String? token;
 
   ServiceRequestBloc() {
-    getMaintenances();
-    getFillOuts();
+    updateToken();
   }
 
   void updateToken() {
-  token = PersistenceData.shared.getToken();
-  notifyListeners();
-}
+    token = PersistenceData.shared.getToken();
+    notifyListeners();
+  }
 
   getFillOuts() {
     _showLoading();

@@ -24,9 +24,10 @@ class ComplaintBloc extends ChangeNotifier {
   ComplaintVO? complaintDetail;
 
   ComplaintBloc({this.complaintId, bool? isDetail}) {
-    getComplaint(1);
+    updateToken();
 
     if (isDetail == true) {
+      updateToken();
       getComplaintDetails(complaintId);
     }
   }
