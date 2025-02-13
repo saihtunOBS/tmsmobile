@@ -28,9 +28,9 @@ class AnnouncementListItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(kMargin6),
                 boxShadow: [
                   BoxShadow(
-                    offset: Offset(0, 3),
+                    offset: Offset(0, 4),
                     blurRadius: 5,
-                    color: const Color.fromARGB(255, 221, 219, 219),
+                    color: kGreyColor,
                   )
                 ]),
             child: Column(

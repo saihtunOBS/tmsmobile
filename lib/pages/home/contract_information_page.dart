@@ -151,10 +151,10 @@ class ContractInformationPage extends StatelessWidget {
             BoxShadow(
                 offset: Offset(
                   0,
-                  3,
+                  4,
                 ),
                 blurRadius: 5,
-                color: const Color.fromARGB(255, 221, 219, 219))
+                color: kGreyColor)
           ],
         ),
         child: Container(
@@ -190,7 +190,7 @@ class ContractInformationPage extends StatelessWidget {
                   style: TextStyle(
                       color: kWhiteColor,
                       fontSize: kTextRegular13,
-                      fontWeight: FontWeight.w700),
+                      fontWeight: FontWeight.w400),
                 ),
                 Text(
                   '#${data.shop?.name}',

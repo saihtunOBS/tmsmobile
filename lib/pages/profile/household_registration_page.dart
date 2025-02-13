@@ -254,10 +254,10 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
               BoxShadow(
                   offset: Offset(
                     0,
-                    3,
+                    4,
                   ),
                   blurRadius: 5,
-                  color: const Color.fromARGB(255, 177, 177, 177))
+                  color: kGreyColor)
             ]),
             child: Column(
               children: [

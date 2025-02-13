@@ -22,8 +22,8 @@ class ContractListItem extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-              offset: Offset(0, 3),
-              color: const Color.fromARGB(255, 181, 181, 181),
+              offset: Offset(0, 4),
+              color: const Color.fromARGB(255, 165, 165, 165),
               blurRadius: 4.0)
         ],
       ),
