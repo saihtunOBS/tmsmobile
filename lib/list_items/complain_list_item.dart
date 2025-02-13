@@ -4,8 +4,6 @@ import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../data/app_data/app_data.dart';
-
 
 class ComplainListItem extends StatelessWidget {
   const ComplainListItem({
