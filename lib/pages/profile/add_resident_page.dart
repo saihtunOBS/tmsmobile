@@ -7,7 +7,6 @@ import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/widgets/common_dialog.dart';
 import 'package:tmsmobile/widgets/error_dialog_view.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
-import '../../data/app_data/app_data.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/date_formatter.dart';
@@ -165,7 +164,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
           Text(
             AppLocalizations.of(context)?.kGenderLabel ?? '',
             style: TextStyle(
-                fontSize: AppData.shared.getSmallFontSize(),
+                fontSize: kTextRegular,
                 fontWeight: FontWeight.w600),
           ),
           4.vGap,
@@ -203,7 +202,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
         Text(
           AppLocalizations.of(context)?.kDobLabel ?? '',
           style: TextStyle(
-              fontSize: AppData.shared.getSmallFontSize(),
+              fontSize: kTextRegular,
               fontWeight: FontWeight.w600),
         ),
         4.vGap,
@@ -220,7 +219,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
             children: [
               Text(
                 value ?? kSelectDateLabel,
-                style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),
+                style: TextStyle(fontSize: kTextRegular),
               ),
               Icon(
                 Icons.calendar_today,
@@ -245,7 +244,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
         Text(
           title,
           style: TextStyle(
-              fontSize: AppData.shared.getSmallFontSize(),
+              fontSize: kTextRegular,
               fontWeight: FontWeight.w600),
         ),
         4.vGap,
@@ -262,7 +261,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
                     child: Text(
                       value ?? '',
                       style: TextStyle(
-                          fontSize: AppData.shared.getSmallFontSize(),
+                          fontSize: kTextRegular,
                           fontWeight: FontWeight.w500),
                     ),
                   )
@@ -275,7 +274,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
                         border: InputBorder.none,
                         hintText: title,
                         hintStyle: TextStyle(
-                            fontSize: AppData.shared.getSmallFontSize())),
+                            fontSize: kTextRegular)),
                   ))
       ],
     );
@@ -289,7 +288,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
         Text(
           'NRC',
           style: TextStyle(
-              fontSize: AppData.shared.getSmallFontSize(),
+              fontSize: kTextRegular,
               fontWeight: FontWeight.w600),
         ),
         4.vGap,

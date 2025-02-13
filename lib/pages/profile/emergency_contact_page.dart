@@ -9,7 +9,6 @@ import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
 import 'package:tmsmobile/widgets/empty_view.dart';
 
-import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
 import '../../widgets/loading_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -119,7 +118,7 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
       children: [
         Text(
           title,
-          style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),
+          style: TextStyle(fontSize: kTextRegular),
         ),
         Text(
           value,
@@ -178,7 +177,7 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
               title ?? '',
               style: TextStyle(
                   color: kWhiteColor,
-                  fontSize: AppData.shared.getSmallFontSize(),
+                  fontSize: kTextRegular,
                   fontWeight: FontWeight.w700),
             ),
             children: [

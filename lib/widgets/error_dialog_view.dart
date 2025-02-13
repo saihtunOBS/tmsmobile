@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/auth/login_page.dart';
-import '../../data/app_data/app_data.dart';
 
 import '../utils/colors.dart';
 import '../utils/dimens.dart';
@@ -47,7 +46,7 @@ class ErrorDialogView extends StatelessWidget {
             Text(
               "Oops...",
               style: TextStyle(
-                  fontSize: AppData.shared.getSmallFontSize(),
+                  fontSize: kTextRegular,
                   color: Colors.black,
                   fontWeight: FontWeight.w600),
             ),

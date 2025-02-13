@@ -5,7 +5,6 @@ import 'package:tmsmobile/bloc/owner_nrc_bloc.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
-import '../../data/app_data/app_data.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OwnerNrcView extends StatefulWidget {
@@ -57,7 +56,7 @@ class NRCViewState extends State<OwnerNrcView> {
               bloc.nrcNumber ??
                   AppLocalizations.of(context)?.kAddNrcLabel ??
                   '',
-              style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),
+              style: TextStyle(fontSize: kTextRegular),
             )),
       ),
     );
@@ -192,7 +191,7 @@ class NRCViewState extends State<OwnerNrcView> {
                     Text(
                       AppLocalizations.of(context)?.kEntereNrcLabel ?? '',
                       style: TextStyle(
-                          fontSize: AppData.shared.getSmallFontSize(),
+                          fontSize: kTextRegular,
                           fontWeight: FontWeight.w600),
                     ),
                     5.vGap,
@@ -222,7 +221,7 @@ class NRCViewState extends State<OwnerNrcView> {
                                   AppLocalizations.of(context)?.kEntereNrcLabel ??
                                       '',
                               hintStyle: TextStyle(
-                                fontSize: AppData.shared.getSmallFontSize(),
+                                fontSize: kTextRegular,
                               ),
                               border: InputBorder.none),
                         ),
@@ -285,7 +284,7 @@ class NRCViewState extends State<OwnerNrcView> {
                       child: Text(
                         AppLocalizations.of(context)?.kConfirmLabel ?? '',
                         style: TextStyle(
-                            fontSize: AppData.shared.getSmallFontSize(),
+                            fontSize: kTextRegular,
                             fontWeight: FontWeight.w600,
                             color: kWhiteColor),
                       ),

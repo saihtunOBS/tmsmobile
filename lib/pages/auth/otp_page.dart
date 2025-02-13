@@ -143,13 +143,13 @@ class _OTPPageState extends State<OTPPage> {
                                         ?.kSendCodeToNumberLabel ??
                                     '',
                                 style: TextStyle(
-                                  fontSize: AppData.shared.getSmallFontSize(),
+                                  fontSize: kTextRegular,
                                 ),
                               ),
                               Text(
                                 widget.phone ?? '',
                                 style: TextStyle(
-                                    fontSize: AppData.shared.getSmallFontSize(),
+                                    fontSize: kTextRegular,
                                     fontWeight: FontWeight.bold),
                               ),
                             ],
@@ -165,13 +165,13 @@ class _OTPPageState extends State<OTPPage> {
                                 AppLocalizations.of(context)?.kExpireIn ?? '',
                                 style: TextStyle(
                                     fontSize:
-                                        AppData.shared.getSmallFontSize()),
+                                        kTextRegular),
                               ),
                               Text(
                                 timerText,
                                 style: TextStyle(
                                     fontSize:
-                                        AppData.shared.getSmallFontSize()),
+                                        kTextRegular),
                               )
                             ],
                           ),
@@ -227,7 +227,7 @@ class _OTPPageState extends State<OTPPage> {
                             AppLocalizations.of(context)?.kDidNotReceiveCode ??
                                 '',
                             style: TextStyle(
-                                fontSize: AppData.shared.getSmallFontSize()),
+                                fontSize: kTextRegular),
                           ),
                           TextButton(
                               onPressed: () {

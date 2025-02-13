@@ -58,7 +58,7 @@ class InvoiceDetailPage extends StatelessWidget {
                         style: TextStyle(
                             color: kWhiteColor,
                             fontWeight: FontWeight.bold,
-                            fontSize: AppData.shared.getSmallFontSize()),
+                            fontSize: kTextRegular),
                       )),
                     ),
                   ),
@@ -209,7 +209,7 @@ class InvoiceDetailPage extends StatelessWidget {
                   AppLocalizations.of(context)?.kMaintenanceInvoiceLabel ?? '',
                   style: TextStyle(
                       fontWeight: FontWeight.w700,
-                      fontSize: AppData.shared.getSmallFontSize(),
+                      fontSize: kTextRegular,
                       color: kWhiteColor),
                 ),
               )),
@@ -333,7 +333,7 @@ class InvoiceDetailPage extends StatelessWidget {
                   AppLocalizations.of(context)?.kMonthlyInvoiceLabel ?? '',
                   style: TextStyle(
                       fontWeight: FontWeight.w700,
-                      fontSize: AppData.shared.getSmallFontSize(),
+                      fontSize: kTextRegular,
                       color: kWhiteColor),
                 ),
               )),

@@ -153,7 +153,7 @@ class ChangeProfilePage extends StatelessWidget {
                 child: Text(
                   AppLocalizations.of(context)?.kChangeProfileLabel ?? '',
                   style: TextStyle(
-                      fontSize: kTextRegular13,
+                      fontSize: AppData.shared.getSmallXFontSize(),
                       color: kPrimaryColor,
                       fontWeight: FontWeight.w600),
                 ),
@@ -203,7 +203,7 @@ class ChangeProfilePage extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),
+            style: TextStyle(fontSize: kTextRegular),
           ),
           kSize40.hGap,
           Expanded(

@@ -29,7 +29,7 @@ class ComplainListItem extends StatelessWidget {
           Text(
             AppLocalizations.of(context)?.kCompliantLabel ?? '',
             style: TextStyle(
-                fontSize: AppData.shared.getSmallFontSize(), fontWeight: FontWeight.w700),
+                fontSize: kTextRegular, fontWeight: FontWeight.w700),
           ),
           Text(
             data?.complaint ?? '',

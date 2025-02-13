@@ -221,7 +221,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                         children: [
                           Text(
                             date ?? '',
-                            style: TextStyle(fontSize: kTextRegular13),
+                            style: TextStyle(fontSize: kTextRegular),
                           ),
                           6.vGap,
                           Text(

@@ -228,7 +228,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           Text(
             title,
             style: GoogleFonts.nunito(
-                fontSize: AppData.shared.getSmallFontSize(),
+                fontSize: kTextRegular,
                 fontWeight: FontWeight.w600),
           ),
           const SizedBox(
@@ -257,7 +257,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                             border: InputBorder.none,
                             hintText: title,
                             hintStyle: TextStyle(
-                                fontSize: AppData.shared.getSmallFontSize())))),
+                                fontSize: kTextRegular)))),
                 const SizedBox(
                   width: kMargin5,
                 ),

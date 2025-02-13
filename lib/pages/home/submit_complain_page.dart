@@ -10,7 +10,6 @@ import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/widgets/common_dialog.dart';
 import 'package:tmsmobile/widgets/error_dialog_view.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
-import '../../data/app_data/app_data.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/dimens.dart';
@@ -93,7 +92,7 @@ class SubmitComplainPage extends StatelessWidget {
                 Text(
                   AppLocalizations.of(context!)?.kCompliantLabel ?? '',
                   style: TextStyle(
-                      fontSize: AppData.shared.getSmallFontSize(),
+                      fontSize: kTextRegular,
                       fontWeight: FontWeight.w600),
                 ),
                 Text(
@@ -114,7 +113,7 @@ class SubmitComplainPage extends StatelessWidget {
                     border: InputBorder.none,
                     hintText: AppLocalizations.of(context)?.kWriteComplainLabel,
                     hintStyle:
-                        TextStyle(fontSize: AppData.shared.getSmallFontSize())),
+                        TextStyle(fontSize: kTextRegular)),
               ),
             ),
             20.vGap,
@@ -149,7 +148,7 @@ class SubmitComplainPage extends StatelessWidget {
                     Text(
                       AppLocalizations.of(context)?.kAttachFileLabel ?? '',
                       style: TextStyle(
-                          fontSize: AppData.shared.getSmallFontSize(),
+                          fontSize: kTextRegular,
                           color: kWhiteColor,
                           fontWeight: FontWeight.w600),
                     ),
@@ -175,7 +174,7 @@ class SubmitComplainPage extends StatelessWidget {
                       Text(
                         AppLocalizations.of(context)?.kUploadPhotoLabel ?? '',
                         style: TextStyle(
-                            fontSize: AppData.shared.getSmallFontSize(),
+                            fontSize: kTextRegular,
                             fontWeight: FontWeight.w700),
                       ),
                     ],

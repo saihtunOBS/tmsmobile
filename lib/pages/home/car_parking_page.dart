@@ -7,7 +7,6 @@ import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/widgets/empty_view.dart';
 
-import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
 import '../../widgets/appbar.dart';
 import '../../widgets/loading_view.dart';
@@ -110,7 +109,7 @@ class _CarParkingPageState extends State<CarParkingPage> {
       children: [
         Text(
           title,
-          style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),
+          style: TextStyle(fontSize: kTextRegular),
         ),
         isStatus == true
             ? Container(
@@ -133,7 +132,7 @@ class _CarParkingPageState extends State<CarParkingPage> {
             : Text(
                 value,
                 style: TextStyle(
-                    fontSize: AppData.shared.getSmallFontSize(),
+                    fontSize: kTextRegular,
                     fontWeight: FontWeight.w700),
               ),
       ],
@@ -210,14 +209,14 @@ class _CarParkingPageState extends State<CarParkingPage> {
                   AppLocalizations.of(context)?.kParkingCodeLabel ?? '',
                   style: TextStyle(
                       color: kWhiteColor,
-                      fontSize: kTextRegular13,
+                      fontSize: kTextRegular,
                       fontWeight: FontWeight.w700),
                 ),
                 Text(
                   '#${data.shop?.parkingData?.first.parkingCode?.parkingCode}',
                   style: TextStyle(
                       color: kWhiteColor,
-                      fontSize: AppData.shared.getSmallFontSize(),
+                      fontSize: kTextRegular,
                       fontWeight: FontWeight.w700),
                 ),
               ],
@@ -303,7 +302,7 @@ class _CarParkingPageState extends State<CarParkingPage> {
   //               kParkingInformationLabel,
   //               style: TextStyle(
   //                   color: kWhiteColor,
-  //                   fontSize: AppData.shared.getSmallFontSize(),
+  //                   fontSize: kTextRegular,
   //                   fontWeight: FontWeight.w700),
   //             ),
   //           ],

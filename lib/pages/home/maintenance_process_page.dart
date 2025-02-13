@@ -328,7 +328,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                         children: [
                           Text(
                             date ?? '',
-                            style: TextStyle(fontSize: kTextRegular13),
+                            style: TextStyle(fontSize: kTextRegular),
                           ),
                           6.vGap,
                           Text(
@@ -340,7 +340,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                           title == kSurveyLabel || title == kProcessingLabel
                               ? Text(
                                   surveyProcessingText ?? '',
-                                  style: TextStyle(fontSize: kTextRegular13),
+                                  style: TextStyle(fontSize: kTextRegular),
                                 )
                               : SizedBox(),
                         ],

@@ -111,11 +111,11 @@ class BillingInvoicePage extends StatelessWidget {
                   AppLocalizations.of(context)?.kStatusLabel ?? '',
                   true,
                 )),
-            12.vGap,
+            8.vGap,
             _status(
                 AppLocalizations.of(context)?.kPaymentTypeLabel ?? '', false,
                 isPartially: status == 1 ? true : false),
-            12.vGap,
+            10.vGap,
             status == 1
                 ? SizedBox.shrink()
                 : _buildListDetail(

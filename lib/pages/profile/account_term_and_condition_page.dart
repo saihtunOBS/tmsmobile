@@ -40,7 +40,7 @@ class AccountTermAndConditionPage extends StatelessWidget {
                 Text(
                   kAgreementLabel.toUpperCase(),
                   style: TextStyle(
-                    fontSize: AppData.shared.getSmallFontSize(),
+                    fontSize: kTextRegular,
                   ),
                 ),
                 Text(
@@ -53,7 +53,7 @@ class AccountTermAndConditionPage extends StatelessWidget {
                 Text(
                   '$kLastUpdateOnLabel 5/5/2022',
                   style: TextStyle(
-                    fontSize: AppData.shared.getSmallFontSize(),
+                    fontSize: kTextRegular,
                   ),
                 ),
               ],

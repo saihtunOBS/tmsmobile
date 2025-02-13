@@ -14,7 +14,6 @@ import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/widgets/common_dialog.dart';
 import 'package:tmsmobile/widgets/error_dialog_view.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
-import '../../data/app_data/app_data.dart';
 
 import '../../widgets/appbar.dart';
 import '../../widgets/gradient_button.dart';
@@ -154,7 +153,7 @@ class _MaintenanceAndFillOutRequestPageState
               Text(
                 title,
                 style: TextStyle(
-                    fontSize: AppData.shared.getSmallFontSize(),
+                    fontSize: kTextRegular,
                     fontWeight: FontWeight.w600),
               ),
               Text(
@@ -179,7 +178,7 @@ class _MaintenanceAndFillOutRequestPageState
                   border: InputBorder.none,
                   hintText: hint,
                   hintStyle:
-                      TextStyle(fontSize: AppData.shared.getSmallFontSize())),
+                      TextStyle(fontSize: kTextRegular)),
             ),
           )
         ],
@@ -200,7 +199,7 @@ class _MaintenanceAndFillOutRequestPageState
               Text(
                 AppLocalizations.of(context)?.kRoomShopNameLabel ?? '',
                 style: TextStyle(
-                    fontSize: AppData.shared.getSmallFontSize(),
+                    fontSize: kTextRegular,
                     fontWeight: FontWeight.w600),
               ),
               Text(
@@ -222,7 +221,7 @@ class _MaintenanceAndFillOutRequestPageState
                   hint: Text(
                     AppLocalizations.of(context)?.kSelectRoomShopLabel ?? '',
                     style:
-                        TextStyle(fontSize: AppData.shared.getSmallFontSize()),
+                        TextStyle(fontSize: kTextRegular),
                   ),
                   items: bloc.roomShops.map((value) {
                     return DropdownMenuItem(
@@ -250,7 +249,7 @@ class _MaintenanceAndFillOutRequestPageState
               Text(
                 AppLocalizations.of(context)?.kTypeOfIssueLabel ?? '',
                 style: TextStyle(
-                    fontSize: AppData.shared.getSmallFontSize(),
+                    fontSize: kTextRegular,
                     fontWeight: FontWeight.w600),
               ),
               Text(
@@ -272,7 +271,7 @@ class _MaintenanceAndFillOutRequestPageState
                   hint: Text(
                     AppLocalizations.of(context)?.kSelectTypeIssueLabel ?? '',
                     style:
-                        TextStyle(fontSize: AppData.shared.getSmallFontSize()),
+                        TextStyle(fontSize: kTextRegular),
                   ),
                   items: bloc.typeOfIssues.asMap().entries.map((entry) {
                     return DropdownMenuItem(
@@ -313,7 +312,7 @@ class _MaintenanceAndFillOutRequestPageState
                     Text(
                       AppLocalizations.of(context)?.kAttachFileLabel ?? '',
                       style: TextStyle(
-                          fontSize: AppData.shared.getSmallFontSize(),
+                          fontSize: kTextRegular,
                           color: kWhiteColor,
                           fontWeight: FontWeight.w600),
                     ),
@@ -339,7 +338,7 @@ class _MaintenanceAndFillOutRequestPageState
                       Text(
                         AppLocalizations.of(context)?.kUploadPhotoLabel ?? '',
                         style: TextStyle(
-                            fontSize: AppData.shared.getSmallFontSize(),
+                            fontSize: kTextRegular,
                             fontWeight: FontWeight.w700),
                       ),
                       Text(

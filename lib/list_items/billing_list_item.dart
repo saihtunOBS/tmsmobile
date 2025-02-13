@@ -5,7 +5,6 @@ import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/strings.dart';
 
-import '../data/app_data/app_data.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BillingListItem extends StatelessWidget {
@@ -38,7 +37,7 @@ class BillingListItem extends StatelessWidget {
             children: [
               Text(
                 DateFormatter.formatDate(biling?.date ?? DateTime.now()),
-                style: TextStyle(fontSize: kTextRegular13, color: kThirdColor),
+                style: TextStyle(fontSize: kTextRegular, color: kThirdColor),
               ),
               Container(
                 height: kSize26,
@@ -69,13 +68,13 @@ class BillingListItem extends StatelessWidget {
               Text(
                 biling?.invoiceCode ?? '',
                 style: TextStyle(
-                  fontSize: kTextRegular13,
+                  fontSize: kTextRegular,
                 ),
               ),
               Text(
                 '${biling?.grandTotal} MMK',
                 style: TextStyle(
-                    fontSize: AppData.shared.getSmallFontSize(),
+                    fontSize: kTextRegular,
                     fontWeight: FontWeight.w700),
               ),
             ],
@@ -85,7 +84,7 @@ class BillingListItem extends StatelessWidget {
             children: [
               Text(
                 biling?.invoiceType ?? '',
-                style: TextStyle(fontSize: kTextRegular13),
+                style: TextStyle(fontSize: kTextRegular),
               ),
               Text(
                 biling?.status == 2
@@ -103,7 +102,7 @@ class BillingListItem extends StatelessWidget {
                 child: Text(
                   overflow: TextOverflow.ellipsis,
                   '#${biling?.shop?.first ?? ''}',
-                  style: TextStyle(fontSize: kTextRegular13),
+                  style: TextStyle(fontSize: kTextRegular),
                 ),
               ),
               Container(

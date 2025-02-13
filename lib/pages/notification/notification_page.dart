@@ -6,10 +6,12 @@ import 'package:tmsmobile/list_items/noti_list_item.dart';
 import 'package:tmsmobile/pages/home/invoice_detail_page.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/widgets/appbar_header.dart';
+import 'package:tmsmobile/widgets/empty_view.dart';
 import '../../utils/colors.dart';
 import '../../utils/images.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../data/app_data/app_data.dart';
+
+List<String> notiLists = [];
 
 class NotificationPage extends StatelessWidget {
   const NotificationPage({super.key});
@@ -40,28 +42,35 @@ class NotificationPage extends StatelessWidget {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(children: [
-            _buildNewNotiBody(context),
-            ListView.builder(
-                itemCount: 2,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                padding: EdgeInsets.symmetric(
-                    vertical: kMarginMedium2, horizontal: kMarginMedium2),
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            bottom: index == 1 ? kMargin75 : kMargin10),
-                        child: NotiListItem(),
-                      ),
-                    ],
-                  );
-                }),
-          ]),
-        ),
+        body: notiLists.isEmpty
+            ? EmptyView(
+                imagePath: kNoNotiImage,
+                title: AppLocalizations.of(context)?.kNoNotificationLabel ?? '',
+                subTitle:
+                    AppLocalizations.of(context)?.kThereisNoNotificationLabel ??
+                        '')
+            : SingleChildScrollView(
+                child: Column(children: [
+                  _buildNewNotiBody(context),
+                  ListView.builder(
+                      itemCount: 2,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.symmetric(
+                          vertical: kMarginMedium2, horizontal: kMarginMedium2),
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  bottom: index == 1 ? kMargin75 : kMargin10),
+                              child: NotiListItem(),
+                            ),
+                          ],
+                        );
+                      }),
+                ]),
+              ),
       ),
     );
   }
@@ -73,8 +82,9 @@ class NotificationPage extends StatelessWidget {
         Text(
           AppLocalizations.of(context)?.kNewNotificationLabel ?? '',
           style: TextStyle(
-              fontSize: AppData.shared.getSmallFontSize(),
-              color: kPrimaryColor,fontWeight: FontWeight.bold),
+              fontSize: kTextRegular,
+              color: kPrimaryColor,
+              fontWeight: FontWeight.bold),
         ),
         10.vGap,
         ListView.builder(

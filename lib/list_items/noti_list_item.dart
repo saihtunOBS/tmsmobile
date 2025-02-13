@@ -54,7 +54,7 @@ class NotiListItem extends StatelessWidget {
                     Text(
                       'Electric Fault',
                       style: TextStyle(
-                          fontSize: AppData.shared.getSmallFontSize(),
+                          fontSize: kTextRegular,
                           fontWeight: FontWeight.w700),
                     ),
                     Text(
@@ -97,7 +97,7 @@ class NotiListItem extends StatelessWidget {
             Spacer(),
             Text(
               'Dec 12, 2024',
-              style: TextStyle(fontSize: kTextRegular13),
+              style: TextStyle(fontSize: kTextRegular),
             )
           ],
         )

@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../data/app_data/app_data.dart';
 
 
 class AppbarBackView extends StatelessWidget {
@@ -30,7 +28,7 @@ class AppbarBackView extends StatelessWidget {
             style: TextStyle(
                 color: kWhiteColor,
                 fontWeight: FontWeight.bold,
-                fontSize: AppData.shared.getSmallFontSize()),
+                fontSize: kTextRegular),
           )
         ],
       ),

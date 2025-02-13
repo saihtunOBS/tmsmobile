@@ -210,7 +210,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
                   AppLocalizations.of(context)?.kMaintenanceInvoiceLabel ?? '',
                   style: TextStyle(
                       fontWeight: FontWeight.w700,
-                      fontSize: AppData.shared.getSmallFontSize(),
+                      fontSize: kTextRegular,
                       color: kWhiteColor),
                 ),
               )),
@@ -334,7 +334,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
   //                 AppLocalizations.of(context)?.kMonthlyInvoiceLabel ?? '',
   //                 style: TextStyle(
   //                     fontWeight: FontWeight.w700,
-  //                     fontSize: AppData.shared.getSmallFontSize(),
+  //                     fontSize: kTextRegular,
   //                     color: kWhiteColor),
   //               ),
   //             )),

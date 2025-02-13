@@ -130,21 +130,23 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
           Text(
-            PersistenceData.shared.getUser()?.tenantName ??  '****',
+            PersistenceData.shared.getUser()?.tenantName ?? '****',
             style: TextStyle(
                 fontFamily: AppData.shared.fontFamily2,
-                fontSize: AppData.shared.getExtraFontSize(),
+                fontSize: kTextRegular24,
                 fontWeight: FontWeight.w600),
           ),
           Text(
-            PersistenceData.shared.getUser()?.phoneNumber?.replaceRange(3, 8, '*****') ?? '****',
+            PersistenceData.shared
+                    .getUser()
+                    ?.phoneNumber
+                    ?.replaceRange(3, 8, '*****') ??
+                '****',
           ),
           Consumer<ProfileBloc>(
             builder: (context, bloc, child) => GestureDetector(
               onTap: () => PageNavigator(ctx: context)
-                  .nextPage(
-                      page: ChangeProfilePage(
-                  ))
+                  .nextPage(page: ChangeProfilePage())
                   .whenComplete(() => bloc.getUser()),
               child: FittedBox(
                 child: Container(
@@ -157,7 +159,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Text(
                       AppLocalizations.of(context)?.kViewProfileLabel ?? '',
                       style: TextStyle(
-                          fontSize: kTextRegular13,
+                          fontSize: AppData.shared.getSmallXFontSize(),
                           color: kPrimaryColor,
                           fontWeight: FontWeight.w600),
                     ),
@@ -267,7 +269,7 @@ class _ProfilePageState extends State<ProfilePage> {
             title,
             style: TextStyle(
                 fontWeight: FontWeight.w600,
-                fontSize: AppData.shared.getSmallFontSize(),
+                fontSize: kTextRegular,
                 color: kPrimaryColor),
           ),
           Spacer(),
@@ -323,7 +325,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   : AppLocalizations.of(context)?.kAreYouSureLogoutLabel ?? '',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: AppData.shared.getSmallFontSize(),
+                fontSize: kTextRegular,
               ),
             ),
           ),

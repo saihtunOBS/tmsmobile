@@ -35,7 +35,7 @@ class AppData {
 
   double getSmallFontSize() {
     if (PersistenceData.shared.getLocale() == 'my') {
-      return 15.2;
+      return 15;
     } else {
       return 16;
     }
@@ -43,9 +43,9 @@ class AppData {
 
   double getSmallXFontSize() {
     if (PersistenceData.shared.getLocale() == 'my') {
-      return 12.2;
-    } else {
       return 13;
+    } else {
+      return 14;
     }
   }
 

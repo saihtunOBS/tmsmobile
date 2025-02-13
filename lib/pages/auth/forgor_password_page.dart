@@ -102,7 +102,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             AppLocalizations.of(context)?.kSendOTPTextLabel ??
                                 '',
                             style: TextStyle(
-                                fontSize: AppData.shared.getSmallFontSize()),
+                                fontSize: kTextRegular),
                           ),
                           _buildTextField(
                               title: AppLocalizations.of(context)
@@ -170,7 +170,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         Text(
           title,
           style: GoogleFonts.nunito(
-              fontSize: AppData.shared.getSmallFontSize(),
+              fontSize: kTextRegular,
               fontWeight: FontWeight.w600),
         ),
         const SizedBox(
@@ -195,7 +195,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           border: InputBorder.none,
                           hintText: title,
                           hintStyle: TextStyle(
-                              fontSize: AppData.shared.getSmallFontSize())))),
+                              fontSize: kTextRegular)))),
               const SizedBox(
                 width: kMargin5,
               ),

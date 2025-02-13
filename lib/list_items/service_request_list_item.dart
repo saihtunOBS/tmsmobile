@@ -6,7 +6,6 @@ import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../data/app_data/app_data.dart';
 
 class ServiceRequestListItem extends StatelessWidget {
   const ServiceRequestListItem(
@@ -47,7 +46,7 @@ class ServiceRequestListItem extends StatelessWidget {
                         'ID #${data?.id}',
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: AppData.shared.getSmallFontSize(),
+                          fontSize: kTextRegular,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -82,13 +81,13 @@ class ServiceRequestListItem extends StatelessWidget {
                 Text(
                   'Request for',
                   style: TextStyle(
-                    fontSize: kTextRegular13,
+                    fontSize: kTextRegular,
                   ),
                 ),
                 Text(
                   isFillOut == true ? 'Fill Out' : 'Electric Fault',
                   style: TextStyle(
-                      fontSize: AppData.shared.getSmallFontSize(),
+                      fontSize: kTextRegular,
                       fontWeight: FontWeight.w700),
                 ),
                 Text(
@@ -148,7 +147,7 @@ class ServiceRequestListItem extends StatelessWidget {
                                             data?.pendingDate ?? '')
                                         : DateFormatter.formatStringDate(
                                             data?.finishDate ?? ''),
-                style: TextStyle(fontSize: kTextRegular13),
+                style: TextStyle(fontSize: kTextRegular),
               )
             ],
           )

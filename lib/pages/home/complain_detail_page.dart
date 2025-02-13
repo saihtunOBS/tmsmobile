@@ -77,7 +77,7 @@ class ComplainDetailPage extends StatelessWidget {
                         Text(
                           'Steve',
                           style: TextStyle(
-                              fontSize: AppData.shared.getSmallFontSize(),
+                              fontSize: kTextRegular,
                               fontWeight: FontWeight.w700),
                         ),
                         Text(

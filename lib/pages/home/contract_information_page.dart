@@ -9,7 +9,6 @@ import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../data/app_data/app_data.dart';
 
 import '../../utils/strings.dart';
 import '../../widgets/appbar.dart';
@@ -112,7 +111,7 @@ class ContractInformationPage extends StatelessWidget {
       children: [
         Text(
           title,
-          style: TextStyle(fontSize: AppData.shared.getSmallFontSize()),
+          style: TextStyle(fontSize: kTextRegular),
         ),
         isStatus == true
             ? Container(
@@ -135,7 +134,7 @@ class ContractInformationPage extends StatelessWidget {
             : Text(
                 value,
                 style: TextStyle(
-                    fontSize: AppData.shared.getSmallFontSize(),
+                    fontSize: kTextRegular,
                     fontWeight: FontWeight.w700),
               ),
       ],
@@ -190,14 +189,14 @@ class ContractInformationPage extends StatelessWidget {
                   AppLocalizations.of(context)?.kRoomShopNameLabel ?? '',
                   style: TextStyle(
                       color: kWhiteColor,
-                      fontSize: kTextRegular13,
+                      fontSize: kTextRegular,
                       fontWeight: FontWeight.w700),
                 ),
                 Text(
                   '#${data.shop?.name}',
                   style: TextStyle(
                       color: kWhiteColor,
-                      fontSize: AppData.shared.getSmallFontSize(),
+                      fontSize: kTextRegular,
                       fontWeight: FontWeight.w700),
                 ),
               ],
@@ -321,7 +320,7 @@ class ContractInformationPage extends StatelessWidget {
                 kParkingInformationLabel,
                 style: TextStyle(
                     color: kWhiteColor,
-                    fontSize: AppData.shared.getSmallFontSize(),
+                    fontSize: kTextRegular,
                     fontWeight: FontWeight.w700),
               ),
             ],

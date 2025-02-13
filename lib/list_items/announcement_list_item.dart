@@ -101,7 +101,7 @@ class AnnouncementListItem extends StatelessWidget {
               Spacer(),
               Text(
                 DateFormatter.formatDate(data.createdAt ?? DateTime.now()),
-                style: TextStyle(fontSize: kTextRegular13),
+                style: TextStyle(fontSize: kTextRegular),
               )
             ],
           )

@@ -141,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                                     style: TextStyle(
                                         color: kPrimaryColor,
                                         fontSize:
-                                            AppData.shared.getSmallFontSize(),
+                                            kTextRegular,
                                         fontWeight: FontWeight.w700),
                                   ))
                             ],
@@ -228,7 +228,7 @@ class _LoginPageState extends State<LoginPage> {
           Text(
             AppLocalizations.of(context)?.kTermAndConditionLabel ?? '',
             style: GoogleFonts.nunito(
-                fontSize: AppData.shared.getSmallFontSize(),
+                fontSize: kTextRegular,
                 fontWeight: FontWeight.w600),
           )
         ],
@@ -251,7 +251,7 @@ class _LoginPageState extends State<LoginPage> {
           Text(
             title,
             style: GoogleFonts.nunito(
-              fontSize: AppData.shared.getSmallFontSize(),
+              fontSize: kTextRegular,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -278,7 +278,7 @@ class _LoginPageState extends State<LoginPage> {
                             border: InputBorder.none,
                             hintText: title,
                             hintStyle: TextStyle(
-                                fontSize: AppData.shared.getSmallFontSize())))),
+                                fontSize: kTextRegular)))),
                 const SizedBox(
                   width: kMargin5,
                 ),

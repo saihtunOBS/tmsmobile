@@ -203,14 +203,14 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
           title,
           style: TextStyle(
             fontWeight: FontWeight.w600,
-            fontSize: AppData.shared.getSmallFontSize(),
+            fontSize: kTextRegular,
           ),
         ),
         Text(
           value,
           style: TextStyle(
             color: kPrimaryColor,
-            fontSize: AppData.shared.getSmallFontSize(),
+            fontSize: kTextRegular,
             fontWeight: FontWeight.w700,
           ),
         ),
@@ -527,7 +527,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
         Text(
           title,
           style: TextStyle(
-              fontSize: AppData.shared.getSmallFontSize(),
+              fontSize: kTextRegular,
               fontWeight: FontWeight.w600),
         ),
         4.vGap,
@@ -546,7 +546,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                 value,
                 style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    fontSize: AppData.shared.getSmallFontSize()),
+                    fontSize: kTextRegular),
               ),
               Icon(
                 Icons.calendar_today,
@@ -569,7 +569,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
           Text(
             AppLocalizations.of(context)?.kGenderLabel ?? '',
             style: TextStyle(
-                fontSize: AppData.shared.getSmallFontSize(),
+                fontSize: kTextRegular,
                 fontWeight: FontWeight.w600),
           ),
           4.vGap,
@@ -587,7 +587,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                   hint: Text(
                     AppLocalizations.of(context)?.kSelectGenderLabel ?? '',
                     style:
-                        TextStyle(fontSize: AppData.shared.getSmallFontSize()),
+                        TextStyle(fontSize: kTextRegular),
                   ),
                   items: genders.map((value) {
                     return DropdownMenuItem(
@@ -595,7 +595,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                         child: Text(
                           value,
                           style: TextStyle(
-                              fontSize: AppData.shared.getSmallFontSize()),
+                              fontSize: kTextRegular),
                         ));
                   }).toList(),
                   onChanged: ((value) {
@@ -624,7 +624,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
         Text(
           title,
           style: TextStyle(
-              fontSize: AppData.shared.getSmallFontSize(),
+              fontSize: kTextRegular,
               fontWeight: FontWeight.w600),
         ),
         4.vGap,
@@ -641,7 +641,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                     child: Text(
                       value ?? '',
                       style: TextStyle(
-                          fontSize: AppData.shared.getSmallFontSize()),
+                          fontSize: kTextRegular),
                     ),
                   )
                 : TextField(
@@ -650,7 +650,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                         border: InputBorder.none,
                         hintText: title,
                         hintStyle: TextStyle(
-                            fontSize: AppData.shared.getSmallFontSize())),
+                            fontSize: kTextRegular)),
                   ))
       ],
     );
@@ -922,7 +922,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
           Text(
             'NRC',
             style: TextStyle(
-                fontSize: AppData.shared.getSmallFontSize(),
+                fontSize: kTextRegular,
                 fontWeight: FontWeight.w600),
           ),
           4.vGap,
@@ -950,7 +950,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
           Text(
             'NRC',
             style: TextStyle(
-                fontSize: AppData.shared.getSmallFontSize(),
+                fontSize: kTextRegular,
                 fontWeight: FontWeight.w600),
           ),
           4.vGap,

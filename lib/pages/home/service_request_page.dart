@@ -13,7 +13,6 @@ import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
 import 'package:tmsmobile/widgets/empty_view.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
-import '../../data/app_data/app_data.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -104,14 +103,14 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                           Tab(
                             child: Text(kMaintenanceLabel,
                                 style: TextStyle(
-                                    fontSize: AppData.shared.getSmallFontSize(),
+                                    fontSize: kTextRegular,
                                     fontWeight: FontWeight.w700)),
                           ),
                           Tab(
                             child: Text(
                               kFillOutLabel,
                               style: TextStyle(
-                                  fontSize: AppData.shared.getSmallFontSize(),
+                                  fontSize: kTextRegular,
                                   fontWeight: FontWeight.w700),
                             ),
                           )
