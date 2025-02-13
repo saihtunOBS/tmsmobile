@@ -75,7 +75,7 @@ class AnnouncementDetailPage extends StatelessWidget {
                       ),
                     ],
                   ),
-            kMarginMedium2.vGap,
+            data.photos?.isEmpty ?? true ? 0.vGap : kMarginMedium2.vGap,
             Text(
               data.title ?? '',
               style: TextStyle(

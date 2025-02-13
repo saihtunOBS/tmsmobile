@@ -257,7 +257,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                     4,
                   ),
                   blurRadius: 5,
-                  color: kGreyColor)
+                  color: const Color.fromARGB(255, 200, 200, 200))
             ]),
             child: Column(
               children: [
