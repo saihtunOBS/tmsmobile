@@ -29,9 +29,9 @@ class ServiceRequestListItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(kMargin6),
                 boxShadow: [
                   BoxShadow(
-                    offset: Offset(0, 4),
-                    blurRadius: 13,
-                    color: kGreyColor,
+                    offset: Offset(0, 3),
+                    blurRadius: 5,
+                    color: const Color.fromARGB(255, 221, 219, 219),
                   )
                 ]),
             child: Column(
@@ -147,7 +147,7 @@ class ServiceRequestListItem extends StatelessWidget {
                                             data?.pendingDate ?? '')
                                         : DateFormatter.formatStringDate(
                                             data?.finishDate ?? ''),
-                style: TextStyle(fontSize: kTextRegular),
+                style: TextStyle(fontSize: kMarginMedium14),
               )
             ],
           )

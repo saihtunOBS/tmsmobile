@@ -125,12 +125,13 @@ class ComplainDetailPage extends StatelessWidget {
           spacing: kMargin5 - 1,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            10.vGap,
             Text(
               AppLocalizations.of(context)?.kCompliantLabel ?? '',
               style: TextStyle(
                   fontFamily: AppData.shared.fontFamily2,
                   fontWeight: FontWeight.w700,
-                  fontSize: kTextRegular3x),
+                  fontSize: AppData.shared.getMediumFontSize()),
             ),
             Text(
               bloc.complaintDetail?.complaint ?? '',

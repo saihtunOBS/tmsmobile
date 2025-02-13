@@ -63,8 +63,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
               children: [
                 bloc.isLoading
                     ? Center(
-                        child: LoadingView(
-                            ),
+                        child: LoadingView(),
                       )
                     : SingleChildScrollView(
                         child: Column(
@@ -79,8 +78,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                                     left: kMarginMedium2,
                                     right: kMarginMedium2,
                                     bottom: kMarginMedium2),
-                                child: bloc
-                                        .householdList.isEmpty
+                                child: bloc.householdList.isEmpty
                                     ? Stack(
                                         alignment: Alignment.center,
                                         children: [
@@ -136,9 +134,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                       ),
 
                 //submit loading
-                if (bloc.isSubmitLoading == true)
-                  LoadingView(
-                      ),
+                if (bloc.isSubmitLoading == true) LoadingView(),
 
                 ///appbar
                 Positioned(
@@ -258,9 +254,9 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
               BoxShadow(
                   offset: Offset(
                     0,
-                    4,
+                    3,
                   ),
-                  blurRadius: 8,
+                  blurRadius: 5,
                   color: const Color.fromARGB(255, 177, 177, 177))
             ]),
             child: Column(
@@ -526,9 +522,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
       children: [
         Text(
           title,
-          style: TextStyle(
-              fontSize: kTextRegular,
-              fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: kTextRegular, fontWeight: FontWeight.w600),
         ),
         4.vGap,
         Container(
@@ -545,8 +539,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
               Text(
                 value,
                 style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: kTextRegular),
+                    fontWeight: FontWeight.w600, fontSize: kTextRegular),
               ),
               Icon(
                 Icons.calendar_today,
@@ -568,9 +561,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
         children: [
           Text(
             AppLocalizations.of(context)?.kGenderLabel ?? '',
-            style: TextStyle(
-                fontSize: kTextRegular,
-                fontWeight: FontWeight.w600),
+            style:
+                TextStyle(fontSize: kTextRegular, fontWeight: FontWeight.w600),
           ),
           4.vGap,
           Container(
@@ -586,16 +578,14 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                   underline: Container(),
                   hint: Text(
                     AppLocalizations.of(context)?.kSelectGenderLabel ?? '',
-                    style:
-                        TextStyle(fontSize: kTextRegular),
+                    style: TextStyle(fontSize: kTextRegular),
                   ),
                   items: genders.map((value) {
                     return DropdownMenuItem(
                         value: value,
                         child: Text(
                           value,
-                          style: TextStyle(
-                              fontSize: kTextRegular),
+                          style: TextStyle(fontSize: kTextRegular),
                         ));
                   }).toList(),
                   onChanged: ((value) {
@@ -623,9 +613,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
       children: [
         Text(
           title,
-          style: TextStyle(
-              fontSize: kTextRegular,
-              fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: kTextRegular, fontWeight: FontWeight.w600),
         ),
         4.vGap,
         Container(
@@ -640,8 +628,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                     padding: const EdgeInsets.only(top: kMargin12),
                     child: Text(
                       value ?? '',
-                      style: TextStyle(
-                          fontSize: kTextRegular),
+                      style: TextStyle(fontSize: kTextRegular),
                     ),
                   )
                 : TextField(
@@ -649,8 +636,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: title,
-                        hintStyle: TextStyle(
-                            fontSize: kTextRegular)),
+                        hintStyle: TextStyle(fontSize: kTextRegular)),
                   ))
       ],
     );
@@ -921,9 +907,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
         children: [
           Text(
             'NRC',
-            style: TextStyle(
-                fontSize: kTextRegular,
-                fontWeight: FontWeight.w600),
+            style:
+                TextStyle(fontSize: kTextRegular, fontWeight: FontWeight.w600),
           ),
           4.vGap,
           Container(
@@ -949,9 +934,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
         children: [
           Text(
             'NRC',
-            style: TextStyle(
-                fontSize: kTextRegular,
-                fontWeight: FontWeight.w600),
+            style:
+                TextStyle(fontSize: kTextRegular, fontWeight: FontWeight.w600),
           ),
           4.vGap,
           Container(

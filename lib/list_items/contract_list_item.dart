@@ -9,7 +9,8 @@ import '../data/app_data/app_data.dart';
 class ContractListItem extends StatelessWidget {
   const ContractListItem({
     super.key,
-    required this.onPress, required this.data,
+    required this.onPress,
+    required this.data,
   });
   final VoidCallback onPress;
   final ContractVO data;
@@ -18,6 +19,14 @@ class ContractListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: kMargin50),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+              offset: Offset(0, 4),
+              color: const Color.fromARGB(255, 181, 181, 181),
+              blurRadius: 3.0)
+        ],
+      ),
       child: Stack(
         clipBehavior: Clip.none,
         children: [
@@ -37,8 +46,8 @@ class ContractListItem extends StatelessWidget {
               child: Text(
                 'Condo Sale Contract',
                 style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
-                    fontSize: AppData.shared.getRegularFontSize(),
+                    fontFamily: AppData.shared.fontFamily2,
+                    fontSize: kTextRegular18,
                     color: kWhiteColor,
                     fontWeight: FontWeight.w600),
               ),
@@ -52,16 +61,18 @@ class ContractListItem extends StatelessWidget {
               width: kMargin60,
               padding: EdgeInsets.only(top: kMargin5),
               decoration: BoxDecoration(
-                  color: kWhiteColor, borderRadius: BorderRadius.circular(kSize40)),
+                  color: kWhiteColor,
+                  borderRadius: BorderRadius.circular(kSize40)),
               child: Center(child: Image.asset(kContractBorderImage)),
             ),
           ),
           Positioned(
-            top: - kMarginMedium3,
+            top: -kMarginMedium3,
             left: kMargin50 + kMargin30,
             child: Text(
               'Dec 1, 2024',
-              style: TextStyle(fontSize: kTextSmall,fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: kTextRegular13, fontWeight: FontWeight.bold),
             ),
           )
         ],

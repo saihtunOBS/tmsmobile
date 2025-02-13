@@ -33,12 +33,13 @@ class AnnouncementDetailPage extends StatelessWidget {
         body: Consumer<AnnouncementDetailBloc>(
             builder: (context, bloc, child) => bloc.isLoading == true
                 ? LoadingView()
-                : _buildBody(bloc.announcementDetail as AnnouncementVO,context)),
+                : _buildBody(
+                    bloc.announcementDetail as AnnouncementVO, context)),
       ),
     );
   }
 
-  Widget _buildBody(AnnouncementVO data,BuildContext context) {
+  Widget _buildBody(AnnouncementVO data, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
           horizontal: kMarginMedium2, vertical: kMarginMedium2),
@@ -49,8 +50,8 @@ class AnnouncementDetailPage extends StatelessWidget {
             data.photos?.isEmpty ?? true
                 ? SizedBox()
                 : GestureDetector(
-                  onTap: () => showDialogImage(context, data.photos?.first),
-                  child: SizedBox(
+                    onTap: () => showDialogImage(context, data.photos?.first),
+                    child: SizedBox(
                       height: kSize180,
                       width: double.infinity,
                       child: ClipRRect(
@@ -58,19 +59,22 @@ class AnnouncementDetailPage extends StatelessWidget {
                         child: cacheImage(data.photos?.first ?? ''),
                       ),
                     ),
-                ),
+                  ),
             5.vGap,
-            Row(
-              spacing: kMarginMedium,
-              children: [
-                Icon(CupertinoIcons.calendar),
-                Text(
-                  DateFormatter.formatDate(data.createdAt ?? DateTime.now()),
-                  style: TextStyle(
-                      fontSize: kTextSmall, fontWeight: FontWeight.w600),
-                ),
-              ],
-            ),
+            data.photos?.isEmpty ?? true
+                ? SizedBox.shrink()
+                : Row(
+                    spacing: kMarginMedium - 3,
+                    children: [
+                      Icon(CupertinoIcons.calendar_circle),
+                      Text(
+                        DateFormatter.formatDate(
+                            data.createdAt ?? DateTime.now()),
+                        style: TextStyle(
+                            fontSize: kTextSmall, fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
             kMarginMedium2.vGap,
             Text(
               data.title ?? '',
@@ -79,7 +83,7 @@ class AnnouncementDetailPage extends StatelessWidget {
                   fontSize: AppData.shared.getExtraFontSize(),
                   fontWeight: FontWeight.w700),
             ),
-            kMarginMedium2.vGap,
+            8.vGap,
             Text(
               htmlParser(data.description ?? ''),
               style: TextStyle(

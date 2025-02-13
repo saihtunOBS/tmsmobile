@@ -122,7 +122,7 @@ class MaintenancePendingPage extends StatelessWidget {
           AppLocalizations.of(context)?.kDescriptionLabel ?? '',
           style: TextStyle(
               fontFamily: AppData.shared.fontFamily2,
-              fontSize: kTextRegular3x,
+              fontSize: AppData.shared.getMediumFontSize(),
               fontWeight: FontWeight.w700),
         ),
         10.vGap,

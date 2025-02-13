@@ -28,9 +28,9 @@ class AnnouncementListItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(kMargin6),
                 boxShadow: [
                   BoxShadow(
-                    offset: Offset(0, 4),
-                    blurRadius: 13,
-                    color: kGreyColor,
+                    offset: Offset(0, 3),
+                    blurRadius: 5,
+                    color: const Color.fromARGB(255, 221, 219, 219),
                   )
                 ]),
             child: Column(
@@ -101,7 +101,7 @@ class AnnouncementListItem extends StatelessWidget {
               Spacer(),
               Text(
                 DateFormatter.formatDate(data.createdAt ?? DateTime.now()),
-                style: TextStyle(fontSize: kTextRegular),
+                style: TextStyle(fontSize: kTextRegular - 2),
               )
             ],
           )

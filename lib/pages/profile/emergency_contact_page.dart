@@ -144,10 +144,10 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
             BoxShadow(
                 offset: Offset(
                   0,
-                  4,
+                  3,
                 ),
-                blurRadius: 10,
-                color: const Color.fromARGB(255, 207, 205, 205))
+                blurRadius: 5,
+                color: const Color.fromARGB(255, 221, 219, 219))
           ],
         ),
         child: Container(
@@ -184,7 +184,7 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(
-                    vertical: kMargin10, horizontal: kMargin10),
+                    vertical: kMargin10, horizontal: kMargin10 + 5),
                 decoration: BoxDecoration(
                     color: kWhiteColor,
                     borderRadius: BorderRadius.only(

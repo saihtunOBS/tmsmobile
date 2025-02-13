@@ -24,9 +24,9 @@ class BillingListItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(kMargin6),
           boxShadow: [
             BoxShadow(
-              offset: Offset(5, 2),
-              blurRadius: 13,
-              color: kGreyColor,
+              offset: Offset(0, 3),
+              blurRadius: 5,
+              color: const Color.fromARGB(255, 221, 219, 219),
             )
           ]),
       child: Column(

@@ -1,5 +1,7 @@
 
 const double kTextSmall = 12;
+const double kTextRegular13 = 13;
+
 const double kTextXSmall = 10;
 const double kTextRegularSize = 16;
 double kTextRegular2x = 16;

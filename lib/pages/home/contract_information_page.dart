@@ -151,10 +151,10 @@ class ContractInformationPage extends StatelessWidget {
             BoxShadow(
                 offset: Offset(
                   0,
-                  4,
+                  3,
                 ),
-                blurRadius: 10,
-                color: const Color.fromARGB(255, 207, 205, 205))
+                blurRadius: 5,
+                color: const Color.fromARGB(255, 221, 219, 219))
           ],
         ),
         child: Container(
@@ -189,7 +189,7 @@ class ContractInformationPage extends StatelessWidget {
                   AppLocalizations.of(context)?.kRoomShopNameLabel ?? '',
                   style: TextStyle(
                       color: kWhiteColor,
-                      fontSize: kTextRegular,
+                      fontSize: kTextRegular13,
                       fontWeight: FontWeight.w700),
                 ),
                 Text(
@@ -204,7 +204,7 @@ class ContractInformationPage extends StatelessWidget {
             children: [
               Container(
                 padding: EdgeInsets.symmetric(
-                    vertical: kMargin10, horizontal: kMargin10),
+                    vertical: kMargin10, horizontal: kMargin10 + 5),
                 decoration: BoxDecoration(
                     color: kWhiteColor,
                     borderRadius: BorderRadius.only(
