@@ -10,6 +10,9 @@ class ComplaintVO {
   @JsonKey(name: 'complaint')
   final String? complaint;
 
+  @JsonKey(name: 'photos')
+  final List<String>? photos;
+
   @JsonKey(name: 'status')
   final int? status;
 
@@ -32,6 +35,7 @@ class ComplaintVO {
     this.id,
     this.complaint,
     this.status,
+    this.photos,
     this.tenant,
     this.businessUnit,
     this.createdAt,

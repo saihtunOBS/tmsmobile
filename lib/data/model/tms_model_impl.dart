@@ -13,7 +13,6 @@ import 'package:tmsmobile/data/vos/service_request_vo.dart';
 import 'package:tmsmobile/data/vos/type_of_issue_vo.dart';
 import 'package:tmsmobile/network/data_agents/tms_data_agent.dart';
 import 'package:tmsmobile/network/requests/change_password_request.dart';
-import 'package:tmsmobile/network/requests/complaint_request.dart';
 import 'package:tmsmobile/network/requests/household_owner_request.dart';
 import 'package:tmsmobile/network/requests/household_request.dart';
 import 'package:tmsmobile/network/requests/household_resident_request.dart';
@@ -70,8 +69,8 @@ class TmsModelImpl extends TmsModel {
   }
 
   @override
-  Future createComplaint(String token, ComplaintRequest request) {
-    return tmsDataAgent.createComplaint(token, request);
+  Future createComplaint(String token, String complain, List<File> photos) {
+    return tmsDataAgent.createComplaint(token, complain, photos);
   }
 
   @override

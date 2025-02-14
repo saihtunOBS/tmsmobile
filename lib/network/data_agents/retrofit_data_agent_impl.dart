@@ -16,7 +16,6 @@ import 'package:tmsmobile/data/vos/type_of_issue_vo.dart';
 import 'package:tmsmobile/data/vos/user_vo.dart';
 import 'package:tmsmobile/network/data_agents/tms_data_agent.dart';
 import 'package:tmsmobile/network/requests/change_password_request.dart';
-import 'package:tmsmobile/network/requests/complaint_request.dart';
 import 'package:tmsmobile/network/requests/household_owner_request.dart';
 import 'package:tmsmobile/network/requests/household_request.dart';
 import 'package:tmsmobile/network/requests/login_request.dart';
@@ -95,9 +94,9 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
   }
 
   @override
-  Future createComplaint(String token, ComplaintRequest request) {
+  Future createComplaint(String token, String complain, List<File> photos) {
     return tmsApi
-        .createComplaint('Bearer $token', request)
+        .createComplaint('Bearer $token', complain, photos)
         .asStream()
         .map((response) => response)
         .first
@@ -107,9 +106,9 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
   }
 
   @override
-  Future<List<ComplaintVO>> getComplaints(String token,int status) {
+  Future<List<ComplaintVO>> getComplaints(String token, int status) {
     return tmsApi
-        .getComplaint('Bearer $token',status)
+        .getComplaint('Bearer $token', status)
         .asStream()
         .map((response) => response.data ?? [])
         .first
@@ -139,7 +138,8 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
           var userVo = UserVO(
               id: response.data?.id ?? '',
               tenantName: response.data?.tenantName,
-              photo: response.data?.photo,phoneNumber: response.data?.phoneNumber);
+              photo: response.data?.photo,
+              phoneNumber: response.data?.phoneNumber);
           PersistenceData.shared.saveUserData(userVo);
           return response;
         })

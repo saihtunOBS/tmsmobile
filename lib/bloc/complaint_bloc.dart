@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/data/vos/complaint_vo.dart';
-import 'package:tmsmobile/network/requests/complaint_request.dart';
 
 import '../data/model/tms_model.dart';
 import '../data/model/tms_model_impl.dart';
@@ -14,7 +13,7 @@ class ComplaintBloc extends ChangeNotifier {
   bool isSubmitLoading = false;
   bool isDisposed = false;
   var token = '';
-  File? image;
+  List<File> imageArray = [];
   bool isUploadImage = false;
 
   final TmsModel _tmsModel = TmsModelImpl();
@@ -39,8 +38,7 @@ class ComplaintBloc extends ChangeNotifier {
 
   Future createComplaint(String value) {
     _showSubmitLoading();
-    var request = ComplaintRequest(value);
-    return _tmsModel.createComplaint(token, request).whenComplete(() {
+    return _tmsModel.createComplaint(token, value, imageArray).whenComplete(() {
       _hideSubmitLoading();
       notifyListeners();
     });
@@ -61,8 +59,8 @@ class ComplaintBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeImage() {
-    image = null;
+  void removeImage({required int index}) {
+    imageArray.removeAt(index);
     notifyListeners();
   }
 
@@ -72,7 +70,7 @@ class ComplaintBloc extends ChangeNotifier {
       final XFile? result = await picker.pickImage(source: ImageSource.gallery);
       if (result == null) return;
 
-      image = File(result.path);
+      imageArray.add(File(result.path));
 
       notifyListeners();
     } catch (e) {

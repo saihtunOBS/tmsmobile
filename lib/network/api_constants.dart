@@ -15,7 +15,7 @@ const String kEndPointHouseHoldCreate =
 const String kEndPointResetPassword = '/auth/reset-password';
 const String kEndPointComplaint = '/complaint/list';
 const String kEndPointComplaintDetail = '/complaint/edit';
-const String kEndPointComplaintCreate = '/complaint/create';
+const String kEndPointComplaintCreate = '/home/create';
 const String kEndPointDeleteUser = '/account/delete';
 const String kEndPointHouseHoldUpdate =
     '/account/house-hold-registration/update';

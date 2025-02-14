@@ -34,16 +34,16 @@ class BillingVO {
   final String? invoiceNameType;
 
   @JsonKey(name: "invoice_direction")
-  final String? invoiceDirection;
+  final dynamic invoiceDirection;
 
   @JsonKey(name: "invoice_type")
-  final String? invoiceType;
+  final dynamic invoiceType;
 
   @JsonKey(name: "transaction_type")
-  final int? transactionType;
+  final dynamic transactionType;
 
   @JsonKey(name: "payment_type")
-  final int? paymentType;
+  final dynamic paymentType;
 
   @JsonKey(name: "total_amount")
   final double? totalAmount;
@@ -58,7 +58,7 @@ class BillingVO {
   final double? discount;
 
   @JsonKey(name: "discount_type")
-  final String? discountType;
+  final dynamic discountType;
 
   @JsonKey(name: "tax")
   final double? tax;
@@ -70,7 +70,7 @@ class BillingVO {
   final double? grandTotal;
 
    @JsonKey(name: "payment")
-  final String? payment;
+  final dynamic payment;
 
   @JsonKey(name: "remaining_amount")
   final double? remainingAmount;
@@ -79,10 +79,10 @@ class BillingVO {
   final int? status;
 
   @JsonKey(name: "payment_status")
-  final int? paymentStatus;
+  final dynamic paymentStatus;
 
   @JsonKey(name: "status_installment")
-  final int? statusInstallment;
+  final dynamic statusInstallment;
 
   @JsonKey(name: "utilities")
   final List<UtilityVO>? utilities;

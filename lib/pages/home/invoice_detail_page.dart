@@ -4,6 +4,8 @@ import 'package:tmsmobile/bloc/invoice_detai_bloc.dart';
 import 'package:tmsmobile/data/vos/billing_vo.dart';
 import 'package:tmsmobile/data/vos/utility_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
+import 'package:tmsmobile/extension/route_navigator.dart';
+import 'package:tmsmobile/pages/home/payment_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/strings.dart';
@@ -76,7 +78,9 @@ class InvoiceDetailPage extends StatelessWidget {
                       child: gradientButton(
                           title:
                               AppLocalizations.of(context)?.kMakePaymentLabel,
-                          onPress: () {},
+                          onPress: () {
+                            PageNavigator(ctx: context).nextPage(page: PaymentPage());
+                          },
                           context: context))),
             ),
           ),

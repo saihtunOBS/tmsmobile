@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:tmsmobile/network/api_constants.dart';
-import 'package:tmsmobile/network/requests/complaint_request.dart';
 import 'package:tmsmobile/network/requests/household_request.dart';
 import 'package:tmsmobile/network/requests/maintenance_status_request.dart';
 import 'package:tmsmobile/network/requests/reset_password_request.dart';
@@ -63,15 +62,14 @@ abstract class TmsApi {
     @Header(kHeaderAuthorization) String token,
   );
 
+  @MultiPart()
   @POST(kEndPointComplaintCreate)
   Future createComplaint(@Header(kHeaderAuthorization) String token,
-      @Body() ComplaintRequest request);
+      @Part() String complaint, @Part() List<File> photos);
 
   @GET(kEndPointComplaint)
   Future<ComplaintResponse> getComplaint(
-    @Header(kHeaderAuthorization) String token,
-    @Query('status') int id
-  );
+      @Header(kHeaderAuthorization) String token, @Query('status') int id);
 
   @GET('$kEndPointComplaintDetail/{id}')
   Future<ComplaintDetailResponse> getComplaintDetail(

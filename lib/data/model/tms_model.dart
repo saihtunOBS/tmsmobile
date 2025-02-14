@@ -4,7 +4,6 @@ import 'package:tmsmobile/network/responses/login_response.dart';
 import 'package:tmsmobile/network/responses/user_response.dart';
 
 import '../../network/requests/change_password_request.dart';
-import '../../network/requests/complaint_request.dart';
 import '../../network/requests/household_owner_request.dart';
 import '../../network/requests/household_resident_request.dart';
 import '../../network/requests/login_request.dart';
@@ -45,7 +44,7 @@ abstract class TmsModel {
   Future<void> deleteHouseHold(
       String token, String houseHoldId, String inforId);
   Future resetPassword(String token, ResetPasswordRequest resetPasswordRequest);
-  Future createComplaint(String token, ComplaintRequest request);
+  Future createComplaint(String token, String complain, List<File> photos);
   Future<List<ComplaintVO>> getComplaints(String token,int status);
   Future<ComplaintVO> getComplaintDetails(String token, String id);
   Future<List<ServiceRequestVo>> getFillOuts(String token, int page, int limit);

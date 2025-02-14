@@ -92,8 +92,7 @@ class SubmitComplainPage extends StatelessWidget {
                 Text(
                   AppLocalizations.of(context!)?.kCompliantLabel ?? '',
                   style: TextStyle(
-                      fontSize: kTextRegular,
-                      fontWeight: FontWeight.w600),
+                      fontSize: kTextRegular, fontWeight: FontWeight.w600),
                 ),
                 Text(
                   '*',
@@ -107,17 +106,16 @@ class SubmitComplainPage extends StatelessWidget {
                   color: kInputBackgroundColor,
                   borderRadius: BorderRadius.circular(kMarginMedium)),
               child: TextField(
-                maxLines: 15,
+                maxLines: 10,
                 controller: controller,
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: AppLocalizations.of(context)?.kWriteComplainLabel,
-                    hintStyle:
-                        TextStyle(fontSize: kTextRegular)),
+                    hintStyle: TextStyle(fontSize: kTextRegular)),
               ),
             ),
             20.vGap,
-            //_buildUploadImage()
+            _buildUploadImage()
           ],
         ),
       ),
@@ -181,10 +179,16 @@ class SubmitComplainPage extends StatelessWidget {
                   )
                 : SizedBox(),
             10.vGap,
-            bloc.image != null
-                ? ClipRRect(
-                    borderRadius: BorderRadius.circular(kMargin6),
-                    child: _buildImageView(image: bloc.image!))
+            bloc.imageArray.isNotEmpty
+                ? Column(
+                    spacing: kMargin10,
+                    children: bloc.imageArray.asMap().entries.map((entry) {
+                      return ClipRRect(
+                          borderRadius: BorderRadius.circular(kMargin6),
+                          child: _buildImageView(
+                              image: entry.value, index: entry.key));
+                    }).toList(),
+                  )
                 : Selector<ComplaintBloc, bool>(
                     selector: (context, bloc) => bloc.isUploadImage,
                     builder: (context, isUploadImage, child) => AnimatedSize(
@@ -213,7 +217,8 @@ class SubmitComplainPage extends StatelessWidget {
                                 style: TextStyle(fontSize: kTextSmall),
                               ),
                               Consumer<ComplaintBloc>(
-                                builder: (context, bloc, child) => GestureDetector(
+                                builder: (context, bloc, child) =>
+                                    GestureDetector(
                                   onTap: () => bloc.selectImage(),
                                   child: Container(
                                     width: kSize73,
@@ -247,9 +252,9 @@ class SubmitComplainPage extends StatelessWidget {
     );
   }
 
-  Widget _buildImageView({required File image}) {
-    return Selector<ComplaintBloc, File?>(
-      selector: (context, bloc) => bloc.image,
+  Widget _buildImageView({required File image, required int index}) {
+    return Selector<ComplaintBloc, List<File>>(
+      selector: (context, bloc) => bloc.imageArray,
       builder: (context, imageArray, child) => Stack(
         alignment: AlignmentDirectional.center,
         children: [
@@ -263,7 +268,7 @@ class SubmitComplainPage extends StatelessWidget {
               child: IconButton(
                   onPressed: () {
                     var bloc = context.read<ComplaintBloc>();
-                    bloc.removeImage();
+                    bloc.removeImage(index: index);
                   },
                   icon: Container(
                     padding: EdgeInsets.all(1),
@@ -275,6 +280,28 @@ class SubmitComplainPage extends StatelessWidget {
                       size: kMargin24,
                     ),
                   ))),
+          Consumer<ComplaintBloc>(
+            builder: (context, bloc, child) => bloc.imageArray.length == 2
+                ? SizedBox.shrink()
+                : GestureDetector(
+                    onTap: () => bloc.selectImage(),
+                    child: Center(
+                      child: Container(
+                        width: kSize100,
+                        height: kSize40,
+                        decoration: BoxDecoration(
+                            color: kGreyColor.withValues(alpha: 0.8),
+                            borderRadius: BorderRadius.circular(kMargin10)),
+                        child: Center(
+                          child: Text(
+                            'Add More',
+                            style: TextStyle(color: kPrimaryColor),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+          )
         ],
       ),
     );

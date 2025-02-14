@@ -218,22 +218,33 @@ class _TmsApi implements TmsApi {
   @override
   Future<dynamic> createComplaint(
     String token,
-    ComplaintRequest request,
+    String complaint,
+    List<File> photos,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
-    final _data = <String, dynamic>{};
-    _data.addAll(request.toJson());
+    final _data = FormData();
+    _data.fields.add(MapEntry(
+      'complaint',
+      complaint,
+    ));
+    _data.files.addAll(photos.map((i) => MapEntry(
+        'photos',
+        MultipartFile.fromFileSync(
+          i.path,
+          filename: i.path.split(Platform.pathSeparator).last,
+        ))));
     final _options = _setStreamType<dynamic>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
+      contentType: 'multipart/form-data',
     )
         .compose(
           _dio.options,
-          '/complaint/create',
+          '/home/create',
           queryParameters: queryParameters,
           data: _data,
         )

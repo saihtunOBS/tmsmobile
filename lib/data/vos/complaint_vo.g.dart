@@ -10,6 +10,8 @@ ComplaintVO _$ComplaintVOFromJson(Map<String, dynamic> json) => ComplaintVO(
       id: json['_id'] as String?,
       complaint: json['complaint'] as String?,
       status: (json['status'] as num?)?.toInt(),
+      photos:
+          (json['photos'] as List<dynamic>?)?.map((e) => e as String).toList(),
       tenant: json['tenant'] as String?,
       businessUnit: json['business_unit'] as String?,
       createdAt: json['createdAt'] == null
@@ -25,6 +27,7 @@ Map<String, dynamic> _$ComplaintVOToJson(ComplaintVO instance) =>
     <String, dynamic>{
       '_id': instance.id,
       'complaint': instance.complaint,
+      'photos': instance.photos,
       'status': instance.status,
       'tenant': instance.tenant,
       'business_unit': instance.businessUnit,

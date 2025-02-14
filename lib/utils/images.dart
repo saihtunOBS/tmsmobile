@@ -41,3 +41,4 @@ const kEngIcon = 'assets/images/en_logo.png';
 const kEditIcon = 'assets/images/edit_logo.png';
 const kDeleteIcon = 'assets/images/delete_logo.png';
 const kPlaceholderImage = 'assets/images/placeholder.jpg';
+const kPaymentImage = 'assets/images/payment.png';

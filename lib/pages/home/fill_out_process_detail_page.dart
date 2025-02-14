@@ -5,9 +5,10 @@ import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/strings.dart';
 
-import '../../data/app_data/app_data.dart';
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
+import '../../widgets/cache_image.dart';
+import '../../widgets/image_view.dart';
 
 class FillOutProcessDetailPage extends StatelessWidget {
   const FillOutProcessDetailPage({super.key, this.isApproved, this.data});
@@ -40,7 +41,12 @@ class FillOutProcessDetailPage extends StatelessWidget {
               children: [
                 _buildListDetail(title: kIDLabel, value: '-'),
                 kMargin12.vGap,
-                _buildListDetail(title: kDateLabel, value: isApproved == true ? data?.serviceDate ?? '' : DateFormatter.formatDate(data?.pendingDate ?? DateTime.now())),
+                _buildListDetail(
+                    title: kDateLabel,
+                    value: isApproved == true
+                        ? data?.serviceDate ?? ''
+                        : DateFormatter.formatDate(
+                            data?.pendingDate ?? DateTime.now())),
                 Visibility(
                   visible: isApproved ?? false,
                   child: Padding(
@@ -66,6 +72,8 @@ class FillOutProcessDetailPage extends StatelessWidget {
                           isDeposit: true),
                     )),
                 _buildStatusListItem(status: data?.statusName ?? ''),
+                20.vGap,
+                _buildImageView(data?.photos ?? [])
                 // 10.vGap,
                 // Visibility(
                 //     visible: isApproved == false,
@@ -82,35 +90,35 @@ class FillOutProcessDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildDayExtension() {
-    return Container(
-      margin: EdgeInsets.only(top: kMarginMedium2),
-      padding: EdgeInsets.all(kMargin12),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-            kMargin10,
-          ),
-          color: kNewBlueColor.withValues(alpha: 0.08)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: kMargin12,
-        children: [
-          Text(
-            kDayExtensionDayLabel,
-            style: TextStyle(
-                fontSize: AppData.shared.getRegularFontSize(), fontWeight: FontWeight.w700),
-          ),
-          _buildListDetail(
-              title: kServicingDateLabel,
-              value: '12 Dec, 2024',
-              isServicingDate: true),
-          _buildListDetail(title: kExtensionDayLabel, value: 'value'),
-          _buildListDetail(
-              title: kAmountLabel, value: '50000 ks', isDeposit: true),
-        ],
-      ),
-    );
-  }
+  // Widget _buildDayExtension() {
+  //   return Container(
+  //     margin: EdgeInsets.only(top: kMarginMedium2),
+  //     padding: EdgeInsets.all(kMargin12),
+  //     decoration: BoxDecoration(
+  //         borderRadius: BorderRadius.circular(
+  //           kMargin10,
+  //         ),
+  //         color: kNewBlueColor.withValues(alpha: 0.08)),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       spacing: kMargin12,
+  //       children: [
+  //         Text(
+  //           kDayExtensionDayLabel,
+  //           style: TextStyle(
+  //               fontSize: AppData.shared.getRegularFontSize(), fontWeight: FontWeight.w700),
+  //         ),
+  //         _buildListDetail(
+  //             title: kServicingDateLabel,
+  //             value: '12 Dec, 2024',
+  //             isServicingDate: true),
+  //         _buildListDetail(title: kExtensionDayLabel, value: 'value'),
+  //         _buildListDetail(
+  //             title: kAmountLabel, value: '50000 ks', isDeposit: true),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _buildStatusListItem({required String status}) {
     return Row(
@@ -125,7 +133,9 @@ class FillOutProcessDetailPage extends StatelessWidget {
               horizontal: kMarginMedium, vertical: kMargin5),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(kMarginMedium2),
-              color: status == 'approve' ? kPrimaryColor.withValues(alpha: 0.12) : kBlackColor.withValues(alpha: 0.12)),
+              color: status == 'approve'
+                  ? kPrimaryColor.withValues(alpha: 0.12)
+                  : kBlackColor.withValues(alpha: 0.12)),
           child: FittedBox(
             child: Text(
               status,
@@ -172,23 +182,43 @@ class FillOutProcessDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildDescription(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          kDescriptionLabel,
-          style: TextStyle(
-                          fontFamily: AppData.shared.fontFamily2,
-              fontSize: kTextRegular3x, fontWeight: FontWeight.w700),
-        ),
-        10.vGap,
-        Text(
-          'Lorem ipsum dolor sit amet consectetur. Eget neque gravida tellus vitae quis a. Aliquam a sagittis nibh ipsum. Tincidunt tristique bibendum adipiscing id volutpat lectus. Ullamcorper magna amet nibh venenatis risus. ',
-          style: TextStyle(fontSize: kTextRegular),
-        ),
-        kMarginMedium2.vGap,
-      ],
-    );
+  Widget _buildImageView(List<String> photos) {
+    return GridView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: photos.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: kMarginMedium2,
+            crossAxisSpacing: kMarginMedium2,
+            mainAxisExtent: 216),
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () => showDialogImage(context, photos[index]),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width / 2.5,
+              child: cacheImage(photos[index]),
+            ),
+          );
+        });
   }
+  // Widget _buildDescription(BuildContext context) {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       Text(
+  //         kDescriptionLabel,
+  //         style: TextStyle(
+  //                         fontFamily: AppData.shared.fontFamily2,
+  //             fontSize: kTextRegular3x, fontWeight: FontWeight.w700),
+  //       ),
+  //       10.vGap,
+  //       Text(
+  //         'Lorem ipsum dolor sit amet consectetur. Eget neque gravida tellus vitae quis a. Aliquam a sagittis nibh ipsum. Tincidunt tristique bibendum adipiscing id volutpat lectus. Ullamcorper magna amet nibh venenatis risus. ',
+  //         style: TextStyle(fontSize: kTextRegular),
+  //       ),
+  //       kMarginMedium2.vGap,
+  //     ],
+  //   );
+  // }
 }
