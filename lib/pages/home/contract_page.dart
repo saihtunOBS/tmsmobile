@@ -67,7 +67,7 @@ class _ContractPageState extends State<ContractPage> {
                                   ?.kThereIsNoContractLabel ??
                               '')
                       : SizedBox(
-                          height: double.infinity,
+                          height: MediaQuery.of(context).size.height,
                           child: ListView.builder(
                             physics: AlwaysScrollableScrollPhysics(),
                             itemCount: bloc.isLoadMore
@@ -77,8 +77,11 @@ class _ContractPageState extends State<ContractPage> {
                                 EdgeInsets.symmetric(horizontal: kMargin24),
                             itemBuilder: (context, index) {
                               if (index == bloc.contracts.length) {
-                                return LoadingView(
-                                  bgColor: Colors.transparent,
+                                return Padding(
+                                  padding: EdgeInsets.only(top: 15),
+                                  child: LoadingView(
+                                    bgColor: Colors.transparent,
+                                  ),
                                 );
                               }
                               return ContractListItem(
@@ -96,6 +99,7 @@ class _ContractPageState extends State<ContractPage> {
                               ..addListener(() {
                                 if (scrollController.position.pixels ==
                                     scrollController.position.maxScrollExtent) {
+                                  if (bloc.contracts.length < 10) return;
                                   bloc.loadMoreData();
                                 }
                               }),

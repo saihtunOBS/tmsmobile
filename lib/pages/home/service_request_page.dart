@@ -35,10 +35,9 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
 
   @override
   void initState() {
-
     var bloc = context.read<ServiceRequestBloc>();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      bloc.updateToken();
+      // bloc.updateToken();
       bloc.getMaintenances();
     });
     _tabController = TabController(length: 2, vsync: this);
@@ -205,6 +204,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                             if (maintenanceScrollController.position.pixels ==
                                 maintenanceScrollController
                                     .position.maxScrollExtent) {
+                              if (bloc.maintenanceLists.length < 10) return;
                               bloc.getLoadMoreMaintenance();
                             }
                           }),
@@ -274,6 +274,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                           if (fillOutScrollController.position.pixels ==
                               fillOutScrollController
                                   .position.maxScrollExtent) {
+                            if (bloc.fillOutLists.length < 10) return;
                             bloc.getLoadMoreFillOuts();
                           }
                         }),

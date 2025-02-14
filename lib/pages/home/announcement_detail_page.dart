@@ -42,11 +42,12 @@ class AnnouncementDetailPage extends StatelessWidget {
   Widget _buildBody(AnnouncementVO data, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
-          horizontal: kMarginMedium2, vertical: kMarginMedium2),
+          horizontal: kMarginMedium2),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            13.vGap,
             data.photos?.isEmpty ?? true
                 ? SizedBox()
                 : GestureDetector(
@@ -66,7 +67,7 @@ class AnnouncementDetailPage extends StatelessWidget {
                 : Row(
                     spacing: kMarginMedium - 3,
                     children: [
-                      Icon(CupertinoIcons.calendar_circle),
+                      Icon(CupertinoIcons.calendar),
                       Text(
                         DateFormatter.formatDate(
                             data.createdAt ?? DateTime.now()),

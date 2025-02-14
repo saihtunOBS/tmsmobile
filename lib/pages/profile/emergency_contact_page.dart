@@ -96,6 +96,7 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
                                     if (scrollController.position.pixels ==
                                         scrollController
                                             .position.maxScrollExtent) {
+                                      if(bloc.emergencyLists.length < 10) return;
                                       bloc.loadMoreData();
                                     }
                                   }),
