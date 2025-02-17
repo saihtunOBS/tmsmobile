@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "700448939154",
+    "project_id": "tms-mobile-f3e8a",
+    "storage_bucket": "tms-mobile-f3e8a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:700448939154:android:64f2360f844588a0851a4b",
+        "android_client_info": {
+          "package_name": "com.example.tmsmobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-iqXWcFLtmDC6mPc19T1Gp91MqRn05MY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

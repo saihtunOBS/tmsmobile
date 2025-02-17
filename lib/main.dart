@@ -54,7 +54,7 @@ class TMSMobile extends StatelessWidget {
                   : localString = 'en'
               : localString = snapshot.data ?? 'en';
           return MaterialApp(
-            title: 'TMS Mobile',
+            title: '',
             debugShowCheckedModeBanner: false,
             localizationsDelegates: [
               AppLocalizations.delegate,
