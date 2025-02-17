@@ -14,6 +14,7 @@ import 'package:tmsmobile/network/requests/maintenance_status_request.dart';
 import 'package:tmsmobile/network/requests/reset_password_request.dart';
 import 'package:tmsmobile/network/requests/send_otp_request.dart';
 import 'package:tmsmobile/network/requests/verify_otp_request.dart';
+import 'package:tmsmobile/network/responses/epc_response.dart';
 import 'package:tmsmobile/network/responses/otp_response.dart';
 
 import '../../data/vos/billing_vo.dart';
@@ -76,5 +77,5 @@ abstract class TmsDataAgent {
   Future<void> changeMaintenanceStatus(String token,String id,MaintenanceStatusRequest request);
   Future<List<BillingVO>> getBillingLists(String token);
   Future<BannerResponse> getBannerLists(String token);
-
+  Future<EpcResponse> getEpcResponse(String token);
 }

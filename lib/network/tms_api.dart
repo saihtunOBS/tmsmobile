@@ -13,6 +13,7 @@ import 'package:tmsmobile/network/responses/billing_response.dart';
 import 'package:tmsmobile/network/responses/complaint_response.dart';
 import 'package:tmsmobile/network/responses/contract_response.dart';
 import 'package:tmsmobile/network/responses/emergency_response.dart';
+import 'package:tmsmobile/network/responses/epc_response.dart';
 import 'package:tmsmobile/network/responses/household_response.dart';
 import 'package:tmsmobile/network/responses/maintenance_process_response.dart';
 import 'package:tmsmobile/network/responses/otp_response.dart';
@@ -35,7 +36,7 @@ import 'responses/user_response.dart';
 
 part 'tms_api.g.dart';
 
-@RestApi(baseUrl: kBaseUrl)
+@RestApi(baseUrl: kGenBaseUrl)
 abstract class TmsApi {
   factory TmsApi(Dio dio) = _TmsApi;
 
@@ -217,4 +218,7 @@ abstract class TmsApi {
 
   @GET(kEndPointBanner)
   Future<BannerResponse> getBanner(@Header(kHeaderAuthorization) String token);
+
+  @GET(kEndPointEpc)
+  Future<EpcResponse> getEpcResponse(@Header(kHeaderAuthorization) String token);
 }

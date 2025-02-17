@@ -190,7 +190,7 @@ class _LoginPageState extends State<LoginPage> {
                                     (route) => false);
                               } else {
                                 PageNavigator(ctx: context).nextPage(
-                                    page: ChangePasswordPage(
+                                    page: ChangePasswordPage(token: value.data?.token,
                                         isChangePassword: true));
                               }
                             }

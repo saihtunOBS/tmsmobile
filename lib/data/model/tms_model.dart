@@ -12,6 +12,7 @@ import '../../network/requests/reset_password_request.dart';
 import '../../network/requests/send_otp_request.dart';
 import '../../network/requests/verify_otp_request.dart';
 import '../../network/responses/banner_response.dart';
+import '../../network/responses/epc_response.dart';
 import '../../network/responses/fillout_process_response.dart';
 import '../../network/responses/maintenance_process_response.dart';
 import '../../network/responses/otp_response.dart';
@@ -75,4 +76,5 @@ abstract class TmsModel {
   Future<void> changeMaintenanceStatus(String token,String id,MaintenanceStatusRequest request);
   Future<List<BillingVO>> getBillingLists(String token);
   Future<BannerResponse> getBannerLists(String token);
+  Future<EpcResponse> getEpcResponse(String token);
 }

@@ -232,8 +232,8 @@
     "kThereIsNoContractLabel": "There is no contracts to show right now.",
     "kNoParkingLabel": "No parking.",
     "kThereIsNoParkingLabel": "There is no parking to show right now.",
-    "kNoEmergencyLabel": "No emergency.",
-    "kThereIsNoEmergencyLabel": "There is no emergency to show right now.",
+    "kNoEmergencyLabel": "No emergency contacts.",
+    "kThereIsNoEmergencyLabel": "There is no emergency contacts to show right now.",
     "kNoBillingLabel": "No Billing.",
     "kThereIsNoBillingLabel": "There is no billing to show right now."
 

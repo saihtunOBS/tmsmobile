@@ -1,11 +1,13 @@
 ///Base Url
 const String kBaseUrl = "https://tms-b.origin.com.mm/api/v3/mobile";
+const String kGenBaseUrl = 'https://gem-b.origin.com.mm/api/v3/mobile';
 
 ///End
 const String kEndPointLogin = "/auth/login";
 const String kEndPointSendOtp = '/auth/send-otp';
 const String kEndPointVerifyOtp = '/auth/verify-otp';
 
+const String kEndPointEpc = '/common/epc';
 const String kEndPointUserProfile = '/account/view-profile';
 const String kEndPointUpdateProfile = '/account/change-profile';
 const String kEndPointChangePassword = '/account/change-password';

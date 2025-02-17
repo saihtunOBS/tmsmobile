@@ -22,6 +22,7 @@ import 'package:tmsmobile/network/requests/reset_password_request.dart';
 import 'package:tmsmobile/network/requests/send_otp_request.dart';
 import 'package:tmsmobile/network/requests/verify_otp_request.dart';
 import 'package:tmsmobile/network/responses/banner_response.dart';
+import 'package:tmsmobile/network/responses/epc_response.dart';
 import 'package:tmsmobile/network/responses/fillout_process_response.dart';
 import 'package:tmsmobile/network/responses/login_response.dart';
 import 'package:tmsmobile/network/responses/maintenance_process_response.dart';
@@ -231,5 +232,10 @@ class TmsModelImpl extends TmsModel {
   @override
   Future<BannerResponse> getBannerLists(String token) {
     return tmsDataAgent.getBannerLists(token);
+  }
+
+  @override
+  Future<EpcResponse> getEpcResponse(String token) {
+    return tmsDataAgent.getEpcResponse(token);
   }
 }

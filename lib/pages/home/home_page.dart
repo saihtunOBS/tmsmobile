@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:tmsmobile/bloc/banner_bloc.dart';
+import 'package:tmsmobile/bloc/epc_bloc.dart';
 import 'package:tmsmobile/data/dummy/dummy.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
@@ -37,7 +38,9 @@ class HomePage extends StatelessWidget {
         appBar: AppBar(
           surfaceTintColor: Colors.transparent,
           backgroundColor: Colors.transparent,
-          title: AppbarHeader(action: _alertView(),),
+          title: AppbarHeader(
+            action: _alertView(),
+          ),
           // flexibleSpace: AppbarHeader(
           //   action: _alertView(),
           // ),
@@ -74,6 +77,9 @@ class HomePage extends StatelessWidget {
                   onRefresh: () async {
                     HapticFeedback.mediumImpact();
                     await bloc.getBanner();
+                    // ignore: use_build_context_synchronously
+                    var epcBloc = context.read<EpcBloc>();
+                    epcBloc.getEpc();
                   },
                   child: SingleChildScrollView(
                     physics: AlwaysScrollableScrollPhysics(),
@@ -207,7 +213,10 @@ class HomePage extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: Platform.isAndroid ? MediaQuery.of(context).size.height * 0.09 : MediaQuery.of(context).size.height * 0.1),
+                SizedBox(
+                    height: Platform.isAndroid
+                        ? MediaQuery.of(context).size.height * 0.09
+                        : MediaQuery.of(context).size.height * 0.1),
                 //80.vGap,
                 SizedBox(
                   height: bannerHeight,
@@ -271,34 +280,56 @@ class HomePage extends StatelessWidget {
 
   //marquee view
   Widget _alertView() {
-    return Container(
-      height: 28,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: kWhiteColor,
-      ),
-      child: Row(
-        children: [
-          Container(
-            height: 28,
-            width: 28,
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: kGreenColor),
-            child: Center(
-              child: Icon(
-                Icons.light_mode,
-                color: kWhiteColor,
-                size: 16,
+    return ChangeNotifierProvider(
+      create: (context) => EpcBloc(),
+      child: Consumer<EpcBloc>(
+        builder: (context, bloc, child) => bloc.isLoading == true
+            ? SizedBox.shrink()
+            : Container(
+                height: 28,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: kWhiteColor,
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      height: 28,
+                      width: 28,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: bloc.epcResponse?.data?.isEmpty ?? true
+                              ? kRedColor
+                              : bloc.epcResponse?.data?.first.switchState == 0
+                                  ? kRedColor
+                                  : kGreenColor),
+                      child: Center(
+                        child: Icon(
+                          Icons.light_mode,
+                          color: kWhiteColor,
+                          size: 16,
+                        ),
+                      ),
+                    ),
+                    6.hGap,
+                    Text(
+                      bloc.epcResponse?.data?.isEmpty ?? true
+                          ? 'ယခုမီးပျက်နေပါသည်'
+                          : bloc.epcResponse?.data?.first.switchState == 0
+                              ? 'ယခုမီးပျက်နေပါသည်'
+                              : 'ယခုမီးလာနေပါသည်',
+                      style: TextStyle(
+                          color: bloc.epcResponse?.data?.isEmpty ?? true
+                              ? kRedColor
+                              : bloc.epcResponse?.data?.first.switchState == 0
+                                  ? kRedColor
+                                  : Colors.black,
+                          fontSize: 11.5),
+                    ),
+                    12.hGap
+                  ],
+                ),
               ),
-            ),
-          ),
-          6.hGap,
-          Text(
-            'ယခုမီးလာနေပါသည်',
-            style: TextStyle(color: Colors.black, fontSize: 11.5),
-          ),
-          12.hGap
-        ],
       ),
     );
   }

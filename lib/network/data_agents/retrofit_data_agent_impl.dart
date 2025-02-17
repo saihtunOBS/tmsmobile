@@ -24,6 +24,7 @@ import 'package:tmsmobile/network/requests/reset_password_request.dart';
 import 'package:tmsmobile/network/requests/send_otp_request.dart';
 import 'package:tmsmobile/network/requests/verify_otp_request.dart';
 import 'package:tmsmobile/network/responses/banner_response.dart';
+import 'package:tmsmobile/network/responses/epc_response.dart';
 import 'package:tmsmobile/network/responses/fillout_process_response.dart';
 import 'package:tmsmobile/network/responses/login_response.dart';
 import 'package:tmsmobile/network/responses/otp_response.dart';
@@ -489,6 +490,13 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
         .map((response) => response)
         .first
         .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
+  Future<EpcResponse> getEpcResponse(String token) {
+    return tmsApi.getEpcResponse('Bearer $token').asStream().map((response)=> response).first.catchError((error){
       throw _createException(error);
     });
   }

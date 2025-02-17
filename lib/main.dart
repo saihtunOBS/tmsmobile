@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/add_resident_bloc.dart';
 import 'package:tmsmobile/bloc/complaint_bloc.dart';
 import 'package:tmsmobile/bloc/edit_resident_bloc.dart';
+import 'package:tmsmobile/bloc/epc_bloc.dart';
 import 'package:tmsmobile/bloc/house_hold_bloc.dart';
 import 'package:tmsmobile/bloc/language_bloc.dart';
 import 'package:tmsmobile/bloc/owner_nrc_bloc.dart';
@@ -34,6 +35,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => ServiceRequestBloc()),
     ChangeNotifierProvider(create: (_) => InvoiceDetaiBloc()),
     ChangeNotifierProvider(create: (_) => ComplaintBloc()),
+    ChangeNotifierProvider(create: (_) => EpcBloc()),
   ], child: const TMSMobile()));
 }
 

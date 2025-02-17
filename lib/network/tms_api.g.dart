@@ -14,7 +14,7 @@ class _TmsApi implements TmsApi {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'https://tms-b.origin.com.mm/api/v3/mobile';
+    baseUrl ??= 'https://gem-b.origin.com.mm/api/v3/mobile';
   }
 
   final Dio _dio;
@@ -1262,6 +1262,40 @@ class _TmsApi implements TmsApi {
     late BannerResponse _value;
     try {
       _value = BannerResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<EpcResponse> getEpcResponse(String token) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<EpcResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/common/epc',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late EpcResponse _value;
+    try {
+      _value = EpcResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
