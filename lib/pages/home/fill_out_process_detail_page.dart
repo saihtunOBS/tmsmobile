@@ -9,6 +9,8 @@ import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
 import '../../widgets/cache_image.dart';
 import '../../widgets/image_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class FillOutProcessDetailPage extends StatelessWidget {
   const FillOutProcessDetailPage({super.key, this.isApproved, this.data});
@@ -22,7 +24,7 @@ class FillOutProcessDetailPage extends StatelessWidget {
       appBar: PreferredSize(
           preferredSize: Size(double.infinity, kMargin60),
           child: GradientAppBar(
-            kDetailLabel,
+            AppLocalizations.of(context)?.kDetailLabel ?? '',
           )),
       body: _buildBody(context),
     );
@@ -39,10 +41,10 @@ class FillOutProcessDetailPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: kMarginMedium2),
             child: Column(
               children: [
-                _buildListDetail(title: kIDLabel, value: '-'),
+                _buildListDetail(title: AppLocalizations.of(context)?.kIDLabel ?? '', value: '-'),
                 kMargin12.vGap,
                 _buildListDetail(
-                    title: kDateLabel,
+                    title: AppLocalizations.of(context)?.kDateLabel ?? '',
                     value: isApproved == true
                         ? data?.serviceDate ?? ''
                         : DateFormatter.formatDate(
@@ -58,20 +60,20 @@ class FillOutProcessDetailPage extends StatelessWidget {
                   ),
                 ),
                 kMargin12.vGap,
-                _buildListDetail(title: kTenantNameLabel, value: '-'),
+                _buildListDetail(title: AppLocalizations.of(context)?.kTenantNameLabel ?? '', value: '-'),
                 kMargin12.vGap,
-                _buildListDetail(title: kRoomShopNameLabel, value: '-'),
+                _buildListDetail(title: AppLocalizations.of(context)?.kRoomShopNameLabel ?? '', value: '-'),
                 10.vGap,
                 Visibility(
                     visible: isApproved ?? true,
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: kMargin10),
                       child: _buildListDetail(
-                          title: kDepositLabel,
+                          title: AppLocalizations.of(context)?.kDepositLabel ?? '',
                           value: '${data?.depositAmount} ks',
                           isDeposit: true),
                     )),
-                _buildStatusListItem(status: data?.statusName ?? ''),
+                _buildStatusListItem(status: data?.statusName ?? '',context: context),
                 20.vGap,
                 _buildImageView(data?.photos ?? [])
                 // 10.vGap,
@@ -120,12 +122,12 @@ class FillOutProcessDetailPage extends StatelessWidget {
   //   );
   // }
 
-  Widget _buildStatusListItem({required String status}) {
+  Widget _buildStatusListItem({required String status,BuildContext? context}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          kStatusLabel,
+          AppLocalizations.of(context!)?.kStatusLabel ?? '',
           style: TextStyle(fontSize: kTextRegular),
         ),
         Container(

@@ -40,6 +40,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
 
   @override
   void initState() {
+    print('hello');
     WidgetsBinding.instance.addPostFrameCallback((_) {
       isWrapSurveyText = isTextWrapped(
           text: 'We will arrive to survey within two days.',
@@ -72,6 +73,12 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
   }
 
   void implementStatus(int status) {
+    isSelectedPending = false;
+    isSelectedSurvey = false;
+    isSelectedQuotation = false;
+    isSelectedAcceptReject = false;
+    isSelectedProcessing = false;
+    isSelectedFinish = false;
     switch (status) {
       case 1:
         isSelectedPending = true;
@@ -107,8 +114,8 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
         isSelectedFinish = true;
       default:
         isSelectedPending = false;
-        setState(() {});
     }
+    setState(() {});
   }
 
   Widget _buildSetpper() {
@@ -187,11 +194,12 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                             onPressedDetail: () => PageNavigator(ctx: context)
                                     .nextPage(
                                         page: MaintenanceQuotationPage(
-                                  quotation: bloc.quotationVO ?? QuotationVO(),id: widget.id ?? '',
+                                  quotation: bloc.quotationVO ?? QuotationVO(),
+                                  id: widget.id ?? '',
                                 ))
                                     .whenComplete(() {
                                   bloc.getMaintenanceProcess();
-                                  implementStatus(bloc.pendingVO?.status ?? 0);
+                                  implementStatus(bloc.pendingVO?.status ?? 1);
                                 }),
                             onPressed: () {
                               // setState(() {
@@ -363,7 +371,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                                   horizontal: kMarginMedium + 5),
                               child: Center(
                                 child: Text(
-                                  kDetailLabel,
+                                  AppLocalizations.of(context)?.kDetailLabel ?? '',
                                   style: TextStyle(
                                       fontSize: kTextSmall,
                                       color: kWhiteColor,
@@ -411,7 +419,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                               ? isWrapProcessingText == true
                                   ? kSize130 + 9
                                   : kSize130 + 1
-                              : kSize110 + 1 
+                              : kSize110 + 1
                       : kSize43,
                 ),
               ),

@@ -38,6 +38,7 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     timeDilation = 1.5;
     isFirstTime = PersistenceData.shared.getFirstTimeStatus() ?? true;
+
     super.initState();
   }
 
@@ -190,7 +191,8 @@ class _LoginPageState extends State<LoginPage> {
                                     (route) => false);
                               } else {
                                 PageNavigator(ctx: context).nextPage(
-                                    page: ChangePasswordPage(token: value.data?.token,
+                                    page: ChangePasswordPage(
+                                        token: value.data?.token,
                                         isChangePassword: true));
                               }
                             }

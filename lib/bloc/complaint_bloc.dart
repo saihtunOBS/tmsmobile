@@ -64,10 +64,11 @@ class ComplaintBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  void selectImage() async {
+  void selectImage(int type) async {
     try {
       final ImagePicker picker = ImagePicker();
-      final XFile? result = await picker.pickImage(source: ImageSource.gallery);
+      final XFile? result =
+          await picker.pickImage(source: ImageSource.values[type]);
       if (result == null) return;
 
       imageArray.add(File(result.path));

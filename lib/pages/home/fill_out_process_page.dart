@@ -57,7 +57,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
       case 2:
         isSelectedPending = true;
         isSelectedApprove = true;
-      case 3:
+      case 3 || 4:
         isSelectedPending = true;
         isSelectedApprove = true;
         isSelectedClose = true;
@@ -124,6 +124,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                                 data: bloc.approveVO,
                               ))
                                   .whenComplete(() {
+                                   
                                 bloc.getFilloutProcess();
                               }),
                           onPressed: () {
@@ -144,7 +145,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                             // });
                           },
                           label: 'Closed',
-                          isSelected: isSelectedClose,
+                          isSelected: false,
                           color: kRedColor),
                     ],
                   ),
@@ -250,7 +251,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                                   horizontal: kMarginMedium + 5),
                               child: Center(
                                 child: Text(
-                                  kDetailLabel,
+                                  AppLocalizations.of(context)?.kDetailLabel ?? '',
                                   style: TextStyle(
                                       fontSize: kTextSmall,
                                       color: kWhiteColor,

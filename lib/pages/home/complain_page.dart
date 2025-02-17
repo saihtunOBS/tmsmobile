@@ -30,7 +30,6 @@ class _ComplainPageState extends State<ComplainPage>
   late ComplaintBloc complainBloc;
   @override
   void initState() {
-    
     complainBloc = context.read<ComplaintBloc>();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       complainBloc.updateToken();
@@ -42,7 +41,7 @@ class _ComplainPageState extends State<ComplainPage>
       if (_tabController.index != _currentIndex) {
         setState(() {
           _currentIndex = _tabController.index;
-          complainBloc.onChangeTab(_currentIndex == 0 ? 1 : 2);
+          complainBloc.onChangeTab(_currentIndex == 0 ? 1 : 3);
         });
       }
     });
@@ -169,7 +168,7 @@ class _ComplainPageState extends State<ComplainPage>
                       itemCount: bloc.complainList.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
-                          behavior: HitTestBehavior.opaque,
+                            behavior: HitTestBehavior.opaque,
                             onTap: () {
                               PageNavigator(ctx: context).nextPage(
                                   page: ComplainDetailPage(

@@ -25,8 +25,59 @@ import 'package:tmsmobile/widgets/cache_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tmsmobile/widgets/image_view.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (Platform.isAndroid) {
+        //updateNewVersion();
+      }
+    });
+  }
+
+  // updateNewVersion() async {
+  //   await showDialog(
+  //       context: context,
+  //       builder: (context) {
+  //         return Dialog(
+  //           child: SizedBox(
+  //             height: 150,
+  //             child: Column(
+  //               mainAxisAlignment: MainAxisAlignment.center,
+  //               children: [
+  //                 Text('Download new version?.'),
+  //                 20.vGap,
+  //                 Row(
+  //                   mainAxisAlignment: MainAxisAlignment.center,
+  //                   children: [
+  //                     ElevatedButton(
+  //                         onPressed: () async {
+  //                           await launchUrl(Uri.parse(
+  //                               'https://drive.google.com/file/d/11NU9SfXuvqP-nY7z-oc8ZlAFHAZYdMoy/view?usp=sharing'));
+  //                         },
+  //                         child: Text('Ok')),
+  //                     20.hGap,
+  //                     ElevatedButton(
+  //                         onPressed: () {
+  //                           Navigator.pop(context);
+  //                         },
+  //                         child: Text('Cancel'))
+  //                   ],
+  //                 )
+  //               ],
+  //             ),
+  //           ),
+  //         );
+  //       });
+  //}
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +130,7 @@ class HomePage extends StatelessWidget {
                     await bloc.getBanner();
                     // ignore: use_build_context_synchronously
                     var epcBloc = context.read<EpcBloc>();
-                    epcBloc.getEpc();
+                    await epcBloc.getEpc();
                   },
                   child: SingleChildScrollView(
                     physics: AlwaysScrollableScrollPhysics(),

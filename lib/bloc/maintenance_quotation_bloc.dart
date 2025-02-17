@@ -18,7 +18,7 @@ class MaintenanceQuotationBloc extends ChangeNotifier {
 
   Future changeStatus(bool isReject) {
     _showLoading();
-    var request = MaintenanceStatusRequest(isReject == true ? 5 : 6);
+    var request = MaintenanceStatusRequest(isReject == true ? 4 : 5);
     return _tmsModel
         .changeMaintenanceStatus(token ?? '', id ?? '', request)
         .whenComplete(() => _hideLoading());

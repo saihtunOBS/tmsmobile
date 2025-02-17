@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/tabbar_bloc.dart';
 import 'package:tmsmobile/extension/extension.dart';
-import 'package:tmsmobile/network/noti_service.dart';
 import 'package:tmsmobile/pages/notification/notification_page.dart';
 import 'package:tmsmobile/pages/profile/profile_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
@@ -28,10 +27,6 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
-    // LocalNotificationService().initialize();
-    // Future.delayed(Duration(seconds: 5), () {
-    //   LocalNotificationService().displayNotification('Hello', 'Testing...');
-    // });
     super.initState();
 
     _tabController = TabController(length: 3, vsync: this);

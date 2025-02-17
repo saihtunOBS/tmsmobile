@@ -8,9 +8,17 @@ class LocalNotificationService {
       FlutterLocalNotificationsPlugin();
 
   Future<void> initialize() async {
+    const DarwinInitializationSettings iosSettings =
+        DarwinInitializationSettings(
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+    );
+
     const InitializationSettings initializationSettings =
         InitializationSettings(
-            android: AndroidInitializationSettings('@drawable/noti_icon'));
+            android: AndroidInitializationSettings('@drawable/noti_icon'),
+            iOS: iosSettings);
 
     if (Platform.isAndroid) {
       await flutterLocalNotificationsPlugin.initialize(
@@ -72,7 +80,7 @@ class LocalNotificationService {
         ),
       );
     } catch (e) {
-      //print("Error displaying notification: $e");
+      print("Error displaying notification: $e");
     }
   }
 }

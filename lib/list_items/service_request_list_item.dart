@@ -85,7 +85,7 @@ class ServiceRequestListItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  isFillOut == true ? 'Fill Out' : 'Electric Fault',
+                  isFillOut == true ? 'Fit Out' : 'Electric Fault',
                   style: TextStyle(
                       fontSize: kTextRegular,
                       fontWeight: FontWeight.w700),
@@ -206,6 +206,8 @@ class ServiceRequestListItem extends StatelessWidget {
         return 'Approved';
       case 3:
         return 'Close';
+      case 4:
+        return 'Close';
       default:
         return 'Pending';
     }
@@ -218,6 +220,8 @@ class ServiceRequestListItem extends StatelessWidget {
       case 2:
         return kPrimaryColor;
       case 3:
+        return kRedColor;
+      case 4:
         return kRedColor;
       default:
         return kPrimaryColor;

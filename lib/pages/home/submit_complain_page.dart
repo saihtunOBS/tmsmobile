@@ -11,6 +11,7 @@ import 'package:tmsmobile/widgets/common_dialog.dart';
 import 'package:tmsmobile/widgets/error_dialog_view.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
 
+import '../../data/app_data/app_data.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
@@ -73,6 +74,49 @@ class SubmitComplainPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  _showCupertinoActionSheet(BuildContext context, ComplaintBloc bloc) {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoActionSheet(
+          title: Text(
+            AppLocalizations.of(context)?.kChooseOptionLabel ?? '',
+            style: TextStyle(
+                fontSize: AppData.shared.getMediumFontSize(),
+                fontWeight: FontWeight.w500,
+                color: Colors.black),
+          ),
+          message: Text(
+            AppLocalizations.of(context)?.kSelectOneOptionLabel ?? '',
+            style: TextStyle(color: Colors.black),
+          ),
+          actions: <CupertinoActionSheetAction>[
+            CupertinoActionSheetAction(
+              onPressed: () {
+                bloc.selectImage(0);
+                Navigator.pop(context);
+              },
+              child: Text(
+                AppLocalizations.of(context)?.kCameraLabel ?? '',
+                style: TextStyle(
+                    fontSize: kTextRegular2x, fontWeight: FontWeight.w500),
+              ),
+            ),
+            CupertinoActionSheetAction(
+              onPressed: () {
+                bloc.selectImage(1);
+                Navigator.pop(context);
+              },
+              child: Text(AppLocalizations.of(context)?.kGalleryLabel ?? '',
+                  style: TextStyle(
+                      fontSize: kTextRegular2x, fontWeight: FontWeight.w500)),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -175,6 +219,11 @@ class SubmitComplainPage extends StatelessWidget {
                             fontSize: kTextRegular,
                             fontWeight: FontWeight.w700),
                       ),
+                      Text(
+                        '${AppLocalizations.of(context)?.kLimitedPhotoLabel} (${bloc.imageArray.length}/2)',
+                        style: TextStyle(
+                            fontSize: kTextSmall, fontWeight: FontWeight.w500),
+                      )
                     ],
                   )
                 : SizedBox(),
@@ -219,7 +268,8 @@ class SubmitComplainPage extends StatelessWidget {
                               Consumer<ComplaintBloc>(
                                 builder: (context, bloc, child) =>
                                     GestureDetector(
-                                  onTap: () => bloc.selectImage(),
+                                  onTap: () =>
+                                      _showCupertinoActionSheet(context, bloc),
                                   child: Container(
                                     width: kSize73,
                                     height: kSize28,
@@ -284,7 +334,7 @@ class SubmitComplainPage extends StatelessWidget {
             builder: (context, bloc, child) => bloc.imageArray.length == 2
                 ? SizedBox.shrink()
                 : GestureDetector(
-                    onTap: () => bloc.selectImage(),
+                    onTap: () => _showCupertinoActionSheet(context, bloc),
                     child: Center(
                       child: Container(
                         width: kSize100,

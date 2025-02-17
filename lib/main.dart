@@ -26,7 +26,7 @@ void main() async {
   await GetStorage.init();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (_)=> TabbarBloc()),
+    ChangeNotifierProvider(create: (_) => TabbarBloc()),
     ChangeNotifierProvider(create: (_) => NRCBloc()),
     ChangeNotifierProvider(create: (_) => OwnerNRCBloc()),
     ChangeNotifierProvider(create: (_) => AddResidentBloc()),
@@ -38,7 +38,6 @@ void main() async {
     ChangeNotifierProvider(create: (_) => EpcBloc()),
   ], child: const TMSMobile()));
 }
-
 
 class TMSMobile extends StatelessWidget {
   const TMSMobile({super.key});

@@ -109,7 +109,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                           ),
                           Tab(
                             child: Text(
-                              kFillOutLabel,
+                              AppLocalizations.of(context)?.kFillOutLabel ?? '',
                               style: TextStyle(
                                   fontSize: kTextRegular,
                                   fontWeight: FontWeight.w700),
@@ -186,12 +186,16 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                           }
                           return GestureDetector(
                               onTap: () {
-                                PageNavigator(ctx: context).nextPage(
-                                    page: MaintenanceProcessPage(
+                                PageNavigator(ctx: context)
+                                    .nextPage(
+                                        page: MaintenanceProcessPage(
                                   status:
                                       bloc.maintenanceLists[index].status ?? 0,
                                   id: bloc.maintenanceLists[index].id,
-                                ));
+                                ))
+                                    .whenComplete(() {
+                                  bloc.getMaintenances();
+                                });
                               },
                               child: ServiceRequestListItem(
                                 data: bloc.maintenanceLists[index],

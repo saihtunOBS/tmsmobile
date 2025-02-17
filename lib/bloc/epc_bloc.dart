@@ -22,7 +22,6 @@ class EpcBloc extends ChangeNotifier {
     _showLoading();
     _tmsModel.getEpcResponse(token ?? '').then((response) {
       epcResponse = response;
-      print(epcResponse?.data?.first);
       notifyListeners();
     }).whenComplete(() => _hideLoading());
   }
