@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:tmsmobile/bloc/banner_bloc.dart';
 import 'package:tmsmobile/bloc/epc_bloc.dart';
@@ -331,57 +332,62 @@ class _HomePageState extends State<HomePage> {
 
   //marquee view
   Widget _alertView() {
-    return ChangeNotifierProvider(
-      create: (context) => EpcBloc(),
-      child: Consumer<EpcBloc>(
-        builder: (context, bloc, child) => bloc.isLoading == true
-            ? SizedBox.shrink()
-            : Container(
+    return Consumer<EpcBloc>(
+      builder: (context, bloc, child) => bloc.isLoading == true
+          ? Shimmer.fromColors(
+              baseColor: kGreyColor,
+              highlightColor: kWhiteColor,
+              child: Container(
                 height: 28,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: kWhiteColor,
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      height: 28,
-                      width: 28,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: bloc.epcResponse?.data?.isEmpty ?? true
-                              ? kRedColor
-                              : bloc.epcResponse?.data?.first.switchState == 0
-                                  ? kRedColor
-                                  : kGreenColor),
-                      child: Center(
-                        child: Icon(
-                          Icons.light_mode,
-                          color: kWhiteColor,
-                          size: 16,
-                        ),
+                width: 140,
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: kGreyColor,),
+               
+              ))
+          : Container(
+              height: 28,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                color: kWhiteColor,
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    height: 28,
+                    width: 28,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: bloc.epcResponse?.data?.isEmpty ?? true
+                            ? kRedColor
+                            : bloc.epcResponse?.data?.first.switchState == 0
+                                ? kRedColor
+                                : kGreenColor),
+                    child: Center(
+                      child: Icon(
+                        Icons.light_mode,
+                        color: kWhiteColor,
+                        size: 16,
                       ),
                     ),
-                    6.hGap,
-                    Text(
-                      bloc.epcResponse?.data?.isEmpty ?? true
-                          ? 'ယခုမီးပျက်နေပါသည်'
-                          : bloc.epcResponse?.data?.first.switchState == 0
-                              ? 'ယခုမီးပျက်နေပါသည်'
-                              : 'ယခုမီးလာနေပါသည်',
-                      style: TextStyle(
-                          color: bloc.epcResponse?.data?.isEmpty ?? true
-                              ? kRedColor
-                              : bloc.epcResponse?.data?.first.switchState == 0
-                                  ? kRedColor
-                                  : Colors.black,
-                          fontSize: 11.5),
-                    ),
-                    12.hGap
-                  ],
-                ),
+                  ),
+                  6.hGap,
+                  Text(
+                    bloc.epcResponse?.data?.isEmpty ?? true
+                        ? 'ယခုမီးပျက်နေပါသည်'
+                        : bloc.epcResponse?.data?.first.switchState == 0
+                            ? 'ယခုမီးပျက်နေပါသည်'
+                            : 'ယခုမီးလာနေပါသည်',
+                    style: TextStyle(
+                        color: bloc.epcResponse?.data?.isEmpty ?? true
+                            ? kRedColor
+                            : bloc.epcResponse?.data?.first.switchState == 0
+                                ? kRedColor
+                                : Colors.black,
+                        fontSize: 11.5),
+                  ),
+                  12.hGap
+                ],
               ),
-      ),
+            ),
     );
   }
 }

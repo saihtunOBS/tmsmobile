@@ -10,7 +10,6 @@ import 'package:tmsmobile/widgets/empty_view.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/images.dart';
-import '../../utils/strings.dart';
 import '../../widgets/appbar.dart';
 import '../../widgets/loading_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -48,8 +47,8 @@ class AnnouncementPage extends StatelessWidget {
                       ? Center(
                           child: EmptyView(
                               imagePath: kNoAnnouncementImage,
-                              title: kNoAnnouncementLabel,
-                              subTitle: kThereisNoAnnouncementLabel),
+                              title: AppLocalizations.of(context)?.kNoAnnouncementLabel ?? '',
+                              subTitle: AppLocalizations.of(context)?.kThereisNoAnnouncementLabel ?? ''),
                         )
                       : ListView.builder(
                           padding: EdgeInsets.symmetric(

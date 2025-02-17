@@ -14,8 +14,7 @@ class CurrentRouteObserver extends RouteObserver<PageRoute<dynamic>> {
   void didPop(Route route, Route? previousRoute) {
     if (previousRoute is PageRoute) {
       currentRoute = previousRoute.settings.name;
-    } else {
-      currentRoute = null;
     }
   }
+
 }

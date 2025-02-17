@@ -30,7 +30,6 @@ class NotificationService {
 
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-    initPushNotification();
     listenIncomingMessage();
   }
 
@@ -42,25 +41,40 @@ class NotificationService {
       complainBloc.getAnnouncement();
       LocalNotificationService().displayNotification(message);
     });
-  }
 
-  handleMessage(RemoteMessage? message) {
-    if (message != null) {
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      // Handle navigation after a user taps on the notification
       if (CurrentRouteObserver.currentRoute != 'AnnouncementPage') {
         navigatorKey.currentState!.push(
-        MaterialPageRoute(
-          builder: (_) => AnnouncementPage(),
-          settings: RouteSettings(name: "AnnouncementPage"),
-        ),
-      );
+          MaterialPageRoute(
+            builder: (_) => AnnouncementPage(),
+            settings: RouteSettings(name: "AnnouncementPage"),
+          ),
+        );
       }
-      
-    }
-  }
+    });
 
-  Future initPushNotification() async {
-    FirebaseMessaging.instance.getInitialMessage().then((handleMessage));
-    FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
+    FirebaseMessaging.instance.getInitialMessage().then((message) async {
+      await Firebase.initializeApp();
+
+      if (message == null) return;
+
+      navigatorKey.currentState?.pushNamed(
+        '/',
+      );
+
+      Future.delayed((Duration(seconds: 3)), () {
+        if (CurrentRouteObserver.currentRoute != 'AnnouncementPage') {
+          navigatorKey.currentState!.push(
+            MaterialPageRoute(
+              builder: (_) => AnnouncementPage(),
+              settings: RouteSettings(name: "AnnouncementPage"),
+            ),
+          );
+        }
+      });
+     
+    });
   }
 
   Future<void> getFCMToken() async {

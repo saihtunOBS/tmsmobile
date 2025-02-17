@@ -312,7 +312,7 @@ class _TmsApi implements TmsApi {
     )
         .compose(
           _dio.options,
-          '/complaint/edit/${complaintId}',
+          '/home/edit/${complaintId}',
           queryParameters: queryParameters,
           data: _data,
         )

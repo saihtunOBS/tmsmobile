@@ -21,6 +21,7 @@ import 'package:tmsmobile/data/app_data/app_data.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/network/notification_service.dart';
 import 'package:tmsmobile/pages/auth/splash_screen_page.dart';
+import 'package:tmsmobile/pages/home/announcement_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'bloc/invoice_detai_bloc.dart';
 import 'firebase_options.dart';
@@ -113,6 +114,10 @@ class _TMSMobileState extends State<TMSMobile> {
                 scaffoldBackgroundColor: kBackgroundColor,
                 appBarTheme: AppBarTheme(toolbarHeight: kMargin60)),
             home: const SplashScreenPage(),
+            routes: {
+              '/': (context) => SplashScreenPage(),
+              '/a_screen': (context) => const AnnouncementPage(),
+            },
           );
         });
   }
