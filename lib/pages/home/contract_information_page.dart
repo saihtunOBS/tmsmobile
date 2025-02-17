@@ -67,14 +67,15 @@ class ContractInformationPage extends StatelessWidget {
       margin:
           EdgeInsets.only(left: kMargin24, right: kMargin24, top: kMargin24),
       child: Column(
-        spacing: kMarginMedium14,
         children: [
           _listItem(
               title: AppLocalizations.of(context)?.kCreatedDateLabel ?? '',
               value: '12/21/2025'),
+           10.vGap,
           _listItem(
               title: AppLocalizations.of(context)?.kTenantTypeLabel ?? '',
               value: type),
+          10.vGap,
           _listItem(
               title: AppLocalizations.of(context)?.kTenantCategoryLabel ?? '',
               value: data.tenant?.tenantCategory?.tenantCategoryName ?? ''),
@@ -83,6 +84,7 @@ class ContractInformationPage extends StatelessWidget {
             child: Column(
               spacing: kMarginMedium14,
               children: [
+                10.vGap,
                 _listItem(
                     title: AppLocalizations.of(context)?.kStartDateLabel ?? '',
                     value: '12/21/2025'),

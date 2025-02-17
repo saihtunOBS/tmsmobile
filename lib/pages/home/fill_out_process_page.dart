@@ -222,7 +222,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                         children: [
                           Text(
                             date ?? '',
-                            style: TextStyle(fontSize: kTextRegular),
+                            style: TextStyle(fontSize: kTextRegular - 2),
                           ),
                           6.vGap,
                           Text(
@@ -286,7 +286,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                 child: Container(
                   width: 2,
                   color: isSelectedIndex == true ? kPrimaryColor : kGreyColor,
-                  height: isSelectedIndex == true ? kSize110 + 2  : kSize43,
+                  height: isSelectedIndex == true ? kSize110  : kSize43,
                 ),
               ),
       ],

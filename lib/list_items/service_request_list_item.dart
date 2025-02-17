@@ -139,7 +139,7 @@ class ServiceRequestListItem extends StatelessWidget {
                             : data?.status == 3
                                 ? DateFormatter.formatStringDate(
                                     data?.quotationDate ?? '')
-                                : data?.status == 5 || data?.status == 6
+                                : data?.status == 4 || data?.status == 5
                                     ? DateFormatter.formatStringDate(
                                         data?.acceptRejectDate ?? '')
                                     : data?.status == 6

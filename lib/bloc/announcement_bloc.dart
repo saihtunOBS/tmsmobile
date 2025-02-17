@@ -20,7 +20,10 @@ class AnnouncementBloc extends ChangeNotifier {
     _showLoading();
     _tmsModel
         .getAnnouncements(token)
-        .then((response) => announcementList = response)
+        .then((response) {
+          announcementList = response;
+          notifyListeners();
+        } )
         .whenComplete(() => _hideLoading());
   }
 

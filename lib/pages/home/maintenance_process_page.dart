@@ -336,7 +336,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                         children: [
                           Text(
                             date ?? '',
-                            style: TextStyle(fontSize: kTextRegular),
+                            style: TextStyle(fontSize: kTextRegular - 2),
                           ),
                           6.vGap,
                           Text(
@@ -414,12 +414,12 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                       ? isSurvey == true
                           ? isWrapSurveyText == true
                               ? kSize130 + 9
-                              : kSize130 + 1
+                              : kSize130 
                           : isProcessing == true
                               ? isWrapProcessingText == true
                                   ? kSize130 + 9
-                                  : kSize130 + 1
-                              : kSize110 + 1
+                                  : kSize130 
+                              : kSize110 - 2
                       : kSize43,
                 ),
               ),

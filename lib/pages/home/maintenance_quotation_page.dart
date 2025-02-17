@@ -143,11 +143,11 @@ class MaintenanceQuotationPage extends StatelessWidget {
               ],
             ),
           ),
-          1.vGap,
-          _buildMaintenanceInvoice(context),
-          //_buildMonthyInvoice(context),
-          _buildPrice(context),
-          10.vGap
+          // 1.vGap,
+          // _buildMaintenanceInvoice(context),
+          // //_buildMonthyInvoice(context),
+          // _buildPrice(context),
+          // 10.vGap
         ],
       ),
     );

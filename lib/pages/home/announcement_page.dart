@@ -20,62 +20,57 @@ class AnnouncementPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => AnnouncementBloc(),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-            color: kBackgroundColor,
-            image: DecorationImage(
-                image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: PreferredSize(
-              preferredSize: Size(double.infinity, kMargin60),
-              child: GradientAppBar(
-                  AppLocalizations.of(context)?.kAnnouncementLabel ?? '')),
-          body: Consumer<AnnouncementBloc>(
-            builder: (context, bloc, child) => RefreshIndicator(
-              backgroundColor: kBackgroundColor,
-              elevation: 0.0,
-              onRefresh: () async {
-                HapticFeedback.mediumImpact();
-                bloc.getAnnouncement();
-              },
-              child: bloc.isLoading == true
-                  ? LoadingView()
-                  : Stack(children: [
-                      bloc.announcementList.isEmpty
-                          ? Center(
-                              child: EmptyView(
-                                  imagePath: kNoAnnouncementImage,
-                                  title: kNoAnnouncementLabel,
-                                  subTitle: kThereisNoAnnouncementLabel),
-                            )
-                          : ListView.builder(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: kMarginMedium2,
-                                  vertical: kMarginMedium2),
-                              itemCount: bloc.announcementList.length,
-                              itemBuilder: (context, index) {
-                                return GestureDetector(
-                                    onTap: () => Navigator.of(context).push(
-                                            PageNavigator(ctx: context)
-                                                .popUp(AnnouncementDetailPage(
-                                          id: bloc.announcementList[index].id ??
-                                              '',
-                                        ))),
-                                    child: AnnouncementListItem(
-                                      data: bloc.announcementList[index],
-                                    ));
-                              }),
+    var bloc = Provider.of<AnnouncementBloc>(context);
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      decoration: BoxDecoration(
+          color: kBackgroundColor,
+          image: DecorationImage(
+              image: AssetImage(kBillingBackgroundImage), fit: BoxFit.fill)),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: PreferredSize(
+            preferredSize: Size(double.infinity, kMargin60),
+            child: GradientAppBar(
+                AppLocalizations.of(context)?.kAnnouncementLabel ?? '')),
+        body: RefreshIndicator(
+          backgroundColor: kBackgroundColor,
+          elevation: 0.0,
+          onRefresh: () async {
+            HapticFeedback.mediumImpact();
+            bloc.getAnnouncement();
+          },
+          child: bloc.isLoading == true
+              ? LoadingView()
+              : Stack(children: [
+                  bloc.announcementList.isEmpty
+                      ? Center(
+                          child: EmptyView(
+                              imagePath: kNoAnnouncementImage,
+                              title: kNoAnnouncementLabel,
+                              subTitle: kThereisNoAnnouncementLabel),
+                        )
+                      : ListView.builder(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: kMarginMedium2,
+                              vertical: kMarginMedium2),
+                          itemCount: bloc.announcementList.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                                onTap: () => Navigator.of(context).push(
+                                        PageNavigator(ctx: context)
+                                            .popUp(AnnouncementDetailPage(
+                                      id: bloc.announcementList[index].id ?? '',
+                                    ))),
+                                child: AnnouncementListItem(
+                                  data: bloc.announcementList[index],
+                                ));
+                          }),
 
-                      ///loading
-                      if (bloc.isLoading == true) LoadingView()
-                    ]),
-            ),
-          ),
+                  ///loading
+                  if (bloc.isLoading == true) LoadingView()
+                ]),
         ),
       ),
     );

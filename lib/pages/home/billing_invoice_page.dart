@@ -125,28 +125,28 @@ class BillingInvoicePage extends StatelessWidget {
 
             12.vGap,
             ///partially paid history
-            status == 2
-                ? SizedBox.shrink()
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                        Text(
-                          AppLocalizations.of(context)
-                                  ?.kPartiallyPaidHistoryLabel ??
-                              '',
-                          style: TextStyle(
-                              fontSize: kTextRegular,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        10.vGap,
-                        ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: 3,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return _buidPartiallyPaidHistory(context);
-                            }),
-                      ])
+            // status == 2
+            //     ? SizedBox.shrink()
+            //     : Column(
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: [
+            //             Text(
+            //               AppLocalizations.of(context)
+            //                       ?.kPartiallyPaidHistoryLabel ??
+            //                   '',
+            //               style: TextStyle(
+            //                   fontSize: kTextRegular,
+            //                   fontWeight: FontWeight.w700),
+            //             ),
+            //             10.vGap,
+            //             ListView.builder(
+            //                 shrinkWrap: true,
+            //                 itemCount: 3,
+            //                 physics: NeverScrollableScrollPhysics(),
+            //                 itemBuilder: (context, index) {
+            //                   return _buidPartiallyPaidHistory(context);
+            //                 }),
+            //           ])
           ],
         ),
       ),
