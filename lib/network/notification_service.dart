@@ -9,7 +9,6 @@ import 'package:tmsmobile/bloc/epc_bloc.dart';
 // import 'package:tmsmobile/pages/auth/splash_screen_page.dart';
 // import 'package:tmsmobile/pages/home/announcement_page.dart';
 // import 'package:tmsmobile/utils/route_observer.dart';
-import '../main.dart';
 import 'local_notification_service.dart';
 
 final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
@@ -38,12 +37,13 @@ class NotificationService {
   listenIncomingMessage() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       LocalNotificationService().displayNotification(message);
-      var complainBloc = Provider.of<AnnouncementBloc>(
-          navigatorKey.currentContext!,
+      var announcementBloc = Provider.of<AnnouncementBloc>(
+          //navigatorKey.currentContext!,
+          context,
           listen: false);
       var epcBloc = Provider.of<EpcBloc>(context, listen: false);
       epcBloc.getEpc();
-      complainBloc.getAnnouncement();
+      announcementBloc.getAnnouncement();
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
