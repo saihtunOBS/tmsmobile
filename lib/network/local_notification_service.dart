@@ -67,7 +67,7 @@ class LocalNotificationService {
               badgeNumber: 0,
             ),
             android: AndroidNotificationDetails(
-              icon: "@drawable/app_icon",
+              icon: "@drawable/noti_icon",
               color: kPrimaryColor,
               channel.id,
               channel.name,

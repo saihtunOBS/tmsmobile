@@ -38,6 +38,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<EpcBloc>().getEpc();
       if (Platform.isAndroid) {
         //updateNewVersion();
       }
@@ -340,8 +341,10 @@ class _HomePageState extends State<HomePage> {
               child: Container(
                 height: 28,
                 width: 140,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: kGreyColor,),
-               
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: kGreyColor,
+                ),
               ))
           : Container(
               height: 28,

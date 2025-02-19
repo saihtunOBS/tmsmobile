@@ -37,13 +37,13 @@ class NotificationService {
 
   listenIncomingMessage() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      LocalNotificationService().displayNotification(message);
       var complainBloc = Provider.of<AnnouncementBloc>(
           navigatorKey.currentContext!,
           listen: false);
       var epcBloc = Provider.of<EpcBloc>(context, listen: false);
       epcBloc.getEpc();
       complainBloc.getAnnouncement();
-      LocalNotificationService().displayNotification(message);
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
