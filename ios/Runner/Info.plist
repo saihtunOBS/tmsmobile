@@ -19,6 +19,11 @@
 		<string>en</string>
 		<string>my</string>
 	</array>
+    <key>BGTaskSchedulerPermittedIdentifiers</key>
+    <array>
+        <string>com.tms.obs</string>
+    </array>
+
 	<key>CFBundleName</key>
 	<string>tmsmobile</string>
 	<key>CFBundlePackageType</key>
@@ -42,18 +47,18 @@
 	<string>We need access to your camera to take photos.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photo library to select images.</string>
+	<key>NSPushNotificationsUsageDescription</key>
+	<string>We need permission to send you notifications.</string>
+	<key>NSUserNotificationUsageDescription</key>
+	<string>We use notifications to keep you updated.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>audio</string>
 		<string>fetch</string>
+		<string>processing</string>
 		<string>remote-notification</string>
 	</array>
-	<key>NSUserNotificationUsageDescription</key>
-	<string>We use notifications to keep you updated.</string>
-	<key>NSPushNotificationsUsageDescription</key>
-	<string>We need permission to send you notifications.</string>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
