@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:tmsmobile/utils/colors.dart';
-import 'package:tmsmobile/utils/images.dart';
 
 Widget cacheImage(
   String url,
@@ -18,6 +17,9 @@ Widget cacheImage(
         child: Container(
           color: kGreyColor,
         )),
-        errorWidget: (context, url, error) => Image.asset(kPlaceholderImage,fit: BoxFit.cover,),
+    errorWidget: (context, url, error) => CachedNetworkImage(
+      imageUrl: 'https://avatar.iran.liara.run/public/1',
+      fit: BoxFit.cover,
+    ),
   );
 }

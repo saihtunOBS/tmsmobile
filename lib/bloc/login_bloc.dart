@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:tmsmobile/data/model/tms_model.dart';
 import 'package:tmsmobile/data/model/tms_model_impl.dart';
@@ -18,9 +19,10 @@ class LogInBloc extends ChangeNotifier {
     }
   }
 
-  Future<LoginResponse> onTapSignIn(String phone, password) {
+  Future<LoginResponse> onTapSignIn(String phone, password) async {
     _showLoading();
-    var loginRequest = LoginRequest(phone, password);
+    var fcmToken = await FirebaseMessaging.instance.getToken();
+    var loginRequest = LoginRequest(phone, password, fcmToken);
     return _tmsModel.login(loginRequest).whenComplete(() => _hideLoading());
   }
 

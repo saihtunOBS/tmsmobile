@@ -220,5 +220,6 @@ abstract class TmsApi {
   Future<BannerResponse> getBanner(@Header(kHeaderAuthorization) String token);
 
   @GET(kEndPointEpc)
-  Future<EpcResponse> getEpcResponse(@Header(kHeaderAuthorization) String token);
+  Future<EpcResponse> getEpcResponse(
+      @Header(kHeaderAuthorization) String token);
 }

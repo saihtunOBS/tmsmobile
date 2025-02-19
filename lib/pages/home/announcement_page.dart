@@ -14,12 +14,27 @@ import '../../widgets/appbar.dart';
 import '../../widgets/loading_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class AnnouncementPage extends StatelessWidget {
+class AnnouncementPage extends StatefulWidget {
   const AnnouncementPage({super.key});
+
+  @override
+  State<AnnouncementPage> createState() => _AnnouncementPageState();
+}
+
+class _AnnouncementPageState extends State<AnnouncementPage> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<AnnouncementBloc>().getAnnouncement();
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     var bloc = Provider.of<AnnouncementBloc>(context);
+
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -47,8 +62,12 @@ class AnnouncementPage extends StatelessWidget {
                       ? Center(
                           child: EmptyView(
                               imagePath: kNoAnnouncementImage,
-                              title: AppLocalizations.of(context)?.kNoAnnouncementLabel ?? '',
-                              subTitle: AppLocalizations.of(context)?.kThereisNoAnnouncementLabel ?? ''),
+                              title: AppLocalizations.of(context)
+                                      ?.kNoAnnouncementLabel ??
+                                  '',
+                              subTitle: AppLocalizations.of(context)
+                                      ?.kThereisNoAnnouncementLabel ??
+                                  ''),
                         )
                       : ListView.builder(
                           padding: EdgeInsets.symmetric(

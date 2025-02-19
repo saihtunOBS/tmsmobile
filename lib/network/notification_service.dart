@@ -5,8 +5,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/announcement_bloc.dart';
-import 'package:tmsmobile/pages/home/announcement_page.dart';
-import 'package:tmsmobile/utils/route_observer.dart';
+import 'package:tmsmobile/bloc/epc_bloc.dart';
+// import 'package:tmsmobile/pages/auth/splash_screen_page.dart';
+// import 'package:tmsmobile/pages/home/announcement_page.dart';
+// import 'package:tmsmobile/utils/route_observer.dart';
 import '../main.dart';
 import 'local_notification_service.dart';
 
@@ -38,20 +40,22 @@ class NotificationService {
       var complainBloc = Provider.of<AnnouncementBloc>(
           navigatorKey.currentContext!,
           listen: false);
+      var epcBloc = Provider.of<EpcBloc>(context, listen: false);
+      epcBloc.getEpc();
       complainBloc.getAnnouncement();
       LocalNotificationService().displayNotification(message);
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       // Handle navigation after a user taps on the notification
-      if (CurrentRouteObserver.currentRoute != 'AnnouncementPage') {
-        navigatorKey.currentState!.push(
-          MaterialPageRoute(
-            builder: (_) => AnnouncementPage(),
-            settings: RouteSettings(name: "AnnouncementPage"),
-          ),
-        );
-      }
+      // if (CurrentRouteObserver.currentRoute != 'AnnouncementPage') {
+      //   navigatorKey.currentState!.push(
+      //     MaterialPageRoute(
+      //       builder: (_) => AnnouncementPage(),
+      //       settings: RouteSettings(name: "AnnouncementPage"),
+      //     ),
+      //   );
+      // }
     });
 
     FirebaseMessaging.instance.getInitialMessage().then((message) async {
@@ -59,21 +63,22 @@ class NotificationService {
 
       if (message == null) return;
 
-      navigatorKey.currentState?.pushNamed(
-        '/',
-      );
+      // navigatorKey.currentState!.push(
+      //   MaterialPageRoute(
+      //     builder: (_) => SplashScreenPage(),
+      //   ),
+      // );
 
-      Future.delayed((Duration(seconds: 3)), () {
-        if (CurrentRouteObserver.currentRoute != 'AnnouncementPage') {
-          navigatorKey.currentState!.push(
-            MaterialPageRoute(
-              builder: (_) => AnnouncementPage(),
-              settings: RouteSettings(name: "AnnouncementPage"),
-            ),
-          );
-        }
-      });
-     
+      // Future.delayed((Duration(seconds: 3)), () {
+      //   if (CurrentRouteObserver.currentRoute != 'AnnouncementPage') {
+      //     navigatorKey.currentState!.push(
+      //       MaterialPageRoute(
+      //         builder: (_) => AnnouncementPage(),
+      //         settings: RouteSettings(name: "AnnouncementPage"),
+      //       ),
+      //     );
+      //   }
+      // });
     });
   }
 
