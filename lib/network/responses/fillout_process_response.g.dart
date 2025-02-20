@@ -34,6 +34,9 @@ FilloutProcessData _$FilloutProcessDataFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['pending_date'] as String),
       serviceDate: json['service_date'] as String?,
+      approveDate: json['approve_date'] == null
+          ? null
+          : DateTime.parse(json['approve_date'] as String),
       amount: (json['amount'] as num?)?.toInt(),
       depositAmount: (json['deposit_amount'] as num?)?.toInt(),
     );
@@ -45,6 +48,7 @@ Map<String, dynamic> _$FilloutProcessDataToJson(FilloutProcessData instance) =>
       'photos': instance.photos,
       'pending_date': instance.pendingDate?.toIso8601String(),
       'service_date': instance.serviceDate,
+      'approve_date': instance.approveDate?.toIso8601String(),
       'amount': instance.amount,
       'deposit_amount': instance.depositAmount,
     };

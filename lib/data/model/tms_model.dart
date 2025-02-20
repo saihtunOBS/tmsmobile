@@ -30,6 +30,7 @@ import '../vos/type_of_issue_vo.dart';
 
 abstract class TmsModel {
   Future<LoginResponse> login(LoginRequest loginRequest);
+  Future<void> logout(String id);
   Future<void> changePassword(
       String token, ChangePasswordRequest changePasswordRequest);
   Future<void> deleteUser(String token);

@@ -112,6 +112,12 @@ class _TMSMobileState extends State<TMSMobile> {
             locale: Locale(localString),
             supportedLocales: [Locale('en'), Locale('my')],
             theme: ThemeData(
+                // pageTransitionsTheme: const PageTransitionsTheme(
+                //   builders: <TargetPlatform, PageTransitionsBuilder>{
+                //     TargetPlatform.iOS: FadeForwardsPageTransitionsBuilder(),
+                //     TargetPlatform.android: FadeForwardsPageTransitionsBuilder()
+                //   },
+                // ),
                 fontFamily: AppData.shared.fontFamily,
                 colorScheme: ColorScheme.fromSeed(
                     seedColor: kPrimaryColor, primary: kPrimaryColor),

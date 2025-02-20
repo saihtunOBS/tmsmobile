@@ -36,12 +36,16 @@ class _ComplainPageState extends State<ComplainPage>
       complainBloc.getComplaint(1);
     });
 
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(() {
       if (_tabController.index != _currentIndex) {
         setState(() {
           _currentIndex = _tabController.index;
-          complainBloc.onChangeTab(_currentIndex == 0 ? 1 : 3);
+          complainBloc.onChangeTab(_currentIndex == 0
+              ? 1
+              : _currentIndex == 1
+                  ? 2
+                  : 3);
         });
       }
     });
@@ -75,7 +79,7 @@ class _ComplainPageState extends State<ComplainPage>
             Column(
               children: [
                 DefaultTabController(
-                    length: 2,
+                    length: 3,
                     child: TabBar(
                         dividerColor: Colors.transparent,
                         controller: _tabController,
@@ -97,6 +101,12 @@ class _ComplainPageState extends State<ComplainPage>
                                     fontWeight: FontWeight.w700)),
                           ),
                           Tab(
+                            child: Text(kProcessingLabel,
+                                style: TextStyle(
+                                    fontSize: kTextRegular,
+                                    fontWeight: FontWeight.w700)),
+                          ),
+                          Tab(
                             child: Text(
                               kSolvedLabel,
                               style: TextStyle(
@@ -109,7 +119,11 @@ class _ComplainPageState extends State<ComplainPage>
                   child: TabBarView(
                       physics: const NeverScrollableScrollPhysics(),
                       controller: _tabController,
-                      children: [_buildPendingTab(), _buildSolvedTab()]),
+                      children: [
+                        _buildPendingTab(),
+                        _buildProcessingTab(),
+                        _buildSolvedTab()
+                      ]),
                 ),
               ],
             )
@@ -129,7 +143,11 @@ class _ComplainPageState extends State<ComplainPage>
                 PageNavigator(ctx: context)
                     .nextPage(page: SubmitComplainPage())
                     .whenComplete(() {
-                  bloc.getComplaint(_currentIndex == 0 ? 1 : 2);
+                  bloc.getComplaint(_currentIndex == 0
+                      ? 1
+                      : _currentIndex == 1
+                          ? 2
+                          : 3);
                 });
               }),
         ),
@@ -186,7 +204,7 @@ class _ComplainPageState extends State<ComplainPage>
     );
   }
 
-  Widget _buildSolvedTab() {
+  Widget _buildProcessingTab() {
     return Consumer<ComplaintBloc>(
       builder: (context, bloc, child) => RefreshIndicator(
         backgroundColor: kBackgroundColor,
@@ -194,6 +212,55 @@ class _ComplainPageState extends State<ComplainPage>
         onRefresh: () async {
           HapticFeedback.mediumImpact();
           bloc.getComplaint(2);
+        },
+        child: SizedBox(
+          height: double.infinity,
+          child: bloc.isLoading
+              ? LoadingView()
+              : bloc.complainList.isEmpty
+                  ? Center(
+                      child: EmptyView(
+                          imagePath: kNoComplainImage,
+                          title: AppLocalizations.of(context)
+                                  ?.kEmptyComplaintLabel ??
+                              '',
+                          subTitle: AppLocalizations.of(context)
+                                  ?.kThereIsNoComplaintLabel ??
+                              ''),
+                    )
+                  : ListView.builder(
+                      physics: AlwaysScrollableScrollPhysics(),
+                      padding: EdgeInsets.symmetric(
+                          vertical: kMargin24, horizontal: kMargin24),
+                      itemCount: bloc.complainList.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: () {
+                              PageNavigator(ctx: context).nextPage(
+                                  page: ComplainDetailPage(
+                                isPending: true,
+                                complaintId: bloc.complainList[index].id,
+                              ));
+                            },
+                            child: ComplainListItem(
+                              isLast: index == bloc.complainList.length - 1,
+                              data: bloc.complainList[index],
+                            ));
+                      }),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSolvedTab() {
+    return Consumer<ComplaintBloc>(
+      builder: (context, bloc, child) => RefreshIndicator(
+        backgroundColor: kBackgroundColor,
+        elevation: 0.0,
+        onRefresh: () async {
+          HapticFeedback.mediumImpact();
+          bloc.getComplaint(3);
         },
         child: SizedBox(
           height: double.infinity,

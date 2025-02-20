@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -38,10 +40,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<EpcBloc>().getEpc();
-      if (Platform.isAndroid) {
-        //updateNewVersion();
-      }
+      Future.microtask(() async {
+        await context.read<EpcBloc>().getEpc();
+      });
     });
   }
 
@@ -130,7 +131,6 @@ class _HomePageState extends State<HomePage> {
                   onRefresh: () async {
                     HapticFeedback.mediumImpact();
                     await bloc.getBanner();
-                    // ignore: use_build_context_synchronously
                     var epcBloc = context.read<EpcBloc>();
                     await epcBloc.getEpc();
                   },
@@ -333,8 +333,12 @@ class _HomePageState extends State<HomePage> {
 
   //marquee view
   Widget _alertView() {
-    return Consumer<EpcBloc>(
-      builder: (context, bloc, child) => bloc.isLoading == true
+    return Consumer<EpcBloc>(builder: (context, bloc, child) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        bloc.isLoading == true ? bloc.getEpc() : null;
+      });
+
+      return bloc.isLoading == true
           ? Shimmer.fromColors(
               baseColor: kGreyColor,
               highlightColor: kWhiteColor,
@@ -390,7 +394,7 @@ class _HomePageState extends State<HomePage> {
                   12.hGap
                 ],
               ),
-            ),
-    );
+            );
+    });
   }
 }

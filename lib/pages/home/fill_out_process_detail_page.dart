@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tmsmobile/data/vos/service_request_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/network/responses/fillout_process_response.dart';
 import 'package:tmsmobile/utils/colors.dart';
@@ -11,11 +12,12 @@ import '../../widgets/cache_image.dart';
 import '../../widgets/image_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class FillOutProcessDetailPage extends StatelessWidget {
-  const FillOutProcessDetailPage({super.key, this.isApproved, this.data});
+  const FillOutProcessDetailPage(
+      {super.key, this.isApproved, this.data, required this.fillOutData});
   final bool? isApproved;
   final FilloutProcessData? data;
+  final ServiceRequestVo fillOutData;
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +43,15 @@ class FillOutProcessDetailPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: kMarginMedium2),
             child: Column(
               children: [
-                _buildListDetail(title: AppLocalizations.of(context)?.kIDLabel ?? '', value: '-'),
+                _buildListDetail(
+                    title: AppLocalizations.of(context)?.kIDLabel ?? '',
+                    value: '#${fillOutData.id}'),
                 kMargin12.vGap,
                 _buildListDetail(
                     title: AppLocalizations.of(context)?.kDateLabel ?? '',
                     value: isApproved == true
-                        ? data?.serviceDate ?? ''
+                        ? DateFormatter.formatDate(
+                            data?.approveDate ?? DateTime.now())
                         : DateFormatter.formatDate(
                             data?.pendingDate ?? DateTime.now())),
                 Visibility(
@@ -55,25 +60,32 @@ class FillOutProcessDetailPage extends StatelessWidget {
                     padding: const EdgeInsets.only(top: kMargin12),
                     child: _buildListDetail(
                         title: kServicingDateLabel,
-                        value: data?.serviceDate ?? '',
+                        value: data?.serviceDate?.split(' ')[0] ?? '',
                         isServicingDate: true),
                   ),
                 ),
                 kMargin12.vGap,
-                _buildListDetail(title: AppLocalizations.of(context)?.kTenantNameLabel ?? '', value: '-'),
+                _buildListDetail(
+                    title: AppLocalizations.of(context)?.kTenantNameLabel ?? '',
+                    value: fillOutData.tenant?.tenantName ?? ''),
                 kMargin12.vGap,
-                _buildListDetail(title: AppLocalizations.of(context)?.kRoomShopNameLabel ?? '', value: '-'),
+                _buildListDetail(
+                    title:
+                        AppLocalizations.of(context)?.kRoomShopNameLabel ?? '',
+                    value: fillOutData.shop?.name ?? ''),
                 10.vGap,
                 Visibility(
                     visible: isApproved ?? true,
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: kMargin10),
                       child: _buildListDetail(
-                          title: AppLocalizations.of(context)?.kDepositLabel ?? '',
-                          value: '${data?.depositAmount} ks',
+                          title:
+                              AppLocalizations.of(context)?.kDepositLabel ?? '',
+                          value: '${data?.depositAmount ?? 0} ks',
                           isDeposit: true),
                     )),
-                _buildStatusListItem(status: data?.statusName ?? '',context: context),
+                _buildStatusListItem(
+                    status: data?.statusName ?? '', context: context),
                 20.vGap,
                 _buildImageView(data?.photos ?? [])
                 // 10.vGap,
@@ -122,7 +134,7 @@ class FillOutProcessDetailPage extends StatelessWidget {
   //   );
   // }
 
-  Widget _buildStatusListItem({required String status,BuildContext? context}) {
+  Widget _buildStatusListItem({required String status, BuildContext? context}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

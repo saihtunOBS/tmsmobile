@@ -48,6 +48,11 @@ class TmsModelImpl extends TmsModel {
   }
 
   @override
+  Future<void> logout(String id) {
+    return tmsDataAgent.logout(id);
+  }
+
+  @override
   Future<void> changePassword(
       String token, ChangePasswordRequest changePasswordRequest) {
     return tmsDataAgent.changePassword(token, changePasswordRequest);

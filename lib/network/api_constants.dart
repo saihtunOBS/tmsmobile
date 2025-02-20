@@ -2,8 +2,9 @@
 const String kBaseUrl = "https://tms-b.origin.com.mm/api/v3/mobile";
 const String kGenBaseUrl = 'https://gem-b.origin.com.mm/api/v3/mobile';
 
-///End
+///EndPoint
 const String kEndPointLogin = "/auth/login";
+const String kEndPointLogout = '/auth/logout';
 const String kEndPointSendOtp = '/auth/send-otp';
 const String kEndPointVerifyOtp = '/auth/verify-otp';
 

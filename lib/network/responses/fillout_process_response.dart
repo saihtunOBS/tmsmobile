@@ -37,6 +37,9 @@ class FilloutProcessData {
   @JsonKey(name: "service_date")
   final String? serviceDate;
 
+  @JsonKey(name: "approve_date")
+  final DateTime? approveDate;
+
   @JsonKey(name: "amount")
   final int? amount;
 
@@ -49,6 +52,7 @@ class FilloutProcessData {
     this.photos,
     this.pendingDate,
     this.serviceDate,
+    this.approveDate,
     this.amount,
     this.depositAmount,
   });

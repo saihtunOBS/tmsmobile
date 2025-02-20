@@ -44,6 +44,13 @@ class ProfileBloc extends ChangeNotifier {
     return _tmsModel.deleteUser(token ?? '').whenComplete(() => _hideLoading());
   }
 
+  Future onTapLogout() {
+    _showLoading();
+    return _tmsModel
+        .logout(PersistenceData.shared.getUser()?.id ?? '')
+        .whenComplete(() => _hideLoading());
+  }
+
   _showLoading() {
     isLoading = true;
     _notifySafely();

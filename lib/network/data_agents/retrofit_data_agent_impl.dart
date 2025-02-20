@@ -69,6 +69,18 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
   }
 
   @override
+  Future<void> logout(String id) {
+    return tmsApi
+        .logout(id)
+        .asStream()
+        .map((response) => response)
+        .first
+        .catchError((error) {
+      throw _createException(error);
+    });
+  }
+
+  @override
   Future changePassword(
       String token, ChangePasswordRequest changePasswordRequest) {
     return tmsApi
@@ -496,7 +508,12 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
 
   @override
   Future<EpcResponse> getEpcResponse(String token) {
-    return tmsApi.getEpcResponse('Bearer $token').asStream().map((response)=> response).first.catchError((error){
+    return tmsApi
+        .getEpcResponse('Bearer $token')
+        .asStream()
+        .map((response) => response)
+        .first
+        .catchError((error) {
       throw _createException(error);
     });
   }

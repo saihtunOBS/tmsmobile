@@ -265,6 +265,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                               page: FillOutProcessPage(
                             status: bloc.fillOutLists[index].status ?? 0,
                             id: bloc.fillOutLists[index].id ?? '',
+                            fillOutData: bloc.fillOutLists[index],
                           )),
                           child: ServiceRequestListItem(
                             status: bloc.fillOutLists[index].status ?? 0,

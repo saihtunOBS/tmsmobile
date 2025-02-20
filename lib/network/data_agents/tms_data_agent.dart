@@ -31,6 +31,7 @@ import '../responses/user_response.dart';
 
 abstract class TmsDataAgent {
   Future<LoginResponse> login(LoginRequest loginRequest);
+  Future<void> logout(String id);
   Future<void> changePassword(
       String token, ChangePasswordRequest changePasswordRequest);
   Future<void> deleteUser(String token);

@@ -24,6 +24,8 @@ import 'package:tmsmobile/widgets/loading_view.dart';
 
 import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
+import '../../widgets/common_dialog.dart';
+import '../../widgets/error_dialog_view.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -361,9 +363,17 @@ class _ProfilePageState extends State<ProfilePage> {
                     //           ErrorDialogView(errorMessage: error.toString()));
                     // });
                   } else {
-                    PersistenceData.shared.clearToken();
-                    PersistenceData.shared.clearUserData();
-                    PageNavigator(ctx: context).nextPageOnly(page: LoginPage());
+                    bloc?.onTapLogout().then((_) {
+                      PersistenceData.shared.clearToken();
+                      PersistenceData.shared.clearUserData();
+                      PageNavigator(ctx: context)
+                          .nextPageOnly(page: LoginPage());
+                    }).catchError((error) {
+                      showCommonDialog(
+                          context: context,
+                          dialogWidget:
+                              ErrorDialogView(errorMessage: error.toString()));
+                    });
                   }
                 },
                 child: Container(

@@ -11,7 +11,7 @@ class FilloutProcessBloc extends ChangeNotifier {
   final TmsModel _tmsModel = TmsModelImpl();
   final String? id;
   DateTime? pendingDate;
-  String? approvedDate;
+  DateTime? approvedDate;
   FilloutProcessData? pendingVO;
   FilloutProcessData? approveVO;
 
@@ -27,13 +27,14 @@ class FilloutProcessBloc extends ChangeNotifier {
     _tmsModel.getFilloutProcess(token ?? '', id ?? '').then((response) {
       try {
         pendingVO = response.data?.first;
+        pendingDate = response.data?.first.pendingDate;
         approveVO = response.data?.length == 1
             ? FilloutProcessData()
             : response.data?[1];
-        pendingDate = response.data?.first.pendingDate;
-        approvedDate = response.data?.length == 1
-            ? ''
-            : response.data?[1].serviceDate ?? '';
+
+        if (response.data?[1].approveDate != null) {
+          response.data?[1].serviceDate ?? DateTime.now();
+        }
       } catch (e) {
         ///
       }

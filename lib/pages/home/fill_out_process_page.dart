@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/fillout_process_bloc.dart';
+import 'package:tmsmobile/data/vos/service_request_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/home/fill_out_process_detail_page.dart';
@@ -14,9 +15,12 @@ import '../../widgets/appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FillOutProcessPage extends StatefulWidget {
-  const FillOutProcessPage({super.key, this.status, required this.id});
+  const FillOutProcessPage(
+      {super.key, this.status, required this.id, required this.fillOutData});
   final int? status;
   final String id;
+  final ServiceRequestVo fillOutData;
+
   @override
   State<FillOutProcessPage> createState() => _FillOutProcessPageState();
 }
@@ -98,13 +102,14 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                           date: bloc.pendingDate != null
                               ? DateFormatter.formatDate(
                                   bloc.pendingDate ?? DateTime.now())
-                              : 'hello',
+                              : '',
                           title: kPendingLabel,
                           onPressDetail: () =>
                               PageNavigator(ctx: context).nextPage(
                                   page: FillOutProcessDetailPage(
                                 isApproved: false,
                                 data: bloc.pendingVO,
+                                fillOutData: widget.fillOutData,
                               )),
                           onPressed: () {
                             // setState(() {
@@ -115,16 +120,17 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                           isSelected: isSelectedPending,
                           color: kBlackColor),
                       _buildProcessView(
-                          date: bloc.approvedDate,
+                          date: bloc.approvedDate == null ? '' :DateFormatter.formatDate(
+                              bloc.approvedDate ?? DateTime.now()),
                           title: kApprovedLabel,
                           onPressDetail: () => PageNavigator(ctx: context)
                                   .nextPage(
                                       page: FillOutProcessDetailPage(
                                 isApproved: true,
                                 data: bloc.approveVO,
+                                fillOutData: widget.fillOutData,
                               ))
                                   .whenComplete(() {
-                                   
                                 bloc.getFilloutProcess();
                               }),
                           onPressed: () {
@@ -251,7 +257,8 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                                   horizontal: kMarginMedium + 5),
                               child: Center(
                                 child: Text(
-                                  AppLocalizations.of(context)?.kDetailLabel ?? '',
+                                  AppLocalizations.of(context)?.kDetailLabel ??
+                                      '',
                                   style: TextStyle(
                                       fontSize: kTextSmall,
                                       color: kWhiteColor,
@@ -286,7 +293,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                 child: Container(
                   width: 2,
                   color: isSelectedIndex == true ? kPrimaryColor : kGreyColor,
-                  height: isSelectedIndex == true ? kSize110  : kSize43,
+                  height: isSelectedIndex == true ? kSize110 : kSize43,
                 ),
               ),
       ],
