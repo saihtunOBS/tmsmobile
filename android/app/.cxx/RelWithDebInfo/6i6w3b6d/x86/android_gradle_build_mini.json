@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/saixtun/Development/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/saixtun/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/saixtun/Desktop/OBS/tmsmobile/android/app/.cxx/RelWithDebInfo/6i6w3b6d/x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/saixtun/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/saixtun/Desktop/OBS/tmsmobile/android/app/.cxx/RelWithDebInfo/6i6w3b6d/x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

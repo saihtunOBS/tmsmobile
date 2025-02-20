@@ -363,17 +363,21 @@ class _ProfilePageState extends State<ProfilePage> {
                     //           ErrorDialogView(errorMessage: error.toString()));
                     // });
                   } else {
-                    bloc?.onTapLogout().then((_) {
-                      PersistenceData.shared.clearToken();
+                     PersistenceData.shared.clearToken();
                       PersistenceData.shared.clearUserData();
                       PageNavigator(ctx: context)
                           .nextPageOnly(page: LoginPage());
-                    }).catchError((error) {
-                      showCommonDialog(
-                          context: context,
-                          dialogWidget:
-                              ErrorDialogView(errorMessage: error.toString()));
-                    });
+                    // bloc?.onTapLogout().then((_) {
+                    //   PersistenceData.shared.clearToken();
+                    //   PersistenceData.shared.clearUserData();
+                    //   PageNavigator(ctx: context)
+                    //       .nextPageOnly(page: LoginPage());
+                    // }).catchError((error) {
+                    //   showCommonDialog(
+                    //       context: context,
+                    //       dialogWidget:
+                    //           ErrorDialogView(errorMessage: error.toString()));
+                    // });
                   }
                 },
                 child: Container(

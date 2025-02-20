@@ -1,0 +1,2 @@
+/Users/saixtun/Desktop/OBS/tmsmobile/android/app/.cxx/RelWithDebInfo/6i6w3b6d/x86_64/CMakeFiles/edit_cache.dir
+/Users/saixtun/Desktop/OBS/tmsmobile/android/app/.cxx/RelWithDebInfo/6i6w3b6d/x86_64/CMakeFiles/rebuild_cache.dir
