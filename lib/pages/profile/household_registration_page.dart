@@ -606,6 +606,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
   Widget _buildInputField(
       {required title,
       String? value,
+      TextInputType? keyboardType,
       bool? isReadOnly,
       TextEditingController? controller}) {
     return Column(
@@ -633,6 +634,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                   )
                 : TextField(
                     controller: controller,
+                    keyboardType: keyboardType ?? TextInputType.text,
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: title,
@@ -718,10 +720,12 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                   12.vGap,
                   _buildInputField(
                       title: AppLocalizations.of(context)?.kContactNumberLabel,
+                      keyboardType: TextInputType.number,
                       controller: bloc.ownerContactController),
                   12.vGap,
                   _buildInputField(
                       title: AppLocalizations.of(context)?.kEmailAddressLabel,
+                      keyboardType: TextInputType.emailAddress,
                       controller: bloc.ownerEmailAddressController),
                   12.vGap,
                 ],
@@ -814,6 +818,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                     _buildInputField(
                         title:
                             AppLocalizations.of(context)?.kContactNumberLabel,
+                        keyboardType: TextInputType.number,
                         controller: bloc.residentContactController),
                     12.vGap,
                     _buildInputField(
