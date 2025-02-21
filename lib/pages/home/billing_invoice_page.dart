@@ -107,7 +107,7 @@ class BillingInvoicePage extends StatelessWidget {
                 value: data.transactionType == 0 ? 'Cash' : 'Bank'),
             status == 2 ? 0.vGap : 12.vGap,
             Visibility(
-                visible: status!= 2,
+                visible: status != 2,
                 child: _status(
                   AppLocalizations.of(context)?.kStatusLabel ?? '',
                   true,
@@ -125,6 +125,7 @@ class BillingInvoicePage extends StatelessWidget {
                     value: '${data.grandTotal?.toInt().toString().format} MMK'),
 
             12.vGap,
+
             ///partially paid history
             // status == 2
             //     ? SizedBox.shrink()

@@ -80,7 +80,8 @@ class InvoiceDetailPage extends StatelessWidget {
                           title:
                               AppLocalizations.of(context)?.kMakePaymentLabel,
                           onPress: () {
-                            PageNavigator(ctx: context).nextPage(page: PaymentPage());
+                            PageNavigator(ctx: context)
+                                .nextPage(page: PaymentPage());
                           },
                           context: context))),
             ),
@@ -297,7 +298,8 @@ class InvoiceDetailPage extends StatelessWidget {
               value: '${billingData?.lateFee?.toInt().toString().format} MMK'),
           _buildListDetail(
               title: AppLocalizations.of(context)?.kGrandTotalLabel ?? '',
-              value: '${billingData?.grandTotal?.toInt().toString().format} MMK'),
+              value:
+                  '${billingData?.grandTotal?.toInt().toString().format} MMK'),
         ],
       ),
     );

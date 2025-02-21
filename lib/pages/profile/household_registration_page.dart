@@ -54,9 +54,9 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
         child: Consumer<HouseHoldBloc>(
           builder: (context, bloc, child) => Scaffold(
             backgroundColor: Colors.transparent,
-            extendBodyBehindAppBar: true,
-            extendBody: true,
-            resizeToAvoidBottomInset: true,
+            // extendBodyBehindAppBar: true,
+            // extendBody: true,
+            // resizeToAvoidBottomInset: true,
             body: Stack(
               fit: StackFit.expand,
               alignment: Alignment.center,
@@ -78,7 +78,8 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                                     left: kMarginMedium2,
                                     right: kMarginMedium2,
                                     bottom: kMarginMedium2),
-                                child: bloc.householdList.isEmpty
+                                child: bloc
+                                        .householdList.first.information.isEmpty
                                     ? Stack(
                                         alignment: Alignment.center,
                                         children: [
@@ -147,42 +148,40 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
             bottomNavigationBar: Consumer<HouseHoldBloc>(
               builder: (context, bloc, child) => bloc.isLoading
                   ? SizedBox()
-                  : bloc.householdList.isNotEmpty
-                      ? SizedBox.shrink()
-                      : isClickRegistrationForm == false
-                          ? const SizedBox.shrink()
-                          : Container(
-                              color: kWhiteColor,
-                              height: kBottomBarHeight,
-                              child: Center(
-                                child: gradientButton(
-                                    title: AppLocalizations.of(context)
-                                        ?.kSubmitLabel,
-                                    onPress: () {
-                                      var bloc = context.read<HouseHoldBloc>();
-                                      bloc.checkValidation();
-                                      if (bloc.validationMessage == 'success') {
-                                        bloc.checkValidationResident();
-                                        if (bloc.residentValidationMessage ==
-                                            'success') {
-                                          bloc.createHousehold();
-                                        } else {
-                                          showCommonDialog(
-                                              context: context,
-                                              dialogWidget: ErrorDialogView(
-                                                  errorMessage: bloc
-                                                      .residentValidationMessage));
-                                        }
-                                      } else {
-                                        showCommonDialog(
-                                            context: context,
-                                            dialogWidget: ErrorDialogView(
-                                                errorMessage:
-                                                    bloc.validationMessage));
-                                      }
-                                    },
-                                    context: context),
-                              )),
+                  : isClickRegistrationForm == false
+                      ? const SizedBox.shrink()
+                      : Container(
+                          color: kWhiteColor,
+                          height: kBottomBarHeight,
+                          child: Center(
+                            child: gradientButton(
+                                title:
+                                    AppLocalizations.of(context)?.kSubmitLabel,
+                                onPress: () {
+                                  var bloc = context.read<HouseHoldBloc>();
+                                  bloc.checkValidation();
+                                  if (bloc.validationMessage == 'success') {
+                                    bloc.checkValidationResident();
+                                    if (bloc.residentValidationMessage ==
+                                        'success') {
+                                      bloc.createHousehold();
+                                    } else {
+                                      showCommonDialog(
+                                          context: context,
+                                          dialogWidget: ErrorDialogView(
+                                              errorMessage: bloc
+                                                  .residentValidationMessage));
+                                    }
+                                  } else {
+                                    showCommonDialog(
+                                        context: context,
+                                        dialogWidget: ErrorDialogView(
+                                            errorMessage:
+                                                bloc.validationMessage));
+                                  }
+                                },
+                                context: context),
+                          )),
             ),
           ),
         ),
@@ -400,11 +399,12 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                     AppLocalizations.of(context)?.kMoveInDateLabel ?? '',
                     bloc.moveInDate ?? '')),
             _buildInputField(
+                keyboardType: TextInputType.number,
                 title: AppLocalizations.of(context)?.kEmergencyContactLabel,
                 controller: bloc.emergencyController),
             _buildOwnerInformation(),
             _buildResidentInformationForm(context),
-            kSize70.vGap
+            //kSize70.vGap
           ],
         ),
       ),
