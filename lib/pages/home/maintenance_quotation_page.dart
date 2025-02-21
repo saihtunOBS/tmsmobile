@@ -119,9 +119,8 @@ class MaintenanceQuotationPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: kMargin12,
         children: [
-          10.vGap,
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kMarginMedium2),
+            padding: const EdgeInsets.symmetric(horizontal: kMarginMedium2,vertical: kMarginMedium2),
             child: Column(
               spacing: kMargin12,
               children: [

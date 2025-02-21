@@ -30,34 +30,26 @@ class MaintenancePendingPage extends StatelessWidget {
 
   Widget _buildBody(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: kMargin12,
-        children: [
-          10.vGap,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kMarginMedium2),
-            child: Column(
-              spacing: kMargin12,
-              children: [
-                // _buildListDetail(title: kIDLabel, value: 'value'),
-                _buildListDetail(
-                    title: AppLocalizations.of(context)?.kDateLabel ?? '',
-                    value: DateFormatter.formatStringDate(
-                        pendingData.pendingDate ?? '')),
-                _buildListDetail(
-                    title: AppLocalizations.of(context)?.kTenantNameLabel ?? '', value: pendingData.tenant ?? ''),
-                _buildListDetail(
-                    title: AppLocalizations.of(context)?.kRoomShopNameLabel ?? '', value: pendingData.shop ?? ''),
-                _buildListDetail(
-                    title: AppLocalizations.of(context)?.kTypeOfIssueLabel ?? '', value: pendingData.issue ?? ''),
-                _buildStatusListItem(status: 'Pending',context: context),
-                _buildDescription(context)
-              ],
-            ),
-          ),
-          10.vGap
-        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: kMarginMedium2,vertical: kMarginMedium2),
+        child: Column(
+          spacing: kMargin12,
+          children: [
+            // _buildListDetail(title: kIDLabel, value: 'value'),
+            _buildListDetail(
+                title: AppLocalizations.of(context)?.kDateLabel ?? '',
+                value: DateFormatter.formatStringDate(
+                    pendingData.pendingDate ?? '')),
+            _buildListDetail(
+                title: AppLocalizations.of(context)?.kTenantNameLabel ?? '', value: pendingData.tenant ?? ''),
+            _buildListDetail(
+                title: AppLocalizations.of(context)?.kRoomShopNameLabel ?? '', value: pendingData.shop ?? ''),
+            _buildListDetail(
+                title: AppLocalizations.of(context)?.kTypeOfIssueLabel ?? '', value: pendingData.issue ?? ''),
+            _buildStatusListItem(status: 'Pending',context: context),
+            _buildDescription(context)
+          ],
+        ),
       ),
     );
   }
@@ -73,7 +65,7 @@ class MaintenancePendingPage extends StatelessWidget {
         kSize40.hGap,
         Container(
           padding: EdgeInsets.symmetric(
-              horizontal: kMarginMedium, vertical: kMargin5),
+              horizontal: kMarginMedium + 5, vertical: kMargin5 -2),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(kMarginMedium2),
               color: kBlackColor.withValues(alpha: 0.12)),
@@ -126,7 +118,7 @@ class MaintenancePendingPage extends StatelessWidget {
         ),
         10.vGap,
         Text(
-          pendingData.description ?? '',
+          pendingData.description?.trim() ?? '',
           style: TextStyle(fontSize: kTextRegular),
         ),
         20.vGap,

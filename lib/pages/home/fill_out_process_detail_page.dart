@@ -37,12 +37,11 @@ class FillOutProcessDetailPage extends StatelessWidget {
   Widget _buildBody(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
-          horizontal: kMarginMedium2, vertical: kMargin12),
+          horizontal: kMarginMedium2, vertical: kMarginMedium2),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            10.vGap,
             _buildListDetail(
                 title: AppLocalizations.of(context)?.kIDLabel ?? '',
                 value: '#${fillOutData.id}'),
@@ -62,7 +61,8 @@ class FillOutProcessDetailPage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(top: kMargin12),
                 child: _buildListDetail(
-                    title: kServicingDateLabel,
+                    title:
+                        AppLocalizations.of(context)?.kServicingDateLabel ?? '',
                     value: data?.serviceDate?.replaceAll(' ', ', ') ?? '',
                     isServicingDate: true),
               ),
@@ -75,14 +75,16 @@ class FillOutProcessDetailPage extends StatelessWidget {
             _buildListDetail(
                 title: AppLocalizations.of(context)?.kRoomShopNameLabel ?? '',
                 value: '#${fillOutData.shop?.name}'),
-            isApproved == true ? 10.vGap : 5.vGap,
+            isApproved == true ? 10.vGap : 10.vGap,
             Visibility(
                 visible: isApproved ?? true,
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: kMargin10),
                   child: _buildListDetail(
                       title: AppLocalizations.of(context)?.kDepositLabel ?? '',
-                      value: '${fillOutData.depositAmount.toString().format} MMK',
+                      value: fillOutData.depositAmount == null
+                          ? '0 MMk'
+                          : '${fillOutData.depositAmount.toString().format} MMK',
                       isDeposit: true),
                 )),
             _buildStatusListItem(
