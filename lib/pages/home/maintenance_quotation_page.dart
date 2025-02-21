@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/maintenance_quotation_bloc.dart';
+import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/data/vos/quotation_vo.dart';
+import 'package:tmsmobile/data/vos/service_request_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
@@ -15,9 +17,14 @@ import '../../widgets/appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MaintenanceQuotationPage extends StatelessWidget {
-  const MaintenanceQuotationPage({super.key, required this.quotation, required this.id});
+  const MaintenanceQuotationPage(
+      {super.key,
+      required this.quotation,
+      required this.id,
+      required this.data});
   final QuotationVO quotation;
   final String id;
+  final ServiceRequestVo data;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +39,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
                 AppLocalizations.of(context)?.kDetailLabel ?? '',
               )),
           body: Stack(children: [
-            _buildBody(context, quotation),
+            _buildBody(context, quotation, data),
 
             ///loading
             if (bloc.isLoading == true) LoadingView()
@@ -60,7 +67,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () => bloc.changeStatus(true).then((_) {
-              Navigator.of(context).pop();
+              Navigator.pop(context, true);
             }),
             child: Container(
               height: kSize45,
@@ -81,7 +88,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () => bloc.changeStatus(false).then((_) {
-              Navigator.of(context).pop();
+              Navigator.pop(context, true);
             }),
             child: Container(
               height: kSize45,
@@ -105,7 +112,8 @@ class MaintenanceQuotationPage extends StatelessWidget {
     );
   }
 
-  Widget _buildBody(BuildContext context, QuotationVO data) {
+  Widget _buildBody(
+      BuildContext context, QuotationVO quotationData, ServiceRequestVo data) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,27 +121,28 @@ class MaintenanceQuotationPage extends StatelessWidget {
         children: [
           10.vGap,
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kMargin24),
+            padding: const EdgeInsets.symmetric(horizontal: kMarginMedium2),
             child: Column(
               spacing: kMargin12,
               children: [
                 _buildListDetail(
                     title: AppLocalizations.of(context)?.kInvoiceNoLabel ?? '',
-                    value: '-'),
+                    value: data.id ?? ''),
                 _buildListDetail(
                     title: AppLocalizations.of(context)?.kDateLabel ?? '',
-                    value: DateFormatter.formatStringDate(data.date ?? '')),
+                    value: DateFormatter.formatStringDate(
+                        quotationData.date ?? '')),
                 _buildListDetail(
                     title: AppLocalizations.of(context)?.kTenantNameLabel ?? '',
-                    value: data.tenant ?? ''),
+                    value: quotationData.tenant ?? ''),
                 _buildListDetail(
                     title:
                         AppLocalizations.of(context)?.kRoomShopNameLabel ?? '',
-                    value: data.shop ?? ''),
+                    value: quotationData.shop ?? ''),
                 _buildListDetail(
                     title:
                         AppLocalizations.of(context)?.kPhoneNumberLabel ?? '',
-                    value: '-'),
+                    value: PersistenceData.shared.getUser()?.phoneNumber ?? ''),
                 _buildListDetail(
                     title: AppLocalizations.of(context)?.kMonthLabel ?? '',
                     value: '-'),

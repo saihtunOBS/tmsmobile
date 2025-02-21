@@ -69,8 +69,10 @@ class _BillingPageState extends State<BillingPage> {
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () => bloc.billingLists[index].status == 0
-                                  ? PageNavigator(ctx: context)
-                                      .nextPage(page: InvoiceDetailPage(billingData: bloc.billingLists[index],))
+                                  ? PageNavigator(ctx: context).nextPage(
+                                      page: InvoiceDetailPage(
+                                      billingData: bloc.billingLists[index],
+                                    ))
                                   : PageNavigator(ctx: context).nextPage(
                                       page: BillingInvoicePage(
                                       status:

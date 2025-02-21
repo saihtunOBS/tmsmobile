@@ -52,7 +52,6 @@ class MaintenancePendingPage extends StatelessWidget {
                 _buildListDetail(
                     title: AppLocalizations.of(context)?.kTypeOfIssueLabel ?? '', value: pendingData.issue ?? ''),
                 _buildStatusListItem(status: 'Pending',context: context),
-                5.vGap,
                 _buildDescription(context)
               ],
             ),
@@ -130,7 +129,7 @@ class MaintenancePendingPage extends StatelessWidget {
           pendingData.description ?? '',
           style: TextStyle(fontSize: kTextRegular),
         ),
-        kMarginMedium2.vGap,
+        20.vGap,
         GridView.builder(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
@@ -148,7 +147,7 @@ class MaintenancePendingPage extends StatelessWidget {
                   child: cacheImage(pendingData.attach?[index] ?? ''),
                 ),
               );
-            })
+            }),
       ],
     );
   }

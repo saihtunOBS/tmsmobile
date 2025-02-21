@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tmsmobile/data/vos/billing_vo.dart';
+import 'package:tmsmobile/extension/number_extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/dimens.dart';
@@ -72,10 +73,9 @@ class BillingListItem extends StatelessWidget {
                 ),
               ),
               Text(
-                '${biling?.grandTotal} MMK',
+                '${biling?.grandTotal?.toInt().toString().format} MMK',
                 style: TextStyle(
-                    fontSize: kTextRegular,
-                    fontWeight: FontWeight.w700),
+                    fontSize: kTextRegular, fontWeight: FontWeight.w700),
               ),
             ],
           ),

@@ -31,10 +31,13 @@ class ServiceRequestVo {
   final String? pendingDate;
 
   @JsonKey(name: "finished_date")
-  final String? finishDate;
+  final dynamic finishDate;
+
+  @JsonKey(name: "approve_date")
+  final DateTime? approveDate;
 
   @JsonKey(name: "survey_date")
-  final String? surveyDate;
+  final dynamic surveyDate;
 
   @JsonKey(name: "quotation_date")
   final String? quotationDate;
@@ -48,8 +51,17 @@ class ServiceRequestVo {
   @JsonKey(name: "createdAt")
   final DateTime? createdAt;
 
+  @JsonKey(name: 'extension_date')
+  final dynamic extensionDate;
+
   @JsonKey(name: "updatedAt")
   final DateTime? updatedAt;
+
+  @JsonKey(name: "amount")
+  final dynamic amount;
+
+  @JsonKey(name: "deposit_amount")
+  final dynamic depositAmount;
 
   @JsonKey(name: "__v")
   final int? version;
@@ -60,11 +72,15 @@ class ServiceRequestVo {
     this.shop,
     this.status,
     this.photos,
+    this.extensionDate,
     this.pendingDate,
+    this.approveDate,
     this.surveyDate,
     this.quotationDate,
     this.acceptRejectDate,
     this.processingDate,
+    this.amount,
+    this.depositAmount,
     this.finishDate,
     this.businessUnit,
     this.createdAt,

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:tmsmobile/data/vos/service_request_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
+import 'package:tmsmobile/extension/number_extension.dart';
 import 'package:tmsmobile/network/responses/fillout_process_response.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/strings.dart';
 
+import '../../data/app_data/app_data.dart';
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
 import '../../widgets/cache_image.dart';
@@ -33,106 +35,104 @@ class FillOutProcessDetailPage extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: kMargin12,
-        children: [
-          10.vGap,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kMarginMedium2),
-            child: Column(
-              children: [
-                _buildListDetail(
-                    title: AppLocalizations.of(context)?.kIDLabel ?? '',
-                    value: '#${fillOutData.id}'),
-                kMargin12.vGap,
-                _buildListDetail(
-                    title: AppLocalizations.of(context)?.kDateLabel ?? '',
-                    value: isApproved == true
-                        ? DateFormatter.formatDate(
-                            data?.approveDate ?? DateTime.now())
-                        : DateFormatter.formatDate(
-                            data?.pendingDate ?? DateTime.now())),
-                Visibility(
-                  visible: isApproved ?? false,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: kMargin12),
-                    child: _buildListDetail(
-                        title: kServicingDateLabel,
-                        value: data?.serviceDate?.split(' ')[0] ?? '',
-                        isServicingDate: true),
-                  ),
-                ),
-                kMargin12.vGap,
-                _buildListDetail(
-                    title: AppLocalizations.of(context)?.kTenantNameLabel ?? '',
-                    value: fillOutData.tenant?.tenantName ?? ''),
-                kMargin12.vGap,
-                _buildListDetail(
-                    title:
-                        AppLocalizations.of(context)?.kRoomShopNameLabel ?? '',
-                    value: fillOutData.shop?.name ?? ''),
-                10.vGap,
-                Visibility(
-                    visible: isApproved ?? true,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: kMargin10),
-                      child: _buildListDetail(
-                          title:
-                              AppLocalizations.of(context)?.kDepositLabel ?? '',
-                          value: '${data?.depositAmount ?? 0} ks',
-                          isDeposit: true),
-                    )),
-                _buildStatusListItem(
-                    status: data?.statusName ?? '', context: context),
-                20.vGap,
-                _buildImageView(data?.photos ?? [])
-                // 10.vGap,
-                // Visibility(
-                //     visible: isApproved == false,
-                //     child: _buildDescription(context)),
-                // Visibility(
-                //   visible: isApproved == true,
-                //   child: _buildDayExtension()),
-              ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+          horizontal: kMarginMedium2, vertical: kMargin12),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            10.vGap,
+            _buildListDetail(
+                title: AppLocalizations.of(context)?.kIDLabel ?? '',
+                value: '#${fillOutData.id}'),
+            isApproved == false ? 10.vGap : 0.vGap,
+            Visibility(
+              visible: isApproved == false,
+              child: _buildListDetail(
+                  title: AppLocalizations.of(context)?.kDateLabel ?? '',
+                  value: isApproved == true
+                      ? DateFormatter.formatDate(
+                          data?.approveDate ?? DateTime.now())
+                      : DateFormatter.formatDate(
+                          data?.pendingDate ?? DateTime.now())),
             ),
-          ),
-          10.vGap
-        ],
+            Visibility(
+              visible: isApproved ?? false,
+              child: Padding(
+                padding: const EdgeInsets.only(top: kMargin12),
+                child: _buildListDetail(
+                    title: kServicingDateLabel,
+                    value: data?.serviceDate?.replaceAll(' ', ', ') ?? '',
+                    isServicingDate: true),
+              ),
+            ),
+            kMargin12.vGap,
+            _buildListDetail(
+                title: AppLocalizations.of(context)?.kTenantNameLabel ?? '',
+                value: fillOutData.tenant?.tenantName ?? ''),
+            kMargin12.vGap,
+            _buildListDetail(
+                title: AppLocalizations.of(context)?.kRoomShopNameLabel ?? '',
+                value: '#${fillOutData.shop?.name}'),
+            isApproved == true ? 10.vGap : 5.vGap,
+            Visibility(
+                visible: isApproved ?? true,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: kMargin10),
+                  child: _buildListDetail(
+                      title: AppLocalizations.of(context)?.kDepositLabel ?? '',
+                      value: '${fillOutData.depositAmount.toString().format} MMK',
+                      isDeposit: true),
+                )),
+            _buildStatusListItem(
+                status: data?.statusName ?? '', context: context),
+            isApproved == true ? 10.vGap : 0.vGap,
+            Visibility(
+                visible: isApproved == false,
+                child: _buildDescription(context)),
+            Visibility(
+                visible: isApproved == true && data?.amount != null,
+                child: _buildDayExtension()),
+            _buildImageView(data?.photos ?? []),
+          ],
+        ),
       ),
     );
   }
 
-  // Widget _buildDayExtension() {
-  //   return Container(
-  //     margin: EdgeInsets.only(top: kMarginMedium2),
-  //     padding: EdgeInsets.all(kMargin12),
-  //     decoration: BoxDecoration(
-  //         borderRadius: BorderRadius.circular(
-  //           kMargin10,
-  //         ),
-  //         color: kNewBlueColor.withValues(alpha: 0.08)),
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       spacing: kMargin12,
-  //       children: [
-  //         Text(
-  //           kDayExtensionDayLabel,
-  //           style: TextStyle(
-  //               fontSize: AppData.shared.getRegularFontSize(), fontWeight: FontWeight.w700),
-  //         ),
-  //         _buildListDetail(
-  //             title: kServicingDateLabel,
-  //             value: '12 Dec, 2024',
-  //             isServicingDate: true),
-  //         _buildListDetail(title: kExtensionDayLabel, value: 'value'),
-  //         _buildListDetail(
-  //             title: kAmountLabel, value: '50000 ks', isDeposit: true),
-  //       ],
-  //     ),
-  //   );
-  // }
+  Widget _buildDayExtension() {
+    return Container(
+      margin: EdgeInsets.only(top: kMarginMedium, bottom: 10),
+      padding: EdgeInsets.all(kMargin12),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(
+            kMargin10,
+          ),
+          color: kBlueColor.withValues(alpha: 0.08)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: kMargin12,
+        children: [
+          Text(
+            kDayExtensionDayLabel,
+            style: TextStyle(
+                fontSize: AppData.shared.getRegularFontSize(),
+                fontWeight: FontWeight.w700),
+          ),
+          _buildListDetail(
+              title: kServicingDateLabel,
+              value: data?.serviceDate?.replaceAll(' ', ', ') ?? '',
+              isServicingDate: true),
+          _buildListDetail(title: kExtensionDayLabel, value: '-'),
+          _buildListDetail(
+              title: kAmountLabel,
+              value: '${data?.amount.toString().format} MMK',
+              isDeposit: true),
+        ],
+      ),
+    );
+  }
 
   Widget _buildStatusListItem({required String status, BuildContext? context}) {
     return Row(
@@ -144,11 +144,11 @@ class FillOutProcessDetailPage extends StatelessWidget {
         ),
         Container(
           padding: EdgeInsets.symmetric(
-              horizontal: kMarginMedium, vertical: kMargin5),
+              horizontal: kMarginMedium + 5, vertical: kMargin5 - 2),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(kMarginMedium2),
               color: status == 'approve'
-                  ? kPrimaryColor.withValues(alpha: 0.12)
+                  ? kBlueColor.withValues(alpha: 0.12)
                   : kBlackColor.withValues(alpha: 0.12)),
           child: FittedBox(
             child: Text(
@@ -156,7 +156,7 @@ class FillOutProcessDetailPage extends StatelessWidget {
               style: TextStyle(
                   fontSize: kTextRegular,
                   fontWeight: FontWeight.w700,
-                  color: kBlackColor),
+                  color: status == 'approve' ? kBlueColor : kBlackColor),
             ),
           ),
         )
@@ -199,6 +199,7 @@ class FillOutProcessDetailPage extends StatelessWidget {
   Widget _buildImageView(List<String> photos) {
     return GridView.builder(
         shrinkWrap: true,
+        padding: EdgeInsets.only(top: kMargin10),
         physics: NeverScrollableScrollPhysics(),
         itemCount: photos.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -216,23 +217,26 @@ class FillOutProcessDetailPage extends StatelessWidget {
           );
         });
   }
-  // Widget _buildDescription(BuildContext context) {
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: [
-  //       Text(
-  //         kDescriptionLabel,
-  //         style: TextStyle(
-  //                         fontFamily: AppData.shared.fontFamily2,
-  //             fontSize: kTextRegular3x, fontWeight: FontWeight.w700),
-  //       ),
-  //       10.vGap,
-  //       Text(
-  //         'Lorem ipsum dolor sit amet consectetur. Eget neque gravida tellus vitae quis a. Aliquam a sagittis nibh ipsum. Tincidunt tristique bibendum adipiscing id volutpat lectus. Ullamcorper magna amet nibh venenatis risus. ',
-  //         style: TextStyle(fontSize: kTextRegular),
-  //       ),
-  //       kMarginMedium2.vGap,
-  //     ],
-  //   );
-  // }
+
+  Widget _buildDescription(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        10.vGap,
+        Text(
+          kDescriptionLabel,
+          style: TextStyle(
+              fontFamily: AppData.shared.fontFamily2,
+              fontSize: kTextRegular3x,
+              fontWeight: FontWeight.w700),
+        ),
+        10.vGap,
+        Text(
+          fillOutData.description ?? '',
+          style: TextStyle(fontSize: kTextRegular),
+        ),
+        10.vGap,
+      ],
+    );
+  }
 }

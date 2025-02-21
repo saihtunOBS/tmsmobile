@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/maintenance_process_bloc.dart';
 import 'package:tmsmobile/data/vos/quotation_vo.dart';
+import 'package:tmsmobile/data/vos/service_request_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/home/invoice_detail_page.dart';
@@ -20,9 +21,11 @@ import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
 
 class MaintenanceProcessPage extends StatefulWidget {
-  const MaintenanceProcessPage({super.key, this.status, this.id});
+  const MaintenanceProcessPage(
+      {super.key, this.status, this.id, required this.data});
   final int? status;
   final String? id;
+  final ServiceRequestVo data;
   @override
   State<MaintenanceProcessPage> createState() => _MaintenanceProcessPageState();
 }
@@ -34,13 +37,11 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
   bool isSelectedAcceptReject = false;
   bool isSelectedProcessing = false;
   bool isSelectedFinish = false;
-
   bool isWrapSurveyText = false;
   bool isWrapProcessingText = false;
 
   @override
   void initState() {
-    print('hello');
     WidgetsBinding.instance.addPostFrameCallback((_) {
       isWrapSurveyText = isTextWrapped(
           text: 'We will arrive to survey within two days.',
@@ -57,7 +58,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => MaintenanceProcessBloc(widget.id),
+      create: (context) => MaintenanceProcessBloc(id: widget.id),
       child: Scaffold(
         backgroundColor: kBackgroundColor,
         appBar: PreferredSize(
@@ -65,9 +66,9 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
             child: GradientAppBar(
               AppLocalizations.of(context)?.kMaintenanceProcessLabel ?? '',
             )),
-        body: Consumer<MaintenanceProcessBloc>(
-            builder: (context, bloc, child) =>
-                bloc.isLoading ? LoadingView() : _buildSetpper()),
+        body: Consumer<MaintenanceProcessBloc>(builder: (context, bloc, child) {
+          return bloc.isLoading ? LoadingView() : _buildSetpper(bloc);
+        }),
       ),
     );
   }
@@ -79,6 +80,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
     isSelectedAcceptReject = false;
     isSelectedProcessing = false;
     isSelectedFinish = false;
+
     switch (status) {
       case 1:
         isSelectedPending = true;
@@ -118,157 +120,129 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
     setState(() {});
   }
 
-  Widget _buildSetpper() {
-    return Consumer<MaintenanceProcessBloc>(
-      builder: (context, bloc, child) => SingleChildScrollView(
-        child: Column(
-            spacing: kMargin30,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              1.vGap,
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: kMarginMedium2 + kMargin5, top: kMargin5),
-                    child: Column(
-                      children: [
-                        _buildDotView(isSelectedIndex: isSelectedPending),
-                        _buildDotView(
-                            isSelectedIndex: isSelectedSurvey, isSurvey: true),
-                        _buildDotView(isSelectedIndex: isSelectedQuotation),
-                        _buildDotView(isSelectedIndex: isSelectedAcceptReject),
-                        _buildDotView(
-                            isSelectedIndex: isSelectedProcessing,
-                            isProcessing: true),
-                        _buildDotView(
-                            isLast: true, isSelectedIndex: isSelectedFinish),
-                      ],
-                    ),
+  Widget _buildSetpper(MaintenanceProcessBloc bloc) {
+    return SingleChildScrollView(
+      child: Column(
+          spacing: kMargin30,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            1.vGap,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: kMarginMedium2 + kMargin5, top: kMargin5),
+                  child: Column(
+                    children: [
+                      _buildDotView(isSelectedIndex: isSelectedPending),
+                      _buildDotView(
+                          isSelectedIndex: isSelectedSurvey, isSurvey: true),
+                      _buildDotView(isSelectedIndex: isSelectedQuotation),
+                      _buildDotView(isSelectedIndex: isSelectedAcceptReject),
+                      _buildDotView(
+                          isSelectedIndex: isSelectedProcessing,
+                          isProcessing: true),
+                      _buildDotView(
+                          isLast: true, isSelectedIndex: isSelectedFinish),
+                    ],
                   ),
-                  Expanded(
-                    child: Column(
-                      spacing: kMarginMedium2,
-                      children: [
-                        _buildProcessView(
-                            date: DateFormatter.formatStringDate(
-                                bloc.pendingDate ?? ''),
-                            title: kPendingLabel,
-                            onPressedDetail: () =>
-                                PageNavigator(ctx: context).nextPage(
-                                    page: MaintenancePendingPage(
-                                  pendingData: bloc.pendingVO ?? PendingVO(),
-                                )),
-                            onPressed: () {
-                              // setState(() {
-                              //   isSelectedPending = true;
-                              // });
-                            },
-                            label: 'Maintenance Request',
-                            isSelected: isSelectedPending,
-                            color: kBlackColor),
-                        _buildProcessView(
-                            date: bloc.surveyDate != null
-                                ? DateFormatter.formatStringDate(
-                                    bloc.surveyDate ?? '')
-                                : '',
-                            title: kSurveyLabel,
-                            surveyProcessingText:
-                                'We will arrive to survey within two days.',
-                            onPressed: () {
-                              // setState(() {
-                              //   if (isSelectedPending == false) return;
-                              //   isSelectedSurvey = true;
-                              // });
-                            },
-                            label: kSurveyStateLabel,
-                            isSelected: isSelectedSurvey,
-                            color: kOrangeColor),
-                        _buildProcessView(
-                            date: bloc.quotationDate != null
-                                ? DateFormatter.formatStringDate(
-                                    bloc.quotationDate ?? '')
-                                : '',
-                            title: kQuotationLabel,
-                            onPressedDetail: () => PageNavigator(ctx: context)
-                                    .nextPage(
-                                        page: MaintenanceQuotationPage(
-                                  quotation: bloc.quotationVO ?? QuotationVO(),
-                                  id: widget.id ?? '',
-                                ))
-                                    .whenComplete(() {
-                                  bloc.getMaintenanceProcess();
-                                  implementStatus(bloc.pendingVO?.status ?? 1);
-                                }),
-                            onPressed: () {
-                              // setState(() {
-                              //   if (isSelectedSurvey == false) return;
-                              //   isSelectedQuotation = true;
-                              // });
-                            },
-                            label: kQuotationStateLabel,
-                            isSelected: isSelectedQuotation,
-                            color: kGreenColor),
-                        _buildProcessView(
-                            date: bloc.acceptRejectDate != null
-                                ? DateFormatter.formatStringDate(
-                                    bloc.acceptRejectDate ?? '')
-                                : '',
-                            title: kAcceptRejectLabel,
-                            onPressed: () {
-                              // setState(() {
-                              //   if (isSelectedQuotation == false) return;
-                              //   isSelectedAcceptReject = true;
-                              // });
-                            },
-                            label: kDecisionStateLabel,
-                            isSelected: isSelectedAcceptReject,
-                            color: kBlueColor),
-                        _buildProcessView(
-                            date: bloc.processingDate != null
-                                ? DateFormatter.formatStringDate(
-                                    bloc.processingDate ?? '')
-                                : '',
-                            title: kProcessingLabel,
-                            surveyProcessingText:
-                                'We will arrive to fix within two days.',
-                            onPressedDetail: () => PageNavigator(ctx: context)
-                                .nextPage(page: MaintenanceProcessingPage()),
-                            onPressed: () {
-                              // setState(() {
-                              //   if (isSelectedAcceptReject == false) return;
-                              //   isSelectedProcessing = true;
-                              // });
-                            },
-                            label: kProcessingStateLabel,
-                            isSelected: isSelectedProcessing,
-                            color: kYellowColor),
-                        _buildProcessView(
-                            date: bloc.finishedDate != null
-                                ? DateFormatter.formatStringDate(
-                                    bloc.finishedDate ?? '')
-                                : '',
-                            title: kFinishLabel,
-                            onPressedDetail: () => PageNavigator(ctx: context)
-                                .nextPage(page: InvoiceDetailPage()),
-                            onPressed: () {
-                              // setState(() {
-                              //   if (isSelectedProcessing == false) return;
-                              //   isSelectedFinish = true;
-                              // });
-                            },
-                            label: kSuccessFinishLabel,
-                            isSelected: isSelectedFinish,
-                            color: kPurpleColor),
-                      ],
-                    ),
+                ),
+                Expanded(
+                  child: Column(
+                    spacing: kMarginMedium2,
+                    children: [
+                      _buildProcessView(
+                          date: DateFormatter.formatStringDate(
+                              bloc.pendingDate ?? ''),
+                          title: kPendingLabel,
+                          onPressedDetail: () =>
+                              PageNavigator(ctx: context).nextPage(
+                                  page: MaintenancePendingPage(
+                                pendingData: bloc.pendingVO ?? PendingVO(),
+                              )),
+                          onPressed: () {},
+                          label: 'Maintenance Request',
+                          isSelected: isSelectedPending,
+                          color: kBlackColor),
+                      _buildProcessView(
+                          date: bloc.surveyDate != null
+                              ? DateFormatter.formatStringDate(
+                                  bloc.surveyDate ?? '')
+                              : '',
+                          title: kSurveyLabel,
+                          surveyProcessingText:
+                              'We will arrive to survey within two days.',
+                          onPressed: () {},
+                          label: kSurveyStateLabel,
+                          isSelected: isSelectedSurvey,
+                          color: kOrangeColor),
+                      _buildProcessView(
+                          date: bloc.quotationDate != null
+                              ? DateFormatter.formatStringDate(
+                                  bloc.quotationDate ?? '')
+                              : '',
+                          title: kQuotationLabel,
+                          onPressedDetail: () async{
+                            var result = await PageNavigator(ctx: context).nextPage(
+                                page: MaintenanceQuotationPage(
+                              quotation: bloc.quotationVO ?? QuotationVO(),
+                              id: widget.id ?? '',
+                              data: widget.data,
+                            ));
+
+                            if (result != null) {
+                              bloc.getMaintenanceProcess();
+                              implementStatus(5);
+                            }
+                          },
+                          onPressed: () {},
+                          label: kQuotationStateLabel,
+                          isSelected: isSelectedQuotation,
+                          color: kGreenColor),
+                      _buildProcessView(
+                          date: bloc.acceptRejectDate != null
+                              ? DateFormatter.formatStringDate(
+                                  bloc.acceptRejectDate ?? '')
+                              : '',
+                          title: kAcceptRejectLabel,
+                          onPressed: () {},
+                          label: kDecisionStateLabel,
+                          isSelected: isSelectedAcceptReject,
+                          color: kBlueColor),
+                      _buildProcessView(
+                          date: bloc.processingDate != null
+                              ? DateFormatter.formatStringDate(
+                                  bloc.processingDate ?? '')
+                              : '',
+                          title: kProcessingLabel,
+                          surveyProcessingText:
+                              'We will arrive to fix within two days.',
+                          onPressedDetail: () => PageNavigator(ctx: context)
+                              .nextPage(page: MaintenanceProcessingPage()),
+                          onPressed: () {},
+                          label: kProcessingStateLabel,
+                          isSelected: isSelectedProcessing,
+                          color: kYellowColor),
+                      _buildProcessView(
+                          date: bloc.finishedDate != null
+                              ? DateFormatter.formatStringDate(
+                                  bloc.finishedDate ?? '')
+                              : '',
+                          title: kFinishLabel,
+                          onPressedDetail: () => PageNavigator(ctx: context)
+                              .nextPage(page: InvoiceDetailPage()),
+                          onPressed: () {},
+                          label: kSuccessFinishLabel,
+                          isSelected: isSelectedFinish,
+                          color: kPurpleColor),
+                    ],
                   ),
-                ],
-              ),
-              24.vGap
-            ]),
-      ),
+                ),
+              ],
+            ),
+            24.vGap
+          ]),
     );
   }
 
@@ -371,7 +345,8 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                                   horizontal: kMarginMedium + 5),
                               child: Center(
                                 child: Text(
-                                  AppLocalizations.of(context)?.kDetailLabel ?? '',
+                                  AppLocalizations.of(context)?.kDetailLabel ??
+                                      '',
                                   style: TextStyle(
                                       fontSize: kTextSmall,
                                       color: kWhiteColor,
@@ -414,11 +389,11 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                       ? isSurvey == true
                           ? isWrapSurveyText == true
                               ? kSize130 + 9
-                              : kSize130 
+                              : kSize130
                           : isProcessing == true
                               ? isWrapProcessingText == true
                                   ? kSize130 + 9
-                                  : kSize130 
+                                  : kSize130
                               : kSize110 - 2
                       : kSize43,
                 ),

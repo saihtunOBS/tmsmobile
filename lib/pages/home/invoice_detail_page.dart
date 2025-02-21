@@ -4,6 +4,7 @@ import 'package:tmsmobile/bloc/invoice_detai_bloc.dart';
 import 'package:tmsmobile/data/vos/billing_vo.dart';
 import 'package:tmsmobile/data/vos/utility_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
+import 'package:tmsmobile/extension/number_extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/home/payment_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
@@ -260,7 +261,7 @@ class InvoiceDetailPage extends StatelessWidget {
               value: '${data.rate ?? 0}'),
           _buildListDetail(
               title: AppLocalizations.of(context)?.kAmountLabel ?? '',
-              value: '${data.amount ?? 0} MMK'),
+              value: '${data.amount?.toInt().toString().format} MMK'),
         ],
       ),
     );
@@ -287,16 +288,16 @@ class InvoiceDetailPage extends StatelessWidget {
         children: [
           _buildListDetail(
               title: AppLocalizations.of(context)?.kSubTotal ?? '',
-              value: '${billingData?.subTotal ?? 0} MMK'),
+              value: '${billingData?.subTotal?.toInt().toString().format} MMK'),
           _buildListDetail(
               title: AppLocalizations.of(context)?.kTaxLabel ?? '',
-              value: '${billingData?.tax ?? 0} MMK'),
+              value: '${billingData?.tax?.toInt().toString().format} MMK'),
           _buildListDetail(
               title: AppLocalizations.of(context)?.kLateFeeLabel ?? '',
-              value: '${billingData?.lateFee ?? 0} MMK'),
+              value: '${billingData?.lateFee?.toInt().toString().format} MMK'),
           _buildListDetail(
               title: AppLocalizations.of(context)?.kGrandTotalLabel ?? '',
-              value: '${billingData?.grandTotal ?? 0} MMK'),
+              value: '${billingData?.grandTotal?.toInt().toString().format} MMK'),
         ],
       ),
     );
@@ -429,7 +430,7 @@ class InvoiceDetailPage extends StatelessWidget {
                   fontWeight: FontWeight.w700, fontSize: kTextRegular),
             ),
             Text(
-              '${data.amount} MMK'.replaceRange(2, 2, ','),
+              '${data.amount?.toInt().toString().format} MMK',
               style: TextStyle(fontSize: kTextRegular),
             ),
             Text(

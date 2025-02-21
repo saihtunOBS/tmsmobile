@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tmsmobile/data/vos/billing_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
+import 'package:tmsmobile/extension/number_extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/home/invoice_detail_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
@@ -67,7 +68,7 @@ class BillingInvoicePage extends StatelessWidget {
                       ),
                       Center(
                         child: Text(
-                          '${data.grandTotal} MMK'.replaceRange(2, 2, ','),
+                          '${data.grandTotal?.toInt().toString().format} MMK',
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: kTextRegular28),
@@ -121,7 +122,7 @@ class BillingInvoicePage extends StatelessWidget {
                 : _buildListDetail(
                     title:
                         AppLocalizations.of(context)?.kTotalAmountLabel ?? '',
-                    value: '${data.grandTotal.toString()} MMK'),
+                    value: '${data.grandTotal?.toInt().toString().format} MMK'),
 
             12.vGap,
             ///partially paid history

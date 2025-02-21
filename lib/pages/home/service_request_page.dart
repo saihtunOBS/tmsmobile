@@ -192,6 +192,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                                   status:
                                       bloc.maintenanceLists[index].status ?? 0,
                                   id: bloc.maintenanceLists[index].id,
+                                  data: bloc.maintenanceLists[index],
                                 ))
                                     .whenComplete(() {
                                   bloc.getMaintenances();
@@ -261,12 +262,16 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                           );
                         }
                         return GestureDetector(
-                          onTap: () => PageNavigator(ctx: context).nextPage(
-                              page: FillOutProcessPage(
+                          onTap: () => PageNavigator(ctx: context)
+                              .nextPage(
+                                  page: FillOutProcessPage(
                             status: bloc.fillOutLists[index].status ?? 0,
                             id: bloc.fillOutLists[index].id ?? '',
                             fillOutData: bloc.fillOutLists[index],
-                          )),
+                          ))
+                              .whenComplete(() {
+                            bloc.getFillOuts();
+                          }),
                           child: ServiceRequestListItem(
                             status: bloc.fillOutLists[index].status ?? 0,
                             isFillOut: true,

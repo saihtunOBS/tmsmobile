@@ -18,10 +18,11 @@ class MaintenanceProcessBloc extends ChangeNotifier {
   String? acceptRejectDate;
   String? processingDate;
   String? finishedDate;
+  int? status;
   PendingVO? pendingVO;
   QuotationVO? quotationVO;
   String? token;
-  MaintenanceProcessBloc(this.id) {
+  MaintenanceProcessBloc({this.id}) {
     token = PersistenceData.shared.getToken();
     getMaintenanceProcess();
   }
@@ -29,7 +30,7 @@ class MaintenanceProcessBloc extends ChangeNotifier {
   getMaintenanceProcess() {
     _showLoading();
     _tmsModel.getMaintenanceProcess(token ?? '', id ?? '').then((response) {
-      
+      updateStatus(response.data?.first.pending?.status ?? 1);
       try {
         pendingVO = response.data?.first.pending;
         pendingDate = response.data?.first.pending?.pendingDate ?? '';
@@ -43,9 +44,13 @@ class MaintenanceProcessBloc extends ChangeNotifier {
       } catch (e) {
         ///
       }
-
       notifyListeners();
     }).whenComplete(() => _hideLoading());
+  }
+
+  updateStatus(int s) {
+    status = s;
+    notifyListeners();
   }
 
   _showLoading() {

@@ -110,7 +110,9 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                                 isApproved: false,
                                 data: bloc.pendingVO,
                                 fillOutData: widget.fillOutData,
-                              )),
+                              )).whenComplete((){
+                                bloc.getFilloutProcess();
+                              }),
                           onPressed: () {
                             // setState(() {
                             //   isSelectedPending = true;
@@ -120,8 +122,8 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                           isSelected: isSelectedPending,
                           color: kBlackColor),
                       _buildProcessView(
-                          date: bloc.approvedDate == null ? '' :DateFormatter.formatDate(
-                              bloc.approvedDate ?? DateTime.now()),
+                          date: DateFormatter.formatDate(
+                              widget.fillOutData.approveDate ?? DateTime.now()),
                           title: kApprovedLabel,
                           onPressDetail: () => PageNavigator(ctx: context)
                                   .nextPage(
