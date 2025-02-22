@@ -99,9 +99,7 @@ class _EditResidentPageState extends State<EditResidentPage> {
               ),
 
               ///loading
-              if (loading == true)
-                LoadingView(
-                    )
+              if (loading == true) LoadingView()
             ],
           ),
         ),
@@ -211,9 +209,8 @@ class _EditResidentPageState extends State<EditResidentPage> {
         children: [
           Text(
             AppLocalizations.of(context)?.kGenderLabel ?? '',
-            style: TextStyle(
-                fontSize: kTextRegular,
-                fontWeight: FontWeight.w600),
+            style:
+                TextStyle(fontSize: kTextRegular, fontWeight: FontWeight.w600),
           ),
           4.vGap,
           Container(
@@ -252,9 +249,8 @@ class _EditResidentPageState extends State<EditResidentPage> {
         children: [
           Text(
             AppLocalizations.of(context)?.kTypeLabel ?? '',
-            style: TextStyle(
-                fontSize: kTextRegular,
-                fontWeight: FontWeight.w600),
+            style:
+                TextStyle(fontSize: kTextRegular, fontWeight: FontWeight.w600),
           ),
           4.vGap,
           Container(
@@ -287,9 +283,7 @@ class _EditResidentPageState extends State<EditResidentPage> {
       children: [
         Text(
           AppLocalizations.of(context)?.kDobLabel ?? '',
-          style: TextStyle(
-              fontSize: kTextRegular,
-              fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: kTextRegular, fontWeight: FontWeight.w600),
         ),
         4.vGap,
         Container(
@@ -330,9 +324,8 @@ class _EditResidentPageState extends State<EditResidentPage> {
         children: [
           Text(
             title,
-            style: TextStyle(
-                fontSize: kTextRegular,
-                fontWeight: FontWeight.w600),
+            style:
+                TextStyle(fontSize: kTextRegular, fontWeight: FontWeight.w600),
           ),
           4.vGap,
           Container(
@@ -348,6 +341,14 @@ class _EditResidentPageState extends State<EditResidentPage> {
                       child: Text(value ?? ''),
                     )
                   : TextField(
+                      textInputAction: title ==
+                                  AppLocalizations.of(context)
+                                      ?.kRelatedToOwnerLabel ||
+                              title ==
+                                  AppLocalizations.of(context)
+                                      ?.kEmailAddressLabel
+                          ? TextInputAction.done
+                          : TextInputAction.next,
                       controller: controller,
                       keyboardType: isNumber == true
                           ? TextInputType.number
@@ -355,8 +356,7 @@ class _EditResidentPageState extends State<EditResidentPage> {
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: title,
-                          hintStyle: TextStyle(
-                              fontSize: kTextRegular)),
+                          hintStyle: TextStyle(fontSize: kTextRegular)),
                     ))
         ],
       ),
@@ -370,9 +370,7 @@ class _EditResidentPageState extends State<EditResidentPage> {
       children: [
         Text(
           'NRC',
-          style: TextStyle(
-              fontSize: kTextRegular,
-              fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: kTextRegular, fontWeight: FontWeight.w600),
         ),
         4.vGap,
         Container(
@@ -385,7 +383,9 @@ class _EditResidentPageState extends State<EditResidentPage> {
               type: 'edit',
               editNRC: widget.houseHoldData?.nrcType == 2
                   ? null
-                  : widget.houseHoldData?.nrc?.isEmpty ?? true ? null : widget.houseHoldData?.nrc,
+                  : widget.houseHoldData?.nrc?.isEmpty ?? true
+                      ? null
+                      : widget.houseHoldData?.nrc,
             )),
       ],
     );

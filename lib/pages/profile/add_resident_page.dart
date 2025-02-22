@@ -55,9 +55,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
                   )),
 
               ///loading
-              if (loading == true)
-                LoadingView(
-                    )
+              if (loading == true) LoadingView()
             ],
           ),
         ),
@@ -163,9 +161,8 @@ class _AddResidentPageState extends State<AddResidentPage> {
         children: [
           Text(
             AppLocalizations.of(context)?.kGenderLabel ?? '',
-            style: TextStyle(
-                fontSize: kTextRegular,
-                fontWeight: FontWeight.w600),
+            style:
+                TextStyle(fontSize: kTextRegular, fontWeight: FontWeight.w600),
           ),
           4.vGap,
           Container(
@@ -201,9 +198,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
       children: [
         Text(
           AppLocalizations.of(context)?.kDobLabel ?? '',
-          style: TextStyle(
-              fontSize: kTextRegular,
-              fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: kTextRegular, fontWeight: FontWeight.w600),
         ),
         4.vGap,
         Container(
@@ -243,9 +238,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
       children: [
         Text(
           title,
-          style: TextStyle(
-              fontSize: kTextRegular,
-              fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: kTextRegular, fontWeight: FontWeight.w600),
         ),
         4.vGap,
         Container(
@@ -261,20 +254,22 @@ class _AddResidentPageState extends State<AddResidentPage> {
                     child: Text(
                       value ?? '',
                       style: TextStyle(
-                          fontSize: kTextRegular,
-                          fontWeight: FontWeight.w500),
+                          fontSize: kTextRegular, fontWeight: FontWeight.w500),
                     ),
                   )
                 : TextField(
                     controller: controller,
+                    textInputAction: title ==
+                            AppLocalizations.of(context)?.kRelatedToOwnerLabel
+                        ? TextInputAction.done
+                        : TextInputAction.next,
                     keyboardType: isNumber == true
                         ? TextInputType.phone
                         : TextInputType.text,
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: title,
-                        hintStyle: TextStyle(
-                            fontSize: kTextRegular)),
+                        hintStyle: TextStyle(fontSize: kTextRegular)),
                   ))
       ],
     );
@@ -287,9 +282,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
       children: [
         Text(
           'NRC',
-          style: TextStyle(
-              fontSize: kTextRegular,
-              fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: kTextRegular, fontWeight: FontWeight.w600),
         ),
         4.vGap,
         Container(

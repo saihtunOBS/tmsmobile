@@ -78,8 +78,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                                     left: kMarginMedium2,
                                     right: kMarginMedium2,
                                     bottom: kMarginMedium2),
-                                child: bloc
-                                        .householdList.first.information.isEmpty
+                                child: bloc.householdList.isEmpty
                                     ? Stack(
                                         alignment: Alignment.center,
                                         children: [
@@ -148,40 +147,42 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
             bottomNavigationBar: Consumer<HouseHoldBloc>(
               builder: (context, bloc, child) => bloc.isLoading
                   ? SizedBox()
-                  : isClickRegistrationForm == false
-                      ? const SizedBox.shrink()
-                      : Container(
-                          color: kWhiteColor,
-                          height: kBottomBarHeight,
-                          child: Center(
-                            child: gradientButton(
-                                title:
-                                    AppLocalizations.of(context)?.kSubmitLabel,
-                                onPress: () {
-                                  var bloc = context.read<HouseHoldBloc>();
-                                  bloc.checkValidation();
-                                  if (bloc.validationMessage == 'success') {
-                                    bloc.checkValidationResident();
-                                    if (bloc.residentValidationMessage ==
-                                        'success') {
-                                      bloc.createHousehold();
-                                    } else {
-                                      showCommonDialog(
-                                          context: context,
-                                          dialogWidget: ErrorDialogView(
-                                              errorMessage: bloc
-                                                  .residentValidationMessage));
-                                    }
-                                  } else {
-                                    showCommonDialog(
-                                        context: context,
-                                        dialogWidget: ErrorDialogView(
-                                            errorMessage:
-                                                bloc.validationMessage));
-                                  }
-                                },
-                                context: context),
-                          )),
+                  : bloc.householdList.isEmpty
+                      ? SizedBox()
+                      : isClickRegistrationForm == false
+                          ? const SizedBox.shrink()
+                          : Container(
+                              color: kWhiteColor,
+                              height: kBottomBarHeight,
+                              child: Center(
+                                child: gradientButton(
+                                    title: AppLocalizations.of(context)
+                                        ?.kSubmitLabel,
+                                    onPress: () {
+                                      var bloc = context.read<HouseHoldBloc>();
+                                      bloc.checkValidation();
+                                      if (bloc.validationMessage == 'success') {
+                                        bloc.checkValidationResident();
+                                        if (bloc.residentValidationMessage ==
+                                            'success') {
+                                          bloc.createHousehold();
+                                        } else {
+                                          showCommonDialog(
+                                              context: context,
+                                              dialogWidget: ErrorDialogView(
+                                                  errorMessage: bloc
+                                                      .residentValidationMessage));
+                                        }
+                                      } else {
+                                        showCommonDialog(
+                                            context: context,
+                                            dialogWidget: ErrorDialogView(
+                                                errorMessage:
+                                                    bloc.validationMessage));
+                                      }
+                                    },
+                                    context: context),
+                              )),
             ),
           ),
         ),
@@ -634,6 +635,13 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                   )
                 : TextField(
                     controller: controller,
+                    textInputAction: title ==
+                                AppLocalizations.of(context)
+                                    ?.kRelatedToOwnerLabel ||
+                            title ==
+                                AppLocalizations.of(context)?.kEmailAddressLabel
+                        ? TextInputAction.done
+                        : TextInputAction.next,
                     keyboardType: keyboardType ?? TextInputType.text,
                     decoration: InputDecoration(
                         border: InputBorder.none,

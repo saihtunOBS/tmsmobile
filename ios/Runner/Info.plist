@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>PMS-Demo</string>
+	<string>OBS-PMS</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -19,11 +19,10 @@
 		<string>en</string>
 		<string>my</string>
 	</array>
-    <key>BGTaskSchedulerPermittedIdentifiers</key>
-    <array>
-        <string>com.tms.obs</string>
-    </array>
-
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.tms.obs</string>
+	</array>
 	<key>CFBundleName</key>
 	<string>tmsmobile</string>
 	<key>CFBundlePackageType</key>
@@ -44,9 +43,9 @@
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>We need access to your camera to take photos.</string>
+	<string>This app requires access to the camera to capture photos for user profiles.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need access to your photo library to select images.</string>
+	<string>This app needs access to your photo library to upload and share images.</string>
 	<key>NSPushNotificationsUsageDescription</key>
 	<string>We need permission to send you notifications.</string>
 	<key>NSUserNotificationUsageDescription</key>
