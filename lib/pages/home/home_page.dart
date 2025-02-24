@@ -14,6 +14,7 @@ import 'package:tmsmobile/data/dummy/dummy.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/list_items/home_list_item.dart';
+import 'package:tmsmobile/network/notification_service.dart';
 import 'package:tmsmobile/pages/home/announcement_page.dart';
 import 'package:tmsmobile/pages/home/billing_page.dart';
 import 'package:tmsmobile/pages/home/car_parking_page.dart';
@@ -333,64 +334,61 @@ class _HomePageState extends State<HomePage> {
 
   //marquee view
   Widget _alertView() {
-    return Consumer<EpcBloc>(builder: (context, bloc, child) {
-      return bloc.isLoading == true
-          ? Shimmer.fromColors(
-              baseColor: kGreyColor,
-              highlightColor: kWhiteColor,
-              child: Container(
-                height: 28,
-                width: 140,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: kGreyColor,
-                ),
-              ))
-          : Container(
-              height: 28,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: kWhiteColor,
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    height: 28,
-                    width: 28,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: bloc.epcResponse?.data?.isEmpty ?? true
-                            ? kRedColor
-                            : bloc.epcResponse?.data?.first.switchState == 0
-                                ? kRedColor
-                                : kGreenColor),
-                    child: Center(
-                      child: Icon(
-                        Icons.light_mode,
-                        color: kWhiteColor,
-                        size: 16,
-                      ),
+    return StreamBuilder(
+        stream: epcStreamController.stream,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Shimmer.fromColors(
+                baseColor: kGreyColor,
+                highlightColor: kWhiteColor,
+                child: Container(
+                  height: 28,
+                  width: 140,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    color: kGreyColor,
+                  ),
+                ));
+          }
+          return Container(
+            height: 28,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: kWhiteColor,
+            ),
+            child: Row(
+              children: [
+                Container(
+                  height: 28,
+                  width: 28,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: snapshot.data == 'မီးပျက်နေပါသည်'
+                          ? kRedColor
+                          : kGreenColor),
+                  child: Center(
+                    child: Icon(
+                      Icons.light_mode,
+                      color: kWhiteColor,
+                      size: 16,
                     ),
                   ),
-                  6.hGap,
-                  Text(
-                    bloc.epcResponse?.data?.isEmpty ?? true
-                        ? 'ယခုမီးပျက်နေပါသည်'
-                        : bloc.epcResponse?.data?.first.switchState == 0
-                            ? 'ယခုမီးပျက်နေပါသည်'
-                            : 'ယခုမီးလာနေပါသည်',
-                    style: TextStyle(
-                        color: bloc.epcResponse?.data?.isEmpty ?? true
-                            ? kRedColor
-                            : bloc.epcResponse?.data?.first.switchState == 0
-                                ? kRedColor
-                                : Colors.black,
-                        fontSize: 11.5),
-                  ),
-                  12.hGap
-                ],
-              ),
-            );
-    });
+                ),
+                6.hGap,
+                Text(
+                  snapshot.data == 'မီးပျက်နေပါသည်'
+                      ? 'ယခုမီးပျက်နေပါသည်'
+                      : 'ယခုမီးလာနေပါသည်',
+                  style: TextStyle(
+                      color: snapshot.data == 'မီးပျက်နေပါသည်'
+                          ? kRedColor
+                          : Colors.black,
+                      fontSize: 11.5),
+                ),
+                12.hGap
+              ],
+            ),
+          );
+        });
   }
 }

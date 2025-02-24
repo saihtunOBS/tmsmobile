@@ -16,15 +16,13 @@ class AnnouncementBloc extends ChangeNotifier {
     getAnnouncement();
   }
 
-  getAnnouncement() {
+  getAnnouncement() async{
     _showLoading();
-    _tmsModel
-        .getAnnouncements(token)
-        .then((response) {
-          announcementList = response;
-          notifyListeners();
-        } )
-        .whenComplete(() => _hideLoading());
+    await _tmsModel.getAnnouncements(token).then((response) {
+      announcementList = response;
+      print(announcementList.length);
+      notifyListeners();
+    }).whenComplete(() => _hideLoading());
   }
 
   _showLoading() {

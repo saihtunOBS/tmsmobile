@@ -11,11 +11,10 @@ import 'package:tmsmobile/bloc/announcement_bloc.dart';
 // import 'package:tmsmobile/pages/auth/splash_screen_page.dart';
 // import 'package:tmsmobile/pages/home/announcement_page.dart';
 // import 'package:tmsmobile/utils/route_observer.dart';
-import '../bloc/epc_bloc.dart';
 import '../main.dart';
 import 'local_notification_service.dart';
 
-StreamController epcStreamController = BehaviorSubject.seeded(false);
+StreamController epcStreamController = BehaviorSubject.seeded('');
 
 final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
@@ -43,21 +42,15 @@ class NotificationService {
   listenIncomingMessage() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       LocalNotificationService().displayNotification(message);
+
+      final RemoteNotification? notification = message.notification;
+      epcStreamController.sink.add(notification?.body ?? '');
       var currentContext = navigatorKey.currentContext;
       if (currentContext != null) {
-        Future.microtask(()  {
-          var epcBloc = Provider.of<EpcBloc>(currentContext, listen: false);
-          var announcementBloc =
-              Provider.of<AnnouncementBloc>(currentContext, listen: false);
+        var announcementBloc =
+            Provider.of<AnnouncementBloc>(currentContext, listen: false);
 
-          epcBloc.getEpc();
-          announcementBloc.getAnnouncement();
-
-          // Force UI rebuild if HomePage is mounted
-          if (currentContext.mounted) {
-            (currentContext as Element).markNeedsBuild();
-          }
-        });
+        announcementBloc.getAnnouncement();
       }
     });
 

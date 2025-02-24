@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
+import 'package:tmsmobile/network/notification_service.dart';
 import 'package:tmsmobile/network/responses/epc_response.dart';
 
 import '../data/model/tms_model.dart';
@@ -22,7 +23,13 @@ class EpcBloc extends ChangeNotifier {
     _showLoading();
     await _tmsModel.getEpcResponse(token ?? '').then((response) {
       epcResponse = response;
-      print(response.data?.first.switchState);
+      if (response.data?.isEmpty ?? true) {
+        epcStreamController.sink.add('မီးပျက်နေပါသည်');
+      }else if (response.data?.first.switchState == 0){
+        epcStreamController.sink.add('မီးပျက်နေပါသည်');
+      }else {
+        epcStreamController.sink.add('မီးလာနေပါသည်');
+      }
       notifyListeners();
     }).whenComplete(() => _hideLoading());
   }
