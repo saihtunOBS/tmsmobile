@@ -311,7 +311,9 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                                     PersistenceData.shared.getLocale() == 'my'
                                         ? kMargin10 + 2
                                         : kMargin10),
-                            color: kThirdGrayColor,
+                            color: bloc.householdList.first.information.isEmpty
+                                ? Colors.transparent
+                                : kThirdGrayColor,
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               physics: ClampingScrollPhysics(),

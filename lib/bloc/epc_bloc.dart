@@ -18,10 +18,11 @@ class EpcBloc extends ChangeNotifier {
     getEpc();
   }
 
-  getEpc() {
+  getEpc() async {
     _showLoading();
-    _tmsModel.getEpcResponse(token ?? '').then((response) {
+    await _tmsModel.getEpcResponse(token ?? '').then((response) {
       epcResponse = response;
+      print(response.data?.first.switchState);
       notifyListeners();
     }).whenComplete(() => _hideLoading());
   }

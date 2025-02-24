@@ -334,10 +334,6 @@ class _HomePageState extends State<HomePage> {
   //marquee view
   Widget _alertView() {
     return Consumer<EpcBloc>(builder: (context, bloc, child) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        bloc.isLoading == true ? bloc.getEpc() : null;
-      });
-
       return bloc.isLoading == true
           ? Shimmer.fromColors(
               baseColor: kGreyColor,

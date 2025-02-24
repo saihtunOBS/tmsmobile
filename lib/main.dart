@@ -112,14 +112,13 @@ class _TMSMobileState extends State<TMSMobile> {
             locale: Locale(localString),
             supportedLocales: [Locale('en'), Locale('my')],
             theme: ThemeData(
-              
                 fontFamily: AppData.shared.fontFamily,
                 colorScheme: ColorScheme.fromSeed(
                     seedColor: kPrimaryColor, primary: kPrimaryColor),
                 useMaterial3: true,
                 scaffoldBackgroundColor: kBackgroundColor,
                 appBarTheme: AppBarTheme(toolbarHeight: kMargin60)),
-            home: const SplashScreenPage(),
+            home: SplashScreenPage(),
           );
         });
   }
