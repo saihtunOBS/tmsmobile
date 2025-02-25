@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../utils/date_formatter.dart';
 
-class BookingSelectBloc extends ChangeNotifier {
+class BookingHourBloc extends ChangeNotifier {
   bool isOpenDate = false;
   bool isTimeView = false;
   bool isReserveView = false;
@@ -20,11 +20,15 @@ class BookingSelectBloc extends ChangeNotifier {
   String toTime = '';
 
   onSelectDate() {
+    _showLoading();
     isOpenDate = true;
     isTimeView = false;
     isReserveView = false;
     showCurrentDate();
     notifyListeners();
+    Future.delayed(Duration(milliseconds: 300), () {
+      _hideLoading();
+    });
   }
 
   onClickCancelCaneldar() {

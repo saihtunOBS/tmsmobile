@@ -19,7 +19,7 @@ class BookingListItem extends StatelessWidget {
           color: kWhiteColor,
           boxShadow: [
             BoxShadow(
-              offset: Offset(0, 3),
+              offset: Offset(0, 4),
               blurRadius: 5,
               color: kGreyColor,
             )

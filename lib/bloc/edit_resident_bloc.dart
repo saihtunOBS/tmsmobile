@@ -206,14 +206,18 @@ class EditResidentBloc extends ChangeNotifier {
           child: Column(
             children: [
               Expanded(
-                child: CupertinoDatePicker(
-                  initialDateTime: houseHoldVO?.dateOfBirth,
-                  maximumYear: DateTime.now().year,
-                  mode: CupertinoDatePickerMode.date,
-                  onDateTimeChanged: (value) {
-                    selectedDate = value;
-                    notifyListeners();
-                  },
+                child: Localizations.override(
+                  context: context!,
+                  locale: Locale('en'),
+                  child: CupertinoDatePicker(
+                    initialDateTime: houseHoldVO?.dateOfBirth,
+                    maximumYear: DateTime.now().year,
+                    mode: CupertinoDatePickerMode.date,
+                    onDateTimeChanged: (value) {
+                      selectedDate = value;
+                      notifyListeners();
+                    },
+                  ),
                 ),
               ),
               5.vGap,

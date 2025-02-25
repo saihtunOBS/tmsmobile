@@ -134,13 +134,17 @@ class AddResidentBloc extends ChangeNotifier {
           child: Column(
             children: [
               Expanded(
-                child: CupertinoDatePicker(
-                  maximumYear: DateTime.now().year,
-                  mode: CupertinoDatePickerMode.date,
-                  onDateTimeChanged: (value) {
-                    selectedDate = value;
-                    notifyListeners();
-                  },
+                child: Localizations.override(
+                  context: context!,
+                  locale: Locale('en'),
+                  child: CupertinoDatePicker(
+                    maximumYear: DateTime.now().year,
+                    mode: CupertinoDatePickerMode.date,
+                    onDateTimeChanged: (value) {
+                      selectedDate = value;
+                      notifyListeners();
+                    },
+                  ),
                 ),
               ),
               5.vGap,
@@ -150,7 +154,7 @@ class AddResidentBloc extends ChangeNotifier {
                   onTap: () => Navigator.pop(context!),
                   child: Container(
                     margin: EdgeInsets.only(
-                        left: kMargin24, right: kMargin24,bottom: kMargin24),
+                        left: kMargin24, right: kMargin24, bottom: kMargin24),
                     width: double.infinity,
                     height: 45,
                     decoration: BoxDecoration(
@@ -160,7 +164,9 @@ class AddResidentBloc extends ChangeNotifier {
                       child: Text(
                         'Done',
                         style: TextStyle(
-                            color: kWhiteColor, fontWeight: FontWeight.w700,fontSize: kTextRegular),
+                            color: kWhiteColor,
+                            fontWeight: FontWeight.w700,
+                            fontSize: kTextRegular),
                       ),
                     ),
                   ),

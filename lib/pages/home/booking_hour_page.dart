@@ -2,7 +2,7 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tmsmobile/bloc/booking_select_bloc.dart';
+import 'package:tmsmobile/bloc/booking_hour_bloc.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/images.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
@@ -12,27 +12,28 @@ import '../../utils/colors.dart';
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
 import '../../widgets/cache_image.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class BookingSelectPage extends StatefulWidget {
-  const BookingSelectPage({super.key});
+class BookingHourPage extends StatefulWidget {
+  const BookingHourPage({super.key});
 
   @override
-  State<BookingSelectPage> createState() => _BookingSelectPageState();
+  State<BookingHourPage> createState() => _BookingHourPageState();
 }
 
-class _BookingSelectPageState extends State<BookingSelectPage> {
+class _BookingHourPageState extends State<BookingHourPage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => BookingSelectBloc(),
+      create: (_) => BookingHourBloc(),
       child: Scaffold(
         backgroundColor: kBackgroundColor,
         appBar: PreferredSize(
             preferredSize: Size(double.infinity, kMargin60),
             child: GradientAppBar(
-              'Back',
+              AppLocalizations.of(context)?.kBackLabel ?? '',
             )),
-        body: Consumer<BookingSelectBloc>(builder: (context, bloc, child) {
+        body: Consumer<BookingHourBloc>(builder: (context, bloc, child) {
           return SingleChildScrollView(
             physics: ClampingScrollPhysics(),
             child: Column(
@@ -55,7 +56,7 @@ class _BookingSelectPageState extends State<BookingSelectPage> {
                     child: SizedBox(
                         height: bloc.isReserveView == true ? null : 0,
                         child: _buildReserveView())),
-                35.vGap,
+                20.vGap,
               ],
             ),
           );
@@ -109,7 +110,7 @@ class _BookingSelectPageState extends State<BookingSelectPage> {
   }
 
   Widget _buildSelectDateSection() {
-    return Consumer<BookingSelectBloc>(
+    return Consumer<BookingHourBloc>(
       builder: (context, bloc, child) => Container(
         height: 53,
         margin: EdgeInsets.symmetric(horizontal: kMarginMedium2),
@@ -126,16 +127,19 @@ class _BookingSelectPageState extends State<BookingSelectPage> {
                 bloc.onSelectFromOrToDate(true);
               },
               child: Padding(
-                padding: const EdgeInsets.only(left: 12),
+                padding: const EdgeInsets.only(left: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'From',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: kTextSmall - 1),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 2),
+                      child: Text(
+                        AppLocalizations.of(context)?.kFromLabel ?? '',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: kTextSmall - 1),
+                      ),
                     ),
                     6.vGap,
                     Row(
@@ -150,7 +154,7 @@ class _BookingSelectPageState extends State<BookingSelectPage> {
                             3.hGap,
                             Text(
                               bloc.fromDate == ''
-                                  ? 'Select Date & Time'
+                                  ?  AppLocalizations.of(context)?.kSelectDateTimeLabel ?? ''
                                   : bloc.fromDate,
                               style: TextStyle(
                                   color: kBlackColor,
@@ -186,16 +190,19 @@ class _BookingSelectPageState extends State<BookingSelectPage> {
                 bloc.onSelectFromOrToDate(false);
               },
               child: Padding(
-                padding: const EdgeInsets.only(left: 12),
+                padding: const EdgeInsets.only(left: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'To',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: kTextSmall - 1),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 2),
+                      child: Text(
+                         AppLocalizations.of(context)?.kToLabel ?? '',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: kTextSmall - 1),
+                      ),
                     ),
                     6.vGap,
                     Row(
@@ -210,7 +217,7 @@ class _BookingSelectPageState extends State<BookingSelectPage> {
                             3.hGap,
                             Text(
                               bloc.toDate == ''
-                                  ? 'Select Date & Time'
+                                  ?  AppLocalizations.of(context)?.kSelectDateTimeLabel ?? ''
                                   : bloc.toDate,
                               style: TextStyle(
                                   color: kBlackColor,
@@ -241,7 +248,7 @@ class _BookingSelectPageState extends State<BookingSelectPage> {
   }
 
   Widget _buildTimePickerView() {
-    return Consumer<BookingSelectBloc>(
+    return Consumer<BookingHourBloc>(
       builder: (context, bloc, child) => Container(
         margin: EdgeInsets.symmetric(horizontal: kMarginMedium2),
         child: AnimatedSize(
@@ -267,7 +274,7 @@ class _BookingSelectPageState extends State<BookingSelectPage> {
                       borderRadius: BorderRadius.circular(kMarginMedium)),
                   child: Center(
                     child: Text(
-                      'Select Time',
+                      AppLocalizations.of(context)?.kSelectTimeLabel ?? '',
                       style: TextStyle(
                           fontSize: kTextRegular18,
                           fontWeight: FontWeight.bold),
@@ -277,16 +284,18 @@ class _BookingSelectPageState extends State<BookingSelectPage> {
                 5.vGap,
                 SizedBox(
                   height: 200,
-                  child: CupertinoDatePicker(
-                    initialDateTime: DateTime.now(),
-                    mode: CupertinoDatePickerMode.time,
-                    use24hFormat: false, // Change to true for 24-hour format
-                    onDateTimeChanged: (DateTime newDateTime) {
-                     
-                      bloc.onChangeTime(TimeOfDay(
-                          hour: newDateTime.hour,
-                          minute: newDateTime.minute));
-                    },
+                  child: Localizations.override(
+                    context: context,
+                    locale: Locale('en'), 
+                    child: CupertinoDatePicker(
+                      initialDateTime: DateTime.now(),
+                      mode: CupertinoDatePickerMode.time,
+                      use24hFormat: false, // Change to true for 24-hour format
+                      onDateTimeChanged: (DateTime newDateTime) {
+                        bloc.onChangeTime(TimeOfDay(
+                            hour: newDateTime.hour, minute: newDateTime.minute));
+                      },
+                    ),
                   ),
                 ),
                 Row(
@@ -301,7 +310,7 @@ class _BookingSelectPageState extends State<BookingSelectPage> {
                         width: 68,
                         child: Center(
                           child: Text(
-                            'Cancel',
+                            AppLocalizations.of(context)?.kCancelLabel ?? '',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -320,7 +329,7 @@ class _BookingSelectPageState extends State<BookingSelectPage> {
                             color: kDarkBlueColor),
                         child: Center(
                           child: Text(
-                            'Ok',
+                            AppLocalizations.of(context)?.kOkLabel ?? '',
                             style: TextStyle(
                                 color: kWhiteColor,
                                 fontWeight: FontWeight.bold),
@@ -339,7 +348,7 @@ class _BookingSelectPageState extends State<BookingSelectPage> {
   }
 
   Widget _buildCalendarPickerView(BuildContext context) {
-    return Consumer<BookingSelectBloc>(
+    return Consumer<BookingHourBloc>(
       builder: (context, bloc, child) => Container(
         margin: EdgeInsets.symmetric(horizontal: kMarginMedium2),
         child: Column(
@@ -352,7 +361,6 @@ class _BookingSelectPageState extends State<BookingSelectPage> {
                 fit: BoxFit.cover,
               ),
             ),
-            5.vGap,
             _buildCalendarWithActionButtons(context),
             20.vGap,
             _buildOccupiAndMaintenanceView(),
@@ -365,9 +373,11 @@ class _BookingSelectPageState extends State<BookingSelectPage> {
   Widget _buildCalendarWithActionButtons(BuildContext context) {
     final config = CalendarDatePicker2WithActionButtonsConfig(
         lastDate: DateTime.now(),
+        
         calendarType: CalendarDatePicker2Type.single,
         disableModePicker: true,
         rangeBidirectional: true,
+        daySplashColor: kSecondGreyColor,
         controlsTextStyle:
             TextStyle(fontSize: kTextRegular18, fontWeight: FontWeight.bold),
         selectedDayHighlightColor: kRedColor,
@@ -376,17 +386,21 @@ class _BookingSelectPageState extends State<BookingSelectPage> {
             TextStyle(fontSize: kTextRegular2x, color: kWhiteColor),
         weekdayLabelTextStyle: TextStyle(fontSize: kTextRegular2x),
         dayTextStyle: TextStyle(fontSize: kTextRegular2x));
-    return Consumer<BookingSelectBloc>(
+    return Consumer<BookingHourBloc>(
       builder: (context, bloc, child) => Column(
         children: [
           Stack(
             children: [
-              CalendarDatePicker2(
-                config: config,
-                value: bloc.selectedDate,
-                onValueChanged: (value) {
-                  bloc.onChangeDate(value);
-                },
+              Localizations.override(
+                context: context,
+                locale: Locale('en'),
+                child: CalendarDatePicker2(
+                  config: config,
+                  value: bloc.selectedDate,
+                  onValueChanged: (value) {
+                    bloc.onChangeDate(value);
+                  },
+                ),
               ),
               Positioned(
                 right: 0,
@@ -406,7 +420,7 @@ class _BookingSelectPageState extends State<BookingSelectPage> {
                           width: 68,
                           child: Center(
                             child: Text(
-                              'Cancel',
+                               AppLocalizations.of(context)?.kCancelLabel ?? '',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -425,7 +439,7 @@ class _BookingSelectPageState extends State<BookingSelectPage> {
                               color: kDarkBlueColor),
                           child: Center(
                             child: Text(
-                              'Ok',
+                               AppLocalizations.of(context)?.kOkLabel ?? '',
                               style: TextStyle(
                                   color: kWhiteColor,
                                   fontWeight: FontWeight.bold),
@@ -486,7 +500,7 @@ class _BookingSelectPageState extends State<BookingSelectPage> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: kMarginMedium2),
           child: Text(
-            'No. of Guests',
+             AppLocalizations.of(context)?.kNoFoGuestLabel ?? '',
             style: TextStyle(
                 fontSize: kTextRegular2x - 2, fontWeight: FontWeight.w700),
           ),
@@ -503,7 +517,7 @@ class _BookingSelectPageState extends State<BookingSelectPage> {
           child: TextField(
             decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: 'No. of Guests',
+                hintText:  AppLocalizations.of(context)?.kNoFoGuestLabel ?? '',
                 hintStyle: TextStyle(fontSize: kTextRegular2x - 2)),
           ),
         ),
@@ -512,7 +526,7 @@ class _BookingSelectPageState extends State<BookingSelectPage> {
         24.vGap,
         Center(
           child: Text(
-            'You won\'t be charge yet.',
+             AppLocalizations.of(context)?.kYouWontBeChargeYetLabel ?? '',
             style: TextStyle(
                 fontSize: kTextRegular2x, fontWeight: FontWeight.bold),
           ),
@@ -524,7 +538,7 @@ class _BookingSelectPageState extends State<BookingSelectPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '80000 Ks / hr x 8 hr',
+                '80000 Ks / 1hr x 8hr',
                 style: TextStyle(
                     fontSize: kTextRegular13 + 1, fontWeight: FontWeight.w700),
               ),
@@ -544,7 +558,7 @@ class _BookingSelectPageState extends State<BookingSelectPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('TOTAL',
+              Text(AppLocalizations.of(context)?.kTotalLabel ?? '',
                   style: TextStyle(
                       fontSize: kTextRegular2x, fontWeight: FontWeight.bold)),
               Text('64000 ks',

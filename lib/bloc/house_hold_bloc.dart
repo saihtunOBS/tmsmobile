@@ -253,22 +253,26 @@ class HouseHoldBloc extends ChangeNotifier {
           child: Column(
             children: [
               Expanded(
-                child: CupertinoDatePicker(
-                  maximumYear: DateTime.now().year,
-                  mode: CupertinoDatePickerMode.date,
-                  onDateTimeChanged: (value) {
-                    if (isRegistration == true) {
-                      registrationDate = DateFormatter.formatDate(value);
-                    } else if (isMoveIn == true) {
-                      moveInDate = DateFormatter.formatDate(value);
-                    } else if (isOwner == true) {
-                      ownerDob = DateFormatter.formatDate(value);
-                    } else if (isResident == true) {
-                      residentDob = DateFormatter.formatDate(value);
-                    }
-
-                    notifyListeners();
-                  },
+                child: Localizations.override(
+                  context: context!,
+                  locale: Locale('en'),
+                  child: CupertinoDatePicker(
+                    maximumYear: DateTime.now().year,
+                    mode: CupertinoDatePickerMode.date,
+                    onDateTimeChanged: (value) {
+                      if (isRegistration == true) {
+                        registrationDate = DateFormatter.formatDate(value);
+                      } else if (isMoveIn == true) {
+                        moveInDate = DateFormatter.formatDate(value);
+                      } else if (isOwner == true) {
+                        ownerDob = DateFormatter.formatDate(value);
+                      } else if (isResident == true) {
+                        residentDob = DateFormatter.formatDate(value);
+                      }
+                  
+                      notifyListeners();
+                    },
+                  ),
                 ),
               ),
               5.vGap,

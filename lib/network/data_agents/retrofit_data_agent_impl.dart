@@ -60,6 +60,8 @@ class RetrofitDataAgentImpl extends TmsDataAgent {
         .login(loginRequest)
         .asStream()
         .map((response) {
+          PersistenceData.shared
+                                    .saveToken(response.data?.token ?? '');
           return response;
         })
         .first

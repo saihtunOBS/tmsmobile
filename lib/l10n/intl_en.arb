@@ -235,6 +235,17 @@
     "kNoEmergencyLabel": "No emergency contacts.",
     "kThereIsNoEmergencyLabel": "There is no emergency contacts to show right now.",
     "kNoBillingLabel": "No Billing.",
-    "kThereIsNoBillingLabel": "There is no billing to show right now."
+    "kThereIsNoBillingLabel": "There is no billing to show right now.",
+    "kBookingLabel": "Booking",
+    "kFromLabel": "From",
+    "kToLabel": "To",
+    "kNoFoGuestLabel": "No. of Guests",
+    "kReserveLabel": "Reserve",
+    "kYouWontBeChargeYetLabel": "You won't be charge yet.",
+    "kTotalLabel": "TOTAL",
+    "kClickToSelectLabel": "Click to select.",
+    "kSelectDateTimeLabel": "Select Date & Time",
+    "kSelectTimeLabel": "Select Time"
+
 
 }

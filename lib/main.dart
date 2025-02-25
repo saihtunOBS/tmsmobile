@@ -8,6 +8,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/add_resident_bloc.dart';
 import 'package:tmsmobile/bloc/announcement_bloc.dart';
+import 'package:tmsmobile/bloc/booking_section_bloc.dart';
 import 'package:tmsmobile/bloc/complaint_bloc.dart';
 import 'package:tmsmobile/bloc/edit_resident_bloc.dart';
 import 'package:tmsmobile/bloc/epc_bloc.dart';
@@ -21,6 +22,7 @@ import 'package:tmsmobile/data/app_data/app_data.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/network/notification_service.dart';
 import 'package:tmsmobile/pages/auth/splash_screen_page.dart';
+import 'package:tmsmobile/pages/home/booking_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'bloc/invoice_detai_bloc.dart';
 import 'firebase_options.dart';
@@ -57,6 +59,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => ComplaintBloc()),
     ChangeNotifierProvider(create: (_) => EpcBloc()),
     ChangeNotifierProvider(create: (_) => AnnouncementBloc()),
+    ChangeNotifierProvider(create: (_) => BookingSectionBloc()),
   ], child: const TMSMobile()));
 }
 
