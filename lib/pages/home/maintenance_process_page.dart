@@ -122,6 +122,7 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
 
   Widget _buildSetpper(MaintenanceProcessBloc bloc) {
     return SingleChildScrollView(
+      physics: ClampingScrollPhysics(),
       child: Column(
           spacing: kMargin30,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,9 +184,10 @@ class _MaintenanceProcessPageState extends State<MaintenanceProcessPage> {
                                   bloc.quotationDate ?? '')
                               : '',
                           title: kQuotationLabel,
-                          onPressedDetail: () async{
-                            var result = await PageNavigator(ctx: context).nextPage(
-                                page: MaintenanceQuotationPage(
+                          onPressedDetail: () async {
+                            var result =
+                                await PageNavigator(ctx: context).nextPage(
+                                    page: MaintenanceQuotationPage(
                               quotation: bloc.quotationVO ?? QuotationVO(),
                               id: widget.id ?? '',
                               data: widget.data,

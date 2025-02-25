@@ -11,7 +11,8 @@ const kAppBarTopImage = 'assets/images/appbar_toplogo.png';
 const kAppBarBottonImage = 'assets/images/appbar_bottomlogo.png';
 const kRadioImage = 'assets/images/radio.png';
 const kShadowRadioImage = 'assets/images/shadow_radio.png';
-const kBannerImage = 'https://10westedge.com/assets/images/cache/gallery_banner_10_westedge_2027-f0100714b5b0a76e9f6a5ca5f1398f77.jpg';
+const kBannerImage =
+    'https://10westedge.com/assets/images/cache/gallery_banner_10_westedge_2027-f0100714b5b0a76e9f6a5ca5f1398f77.jpg';
 const kContractImage = 'assets/images/contract.png';
 const kBillingImage = 'assets/images/billing.png';
 const kMaintenanceImage = 'assets/images/maintaince.png';
@@ -42,3 +43,4 @@ const kEditIcon = 'assets/images/edit_logo.png';
 const kDeleteIcon = 'assets/images/delete_logo.png';
 const kPlaceholderImage = 'assets/images/placeholder.jpg';
 const kPaymentImage = 'assets/images/payment.png';
+const kBookingStatusImage = 'assets/images/booking_status.png';

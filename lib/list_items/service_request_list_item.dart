@@ -6,7 +6,6 @@ import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class ServiceRequestListItem extends StatelessWidget {
   const ServiceRequestListItem(
       {super.key, required this.status, this.isFillOut, this.data});
@@ -68,6 +67,7 @@ class ServiceRequestListItem extends StatelessWidget {
                               ? _filterFillOutStatus(status: status)
                               : _filterStatus(status: status),
                           style: TextStyle(
+                              fontWeight: FontWeight.bold,
                               fontSize: kTextSmall,
                               color: isFillOut == true
                                   ? _filterFillOutStatusColor(status: status)
@@ -87,8 +87,7 @@ class ServiceRequestListItem extends StatelessWidget {
                 Text(
                   isFillOut == true ? 'Fit Out' : 'Electric Fault',
                   style: TextStyle(
-                      fontSize: kTextRegular,
-                      fontWeight: FontWeight.w700),
+                      fontSize: kTextRegular, fontWeight: FontWeight.w700),
                 ),
                 Text(
                   isFillOut == true
@@ -147,7 +146,8 @@ class ServiceRequestListItem extends StatelessWidget {
                                             data?.pendingDate ?? '')
                                         : DateFormatter.formatStringDate(
                                             data?.finishDate ?? ''),
-                style: TextStyle(fontSize: kMarginMedium14),
+                style: TextStyle(
+                    fontSize: kMarginMedium14 - 1, fontWeight: FontWeight.bold),
               )
             ],
           )

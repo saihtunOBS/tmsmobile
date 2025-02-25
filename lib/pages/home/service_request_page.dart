@@ -87,35 +87,40 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
               children: [
                 DefaultTabController(
                     length: 2,
-                    child: TabBar(
-                        dividerColor: Colors.transparent,
-                        controller: _tabController,
-                        indicatorSize: TabBarIndicatorSize.tab,
-                        indicatorPadding: EdgeInsets.only(
-                            top: kMargin45, left: kMargin24, right: kMargin24),
-                        indicatorWeight: 4.0,
-                        indicator: ShapeDecoration(
-                          shape: UnderlineInputBorder(),
-                          gradient: LinearGradient(
-                            colors: [kPrimaryColor, kThirdColor],
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: kMargin24),
+                      child: TabBar(
+                          dividerColor: kGreyColor,
+                          controller: _tabController,
+                          indicatorSize: TabBarIndicatorSize.tab,
+                          indicatorPadding: EdgeInsets.only(
+                            top: kMargin45,
                           ),
-                        ),
-                        tabs: [
-                          Tab(
-                            child: Text(kMaintenanceLabel,
+                          indicatorWeight: 4.0,
+                          indicator: ShapeDecoration(
+                            shape: UnderlineInputBorder(),
+                            gradient: LinearGradient(
+                              colors: [kPrimaryColor, kThirdColor],
+                            ),
+                          ),
+                          tabs: [
+                            Tab(
+                              child: Text(kMaintenanceLabel,
+                                  style: TextStyle(
+                                      fontSize: kTextRegular,
+                                      fontWeight: FontWeight.w700)),
+                            ),
+                            Tab(
+                              child: Text(
+                                AppLocalizations.of(context)?.kFillOutLabel ??
+                                    '',
                                 style: TextStyle(
                                     fontSize: kTextRegular,
-                                    fontWeight: FontWeight.w700)),
-                          ),
-                          Tab(
-                            child: Text(
-                              AppLocalizations.of(context)?.kFillOutLabel ?? '',
-                              style: TextStyle(
-                                  fontSize: kTextRegular,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          )
-                        ])),
+                                    fontWeight: FontWeight.w700),
+                              ),
+                            )
+                          ]),
+                    )),
                 Expanded(
                   child: TabBarView(
                       physics: const NeverScrollableScrollPhysics(),

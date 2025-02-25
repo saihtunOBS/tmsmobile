@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
@@ -15,7 +14,7 @@ Widget gradientButton(
   return GestureDetector(
     onTap: onPress,
     child: Container(
-      height: 55,
+      height: 50,
       margin: EdgeInsets.only(
           left: kMarginMedium2, right: kMarginMedium2, bottom: kMargin5),
       width: double.infinity,

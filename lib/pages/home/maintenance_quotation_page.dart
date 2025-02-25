@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/maintenance_quotation_bloc.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
+import 'package:tmsmobile/data/vos/process_vo.dart';
 import 'package:tmsmobile/data/vos/quotation_vo.dart';
 import 'package:tmsmobile/data/vos/service_request_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
+import 'package:tmsmobile/extension/number_extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
@@ -115,12 +117,13 @@ class MaintenanceQuotationPage extends StatelessWidget {
   Widget _buildBody(
       BuildContext context, QuotationVO quotationData, ServiceRequestVo data) {
     return SingleChildScrollView(
+      physics: ClampingScrollPhysics(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: kMargin12,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kMarginMedium2,vertical: kMarginMedium2),
+            padding: const EdgeInsets.symmetric(
+                horizontal: kMarginMedium2, vertical: kMarginMedium2),
             child: Column(
               spacing: kMargin12,
               children: [
@@ -151,11 +154,16 @@ class MaintenanceQuotationPage extends StatelessWidget {
               ],
             ),
           ),
-          // 1.vGap,
-          // _buildMaintenanceInvoice(context),
+          data.processData?.isEmpty ?? true
+              ? SizedBox()
+              : _buildMaintenanceInvoice(
+                  context, data.processData?.first ?? ProcessVO()),
+          15.vGap,
           // //_buildMonthyInvoice(context),
-          // _buildPrice(context),
-          // 10.vGap
+          data.processData?.isEmpty ?? true
+              ? SizedBox()
+              : _buildPrice(context, data.processData?.first ?? ProcessVO()),
+          20.vGap
         ],
       ),
     );
@@ -183,7 +191,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
     );
   }
 
-  Widget _buildMaintenanceInvoice(context) {
+  Widget _buildMaintenanceInvoice(context, ProcessVO data) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: kMarginMedium2),
       decoration: BoxDecoration(
@@ -223,7 +231,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
                 ),
               )),
           ListView.builder(
-              itemCount: 2,
+              itemCount: data.details?.length,
               shrinkWrap: true,
               padding: EdgeInsets.symmetric(
                   horizontal: kMarginMedium2, vertical: kMargin10),
@@ -231,7 +239,8 @@ class MaintenanceQuotationPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Column(
                   children: [
-                    _buildMaintenanceInvoiceChild(context),
+                    _buildMaintenanceInvoiceChild(
+                        context, data.details?[index] ?? DetailVO()),
                     index == 1 ? SizedBox.shrink() : Divider()
                   ],
                 );
@@ -241,7 +250,7 @@ class MaintenanceQuotationPage extends StatelessWidget {
     );
   }
 
-  Widget _buildMaintenanceInvoiceChild(context) {
+  Widget _buildMaintenanceInvoiceChild(context, DetailVO data) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: kMargin10),
       child: Column(
@@ -249,29 +258,28 @@ class MaintenanceQuotationPage extends StatelessWidget {
         children: [
           _buildListDetail(
               title: AppLocalizations.of(context)?.kDetailLabel ?? '',
-              value:
-                  'this is description this is descriptionthis is descriptionthis is descriptionthis is descriptionthis is descriptionthis is descriptionthis is description'),
+              value: data.description ?? ''),
           _buildListDetail(
               title: AppLocalizations.of(context)?.kUnitLabel ?? '',
-              value: 'value'),
+              value: '-'),
           _buildListDetail(
               title: AppLocalizations.of(context)?.kQtyLabel ?? '',
-              value: 'value'),
+              value: data.qty.toString()),
           _buildListDetail(
               title: AppLocalizations.of(context)?.kTaxPercentLabel ?? '',
-              value: 'value'),
+              value: '${data.tax}%'),
           _buildListDetail(
               title: AppLocalizations.of(context)?.kRateLabel ?? '',
-              value: 'value'),
+              value: '${data.price?.toInt().toString().format} MMK'),
           _buildListDetail(
               title: AppLocalizations.of(context)?.kAmountLabel ?? '',
-              value: 'value'),
+              value: '${data.amount?.toInt().toString().format} MMK'),
         ],
       ),
     );
   }
 
-  Widget _buildPrice(context) {
+  Widget _buildPrice(context, ProcessVO data) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: kMarginMedium2),
       padding:
@@ -292,16 +300,15 @@ class MaintenanceQuotationPage extends StatelessWidget {
         children: [
           _buildListDetail(
               title: AppLocalizations.of(context)?.kSubTotal ?? '',
-              value: 'value'),
+              value: '${data.subTotal?.toInt().toString().format ?? 0} MMK'),
           _buildListDetail(
-              title: AppLocalizations.of(context)?.kTaxLabel ?? '',
-              value: 'value'),
+              title: AppLocalizations.of(context)?.kTaxLabel ?? '', value: '-'),
           _buildListDetail(
               title: AppLocalizations.of(context)?.kLateFeeLabel ?? '',
-              value: 'value'),
+              value: '-'),
           _buildListDetail(
               title: AppLocalizations.of(context)?.kGrandTotalLabel ?? '',
-              value: 'value'),
+              value: '${data.grandTotal?.toInt().toString().format ?? 0} MMK'),
         ],
       ),
     );

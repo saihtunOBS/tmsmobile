@@ -23,6 +23,9 @@ ServiceRequestVo _$ServiceRequestVoFromJson(Map<String, dynamic> json) =>
       approveDate: json['approve_date'] == null
           ? null
           : DateTime.parse(json['approve_date'] as String),
+      processData: (json['process'] as List<dynamic>?)
+          ?.map((e) => ProcessVO.fromJson(e as Map<String, dynamic>))
+          .toList(),
       surveyDate: json['survey_date'],
       quotationDate: json['quotation_date'] as String?,
       acceptRejectDate: json['accept_reject_date'] as String?,
@@ -51,6 +54,7 @@ Map<String, dynamic> _$ServiceRequestVoToJson(ServiceRequestVo instance) =>
       'shop': instance.shop,
       'status': instance.status,
       'issue': instance.issue,
+      'process': instance.processData,
       'description': instance.description,
       'photos': instance.photos,
       'business_unit': instance.businessUnit,

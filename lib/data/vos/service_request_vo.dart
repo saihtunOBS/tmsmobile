@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'process_vo.dart';
+
 part 'service_request_vo.g.dart';
 
 @JsonSerializable()
@@ -18,6 +20,9 @@ class ServiceRequestVo {
 
    @JsonKey(name: "issue")
   final Issue? issue;
+
+  @JsonKey(name: "process")
+  final List<ProcessVO>? processData;
 
    @JsonKey(name: "description")
   final String? description;
@@ -75,6 +80,7 @@ class ServiceRequestVo {
     this.extensionDate,
     this.pendingDate,
     this.approveDate,
+    this.processData,
     this.surveyDate,
     this.quotationDate,
     this.acceptRejectDate,

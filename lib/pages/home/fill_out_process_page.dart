@@ -74,6 +74,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
 
   Widget _buildSetpper(FilloutProcessBloc bloc) {
     return SingleChildScrollView(
+      physics: ClampingScrollPhysics(),
       child: Column(
           spacing: kMargin30,
           crossAxisAlignment: CrossAxisAlignment.start,
