@@ -179,7 +179,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                       child: ListView.builder(
                         physics: AlwaysScrollableScrollPhysics(),
                         padding: EdgeInsets.symmetric(
-                            vertical: kMargin24, horizontal: kMarginMedium2),
+                            vertical: kMargin24, horizontal: kMargin24),
                         itemCount: bloc.isLoadMoreMaintenance == true
                             ? bloc.maintenanceLists.length + 1
                             : bloc.maintenanceLists.length,
@@ -252,11 +252,8 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
                     height: double.infinity,
                     child: ListView.builder(
                       physics: AlwaysScrollableScrollPhysics(),
-                      padding: EdgeInsets.only(
-                          left: kMarginMedium2,
-                          right: kMarginMedium2,
-                          top: kMarginMedium2,
-                          bottom: kMargin40 + 10),
+                      padding: EdgeInsets.symmetric(
+                          vertical: kMargin24, horizontal: kMargin24),
                       itemCount: bloc.isLoadMoreFillOut == true
                           ? bloc.fillOutLists.length + 1
                           : bloc.fillOutLists.length,

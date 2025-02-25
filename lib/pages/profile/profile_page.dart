@@ -8,13 +8,12 @@ import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/auth/login_page.dart';
-import 'package:tmsmobile/pages/home/booking_page.dart';
+import 'package:tmsmobile/pages/auth/term_and_condition_page.dart';
 import 'package:tmsmobile/pages/profile/account_change_language_page.dart';
 import 'package:tmsmobile/pages/profile/account_change_password_page.dart';
 import 'package:tmsmobile/pages/profile/change_profile_page.dart';
 import 'package:tmsmobile/pages/profile/emergency_contact_page.dart';
 import 'package:tmsmobile/pages/profile/household_registration_page.dart';
-import 'package:tmsmobile/pages/profile/account_term_and_condition_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
@@ -236,7 +235,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           .nextPage(page: HouseholdRegistrationPage());
                     case 3:
                       PageNavigator(ctx: context)
-                          .nextPage(page: BookingPage());
+                          .nextPage(page: TermAndConditionPage());
                     case 4:
                       PageNavigator(ctx: context)
                           .nextPage(page: AccountChangeLanguagePage());
