@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/booking_hour_bloc.dart';
 import 'package:tmsmobile/extension/extension.dart';
+import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/images.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
 
@@ -154,7 +155,9 @@ class _BookingHourPageState extends State<BookingHourPage> {
                             3.hGap,
                             Text(
                               bloc.fromDate == ''
-                                  ?  AppLocalizations.of(context)?.kSelectDateTimeLabel ?? ''
+                                  ? AppLocalizations.of(context)
+                                          ?.kSelectDateTimeLabel ??
+                                      ''
                                   : bloc.fromDate,
                               style: TextStyle(
                                   color: kBlackColor,
@@ -186,6 +189,7 @@ class _BookingHourPageState extends State<BookingHourPage> {
             Expanded(
                 child: InkWell(
               onTap: () {
+                if (bloc.fromDate == '') return;
                 bloc.onSelectDate();
                 bloc.onSelectFromOrToDate(false);
               },
@@ -198,7 +202,7 @@ class _BookingHourPageState extends State<BookingHourPage> {
                     Padding(
                       padding: const EdgeInsets.only(left: 2),
                       child: Text(
-                         AppLocalizations.of(context)?.kToLabel ?? '',
+                        AppLocalizations.of(context)?.kToLabel ?? '',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: kTextSmall - 1),
@@ -217,7 +221,9 @@ class _BookingHourPageState extends State<BookingHourPage> {
                             3.hGap,
                             Text(
                               bloc.toDate == ''
-                                  ?  AppLocalizations.of(context)?.kSelectDateTimeLabel ?? ''
+                                  ? AppLocalizations.of(context)
+                                          ?.kSelectDateTimeLabel ??
+                                      ''
                                   : bloc.toDate,
                               style: TextStyle(
                                   color: kBlackColor,
@@ -286,14 +292,18 @@ class _BookingHourPageState extends State<BookingHourPage> {
                   height: 200,
                   child: Localizations.override(
                     context: context,
-                    locale: Locale('en'), 
+                    locale: Locale('en'),
                     child: CupertinoDatePicker(
                       initialDateTime: DateTime.now(),
+                      minimumDate: bloc.fromDate == ''
+                          ? null
+                          : DateFormatter.stringToDate(bloc.fromDate),
                       mode: CupertinoDatePickerMode.time,
                       use24hFormat: false, // Change to true for 24-hour format
                       onDateTimeChanged: (DateTime newDateTime) {
                         bloc.onChangeTime(TimeOfDay(
-                            hour: newDateTime.hour, minute: newDateTime.minute));
+                            hour: newDateTime.hour,
+                            minute: newDateTime.minute));
                       },
                     ),
                   ),
@@ -361,7 +371,7 @@ class _BookingHourPageState extends State<BookingHourPage> {
                 fit: BoxFit.cover,
               ),
             ),
-            _buildCalendarWithActionButtons(context),
+            _buildCalendarWithActionButtons(context, bloc),
             20.vGap,
             _buildOccupiAndMaintenanceView(),
           ],
@@ -370,17 +380,26 @@ class _BookingHourPageState extends State<BookingHourPage> {
     );
   }
 
-  Widget _buildCalendarWithActionButtons(BuildContext context) {
+  Widget _buildCalendarWithActionButtons(
+      BuildContext context, BookingHourBloc bloc) {
     final config = CalendarDatePicker2WithActionButtonsConfig(
         lastDate: DateTime.now(),
-        
-        calendarType: CalendarDatePicker2Type.single,
+        calendarType: bloc.isSelectFromDate == true
+            ? CalendarDatePicker2Type.single
+            : CalendarDatePicker2Type.range,
         disableModePicker: true,
         rangeBidirectional: true,
         daySplashColor: kSecondGreyColor,
         controlsTextStyle:
             TextStyle(fontSize: kTextRegular18, fontWeight: FontWeight.bold),
         selectedDayHighlightColor: kRedColor,
+        selectedRangeHighlightColor: Colors.greenAccent,
+        selectedRangeDecorationPredicate: (
+                {required dayToBuild,
+                required decoration,
+                required isEndDate,
+                required isStartDate}) =>
+            decoration.copyWith(color: Colors.greenAccent),
         monthTextStyle: TextStyle(fontSize: kTextRegular2x),
         selectedDayTextStyle:
             TextStyle(fontSize: kTextRegular2x, color: kWhiteColor),
@@ -396,9 +415,24 @@ class _BookingHourPageState extends State<BookingHourPage> {
                 locale: Locale('en'),
                 child: CalendarDatePicker2(
                   config: config,
-                  value: bloc.selectedDate,
+                  value: bloc.isSelectFromDate == true
+                      ? bloc.selectedDate
+                      : [
+                          bloc.rangeSelectDate,
+                          DateTime.now(),
+                        ],
                   onValueChanged: (value) {
                     bloc.onChangeDate(value);
+
+                    if (bloc.isSelectFromDate == true) return;
+                    if (bloc.fromDate.isNotEmpty) {
+                      if (value.first.day <
+                          DateFormatter.stringToDate(bloc.fromDate).day) {
+                        bloc.rangeSelectDate =
+                            DateFormatter.stringToDate(bloc.fromDate);
+                        bloc.onSelectDate();
+                      }
+                    }
                   },
                 ),
               ),
@@ -420,7 +454,7 @@ class _BookingHourPageState extends State<BookingHourPage> {
                           width: 68,
                           child: Center(
                             child: Text(
-                               AppLocalizations.of(context)?.kCancelLabel ?? '',
+                              AppLocalizations.of(context)?.kCancelLabel ?? '',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -439,7 +473,7 @@ class _BookingHourPageState extends State<BookingHourPage> {
                               color: kDarkBlueColor),
                           child: Center(
                             child: Text(
-                               AppLocalizations.of(context)?.kOkLabel ?? '',
+                              AppLocalizations.of(context)?.kOkLabel ?? '',
                               style: TextStyle(
                                   color: kWhiteColor,
                                   fontWeight: FontWeight.bold),
@@ -500,7 +534,7 @@ class _BookingHourPageState extends State<BookingHourPage> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: kMarginMedium2),
           child: Text(
-             AppLocalizations.of(context)?.kNoFoGuestLabel ?? '',
+            AppLocalizations.of(context)?.kNoFoGuestLabel ?? '',
             style: TextStyle(
                 fontSize: kTextRegular2x - 2, fontWeight: FontWeight.w700),
           ),
@@ -517,16 +551,19 @@ class _BookingHourPageState extends State<BookingHourPage> {
           child: TextField(
             decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText:  AppLocalizations.of(context)?.kNoFoGuestLabel ?? '',
+                hintText: AppLocalizations.of(context)?.kNoFoGuestLabel ?? '',
                 hintStyle: TextStyle(fontSize: kTextRegular2x - 2)),
           ),
         ),
         24.vGap,
-        gradientButton(onPress: () {}, context: context),
+        gradientButton(
+            onPress: () {},
+            context: context,
+            title: AppLocalizations.of(context)?.kReserveLabel ?? ''),
         24.vGap,
         Center(
           child: Text(
-             AppLocalizations.of(context)?.kYouWontBeChargeYetLabel ?? '',
+            AppLocalizations.of(context)?.kYouWontBeChargeYetLabel ?? '',
             style: TextStyle(
                 fontSize: kTextRegular2x, fontWeight: FontWeight.bold),
           ),

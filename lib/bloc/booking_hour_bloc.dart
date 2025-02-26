@@ -15,6 +15,7 @@ class BookingHourBloc extends ChangeNotifier {
 
   String fromDate = '';
   String fromTime = '';
+  DateTime rangeSelectDate = DateTime.now();
 
   String toDate = '';
   String toTime = '';
@@ -26,9 +27,9 @@ class BookingHourBloc extends ChangeNotifier {
     isReserveView = false;
     showCurrentDate();
     notifyListeners();
-    Future.delayed(Duration(milliseconds: 300), () {
+    // Future.delayed(Duration(milliseconds: 1), () {
       _hideLoading();
-    });
+    // });
   }
 
   onClickCancelCaneldar() {
@@ -55,6 +56,7 @@ class BookingHourBloc extends ChangeNotifier {
       fromDate =
           DateFormatter.formatDate2(selectedDate.first ?? DateTime.now());
       fromTime = '${convertTo12HourFormat(selectedTime)} $period';
+      rangeSelectDate = selectedDate.first ?? DateTime.now();
     } else {
       toDate = DateFormatter.formatDate2(selectedDate.first ?? DateTime.now());
       toTime = '${convertTo12HourFormat(selectedTime)} $period';
@@ -76,13 +78,14 @@ class BookingHourBloc extends ChangeNotifier {
 
   onChangeDate(List<DateTime> date) {
     selectedDate = date;
+    rangeSelectDate = date.first;
     notifyListeners();
   }
 
   resetDate() {
     _showLoading();
     selectedDate = [DateTime.now()];
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(Duration(milliseconds: 300), () {
       _hideLoading();
     });
   }
@@ -109,9 +112,11 @@ class BookingHourBloc extends ChangeNotifier {
           ? DateTime.now()
           : DateFormatter.stringToDate(fromDate);
     } else {
-      userSelectedDate =
-          toDate == '' ? DateTime.now() : DateFormatter.stringToDate(toDate);
+      // userSelectedDate =
+      //     toDate == '' ? DateTime.now() : DateFormatter.stringToDate(fromDate);
+     rangeSelectDate = DateFormatter.stringToDate(fromDate);
     }
+   
     updateDate();
     notifyListeners();
   }

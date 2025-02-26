@@ -41,9 +41,8 @@ class AnnouncementListItem extends StatelessWidget {
                   height: 42,
                   width: double.infinity,
                   padding: EdgeInsets.only(
-                      left: kMarginMedium2,
-                      right: kMarginMedium2,
-                      top: kMargin10),
+                    left: kMarginMedium2,
+                  ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(kMargin6),
@@ -53,10 +52,15 @@ class AnnouncementListItem extends StatelessWidget {
                       stops: [0.0, 1.0],
                     ),
                   ),
-                  child: Text(
-                    data.title ?? '',
-                    style: TextStyle(
-                        color: kWhiteColor, fontWeight: FontWeight.w700),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      data.title ?? '',
+                      style: TextStyle(
+                          fontSize: kTextRegular2x,
+                          color: kWhiteColor,
+                          fontWeight: FontWeight.w700),
+                    ),
                   ),
                 ),
                 Padding(
@@ -101,7 +105,8 @@ class AnnouncementListItem extends StatelessWidget {
               Spacer(),
               Text(
                 DateFormatter.formatDate(data.createdAt ?? DateTime.now()),
-                style: TextStyle(fontSize: kTextRegular - 2),
+                style: TextStyle(
+                    fontSize: kMarginMedium14 - 1, fontWeight: FontWeight.bold),
               )
             ],
           )

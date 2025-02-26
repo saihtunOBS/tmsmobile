@@ -12,6 +12,8 @@ import 'package:tmsmobile/bloc/announcement_bloc.dart';
 // import 'package:tmsmobile/pages/home/announcement_page.dart';
 // import 'package:tmsmobile/utils/route_observer.dart';
 import '../main.dart';
+import '../pages/home/announcement_page.dart';
+import '../utils/route_observer.dart';
 import 'local_notification_service.dart';
 
 StreamController epcStreamController = BehaviorSubject.seeded('');
@@ -70,12 +72,6 @@ class NotificationService {
       await Firebase.initializeApp();
 
       if (message == null) return;
-
-      // navigatorKey.currentState!.push(
-      //   MaterialPageRoute(
-      //     builder: (_) => SplashScreenPage(),
-      //   ),
-      // );
 
       // Future.delayed((Duration(seconds: 3)), () {
       //   if (CurrentRouteObserver.currentRoute != 'AnnouncementPage') {

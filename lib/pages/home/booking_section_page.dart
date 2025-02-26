@@ -355,6 +355,7 @@ class _BookingSectionPageState extends State<BookingSectionPage> {
                   child: InkWell(
                     onTap: () => showModalBottomSheet(
                         context: context,
+                        backgroundColor: kWhiteColor,
                         builder: (_) {
                           return _sectionModalSheet(bloc);
                         }),
