@@ -19,6 +19,7 @@ import 'package:tmsmobile/network/responses/otp_response.dart';
 
 import '../../data/vos/billing_vo.dart';
 import '../../data/vos/contract_information_vo.dart';
+import '../../data/vos/notification_vo.dart';
 import '../../data/vos/type_of_issue_vo.dart';
 import '../requests/household_resident_request.dart';
 import '../requests/login_request.dart';
@@ -79,4 +80,6 @@ abstract class TmsDataAgent {
   Future<List<BillingVO>> getBillingLists(String token);
   Future<BannerResponse> getBannerLists(String token);
   Future<EpcResponse> getEpcResponse(String token);
+  Future<List<NotificationVO>> getNotifications(String token);
+
 }

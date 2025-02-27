@@ -71,7 +71,7 @@ class AnnouncementListItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     softWrap: true,
-                    style: TextStyle(fontSize: kTextRegular),
+                    style: TextStyle(fontSize: kTextRegular - 1),
                   ),
                 ),
                 Row(
@@ -104,7 +104,7 @@ class AnnouncementListItem extends StatelessWidget {
             children: [
               Spacer(),
               Text(
-                DateFormatter.formatDate(data.createdAt ?? DateTime.now()),
+                DateFormatter.formatDate2(data.createdAt ?? DateTime.now()),
                 style: TextStyle(
                     fontSize: kMarginMedium14 - 1, fontWeight: FontWeight.bold),
               )

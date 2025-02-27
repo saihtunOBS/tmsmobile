@@ -127,7 +127,7 @@ class ServiceRequestListItem extends StatelessWidget {
               Spacer(),
               Text(
                 isFillOut == true
-                    ? DateFormatter.formatDate(
+                    ? DateFormatter.formatDate2(
                         data?.createdAt ?? DateTime.now())
                     : data?.status == 1
                         ? DateFormatter.formatStringDate(

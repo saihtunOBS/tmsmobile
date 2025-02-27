@@ -10,7 +10,7 @@ part of 'tms_api.dart';
 
 class _TmsApi implements TmsApi {
   _TmsApi(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= 'https://gem-b.origin.com.mm/api/v3/mobile';
+    baseUrl ??= 'https://tms-b.origin.com.mm/api/v3/mobile';
   }
 
   final Dio _dio;
@@ -1079,6 +1079,34 @@ class _TmsApi implements TmsApi {
     late EpcResponse _value;
     try {
       _value = EpcResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<NotificationResponse> getNotifications(String token) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<NotificationResponse>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/common/notification/list',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late NotificationResponse _value;
+    try {
+      _value = NotificationResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

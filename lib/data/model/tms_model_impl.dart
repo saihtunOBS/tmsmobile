@@ -8,6 +8,7 @@ import 'package:tmsmobile/data/vos/contract_information_vo.dart';
 import 'package:tmsmobile/data/vos/contract_vo.dart';
 import 'package:tmsmobile/data/vos/emergency_vo.dart';
 import 'package:tmsmobile/data/vos/household_vo.dart';
+import 'package:tmsmobile/data/vos/notification_vo.dart';
 import 'package:tmsmobile/data/vos/room_shop_vo.dart';
 import 'package:tmsmobile/data/vos/service_request_vo.dart';
 import 'package:tmsmobile/data/vos/type_of_issue_vo.dart';
@@ -242,5 +243,10 @@ class TmsModelImpl extends TmsModel {
   @override
   Future<EpcResponse> getEpcResponse(String token) {
     return tmsDataAgent.getEpcResponse(token);
+  }
+
+  @override
+  Future<List<NotificationVO>> getNotifications(String token) {
+    return tmsDataAgent.getNotifications(token);
   }
 }

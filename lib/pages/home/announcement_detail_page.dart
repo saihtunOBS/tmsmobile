@@ -69,7 +69,7 @@ class AnnouncementDetailPage extends StatelessWidget {
                     children: [
                       Icon(CupertinoIcons.calendar),
                       Text(
-                        DateFormatter.formatDate(
+                        DateFormatter.formatDate2(
                             data.createdAt ?? DateTime.now()),
                         style: TextStyle(
                             fontSize: kTextSmall, fontWeight: FontWeight.w600),

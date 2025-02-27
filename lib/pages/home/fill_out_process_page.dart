@@ -101,7 +101,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                     children: [
                       _buildProcessView(
                           date: bloc.pendingDate != null
-                              ? DateFormatter.formatDate(
+                              ? DateFormatter.formatDate2(
                                   bloc.pendingDate ?? DateTime.now())
                               : '',
                           title: kPendingLabel,
@@ -123,7 +123,7 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                           isSelected: isSelectedPending,
                           color: kBlackColor),
                       _buildProcessView(
-                          date: DateFormatter.formatDate(
+                          date: DateFormatter.formatDate2(
                               widget.fillOutData.approveDate ?? DateTime.now()),
                           title: kApprovedLabel,
                           onPressDetail: () => PageNavigator(ctx: context)

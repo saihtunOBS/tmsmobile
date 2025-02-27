@@ -24,6 +24,7 @@ import '../vos/contract_information_vo.dart';
 import '../vos/contract_vo.dart';
 import '../vos/emergency_vo.dart';
 import '../vos/household_vo.dart';
+import '../vos/notification_vo.dart';
 import '../vos/room_shop_vo.dart';
 import '../vos/service_request_vo.dart';
 import '../vos/type_of_issue_vo.dart';
@@ -78,4 +79,5 @@ abstract class TmsModel {
   Future<List<BillingVO>> getBillingLists(String token);
   Future<BannerResponse> getBannerLists(String token);
   Future<EpcResponse> getEpcResponse(String token);
+  Future<List<NotificationVO>> getNotifications(String token);
 }

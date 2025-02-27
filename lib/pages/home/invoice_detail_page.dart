@@ -121,7 +121,7 @@ class InvoiceDetailPage extends StatelessWidget {
                     value: billingData?.invoiceCode ?? ''),
                 _buildListDetail(
                     title: AppLocalizations.of(context)?.kDateLabel ?? '',
-                    value: DateFormatter.formatDate(
+                    value: DateFormatter.formatDate2(
                         billingData?.date ?? DateTime.now())),
                 _buildListDetail(
                     title: AppLocalizations.of(context)?.kTenantNameLabel ?? '',
@@ -139,7 +139,7 @@ class InvoiceDetailPage extends StatelessWidget {
                     value: billingData?.month ?? '-'),
                 _buildListDetail(
                     title: AppLocalizations.of(context)?.kDueDateLabel ?? '',
-                    value: DateFormatter.formatDate(
+                    value: DateFormatter.formatDate2(
                         billingData?.dueDate ?? DateTime.now())),
               ],
             ),

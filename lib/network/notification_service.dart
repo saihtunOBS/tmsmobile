@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tmsmobile/bloc/announcement_bloc.dart';
+import 'package:tmsmobile/bloc/notification_bloc.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 // import 'package:tmsmobile/pages/auth/splash_screen_page.dart';
 // import 'package:tmsmobile/pages/home/announcement_page.dart';
@@ -52,8 +53,11 @@ class NotificationService {
       if (currentContext != null) {
         var announcementBloc =
             Provider.of<AnnouncementBloc>(currentContext, listen: false);
+        var notiBloc =
+            Provider.of<NotificationBloc>(currentContext, listen: false);
 
         announcementBloc.getAnnouncement();
+        notiBloc.getNotification();
       }
     });
 

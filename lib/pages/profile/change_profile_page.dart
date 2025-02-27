@@ -170,7 +170,7 @@ class ChangeProfilePage extends StatelessWidget {
       _buildListDetail(
           title: AppLocalizations.of(context)?.kCreatedDateLabel ?? '',
           value:
-              DateFormatter.formatDate(userData.createdDate ?? DateTime.now())),
+              DateFormatter.formatDate2(userData.createdDate ?? DateTime.now())),
       _buildListDetail(
           title: AppLocalizations.of(context)?.kNameLabel ?? '',
           value: userData.tenantName ?? ''),

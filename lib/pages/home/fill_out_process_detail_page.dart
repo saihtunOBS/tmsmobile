@@ -51,9 +51,9 @@ class FillOutProcessDetailPage extends StatelessWidget {
               child: _buildListDetail(
                   title: AppLocalizations.of(context)?.kDateLabel ?? '',
                   value: isApproved == true
-                      ? DateFormatter.formatDate(
+                      ? DateFormatter.formatDate2(
                           data?.approveDate ?? DateTime.now())
-                      : DateFormatter.formatDate(
+                      : DateFormatter.formatDate2(
                           data?.pendingDate ?? DateTime.now())),
             ),
             Visibility(

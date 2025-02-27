@@ -43,6 +43,7 @@ const String kEndPointFilOutProcess = '/home/service/fill-out-request/format';
 const String kChangeMaintenanceStatus = '/home/service/maintenance/change-status';
 const String kEndPointBilling = '/home/billing/list';
 const String kEndPointBanner = '/home/adventisment';
+const String kEndPointNotification = '/common/notification/list';
 
 ///Parameters
 const String kParamApiKey = "api_key";

@@ -37,7 +37,7 @@ class BillingListItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                DateFormatter.formatDate(biling?.date ?? DateTime.now()),
+                DateFormatter.formatDate2(biling?.date ?? DateTime.now()),
                 style: TextStyle(fontSize: kTextRegular, color: kThirdColor),
               ),
               Container(
@@ -88,8 +88,8 @@ class BillingListItem extends StatelessWidget {
               ),
               Text(
                 biling?.status == 2
-                    ? 'Paid Date ${DateFormatter.formatDate(biling?.date ?? DateTime.now())}'
-                    : '$kDueDateLabel ${DateFormatter.formatDate(biling?.dueDate ?? DateTime.now())}',
+                    ? 'Paid Date ${DateFormatter.formatDate2(biling?.date ?? DateTime.now())}'
+                    : '$kDueDateLabel ${DateFormatter.formatDate2(biling?.dueDate ?? DateTime.now())}',
                 style: TextStyle(fontSize: kTextSmall),
               ),
             ],

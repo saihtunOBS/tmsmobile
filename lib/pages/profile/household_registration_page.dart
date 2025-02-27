@@ -121,9 +121,9 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                                       )
                                     : _buildHouseHoldRegistration(
                                         context,
-                                        DateFormatter.formatDate(bloc
+                                        DateFormatter.formatDate2(bloc
                                             .householdList.first.registerDate),
-                                        DateFormatter.formatDate(bloc
+                                        DateFormatter.formatDate2(bloc
                                             .householdList.first.moveInDate),
                                         bloc.householdList.first
                                             .emergencyContactNumber,

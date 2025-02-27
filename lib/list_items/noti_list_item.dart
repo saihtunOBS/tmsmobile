@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
+import 'package:tmsmobile/data/vos/notification_vo.dart';
 import 'package:tmsmobile/utils/colors.dart';
+import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotiListItem extends StatelessWidget {
   const NotiListItem({
-    super.key,
+    super.key, required this.data,
   });
+  final NotificationVO data;
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +24,10 @@ class NotiListItem extends StatelessWidget {
               height: 32,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(kMarginMedium),
-                  color: kOrangeColor),
+                  color: kGreenColor),
               child: Center(
                 child: Icon(
-                  CupertinoIcons.wrench,
+                  CupertinoIcons.bell,
                   color: kWhiteColor,
                   size: kMarginMedium2,
                 ),
@@ -50,17 +53,17 @@ class NotiListItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Electric Fault',
+                      data.referenceData?.title ?? '',
                       style: TextStyle(
-                          fontSize: kTextRegular,
+                          fontSize: kTextRegular2x,
                           fontWeight: FontWeight.w700),
                     ),
                     Text(
-                      'Lorem ipsum dolor sit amet consectetur. Eget neque gravida tellus vitae quis ar .....',
+                      data.referenceData?.description ?? '',
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                       softWrap: true,
-                      style: TextStyle(fontSize: kTextRegular),
+                      style: TextStyle(fontSize: kTextRegular - 1),
                     ),
                     Row(
                       children: [
@@ -94,8 +97,9 @@ class NotiListItem extends StatelessWidget {
           children: [
             Spacer(),
             Text(
-              'Dec 12, 2024',
-              style: TextStyle(fontSize: kTextRegular),
+              DateFormatter.formatDate2(data.updatedAt ?? DateTime.now()),
+              style: TextStyle(
+                    fontSize: kMarginMedium14 - 1, fontWeight: FontWeight.bold),
             )
           ],
         )
