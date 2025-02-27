@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tmsmobile/bloc/announcement_bloc.dart';
+import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 // import 'package:tmsmobile/pages/auth/splash_screen_page.dart';
 // import 'package:tmsmobile/pages/home/announcement_page.dart';
 // import 'package:tmsmobile/utils/route_observer.dart';
@@ -71,7 +72,7 @@ class NotificationService {
     FirebaseMessaging.instance.getInitialMessage().then((message) async {
       await Firebase.initializeApp();
 
-      if (message == null) return;
+      if (message == null || PersistenceData.shared.getToken() == null) return;
 
       // Future.delayed((Duration(seconds: 3)), () {
       //   if (CurrentRouteObserver.currentRoute != 'AnnouncementPage') {

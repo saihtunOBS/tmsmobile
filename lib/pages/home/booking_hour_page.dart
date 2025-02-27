@@ -295,7 +295,7 @@ class _BookingHourPageState extends State<BookingHourPage> {
                     locale: Locale('en'),
                     child: CupertinoDatePicker(
                       initialDateTime: DateTime.now(),
-                      minimumDate: bloc.fromDate == ''
+                      minimumDate: bloc.isSelectFromDate == true
                           ? null
                           : DateFormatter.stringToDate(bloc.fromDate),
                       mode: CupertinoDatePickerMode.time,
