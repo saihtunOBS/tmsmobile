@@ -105,6 +105,9 @@ class ReferenceDataVO {
   @JsonKey(name: "_id")
   final String? id;
 
+  @JsonKey(name: "complaint")
+  final String? complaints;
+
   @JsonKey(name: "title")
   final String? title;
 
@@ -114,7 +117,7 @@ class ReferenceDataVO {
   @JsonKey(name: "photos")
   final List<String>? photos;
 
-  ReferenceDataVO({this.id, this.title, this.description, this.photos});
+  ReferenceDataVO({this.id, this.title,this.complaints, this.description, this.photos});
 
   factory ReferenceDataVO.fromJson(Map<String, dynamic> json) => _$ReferenceDataVOFromJson(json);
 

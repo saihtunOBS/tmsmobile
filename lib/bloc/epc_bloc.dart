@@ -15,8 +15,13 @@ class EpcBloc extends ChangeNotifier {
   String? token;
 
   EpcBloc({this.context}) {
-    token = PersistenceData.shared.getToken();
+    updateToken();
     getEpc();
+  }
+
+  void updateToken() {
+    token = PersistenceData.shared.getToken();
+    notifyListeners();
   }
 
   getEpc() async {

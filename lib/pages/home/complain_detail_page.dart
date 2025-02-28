@@ -135,6 +135,7 @@ class ComplainDetailPage extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                   fontSize: AppData.shared.getMediumFontSize()),
             ),
+            2.vGap,
             Text(
               bloc.complaintDetail?.complaint ?? '',
               style: TextStyle(

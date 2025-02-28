@@ -60,34 +60,68 @@ class NotificationPage extends StatelessWidget {
                       subTitle: AppLocalizations.of(context)
                               ?.kThereisNoNotificationLabel ??
                           '')
-                  : ListView.builder(
-                      itemCount: bloc.notiLists.length,
-                      physics: AlwaysScrollableScrollPhysics(),
-                      padding: EdgeInsets.symmetric(
-                          vertical: kMarginMedium2, horizontal: kMarginMedium2),
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            if (bloc.notiLists[index].referenceType ==
-                                'Announcement') {
-                              PageNavigator(ctx: context).nextPage(
-                                  page: AnnouncementDetailPage(
-                                      id: bloc.notiLists[index]
-                                              .referenceData?.id ??
-                                          ''));
-                            } else {
-                              PageNavigator(ctx: context).nextPage(
-                                  page: ComplainDetailPage(
-                                      complaintId: bloc.notiLists[index]
-                                              .referenceData?.id ??
-                                          ''));
-                            }
-                          },
-                          child: NotiListItem(
-                            data: bloc.notiLists[index],
-                          ),
-                        );
-                      }),
+                  : Column(children: [
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 20, right: 20, top: 20),
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: Divider(
+                              color: kDarkBlueColor,
+                            )),
+                            Text(
+                              AppLocalizations.of(context)
+                                      ?.kNewNotificationLabel ??
+                                  '',
+                              style: TextStyle(
+                                  fontSize: kTextRegular2x + 1,
+                                  fontWeight: FontWeight.bold,
+                                  color: kDarkBlueColor),
+                            ),
+                            Expanded(
+                                child: Divider(
+                              color: kDarkBlueColor,
+                            ))
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                            itemCount: bloc.notiLists.length,
+                            physics: AlwaysScrollableScrollPhysics(),
+                            padding: EdgeInsets.only(
+                                left: kMarginMedium2,
+                                right: kMarginMedium2,
+                                top: kMarginMedium2,
+                                bottom: 80),
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  if (bloc.notiLists[index].referenceType ==
+                                      'Announcement') {
+                                    Navigator.of(context).push(
+                                        PageNavigator(ctx: context)
+                                            .popUp(AnnouncementDetailPage(
+                                      id: bloc.notiLists[index].referenceData
+                                              ?.id ??
+                                          '',
+                                    )));
+                                  } else {
+                                    PageNavigator(ctx: context).nextPage(
+                                        page: ComplainDetailPage(
+                                            complaintId: bloc.notiLists[index]
+                                                    .referenceData?.id ??
+                                                ''));
+                                  }
+                                },
+                                child: NotiListItem(
+                                  data: bloc.notiLists[index],
+                                ),
+                              );
+                            }),
+                      ),
+                    ]),
         ),
       ),
     );

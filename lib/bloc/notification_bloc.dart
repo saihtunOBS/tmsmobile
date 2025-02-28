@@ -13,14 +13,27 @@ class NotificationBloc extends ChangeNotifier {
   List<NotificationVO> notiLists = [];
 
   NotificationBloc() {
-    token = PersistenceData.shared.getToken();
+    updateToken();
     getNotification();
   }
 
+  void updateToken() {
+    token = PersistenceData.shared.getToken();
+    notifyListeners();
+  }
+
   getNotification() async {
+    updateToken();
     _showLoading();
     _tmsModel.getNotifications(token ?? '').then((response) {
-      notiLists = response;
+      notiLists = response
+          .toSet()
+          .toList()
+          .where((item) =>
+              response.indexWhere((element) =>
+                  element.referenceData?.id == item.referenceData?.id) ==
+              response.indexOf(item))
+          .toList();
     }).whenComplete(() => _hideLoading());
   }
 

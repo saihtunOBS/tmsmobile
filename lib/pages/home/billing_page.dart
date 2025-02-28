@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/billing_bloc.dart';
+import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/list_items/billing_list_item.dart';
 import 'package:tmsmobile/pages/home/billing_invoice_page.dart';
@@ -61,29 +63,41 @@ class _BillingPageState extends State<BillingPage> {
                           subTitle: AppLocalizations.of(context)
                                   ?.kThereIsNoBillingLabel ??
                               '')
-                      : ListView.builder(
-                          itemCount: bloc.billingLists.length,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: kMargin24 - 2,
-                              vertical: kMarginMedium3 - 2),
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () => bloc.billingLists[index].status == 0
-                                  ? PageNavigator(ctx: context).nextPage(
-                                      page: InvoiceDetailPage(
-                                      billingData: bloc.billingLists[index],
-                                    ))
-                                  : PageNavigator(ctx: context).nextPage(
-                                      page: BillingInvoicePage(
-                                      status:
-                                          bloc.billingLists[index].status ?? 0,
-                                      data: bloc.billingLists[index],
-                                    )),
-                              child: BillingListItem(
-                                biling: bloc.billingLists[index],
-                              ),
-                            );
-                          }),
+                      : Column(children: [
+                          _buildMonthTitle(),
+                          Expanded(
+                            child: ListView.builder(
+                                itemCount: bloc.billingLists.length,
+                                physics: AlwaysScrollableScrollPhysics(),
+                                padding: EdgeInsets.only(
+                                    left: kMargin24 - 2,
+                                    right: kMargin24 - 2,
+                                    bottom: kMargin24,
+                                    top: kMargin12 + 3),
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: () => bloc
+                                                .billingLists[index].status ==
+                                            0
+                                        ? PageNavigator(ctx: context).nextPage(
+                                            page: InvoiceDetailPage(
+                                            billingData:
+                                                bloc.billingLists[index],
+                                          ))
+                                        : PageNavigator(ctx: context).nextPage(
+                                            page: BillingInvoicePage(
+                                            status: bloc.billingLists[index]
+                                                    .status ??
+                                                0,
+                                            data: bloc.billingLists[index],
+                                          )),
+                                    child: BillingListItem(
+                                      biling: bloc.billingLists[index],
+                                    ),
+                                  );
+                                }),
+                          ),
+                        ]),
             ),
           ),
         ),
@@ -133,6 +147,35 @@ class _BillingPageState extends State<BillingPage> {
               onChanged: (value) {
                 bloc.onChangeDropDown(value);
               })),
+    );
+  }
+
+  Widget _buildMonthTitle() {
+    return Padding(
+      padding: const EdgeInsets.only(
+          left: kMargin24 - 2, right: kMargin24 - 2, top: kMargin24 - 4),
+      child: Row(
+        children: [
+          Expanded(
+              child: Divider(
+            color: kDarkBlueColor,
+          )),
+          20.hGap,
+          Text(
+            DateFormat.MMMM(Localizations.localeOf(context).languageCode)
+                .format(DateTime.now()),
+            style: TextStyle(
+                fontSize: kTextRegular2x + 1,
+                fontWeight: FontWeight.bold,
+                color: kDarkBlueColor),
+          ),
+          20.hGap,
+          Expanded(
+              child: Divider(
+            color: kDarkBlueColor,
+          ))
+        ],
+      ),
     );
   }
 }

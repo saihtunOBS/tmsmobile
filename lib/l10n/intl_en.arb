@@ -148,7 +148,7 @@
     "kThereisNoNotificationLabel": "There is no notification to show right now.",
     "kNoAnnouncementLabel": "No Announcement Here.",
     "kThereisNoAnnouncementLabel": "There is no announcement to show right now.",
-    "kNewNotificationLabel": "New Nofitications",
+    "kNewNotificationLabel": "  New Nofitications  ",
     "kApprovedLabel": "Approved",
     "kDepositLabel": "Deposit",
     "kExtensionDayLabel": "Extension Days",
@@ -246,6 +246,5 @@
     "kClickToSelectLabel": "Click to select.",
     "kSelectDateTimeLabel": "Select Date & Time",
     "kSelectTimeLabel": "Select Time"
-
 
 }
