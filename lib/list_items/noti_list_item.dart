@@ -77,8 +77,10 @@ class NotiListItem extends StatelessWidget {
                       style: TextStyle(fontSize: kTextRegular - 1),
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Spacer(),
+                        data.referenceType == 'Announcement'
+                          ? Spacer() : complaintStatus(data.referenceData?.status ?? 1),
                         Container(
                           height: kSize28,
                           padding: EdgeInsets.symmetric(horizontal: kMargin12),
@@ -119,4 +121,33 @@ class NotiListItem extends StatelessWidget {
       ],
     );
   }
+}
+
+Widget complaintStatus(int status) {
+  return Container(
+    height: 24,
+    padding: EdgeInsets.symmetric(horizontal: kMarginMedium),
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: status == 1
+            ? kGreyColor.withValues(alpha: 0.5)
+            : status == 2
+                ? kYellowColor.withValues(alpha: 0.12)
+                : kPrimaryColor.withValues(alpha: 0.12)),
+    child: Center(
+      child: Text(
+        status == 1
+            ? 'Pending'
+            : status == 2
+                ? 'Processing'
+                : 'Solved',
+        style: TextStyle(
+            color: status == 1
+                ? kBlackColor
+                : status == 2
+                    ? kYellowColor
+                    : kPrimaryColor,fontSize: kMarginMedium14 - 1, fontWeight: FontWeight.bold),
+      ),
+    ),
+  );
 }

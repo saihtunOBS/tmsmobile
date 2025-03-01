@@ -23,9 +23,8 @@ class NotificationBloc extends ChangeNotifier {
   }
 
   getNotification() async {
-    updateToken();
     _showLoading();
-    _tmsModel.getNotifications(token ?? '').then((response) {
+    await _tmsModel.getNotifications(token ?? '').then((response) {
       notiLists = response
           .toSet()
           .toList()
@@ -34,6 +33,7 @@ class NotificationBloc extends ChangeNotifier {
                   element.referenceData?.id == item.referenceData?.id) ==
               response.indexOf(item))
           .toList();
+      _hideLoading();
     }).whenComplete(() => _hideLoading());
   }
 

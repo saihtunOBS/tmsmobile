@@ -42,7 +42,8 @@ class NotificationVO {
     this.referenceData,
   });
 
-  factory NotificationVO.fromJson(Map<String, dynamic> json) => _$NotificationVOFromJson(json);
+  factory NotificationVO.fromJson(Map<String, dynamic> json) =>
+      _$NotificationVOFromJson(json);
 
   Map<String, dynamic> toJson() => _$NotificationVOToJson(this);
 }
@@ -80,7 +81,8 @@ class TenantVO {
     this.fcmToken,
   });
 
-  factory TenantVO.fromJson(Map<String, dynamic> json) => _$TenantVOFromJson(json);
+  factory TenantVO.fromJson(Map<String, dynamic> json) =>
+      _$TenantVOFromJson(json);
 
   Map<String, dynamic> toJson() => _$TenantVOToJson(this);
 }
@@ -95,7 +97,8 @@ class BusinessUnitVO {
 
   BusinessUnitVO({this.id, this.buName});
 
-  factory BusinessUnitVO.fromJson(Map<String, dynamic> json) => _$BusinessUnitVOFromJson(json);
+  factory BusinessUnitVO.fromJson(Map<String, dynamic> json) =>
+      _$BusinessUnitVOFromJson(json);
 
   Map<String, dynamic> toJson() => _$BusinessUnitVOToJson(this);
 }
@@ -111,15 +114,25 @@ class ReferenceDataVO {
   @JsonKey(name: "title")
   final String? title;
 
+  @JsonKey(name: "status")
+  final int? status;
+
   @JsonKey(name: "description")
   final String? description;
 
   @JsonKey(name: "photos")
   final List<String>? photos;
 
-  ReferenceDataVO({this.id, this.title,this.complaints, this.description, this.photos});
+  ReferenceDataVO(
+      {this.id,
+      this.title,
+      this.complaints,
+      this.status,
+      this.description,
+      this.photos});
 
-  factory ReferenceDataVO.fromJson(Map<String, dynamic> json) => _$ReferenceDataVOFromJson(json);
+  factory ReferenceDataVO.fromJson(Map<String, dynamic> json) =>
+      _$ReferenceDataVOFromJson(json);
 
   Map<String, dynamic> toJson() => _$ReferenceDataVOToJson(this);
 }

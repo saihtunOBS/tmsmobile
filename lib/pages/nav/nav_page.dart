@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +14,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tmsmobile/widgets/connection_alert.dart';
 
 import '../../bloc/check_connection_bloc.dart';
+import '../../bloc/notification_bloc.dart';
 import '../home/home_page.dart';
 
 class NavPage extends StatefulWidget {
@@ -47,11 +50,16 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
             showConnectionError(context);
             Future.delayed(Duration(seconds: 3), () {
               if (mounted) {
-                // ignore: use_build_context_synchronously
                 ScaffoldMessenger.of(context).removeCurrentSnackBar();
               }
             });
-          } else {}
+          } else {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              var notiBloc =
+                  Provider.of<NotificationBloc>(context, listen: false);
+              notiBloc.getNotification();
+            });
+          }
           return ChangeNotifierProvider(
             create: (context) => TabbarBloc(context: context),
             child: Consumer<TabbarBloc>(

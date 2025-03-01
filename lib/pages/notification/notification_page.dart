@@ -14,8 +14,23 @@ import '../../utils/colors.dart';
 import '../../utils/images.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class NotificationPage extends StatelessWidget {
+class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
+
+  @override
+  State<NotificationPage> createState() => _NotificationPageState();
+}
+
+class _NotificationPageState extends State<NotificationPage> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      var notiBloc = context.read<NotificationBloc>();
+      notiBloc.getNotification();
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,122 +62,79 @@ class NotificationPage extends StatelessWidget {
         body: RefreshIndicator(
           onRefresh: () async {
             HapticFeedback.mediumImpact();
+            Future.delayed(Duration(seconds: 2), () {});
             bloc.getNotification();
           },
-          child: bloc.isLoading == true
-              ? LoadingView()
-              : bloc.notiLists.isEmpty
-                  ? EmptyView(
-                      imagePath: kNoNotiImage,
-                      title:
-                          AppLocalizations.of(context)?.kNoNotificationLabel ??
+          child: bloc.isLoading == true ? LoadingView() : bloc.notiLists.isEmpty
+              ? EmptyView(
+                  imagePath: kNoNotiImage,
+                  title:
+                      AppLocalizations.of(context)?.kNoNotificationLabel ?? '',
+                  subTitle: AppLocalizations.of(context)
+                          ?.kThereisNoNotificationLabel ??
+                      '')
+              : Column(children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 20, right: 20, top: 20),
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: Divider(
+                          color: kDarkBlueColor,
+                        )),
+                        Text(
+                          AppLocalizations.of(context)?.kNewNotificationLabel ??
                               '',
-                      subTitle: AppLocalizations.of(context)
-                              ?.kThereisNoNotificationLabel ??
-                          '')
-                  : Column(children: [
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(left: 20, right: 20, top: 20),
-                        child: Row(
-                          children: [
-                            Expanded(
-                                child: Divider(
-                              color: kDarkBlueColor,
-                            )),
-                            Text(
-                              AppLocalizations.of(context)
-                                      ?.kNewNotificationLabel ??
-                                  '',
-                              style: TextStyle(
-                                  fontSize: kTextRegular2x + 1,
-                                  fontWeight: FontWeight.bold,
-                                  color: kDarkBlueColor),
-                            ),
-                            Expanded(
-                                child: Divider(
-                              color: kDarkBlueColor,
-                            ))
-                          ],
+                          style: TextStyle(
+                              fontSize: kTextRegular2x + 1,
+                              fontWeight: FontWeight.bold,
+                              color: kDarkBlueColor),
                         ),
-                      ),
-                      Expanded(
-                        child: ListView.builder(
-                            itemCount: bloc.notiLists.length,
-                            physics: AlwaysScrollableScrollPhysics(),
-                            padding: EdgeInsets.only(
-                                left: kMarginMedium2,
-                                right: kMarginMedium2,
-                                top: kMarginMedium2,
-                                bottom: 80),
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  if (bloc.notiLists[index].referenceType ==
-                                      'Announcement') {
-                                    Navigator.of(context).push(
-                                        PageNavigator(ctx: context)
-                                            .popUp(AnnouncementDetailPage(
-                                      id: bloc.notiLists[index].referenceData
-                                              ?.id ??
-                                          '',
-                                    )));
-                                  } else {
-                                    PageNavigator(ctx: context).nextPage(
-                                        page: ComplainDetailPage(
-                                            complaintId: bloc.notiLists[index]
-                                                    .referenceData?.id ??
-                                                ''));
-                                  }
-                                },
-                                child: NotiListItem(
-                                  data: bloc.notiLists[index],
-                                ),
-                              );
-                            }),
-                      ),
-                    ]),
+                        Expanded(
+                            child: Divider(
+                          color: kDarkBlueColor,
+                        ))
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                        itemCount: bloc.notiLists.length,
+                        physics: AlwaysScrollableScrollPhysics(),
+                        padding: EdgeInsets.only(
+                            left: kMarginMedium2,
+                            right: kMarginMedium2,
+                            top: kMarginMedium2,
+                            bottom: 80),
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              if (bloc.notiLists[index].referenceType ==
+                                  'Announcement') {
+                                Navigator.of(context).push(
+                                    PageNavigator(ctx: context)
+                                        .popUp(AnnouncementDetailPage(
+                                  id: bloc.notiLists[index].referenceData?.id ??
+                                      '',
+                                )));
+                              } else {
+                                PageNavigator(ctx: context).nextPage(
+                                    page: ComplainDetailPage(
+                                        complaintId: bloc.notiLists[index]
+                                                .referenceData?.id ??
+                                            ''));
+                              }
+                            },
+                            child: NotiListItem(
+                              data: bloc.notiLists[index],
+                            ),
+                          );
+                        }),
+                  ),
+                ]),
         ),
       ),
     );
   }
-
-  // Widget _buildNewNotiBody(BuildContext context) {
-  //   return Column(
-  //     children: [
-  //       kMarginMedium2.vGap,
-  //       Text(
-  //         AppLocalizations.of(context)?.kNewNotificationLabel ?? '',
-  //         style: TextStyle(
-  //             fontSize: kTextRegular,
-  //             color: kPrimaryColor,
-  //             fontWeight: FontWeight.bold),
-  //       ),
-  //       10.vGap,
-  //       ListView.builder(
-  //           itemCount: 1,
-  //           shrinkWrap: true,
-  //           physics: NeverScrollableScrollPhysics(),
-  //           padding: EdgeInsets.symmetric(horizontal: kMarginMedium2),
-  //           itemBuilder: (context, index) {
-  //             return GestureDetector(
-  //               // onTap: () => PageNavigator(ctx: context)
-  //               //     .nextPage(page: InvoiceDetailPage(billingData: BillingVO(),)),
-  //               child: Padding(
-  //                 padding: EdgeInsets.only(bottom: kMargin10),
-  //                 child: NotiListItem(),
-  //               ),
-  //             );
-  //           }),
-  //       5.vGap,
-  //       Container(
-  //         height: 1,
-  //         width: double.infinity,
-  //         color: kGreyColor,
-  //         margin: EdgeInsets.symmetric(horizontal: kMargin24),
-  //       ),
-  //       5.vGap,
-  //     ],
-  //   );
-  // }
 }

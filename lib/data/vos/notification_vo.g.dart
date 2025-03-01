@@ -81,6 +81,7 @@ ReferenceDataVO _$ReferenceDataVOFromJson(Map<String, dynamic> json) =>
       id: json['_id'] as String?,
       title: json['title'] as String?,
       complaints: json['complaint'] as String?,
+      status: (json['status'] as num?)?.toInt(),
       description: json['description'] as String?,
       photos:
           (json['photos'] as List<dynamic>?)?.map((e) => e as String).toList(),
@@ -91,6 +92,7 @@ Map<String, dynamic> _$ReferenceDataVOToJson(ReferenceDataVO instance) =>
       '_id': instance.id,
       'complaint': instance.complaints,
       'title': instance.title,
+      'status': instance.status,
       'description': instance.description,
       'photos': instance.photos,
     };

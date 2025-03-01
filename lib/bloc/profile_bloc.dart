@@ -25,9 +25,10 @@ class ProfileBloc extends ChangeNotifier {
     _tmsModel.getUser(token ?? '').then((response) {
       userData = response.data;
       notifyListeners();
-    }).catchError((error) {
+    }).catchError((error) async {
       if (error.toString().contains('Authentication failed!')) {
-        PersistenceData.shared.clearToken();
+        await PersistenceData.shared.clearToken();
+        await PersistenceData.shared.saveToken('');
         showCommonDialog(
             isBarrierDismiss: false,
             context: context!,
