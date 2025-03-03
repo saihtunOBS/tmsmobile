@@ -95,9 +95,7 @@ class _HomePageState extends State<HomePage> {
           title: AppbarHeader(
             action: _alertView(),
           ),
-          // flexibleSpace: AppbarHeader(
-          //   action: _alertView(),
-          // ),
+         
         ),
         body: Consumer<BannerBloc>(
           builder: (context, bloc, child) => Column(

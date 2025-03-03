@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import 'package:tmsmobile/bloc/announcement_detail_bloc.dart';
 import 'package:tmsmobile/data/vos/announcement_vo.dart';
@@ -11,7 +12,6 @@ import 'package:tmsmobile/widgets/loading_view.dart';
 import '../../data/app_data/app_data.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimens.dart';
-import '../../utils/html_text.dart';
 import '../../widgets/appbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -41,8 +41,7 @@ class AnnouncementDetailPage extends StatelessWidget {
 
   Widget _buildBody(AnnouncementVO data, BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-          horizontal: kMarginMedium2),
+      padding: const EdgeInsets.symmetric(horizontal: kMarginMedium2),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,12 +84,10 @@ class AnnouncementDetailPage extends StatelessWidget {
                   fontWeight: FontWeight.w700),
             ),
             8.vGap,
-            Text(
-              htmlParser(data.description ?? ''),
-              style: TextStyle(
-                fontSize: kTextRegular,
-              ),
-            ),
+            HtmlWidget(
+              data.description ?? '',
+              textStyle: TextStyle(fontSize: kTextRegular),
+            )
           ],
         ),
       ),

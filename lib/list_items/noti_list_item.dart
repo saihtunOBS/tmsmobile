@@ -5,6 +5,7 @@ import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/utils/html_text.dart';
 
 class NotiListItem extends StatelessWidget {
   const NotiListItem({
@@ -69,8 +70,8 @@ class NotiListItem extends StatelessWidget {
                     ),
                     Text(
                       data.referenceType == 'Announcement'
-                          ? data.referenceData?.description ?? ''
-                          : data.referenceData?.complaints ?? '',
+                          ? htmlParser(data.referenceData?.description ?? '') 
+                          : htmlParser(data.referenceData?.complaints ?? ''),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                       softWrap: true,
@@ -80,7 +81,8 @@ class NotiListItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         data.referenceType == 'Announcement'
-                          ? Spacer() : complaintStatus(data.referenceData?.status ?? 1),
+                            ? Spacer()
+                            : complaintStatus(data.referenceData?.status ?? 1),
                         Container(
                           height: kSize28,
                           padding: EdgeInsets.symmetric(horizontal: kMargin12),
@@ -146,7 +148,9 @@ Widget complaintStatus(int status) {
                 ? kBlackColor
                 : status == 2
                     ? kYellowColor
-                    : kPrimaryColor,fontSize: kMarginMedium14 - 1, fontWeight: FontWeight.bold),
+                    : kPrimaryColor,
+            fontSize: kMarginMedium14 - 1,
+            fontWeight: FontWeight.bold),
       ),
     ),
   );

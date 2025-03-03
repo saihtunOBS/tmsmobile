@@ -28,7 +28,7 @@ class ProfileBloc extends ChangeNotifier {
     }).catchError((error) async {
       if (error.toString().contains('Authentication failed!')) {
         await PersistenceData.shared.clearToken();
-        await PersistenceData.shared.saveToken('');
+        await onTapLogout();
         showCommonDialog(
             isBarrierDismiss: false,
             context: context!,
