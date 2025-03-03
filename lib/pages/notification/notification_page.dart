@@ -26,6 +26,7 @@ class _NotificationPageState extends State<NotificationPage> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       var notiBloc = context.read<NotificationBloc>();
+      notiBloc.updateToken();
       notiBloc.getNotification();
     });
 
@@ -65,74 +66,79 @@ class _NotificationPageState extends State<NotificationPage> {
             Future.delayed(Duration(seconds: 2), () {});
             bloc.getNotification();
           },
-          child: bloc.isLoading == true ? LoadingView() : bloc.notiLists.isEmpty
-              ? EmptyView(
-                  imagePath: kNoNotiImage,
-                  title:
-                      AppLocalizations.of(context)?.kNoNotificationLabel ?? '',
-                  subTitle: AppLocalizations.of(context)
-                          ?.kThereisNoNotificationLabel ??
-                      '')
-              : Column(children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 20, right: 20, top: 20),
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: Divider(
-                          color: kDarkBlueColor,
-                        )),
-                        Text(
-                          AppLocalizations.of(context)?.kNewNotificationLabel ??
+          child: bloc.isLoading == true
+              ? LoadingView()
+              : bloc.notiLists.isEmpty
+                  ? EmptyView(
+                      imagePath: kNoNotiImage,
+                      title:
+                          AppLocalizations.of(context)?.kNoNotificationLabel ??
                               '',
-                          style: TextStyle(
-                              fontSize: kTextRegular2x + 1,
-                              fontWeight: FontWeight.bold,
-                              color: kDarkBlueColor),
-                        ),
-                        Expanded(
-                            child: Divider(
-                          color: kDarkBlueColor,
-                        ))
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                        itemCount: bloc.notiLists.length,
-                        physics: AlwaysScrollableScrollPhysics(),
-                        padding: EdgeInsets.only(
-                            left: kMarginMedium2,
-                            right: kMarginMedium2,
-                            top: kMarginMedium2,
-                            bottom: 80),
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              if (bloc.notiLists[index].referenceType ==
-                                  'Announcement') {
-                                Navigator.of(context).push(
-                                    PageNavigator(ctx: context)
-                                        .popUp(AnnouncementDetailPage(
-                                  id: bloc.notiLists[index].referenceData?.id ??
-                                      '',
-                                )));
-                              } else {
-                                PageNavigator(ctx: context).nextPage(
-                                    page: ComplainDetailPage(
-                                        complaintId: bloc.notiLists[index]
-                                                .referenceData?.id ??
-                                            ''));
-                              }
-                            },
-                            child: NotiListItem(
-                              data: bloc.notiLists[index],
+                      subTitle: AppLocalizations.of(context)
+                              ?.kThereisNoNotificationLabel ??
+                          '')
+                  : Column(children: [
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 20, right: 20, top: 20),
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: Divider(
+                              color: kDarkBlueColor,
+                            )),
+                            Text(
+                              AppLocalizations.of(context)
+                                      ?.kNewNotificationLabel ??
+                                  '',
+                              style: TextStyle(
+                                  fontSize: kTextRegular2x + 1,
+                                  fontWeight: FontWeight.bold,
+                                  color: kDarkBlueColor),
                             ),
-                          );
-                        }),
-                  ),
-                ]),
+                            Expanded(
+                                child: Divider(
+                              color: kDarkBlueColor,
+                            ))
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                            itemCount: bloc.notiLists.length,
+                            physics: AlwaysScrollableScrollPhysics(),
+                            padding: EdgeInsets.only(
+                                left: kMarginMedium2,
+                                right: kMarginMedium2,
+                                top: kMarginMedium2,
+                                bottom: 80),
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  if (bloc.notiLists[index].referenceType ==
+                                      'Announcement') {
+                                    Navigator.of(context).push(
+                                        PageNavigator(ctx: context)
+                                            .popUp(AnnouncementDetailPage(
+                                      id: bloc.notiLists[index].referenceData
+                                              ?.id ??
+                                          '',
+                                    )));
+                                  } else {
+                                    PageNavigator(ctx: context).nextPage(
+                                        page: ComplainDetailPage(
+                                            complaintId: bloc.notiLists[index]
+                                                    .referenceData?.id ??
+                                                ''));
+                                  }
+                                },
+                                child: NotiListItem(
+                                  data: bloc.notiLists[index],
+                                ),
+                              );
+                            }),
+                      ),
+                    ]),
         ),
       ),
     );

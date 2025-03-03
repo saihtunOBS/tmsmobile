@@ -41,9 +41,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.microtask(() async {
-        await context.read<EpcBloc>().getEpc();
-      });
+      context.read<EpcBloc>().updateToken();
+      context.read<EpcBloc>().getEpc();
     });
   }
 

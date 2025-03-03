@@ -16,7 +16,6 @@ class EpcBloc extends ChangeNotifier {
 
   EpcBloc({this.context}) {
     updateToken();
-    getEpc();
   }
 
   void updateToken() {
@@ -30,9 +29,9 @@ class EpcBloc extends ChangeNotifier {
       epcResponse = response;
       if (response.data?.isEmpty ?? true) {
         epcStreamController.sink.add('မီးပျက်နေပါသည်');
-      }else if (response.data?.first.switchState == 0){
+      } else if (response.data?.first.switchState == 0) {
         epcStreamController.sink.add('မီးပျက်နေပါသည်');
-      }else {
+      } else {
         epcStreamController.sink.add('မီးလာနေပါသည်');
       }
       notifyListeners();

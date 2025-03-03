@@ -14,7 +14,6 @@ class NotificationBloc extends ChangeNotifier {
 
   NotificationBloc() {
     updateToken();
-    getNotification();
   }
 
   void updateToken() {
