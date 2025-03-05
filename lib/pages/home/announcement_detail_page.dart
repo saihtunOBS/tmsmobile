@@ -80,13 +80,13 @@ class AnnouncementDetailPage extends StatelessWidget {
               data.title ?? '',
               style: TextStyle(
                   fontFamily: AppData.shared.fontFamily2,
-                  fontSize: AppData.shared.getExtraFontSize(),
+                  fontSize: 22,
                   fontWeight: FontWeight.w700),
             ),
             8.vGap,
             HtmlWidget(
               data.description ?? '',
-              textStyle: TextStyle(fontSize: kTextRegular),
+              textStyle: TextStyle(fontSize: kTextRegular - 1),
             )
           ],
         ),
