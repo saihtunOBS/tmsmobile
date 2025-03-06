@@ -8,7 +8,7 @@
 <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
 
     <application
-        android:label="PMS-Demo"
+        android:label="OBS-PMS"
         android:name="${applicationName}"
         android:icon="@mipmap/app_icon"
         android:requestLegacyExternalStorage="true">

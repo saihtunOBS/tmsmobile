@@ -10,7 +10,7 @@ part of 'tms_api.dart';
 
 class _TmsApi implements TmsApi {
   _TmsApi(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= 'https://tms-b.origin.com.mm/api/v3/mobile';
+    baseUrl ??= 'https://gem-b.origin.com.mm/api/v3/mobile';
   }
 
   final Dio _dio;

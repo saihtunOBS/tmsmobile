@@ -37,7 +37,7 @@ import 'responses/user_response.dart';
 
 part 'tms_api.g.dart';
 
-@RestApi(baseUrl: kBaseUrl)
+@RestApi(baseUrl: kGenBaseUrl)
 abstract class TmsApi {
   factory TmsApi(Dio dio) = _TmsApi;
 
