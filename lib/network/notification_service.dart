@@ -14,8 +14,8 @@ import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 // import 'package:tmsmobile/pages/home/announcement_page.dart';
 // import 'package:tmsmobile/utils/route_observer.dart';
 import '../main.dart';
-import '../pages/home/announcement_page.dart';
-import '../utils/route_observer.dart';
+// import '../pages/home/announcement_page.dart';
+// import '../utils/route_observer.dart';
 import 'local_notification_service.dart';
 
 StreamController epcStreamController = BehaviorSubject.seeded('');
