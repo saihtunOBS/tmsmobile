@@ -12,15 +12,19 @@ class AnnouncementBloc extends ChangeNotifier {
 
   final TmsModel _tmsModel = TmsModelImpl();
   AnnouncementBloc() {
-    token = PersistenceData.shared.getToken();
+    updateToken();
     getAnnouncement();
   }
 
-  getAnnouncement() async{
+  void updateToken() {
+    token = PersistenceData.shared.getToken();
+    notifyListeners();
+  }
+
+  getAnnouncement() async {
     _showLoading();
     await _tmsModel.getAnnouncements(token).then((response) {
       announcementList = response;
-      print(announcementList.length);
       notifyListeners();
     }).whenComplete(() => _hideLoading());
   }

@@ -25,6 +25,7 @@ class _AnnouncementPageState extends State<AnnouncementPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<AnnouncementBloc>().updateToken();
       context.read<AnnouncementBloc>().getAnnouncement();
     });
 

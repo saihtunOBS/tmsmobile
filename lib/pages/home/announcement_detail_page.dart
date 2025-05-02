@@ -87,7 +87,8 @@ class AnnouncementDetailPage extends StatelessWidget {
             HtmlWidget(
               data.description ?? '',
               textStyle: TextStyle(fontSize: kTextRegular - 1),
-            )
+            ),
+            20.vGap
           ],
         ),
       ),
