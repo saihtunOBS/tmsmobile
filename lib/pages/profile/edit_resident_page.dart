@@ -138,6 +138,7 @@ class _EditResidentPageState extends State<EditResidentPage> {
   Widget _buildEditForm() {
     return Consumer<EditResidentBloc>(
       builder: (context, bloc, child) => SingleChildScrollView(
+        physics: ClampingScrollPhysics(),
         child: Column(
           children: [
             SizedBox(

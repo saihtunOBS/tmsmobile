@@ -93,6 +93,7 @@ class _AddResidentPageState extends State<AddResidentPage> {
   Widget _buildForm() {
     return Consumer<AddResidentBloc>(
       builder: (context, bloc, child) => SingleChildScrollView(
+        physics: ClampingScrollPhysics(),
         child: Column(
           children: [
             SizedBox(

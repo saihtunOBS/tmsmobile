@@ -66,6 +66,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                         child: LoadingView(),
                       )
                     : SingleChildScrollView(
+                      physics: ClampingScrollPhysics(),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           spacing: kMarginMedium2,
@@ -147,42 +148,40 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
             bottomNavigationBar: Consumer<HouseHoldBloc>(
               builder: (context, bloc, child) => bloc.isLoading
                   ? SizedBox()
-                  : bloc.householdList.isEmpty
-                      ? SizedBox()
-                      : isClickRegistrationForm == false
-                          ? const SizedBox.shrink()
-                          : Container(
-                              color: kWhiteColor,
-                              height: kBottomBarHeight,
-                              child: Center(
-                                child: gradientButton(
-                                    title: AppLocalizations.of(context)
-                                        ?.kSubmitLabel,
-                                    onPress: () {
-                                      var bloc = context.read<HouseHoldBloc>();
-                                      bloc.checkValidation();
-                                      if (bloc.validationMessage == 'success') {
-                                        bloc.checkValidationResident();
-                                        if (bloc.residentValidationMessage ==
-                                            'success') {
-                                          bloc.createHousehold();
-                                        } else {
-                                          showCommonDialog(
-                                              context: context,
-                                              dialogWidget: ErrorDialogView(
-                                                  errorMessage: bloc
-                                                      .residentValidationMessage));
-                                        }
-                                      } else {
-                                        showCommonDialog(
-                                            context: context,
-                                            dialogWidget: ErrorDialogView(
-                                                errorMessage:
-                                                    bloc.validationMessage));
-                                      }
-                                    },
-                                    context: context),
-                              )),
+                  : isClickRegistrationForm == false
+                      ? const SizedBox.shrink()
+                      : Container(
+                          color: kWhiteColor,
+                          height: kBottomBarHeight,
+                          child: Center(
+                            child: gradientButton(
+                                title:
+                                    AppLocalizations.of(context)?.kSubmitLabel,
+                                onPress: () {
+                                  var bloc = context.read<HouseHoldBloc>();
+                                  bloc.checkValidation();
+                                  if (bloc.validationMessage == 'success') {
+                                    bloc.checkValidationResident();
+                                    if (bloc.residentValidationMessage ==
+                                        'success') {
+                                      bloc.createHousehold();
+                                    } else {
+                                      showCommonDialog(
+                                          context: context,
+                                          dialogWidget: ErrorDialogView(
+                                              errorMessage: bloc
+                                                  .residentValidationMessage));
+                                    }
+                                  } else {
+                                    showCommonDialog(
+                                        context: context,
+                                        dialogWidget: ErrorDialogView(
+                                            errorMessage:
+                                                bloc.validationMessage));
+                                  }
+                                },
+                                context: context),
+                          )),
             ),
           ),
         ),
@@ -235,6 +234,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
       AppLocalizations.of(context)?.kRelatedToOwnerLabel ?? ''
     ];
     return SingleChildScrollView(
+      physics: ClampingScrollPhysics(),
       child: Column(
         children: [
           _listItem(
@@ -387,6 +387,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
   Widget _buildRegistrationForm() {
     return Consumer<HouseHoldBloc>(
       builder: (context, bloc, child) => SingleChildScrollView(
+        physics: ClampingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: kMarginMedium2,
