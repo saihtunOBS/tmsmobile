@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
-Future<bool?> showCommonDialog({
-  required BuildContext context,
-  Widget? dialogWidget,
-  bool? isBarrierDismiss
-}) async {
+Future<bool?> showCommonDialog(
+    {required BuildContext context,
+    Widget? dialogWidget,
+    bool? isBarrierDismiss}) async {
   return showGeneralDialog(
     barrierLabel: "Label",
     barrierDismissible: isBarrierDismiss ?? true,
@@ -18,11 +17,12 @@ Future<bool?> showCommonDialog({
       );
     },
     transitionBuilder: (context, anim1, anim2, child) {
-      return SlideTransition(
-        position: Tween(begin: const Offset(0, -1), end: const Offset(0, 0))
-            .animate(anim1),
-        child: child,
-      );
+      return FadeTransition(opacity: anim1,child: child,);
+      // return SlideTransition(
+      //   position: Tween(begin: const Offset(0, -1), end: const Offset(0, 0))
+      //       .animate(anim1),
+      //   child: child,
+      // );
     },
   );
 }

@@ -37,7 +37,7 @@ class _ServiceRequestPageState extends State<ServiceRequestPage>
   void initState() {
     var bloc = context.read<ServiceRequestBloc>();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // bloc.updateToken();
+      bloc.updateToken();
       bloc.getMaintenances();
     });
     _tabController = TabController(length: 2, vsync: this);
