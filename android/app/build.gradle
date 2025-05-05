@@ -22,6 +22,8 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+
+        coreLibraryDesugaringEnabled true
     }
 
     kotlinOptions {
@@ -42,7 +44,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("/Users/heinminlatt/Desktop/alay/tmsmobile/tms.jks")
+            storeFile file("/Users/admin/Desktop/alay/tmsmobile/tms.jks")
             storePassword "123456"
             keyAlias "key"
             keyPassword "123456"
@@ -58,6 +60,9 @@ android {
             shrinkResources true
         }
     }
+}
+dependencies {
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
 }
 
 flutter {

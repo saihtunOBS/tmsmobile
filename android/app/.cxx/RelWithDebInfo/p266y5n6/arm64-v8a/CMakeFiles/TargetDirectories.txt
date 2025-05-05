@@ -1,0 +1,2 @@
+/Users/admin/Desktop/alay/tmsmobile/android/app/.cxx/RelWithDebInfo/p266y5n6/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/admin/Desktop/alay/tmsmobile/android/app/.cxx/RelWithDebInfo/p266y5n6/arm64-v8a/CMakeFiles/rebuild_cache.dir
