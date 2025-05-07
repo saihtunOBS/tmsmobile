@@ -27,7 +27,11 @@ class _NotificationPageState extends State<NotificationPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       var notiBloc = context.read<NotificationBloc>();
       notiBloc.updateToken();
-      notiBloc.getNotification();
+      Future.delayed(Duration(milliseconds: 300), () {
+        setState(() {
+          notiBloc.getNotification();
+        });
+      });
     });
 
     super.initState();
@@ -64,6 +68,7 @@ class _NotificationPageState extends State<NotificationPage> {
           onRefresh: () async {
             HapticFeedback.mediumImpact();
             Future.delayed(Duration(seconds: 2), () {});
+            bloc.updateToken();
             bloc.getNotification();
           },
           child: bloc.isLoading == true

@@ -55,7 +55,7 @@ class NotificationService {
             Provider.of<AnnouncementBloc>(currentContext, listen: false);
         var notiBloc =
             Provider.of<NotificationBloc>(currentContext, listen: false);
-
+        announcementBloc.updateToken();
         announcementBloc.getAnnouncement();
         notiBloc.getNotification();
       }

@@ -57,6 +57,7 @@ class _NavPageState extends State<NavPage> with SingleTickerProviderStateMixin {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               var notiBloc =
                   Provider.of<NotificationBloc>(context, listen: false);
+              notiBloc.updateToken();
               notiBloc.getNotification();
             });
           }

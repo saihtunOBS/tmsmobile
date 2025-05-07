@@ -6,6 +6,8 @@ import 'package:tmsmobile/data/vos/household_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/network/requests/household_registration_request.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
+import 'package:tmsmobile/widgets/common_dialog.dart';
+import 'package:tmsmobile/widgets/error_dialog_view.dart';
 
 import '../data/model/tms_model.dart';
 import '../data/model/tms_model_impl.dart';
@@ -114,7 +116,13 @@ class HouseHoldBloc extends ChangeNotifier {
         relatedToOwner: residentRelatedToController.text.trim(),
       )
     ]);
-    _tmsModel.createHouseHold(token, request).whenComplete(() {
+
+    _tmsModel.createHouseHold(token, request).catchError((value) {
+      _hideSubmitLoading();
+      showCommonDialog(
+          context: context!,
+          dialogWidget: ErrorDialogView(errorMessage: value.toString()));
+    }).whenComplete(() {
       getHouseHoldLists();
       _hideSubmitLoading();
     });
@@ -269,7 +277,7 @@ class HouseHoldBloc extends ChangeNotifier {
                       } else if (isResident == true) {
                         residentDob = DateFormatter.formatDate(value);
                       }
-                  
+
                       notifyListeners();
                     },
                   ),
@@ -282,7 +290,7 @@ class HouseHoldBloc extends ChangeNotifier {
                   onTap: () => Navigator.pop(context!),
                   child: Container(
                     margin: EdgeInsets.only(
-                        left: kMargin24, right: kMargin24,bottom: kMargin24),
+                        left: kMargin24, right: kMargin24, bottom: kMargin24),
                     width: double.infinity,
                     height: 45,
                     decoration: BoxDecoration(
@@ -292,7 +300,9 @@ class HouseHoldBloc extends ChangeNotifier {
                       child: Text(
                         'Done',
                         style: TextStyle(
-                            color: kWhiteColor, fontWeight: FontWeight.w700,fontSize: kTextRegular),
+                            color: kWhiteColor,
+                            fontWeight: FontWeight.w700,
+                            fontSize: kTextRegular),
                       ),
                     ),
                   ),

@@ -66,7 +66,7 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                         child: LoadingView(),
                       )
                     : SingleChildScrollView(
-                      physics: ClampingScrollPhysics(),
+                        physics: ClampingScrollPhysics(),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           spacing: kMarginMedium2,
@@ -135,7 +135,9 @@ class _HouseholdRegistrationPageState extends State<HouseholdRegistrationPage> {
                       ),
 
                 //submit loading
-                if (bloc.isSubmitLoading == true) LoadingView(),
+                bloc.isSubmitLoading == true
+                    ? LoadingView()
+                    : SizedBox.shrink(),
 
                 ///appbar
                 Positioned(
