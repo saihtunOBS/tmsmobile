@@ -241,7 +241,9 @@ class MaintenanceQuotationPage extends StatelessWidget {
                   children: [
                     _buildMaintenanceInvoiceChild(
                         context, data.details?[index] ?? DetailVO()),
-                    index == 1 ? SizedBox.shrink() : Divider()
+                    index == (data.details?.length ?? 0) - 1
+                        ? SizedBox.shrink()
+                        : Divider()
                   ],
                 );
               }),
