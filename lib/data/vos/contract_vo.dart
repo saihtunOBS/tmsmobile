@@ -15,7 +15,10 @@ class ContractVO {
   @JsonKey(name: "property_type")
   final String? propertyType;
 
-  ContractVO({this.id, this.tenant, this.propertyType});
+  @JsonKey(name: "createdAt")
+  final DateTime? createdAt;
+
+  ContractVO({this.id, this.tenant, this.propertyType,this.createdAt});
 
   factory ContractVO.fromJson(Map<String, dynamic> json) =>
       _$ContractVOFromJson(json);

@@ -6,6 +6,7 @@ import 'package:tmsmobile/data/vos/contract_information_vo.dart';
 import 'package:tmsmobile/data/vos/parking_vo.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
+import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -70,8 +71,9 @@ class ContractInformationPage extends StatelessWidget {
         children: [
           _listItem(
               title: AppLocalizations.of(context)?.kCreatedDateLabel ?? '',
-              value: '12/21/2025'),
-           10.vGap,
+              value:
+                  DateFormatter.formatDate2(data.createdAt ?? DateTime.now())),
+          10.vGap,
           _listItem(
               title: AppLocalizations.of(context)?.kTenantTypeLabel ?? '',
               value: type),
@@ -87,10 +89,12 @@ class ContractInformationPage extends StatelessWidget {
                 10.vGap,
                 _listItem(
                     title: AppLocalizations.of(context)?.kStartDateLabel ?? '',
-                    value: '12/21/2025'),
+                    value: DateFormatter.formatDate2(
+                        data.contractData?.startDate ?? DateTime.now())),
                 _listItem(
                     title: AppLocalizations.of(context)?.kEndDateLabel ?? '',
-                    value: '12/21/2025'),
+                    value: DateFormatter.formatDate2(
+                        data.contractData?.endDate ?? DateTime.now())),
               ],
             ),
           ),
@@ -136,8 +140,7 @@ class ContractInformationPage extends StatelessWidget {
             : Text(
                 value,
                 style: TextStyle(
-                    fontSize: kTextRegular,
-                    fontWeight: FontWeight.w700),
+                    fontSize: kTextRegular, fontWeight: FontWeight.w700),
               ),
       ],
     );
@@ -258,8 +261,7 @@ class ContractInformationPage extends StatelessWidget {
                             itemCount: data.shop?.parkingData?.length,
                             itemBuilder: (context, index) {
                               return _buildParkingInformation(
-                                  data.shop?.parkingData?[index] ??
-                                      ParkingVO(),
+                                  data.shop?.parkingData?[index] ?? ParkingVO(),
                                   data,
                                   context,
                                   bloc,

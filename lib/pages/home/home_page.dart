@@ -283,7 +283,9 @@ class _HomePageState extends State<HomePage> {
                                   child: ClipRRect(
                                     borderRadius:
                                         BorderRadius.circular(kMarginMedium),
-                                    child: cacheImage(value),
+                                    child: Container(
+                                      color: Colors.grey.withValues(alpha: 0.5),
+                                      child: cacheImage(value)),
                                   ),
                                 ),
                               );
@@ -297,13 +299,15 @@ class _HomePageState extends State<HomePage> {
                                   child: ClipRRect(
                                     borderRadius:
                                         BorderRadius.circular(kMarginMedium),
-                                    child: cacheImage(value),
+                                    child: Container(
+                                      color: Colors.grey.withValues(alpha: 0.8),
+                                      child: cacheImage(value)),
                                   ),
                                 ),
                               );
                             }).toList(),
                       options: CarouselOptions(
-                        autoPlay: false,
+                        autoPlay: true,
                         disableCenter: true,
                         viewportFraction: 1,
                         onPageChanged: (index, reason) =>

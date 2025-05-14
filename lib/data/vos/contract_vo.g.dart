@@ -12,6 +12,9 @@ ContractVO _$ContractVOFromJson(Map<String, dynamic> json) => ContractVO(
           ? null
           : Tenant.fromJson(json['tenant'] as Map<String, dynamic>),
       propertyType: json['property_type'] as String?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$ContractVOToJson(ContractVO instance) =>
@@ -19,4 +22,5 @@ Map<String, dynamic> _$ContractVOToJson(ContractVO instance) =>
       '_id': instance.id,
       'tenant': instance.tenant,
       'property_type': instance.propertyType,
+      'createdAt': instance.createdAt?.toIso8601String(),
     };

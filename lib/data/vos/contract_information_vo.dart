@@ -18,12 +18,19 @@ class ContractInformationVO {
   @JsonKey(name: "property_information")
   final List<PropertyInformation>? propertyInformation;
 
-  ContractInformationVO({
-    this.id,
-    this.tenant,
-    this.propertyType,
-    this.propertyInformation,
-  });
+  @JsonKey(name: "contract_information")
+  final ContractInformationData? contractData;
+
+  @JsonKey(name: 'createdAt')
+  final DateTime? createdAt;
+
+  ContractInformationVO(
+      {this.id,
+      this.tenant,
+      this.propertyType,
+      this.propertyInformation,
+      this.createdAt,
+      this.contractData});
 
   factory ContractInformationVO.fromJson(Map<String, dynamic> json) =>
       _$ContractInformationVOFromJson(json);
@@ -48,7 +55,8 @@ class ContractTenant {
     this.tenantCategory,
   });
 
-  factory ContractTenant.fromJson(Map<String, dynamic> json) => _$ContractTenantFromJson(json);
+  factory ContractTenant.fromJson(Map<String, dynamic> json) =>
+      _$ContractTenantFromJson(json);
 
   Map<String, dynamic> toJson() => _$ContractTenantToJson(this);
 }
@@ -152,9 +160,11 @@ class ContractShop {
   @JsonKey(name: 'parking_information')
   final List<ParkingVO>? parkingData;
 
-  ContractShop({this.id, this.name, this.status, this.totalArea,this.parkingData});
+  ContractShop(
+      {this.id, this.name, this.status, this.totalArea, this.parkingData});
 
-  factory ContractShop.fromJson(Map<String, dynamic> json) => _$ContractShopFromJson(json);
+  factory ContractShop.fromJson(Map<String, dynamic> json) =>
+      _$ContractShopFromJson(json);
 
   Map<String, dynamic> toJson() => _$ContractShopToJson(this);
 }
@@ -173,4 +183,38 @@ class RoomType {
       _$RoomTypeFromJson(json);
 
   Map<String, dynamic> toJson() => _$RoomTypeToJson(this);
+}
+
+@JsonSerializable()
+class ContractInformationData {
+  @JsonKey(name: "contract_name")
+  final String? contractName;
+
+  @JsonKey(name: "start_date")
+  final DateTime? startDate;
+
+  @JsonKey(name: "end_date")
+  final DateTime? endDate;
+
+  @JsonKey(name: "contract_duration")
+  final String? duration;
+
+  @JsonKey(name: "terminate_date")
+  final dynamic terminateDate;
+
+  @JsonKey(name: "terminate_status")
+  final dynamic terminateStatus;
+
+  ContractInformationData(
+      {this.contractName,
+      this.startDate,
+      this.endDate,
+      this.duration,
+      this.terminateDate,
+      this.terminateStatus});
+
+  factory ContractInformationData.fromJson(Map<String, dynamic> json) =>
+      _$ContractInformationDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ContractInformationDataToJson(this);
 }

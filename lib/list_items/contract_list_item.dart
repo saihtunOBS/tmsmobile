@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tmsmobile/data/vos/contract_vo.dart';
 import 'package:tmsmobile/utils/colors.dart';
+import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/images.dart';
 
@@ -70,7 +71,7 @@ class ContractListItem extends StatelessWidget {
             top: -kMarginMedium3,
             left: kMargin50 + kMargin30,
             child: Text(
-              'Dec 1, 2024',
+              DateFormatter.formatDate2(data.createdAt ?? DateTime.now()),
               style: TextStyle(
                   fontSize: kTextRegular13, fontWeight: FontWeight.bold),
             ),

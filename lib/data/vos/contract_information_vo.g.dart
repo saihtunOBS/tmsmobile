@@ -17,6 +17,13 @@ ContractInformationVO _$ContractInformationVOFromJson(
       propertyInformation: (json['property_information'] as List<dynamic>?)
           ?.map((e) => PropertyInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      contractData: json['contract_information'] == null
+          ? null
+          : ContractInformationData.fromJson(
+              json['contract_information'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ContractInformationVOToJson(
@@ -26,6 +33,8 @@ Map<String, dynamic> _$ContractInformationVOToJson(
       'tenant': instance.tenant,
       'property_type': instance.propertyType,
       'property_information': instance.propertyInformation,
+      'contract_information': instance.contractData,
+      'createdAt': instance.createdAt?.toIso8601String(),
     };
 
 ContractTenant _$ContractTenantFromJson(Map<String, dynamic> json) =>
@@ -135,4 +144,30 @@ RoomType _$RoomTypeFromJson(Map<String, dynamic> json) => RoomType(
 Map<String, dynamic> _$RoomTypeToJson(RoomType instance) => <String, dynamic>{
       '_id': instance.id,
       'room_type': instance.roomType,
+    };
+
+ContractInformationData _$ContractInformationDataFromJson(
+        Map<String, dynamic> json) =>
+    ContractInformationData(
+      contractName: json['contract_name'] as String?,
+      startDate: json['start_date'] == null
+          ? null
+          : DateTime.parse(json['start_date'] as String),
+      endDate: json['end_date'] == null
+          ? null
+          : DateTime.parse(json['end_date'] as String),
+      duration: json['contract_duration'] as String?,
+      terminateDate: json['terminate_date'],
+      terminateStatus: json['terminate_status'],
+    );
+
+Map<String, dynamic> _$ContractInformationDataToJson(
+        ContractInformationData instance) =>
+    <String, dynamic>{
+      'contract_name': instance.contractName,
+      'start_date': instance.startDate?.toIso8601String(),
+      'end_date': instance.endDate?.toIso8601String(),
+      'contract_duration': instance.duration,
+      'terminate_date': instance.terminateDate,
+      'terminate_status': instance.terminateStatus,
     };

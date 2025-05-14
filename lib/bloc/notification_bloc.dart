@@ -25,7 +25,9 @@ class NotificationBloc extends ChangeNotifier {
   getNotification() async {
     _showLoading();
     await _tmsModel.getNotifications(token ?? '').then((response) {
-      notiLists = response
+      List<NotificationVO> myNotiList =
+          response.where((data) => data.referenceData != null).toList();
+      notiLists = myNotiList
           .toSet()
           .toList()
           .where((item) =>
@@ -33,6 +35,7 @@ class NotificationBloc extends ChangeNotifier {
                   element.referenceData?.id == item.referenceData?.id) ==
               response.indexOf(item))
           .toList();
+
       _hideLoading();
     }).whenComplete(() => _hideLoading());
   }
