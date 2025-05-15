@@ -52,7 +52,7 @@ class PersistenceData {
   }
 
   clearToken() async {
-    saveToken('');
+    await saveToken('');
     await GetStorage().remove(PersistenceList.token.name);
   }
 

@@ -363,12 +363,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     //           ErrorDialogView(errorMessage: error.toString()));
                     // });
                   } else {
-                    bloc?.onTapLogout().then((_) {
-                      PersistenceData.shared.clearToken();
-                      PersistenceData.shared.clearUserData();
+                    bloc?.onTapLogout().then((_) async {
+                      await PersistenceData.shared.clearToken();
+                      await PersistenceData.shared.clearUserData();
                       PageNavigator(ctx: context)
                           .nextPageOnly(page: LoginPage());
                     }).catchError((error) {
+                      
                       showCommonDialog(
                           context: context,
                           dialogWidget:
