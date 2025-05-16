@@ -368,11 +368,15 @@ class _ProfilePageState extends State<ProfilePage> {
                       await PersistenceData.shared.clearUserData();
                       PageNavigator(ctx: context)
                           .nextPageOnly(page: LoginPage());
-                    }).catchError((error) {
-                      showCommonDialog(
-                          context: context,
-                          dialogWidget:
-                              ErrorDialogView(errorMessage: error.toString()));
+                    }).catchError((error) async {
+                      await PersistenceData.shared.clearToken();
+                      await PersistenceData.shared.clearUserData();
+                      PageNavigator(ctx: context)
+                          .nextPageOnly(page: LoginPage());
+                      // showCommonDialog(
+                      //     context: context,
+                      //     dialogWidget:
+                      //         ErrorDialogView(errorMessage: error.toString()));
                     });
                   }
                 },
