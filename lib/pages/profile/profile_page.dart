@@ -369,7 +369,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       PageNavigator(ctx: context)
                           .nextPageOnly(page: LoginPage());
                     }).catchError((error) {
-                      
                       showCommonDialog(
                           context: context,
                           dialogWidget:
