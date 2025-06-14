@@ -22,6 +22,7 @@ import 'package:tmsmobile/bloc/tabbar_bloc.dart';
 import 'package:tmsmobile/data/app_data/app_data.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
 import 'package:tmsmobile/l10n/app_localizations.dart';
+import 'package:tmsmobile/network/local_notification_service.dart';
 import 'package:tmsmobile/network/notification_service.dart';
 import 'package:tmsmobile/pages/auth/splash_screen_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
@@ -43,7 +44,8 @@ void main() async {
   {
     await Firebase.initializeApp();
   }
-
+  NotificationService().requestPermission();
+  LocalNotificationService().initialize();
   await GetStorage.init();
 
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -74,14 +76,7 @@ class TMSMobile extends StatefulWidget {
 class _TMSMobileState extends State<TMSMobile> {
   @override
   void initState() {
-    setUpFirebase();
     super.initState();
-  }
-
-  setUpFirebase() async {
-    await NotificationService(context).requestPermission();
-    // ignore: use_build_context_synchronously
-    await NotificationService(context).getFCMToken();
   }
 
   @override

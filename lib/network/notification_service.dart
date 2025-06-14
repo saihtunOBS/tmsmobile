@@ -10,12 +10,11 @@ import 'package:rxdart/rxdart.dart';
 import 'package:tmsmobile/bloc/announcement_bloc.dart';
 import 'package:tmsmobile/bloc/notification_bloc.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
-// import 'package:tmsmobile/pages/auth/splash_screen_page.dart';
-// import 'package:tmsmobile/pages/home/announcement_page.dart';
-// import 'package:tmsmobile/utils/route_observer.dart';
+import 'package:tmsmobile/pages/home/announcement_page.dart';
+import 'package:tmsmobile/utils/route_observer.dart';
+
 import '../main.dart';
-// import '../pages/home/announcement_page.dart';
-// import '../utils/route_observer.dart';
+
 import 'local_notification_service.dart';
 
 StreamController epcStreamController = BehaviorSubject.seeded('');
@@ -23,9 +22,7 @@ StreamController epcStreamController = BehaviorSubject.seeded('');
 final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
 class NotificationService {
-  final BuildContext context;
-
-  NotificationService(this.context);
+  NotificationService();
 //permission
   requestPermission() async {
     await _firebaseMessaging.requestPermission(
@@ -62,15 +59,15 @@ class NotificationService {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      // Handle navigation after a user taps on the notification
-      // if (CurrentRouteObserver.currentRoute != 'AnnouncementPage') {
-      //   navigatorKey.currentState!.push(
-      //     MaterialPageRoute(
-      //       builder: (_) => AnnouncementPage(),
-      //       settings: RouteSettings(name: "AnnouncementPage"),
-      //     ),
-      //   );
-      // }
+      //Handle navigation after a user taps on the notification
+      if (CurrentRouteObserver.currentRoute != 'AnnouncementPage') {
+        navigatorKey.currentState!.push(
+          MaterialPageRoute(
+            builder: (_) => AnnouncementPage(),
+            settings: RouteSettings(name: "AnnouncementPage"),
+          ),
+        );
+      }
     });
 
     FirebaseMessaging.instance.getInitialMessage().then((message) async {
@@ -78,16 +75,16 @@ class NotificationService {
 
       if (message == null || PersistenceData.shared.getToken() == null) return;
 
-      // Future.delayed((Duration(seconds: 3)), () {
-      //   if (CurrentRouteObserver.currentRoute != 'AnnouncementPage') {
-      //     navigatorKey.currentState!.push(
-      //       MaterialPageRoute(
-      //         builder: (_) => AnnouncementPage(),
-      //         settings: RouteSettings(name: "AnnouncementPage"),
-      //       ),
-      //     );
-      //   }
-      // });
+      Future.delayed((Duration(seconds: 3)), () {
+        if (CurrentRouteObserver.currentRoute != 'AnnouncementPage') {
+          navigatorKey.currentState!.push(
+            MaterialPageRoute(
+              builder: (_) => AnnouncementPage(),
+              settings: RouteSettings(name: "AnnouncementPage"),
+            ),
+          );
+        }
+      });
     });
   }
 

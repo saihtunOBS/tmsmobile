@@ -1,7 +1,10 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:tmsmobile/main.dart';
+import 'package:tmsmobile/pages/home/announcement_page.dart';
 import 'package:tmsmobile/utils/html_text.dart';
+import 'package:tmsmobile/utils/route_observer.dart';
 
 import '../utils/colors.dart';
 
@@ -25,8 +28,35 @@ class LocalNotificationService {
 
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
-      onDidReceiveNotificationResponse:
-          (NotificationResponse notificationResponse) async {},
+      // onDidReceiveNotificationResponse:
+      //     (NotificationResponse notificationResponse) async {
+      //   if (notificationResponse.payload == null) {
+      //     print('payload is null');
+      //   } else {
+      //     if (CurrentRouteObserver.currentRoute != 'AnnouncementPage') {
+      //       navigatorKey.currentState!.push(
+      //         MaterialPageRoute(
+      //           builder: (_) => AnnouncementPage(),
+      //           settings: RouteSettings(name: "AnnouncementPage"),
+      //         ),
+      //       );
+      //     }
+      //   }
+      // },
+      // onDidReceiveBackgroundNotificationResponse: (details) {
+      //   if (details.payload == null) {
+      //     print('payload is null');
+      //   } else {
+      //     if (CurrentRouteObserver.currentRoute != 'AnnouncementPage') {
+      //       navigatorKey.currentState!.push(
+      //         MaterialPageRoute(
+      //           builder: (_) => AnnouncementPage(),
+      //           settings: RouteSettings(name: "AnnouncementPage"),
+      //         ),
+      //       );
+      //     }
+      //   }
+      // },
     );
 
     await flutterLocalNotificationsPlugin
