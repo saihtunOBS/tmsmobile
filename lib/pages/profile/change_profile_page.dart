@@ -13,7 +13,7 @@ import '../../utils/colors.dart';
 import '../../utils/dimens.dart';
 import '../../utils/images.dart';
 import '../../widgets/cache_image.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 import '../../widgets/image_view.dart';
 
@@ -169,8 +169,8 @@ class ChangeProfilePage extends StatelessWidget {
     return Column(spacing: kMargin12, children: [
       _buildListDetail(
           title: AppLocalizations.of(context)?.kCreatedDateLabel ?? '',
-          value:
-              DateFormatter.formatDate2(userData.createdDate ?? DateTime.now())),
+          value: DateFormatter.formatDate2(
+              userData.createdDate ?? DateTime.now())),
       _buildListDetail(
           title: AppLocalizations.of(context)?.kNameLabel ?? '',
           value: userData.tenantName ?? ''),

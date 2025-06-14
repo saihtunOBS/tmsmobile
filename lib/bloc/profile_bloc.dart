@@ -6,7 +6,7 @@ import 'package:tmsmobile/widgets/error_dialog_view.dart';
 
 import '../data/model/tms_model.dart';
 import '../data/model/tms_model_impl.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 class ProfileBloc extends ChangeNotifier {
   String? token;

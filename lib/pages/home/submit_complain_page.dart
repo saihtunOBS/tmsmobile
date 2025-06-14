@@ -16,7 +16,7 @@ import '../../utils/colors.dart';
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
 import '../../widgets/gradient_button.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 class SubmitComplainPage extends StatelessWidget {
   SubmitComplainPage({super.key});

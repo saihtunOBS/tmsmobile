@@ -15,7 +15,7 @@ import '../../data/app_data/app_data.dart';
 import '../../extension/route_navigator.dart';
 import '../../utils/images.dart';
 import '../../widgets/appbar_back_view.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 import 'otp_page.dart';
 
@@ -101,8 +101,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           Text(
                             AppLocalizations.of(context)?.kSendOTPTextLabel ??
                                 '',
-                            style: TextStyle(
-                                fontSize: kTextRegular),
+                            style: TextStyle(fontSize: kTextRegular),
                           ),
                           _buildTextField(
                               title: AppLocalizations.of(context)
@@ -170,8 +169,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         Text(
           title,
           style: GoogleFonts.nunito(
-              fontSize: kTextRegular,
-              fontWeight: FontWeight.w600),
+              fontSize: kTextRegular, fontWeight: FontWeight.w600),
         ),
         const SizedBox(
           height: 4,
@@ -194,8 +192,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: title,
-                          hintStyle: TextStyle(
-                              fontSize: kTextRegular)))),
+                          hintStyle: TextStyle(fontSize: kTextRegular)))),
               const SizedBox(
                 width: kMargin5,
               ),

@@ -26,7 +26,7 @@ import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/utils/images.dart';
 import 'package:tmsmobile/widgets/appbar_header.dart';
 import 'package:tmsmobile/widgets/cache_image.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 import 'package:tmsmobile/widgets/image_view.dart';
 
 class HomePage extends StatefulWidget {
@@ -284,8 +284,9 @@ class _HomePageState extends State<HomePage> {
                                     borderRadius:
                                         BorderRadius.circular(kMarginMedium),
                                     child: Container(
-                                      color: Colors.grey.withValues(alpha: 0.5),
-                                      child: cacheImage(value)),
+                                        color:
+                                            Colors.grey.withValues(alpha: 0.5),
+                                        child: cacheImage(value)),
                                   ),
                                 ),
                               );
@@ -300,8 +301,9 @@ class _HomePageState extends State<HomePage> {
                                     borderRadius:
                                         BorderRadius.circular(kMarginMedium),
                                     child: Container(
-                                      color: Colors.grey.withValues(alpha: 0.8),
-                                      child: cacheImage(value)),
+                                        color:
+                                            Colors.grey.withValues(alpha: 0.8),
+                                        child: cacheImage(value)),
                                   ),
                                 ),
                               );

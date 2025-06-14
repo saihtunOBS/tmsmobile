@@ -19,13 +19,11 @@ import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
 import 'package:tmsmobile/widgets/cache_image.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
 
 import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
-import '../../widgets/common_dialog.dart';
-import '../../widgets/error_dialog_view.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});

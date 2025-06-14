@@ -12,7 +12,7 @@ import '../../utils/colors.dart';
 import '../../utils/images.dart';
 import '../../widgets/appbar.dart';
 import '../../widgets/loading_view.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 class AnnouncementPage extends StatefulWidget {
   const AnnouncementPage({super.key});

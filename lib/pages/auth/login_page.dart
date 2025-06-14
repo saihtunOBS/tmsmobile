@@ -19,7 +19,7 @@ import '../../utils/images.dart';
 import '../../widgets/common_dialog.dart';
 import '../../widgets/error_dialog_view.dart';
 import '../nav/nav_page.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

@@ -7,7 +7,7 @@ import 'package:tmsmobile/bloc/nrc_bloc.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 class NRCView extends StatefulWidget {
   const NRCView({
@@ -28,7 +28,6 @@ class NRCViewState extends State<NRCView> {
 
   @override
   void initState() {
-   
     var bloc = context.read<NRCBloc>();
     bloc.isEmptyNrc = true;
     bloc.selectedTownshipCodes = [];
@@ -140,7 +139,6 @@ class NRCViewState extends State<NRCView> {
                             }).toList(),
                             onChanged: (value) {
                               bloc.getTownshipByRegionCode(value ?? '');
-                             
                             },
                           ),
                         ),
@@ -161,7 +159,7 @@ class NRCViewState extends State<NRCView> {
                         child: DropdownButton<String>(
                           value: bloc.selectedTownshipCode ?? 'Select',
                           onTap: () => FocusScope.of(context)
-                                .requestFocus(_nrcFocusNode),
+                              .requestFocus(_nrcFocusNode),
                           isExpanded: true,
                           menuMaxHeight: kMargin110,
                           iconDisabledColor: Colors.black,
@@ -199,7 +197,7 @@ class NRCViewState extends State<NRCView> {
                           value: bloc.selectedNRCType,
                           isExpanded: true,
                           onTap: () => FocusScope.of(context)
-                                .requestFocus(_nrcFocusNode),
+                              .requestFocus(_nrcFocusNode),
                           hint: Text('Type'),
                           menuMaxHeight: kMargin110,
                           iconDisabledColor: Colors.black,
@@ -227,8 +225,7 @@ class NRCViewState extends State<NRCView> {
                     Text(
                       AppLocalizations.of(context)?.kEntereNrcLabel ?? '',
                       style: TextStyle(
-                          fontSize: kTextRegular,
-                          fontWeight: FontWeight.w600),
+                          fontSize: kTextRegular, fontWeight: FontWeight.w600),
                     ),
                     5.vGap,
                     Container(

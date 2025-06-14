@@ -4,7 +4,7 @@ import 'package:tmsmobile/list_items/booking_list_item.dart';
 import 'package:tmsmobile/pages/home/booking_hour_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/widgets/appbar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 import '../../utils/dimens.dart';
 import '../../utils/images.dart';
@@ -38,13 +38,12 @@ class BookingPage extends StatelessWidget {
               return GestureDetector(
                   onTap: () {
                     if (index == 0) {
-                       PageNavigator(ctx: context)
-                        .nextPage(page: BookingHourPage());
-                    }else {
-                       PageNavigator(ctx: context)
-                        .nextPage(page: BookingSectionPage());
+                      PageNavigator(ctx: context)
+                          .nextPage(page: BookingHourPage());
+                    } else {
+                      PageNavigator(ctx: context)
+                          .nextPage(page: BookingSectionPage());
                     }
-                   
                   },
                   child: BookingListItem());
             }),

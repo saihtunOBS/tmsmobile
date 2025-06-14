@@ -12,7 +12,7 @@ import '../../utils/colors.dart';
 import '../../utils/date_formatter.dart';
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 class FillOutProcessPage extends StatefulWidget {
   const FillOutProcessPage(
@@ -105,13 +105,14 @@ class _FillOutProcessPageState extends State<FillOutProcessPage> {
                                   bloc.pendingDate ?? DateTime.now())
                               : '',
                           title: kPendingLabel,
-                          onPressDetail: () =>
-                              PageNavigator(ctx: context).nextPage(
-                                  page: FillOutProcessDetailPage(
+                          onPressDetail: () => PageNavigator(ctx: context)
+                                  .nextPage(
+                                      page: FillOutProcessDetailPage(
                                 isApproved: false,
                                 data: bloc.pendingVO,
                                 fillOutData: widget.fillOutData,
-                              )).whenComplete((){
+                              ))
+                                  .whenComplete(() {
                                 bloc.getFilloutProcess();
                               }),
                           onPressed: () {

@@ -9,7 +9,7 @@ import '../../data/app_data/app_data.dart';
 import '../../data/vos/pending_vo.dart';
 import '../../utils/dimens.dart';
 import '../../widgets/appbar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 class MaintenancePendingPage extends StatelessWidget {
   const MaintenancePendingPage({super.key, required this.pendingData});

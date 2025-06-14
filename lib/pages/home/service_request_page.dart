@@ -14,7 +14,7 @@ import 'package:tmsmobile/widgets/appbar.dart';
 import 'package:tmsmobile/widgets/empty_view.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 import '../../utils/dimens.dart';
 

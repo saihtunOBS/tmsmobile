@@ -4,7 +4,7 @@ import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/dimens.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 import 'package:tmsmobile/utils/html_text.dart';
 
 class NotiListItem extends StatelessWidget {
@@ -70,7 +70,7 @@ class NotiListItem extends StatelessWidget {
                     ),
                     Text(
                       data.referenceType == 'Announcement'
-                          ? htmlParser(data.referenceData?.description ?? '') 
+                          ? htmlParser(data.referenceData?.description ?? '')
                           : htmlParser(data.referenceData?.complaints ?? ''),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,

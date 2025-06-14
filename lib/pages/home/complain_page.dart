@@ -14,7 +14,7 @@ import 'package:tmsmobile/widgets/empty_view.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
 
 import '../../utils/dimens.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 class ComplainPage extends StatefulWidget {
   const ComplainPage({super.key});
@@ -87,7 +87,8 @@ class _ComplainPageState extends State<ComplainPage>
                           controller: _tabController,
                           indicatorSize: TabBarIndicatorSize.tab,
                           indicatorPadding: EdgeInsets.only(
-                              top: kMargin45,),
+                            top: kMargin45,
+                          ),
                           indicatorWeight: 4.0,
                           indicator: ShapeDecoration(
                             shape: UnderlineInputBorder(),

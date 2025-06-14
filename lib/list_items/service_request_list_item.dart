@@ -4,7 +4,7 @@ import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/dimens.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 class ServiceRequestListItem extends StatelessWidget {
   const ServiceRequestListItem(

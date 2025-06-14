@@ -17,7 +17,7 @@ import '../../widgets/common_dialog.dart';
 import '../../widgets/error_dialog_view.dart';
 import '../../widgets/gradient_button.dart';
 import '../../widgets/nrc_view.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 class EditResidentPage extends StatefulWidget {
   const EditResidentPage(

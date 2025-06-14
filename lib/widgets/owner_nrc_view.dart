@@ -5,7 +5,7 @@ import 'package:tmsmobile/bloc/owner_nrc_bloc.dart';
 import 'package:tmsmobile/extension/extension.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 class OwnerNrcView extends StatefulWidget {
   const OwnerNrcView({
@@ -18,8 +18,7 @@ class OwnerNrcView extends StatefulWidget {
 class NRCViewState extends State<OwnerNrcView> {
   final List<String> _nrcTypes = ['C', 'N', 'P', 'T'];
   final _nrcTextController = TextEditingController();
-    final FocusNode _nrcFocusNode = FocusNode();
-
+  final FocusNode _nrcFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -128,7 +127,7 @@ class NRCViewState extends State<OwnerNrcView> {
                           value: bloc.selectedTownshipCode ?? 'Select',
                           isExpanded: true,
                           onTap: () => FocusScope.of(context)
-                                .requestFocus(_nrcFocusNode),
+                              .requestFocus(_nrcFocusNode),
                           menuMaxHeight: kMargin110,
                           iconDisabledColor: Colors.black,
                           iconEnabledColor: Colors.black,
@@ -162,7 +161,7 @@ class NRCViewState extends State<OwnerNrcView> {
                         child: DropdownButton<String>(
                           value: bloc.selectedNRCType,
                           onTap: () => FocusScope.of(context)
-                                .requestFocus(_nrcFocusNode),
+                              .requestFocus(_nrcFocusNode),
                           isExpanded: true,
                           hint: Text('Type'),
                           menuMaxHeight: kMargin110,
@@ -191,8 +190,7 @@ class NRCViewState extends State<OwnerNrcView> {
                     Text(
                       AppLocalizations.of(context)?.kEntereNrcLabel ?? '',
                       style: TextStyle(
-                          fontSize: kTextRegular,
-                          fontWeight: FontWeight.w600),
+                          fontSize: kTextRegular, fontWeight: FontWeight.w600),
                     ),
                     5.vGap,
                     Container(
@@ -203,7 +201,7 @@ class NRCViewState extends State<OwnerNrcView> {
                           color: kInputBackgroundColor,
                           borderRadius: BorderRadius.circular(kMarginMedium)),
                       child: Focus(
-                         onFocusChange: (focused) {
+                        onFocusChange: (focused) {
                           setState(() {
                             FocusScope.of(context).requestFocus(_nrcFocusNode);
                           });
@@ -217,9 +215,9 @@ class NRCViewState extends State<OwnerNrcView> {
                           onChanged: (value) => bloc.onChangeNrcNumber(value),
                           decoration: InputDecoration(
                               counterText: '',
-                              hintText:
-                                  AppLocalizations.of(context)?.kEntereNrcLabel ??
-                                      '',
+                              hintText: AppLocalizations.of(context)
+                                      ?.kEntereNrcLabel ??
+                                  '',
                               hintStyle: TextStyle(
                                 fontSize: kTextRegular,
                               ),

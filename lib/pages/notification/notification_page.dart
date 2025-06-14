@@ -12,7 +12,7 @@ import 'package:tmsmobile/widgets/empty_view.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
 import '../../utils/colors.dart';
 import '../../utils/images.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});

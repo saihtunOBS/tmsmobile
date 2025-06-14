@@ -11,7 +11,7 @@ import 'package:tmsmobile/widgets/empty_view.dart';
 
 import '../../utils/images.dart';
 import '../../widgets/loading_view.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 class EmergencyContactPage extends StatefulWidget {
   const EmergencyContactPage({super.key});
@@ -88,15 +88,16 @@ class _EmergencyContactPageState extends State<EmergencyContactPage> {
                                   return _buildListItem(
                                       data: bloc.emergencyLists[index],
                                       index: index,
-                                      title: bloc
-                                          .emergencyLists[index].emergencyCategory?.name);
+                                      title: bloc.emergencyLists[index]
+                                          .emergencyCategory?.name);
                                 },
                                 controller: scrollController
                                   ..addListener(() {
                                     if (scrollController.position.pixels ==
                                         scrollController
                                             .position.maxScrollExtent) {
-                                      if(bloc.emergencyLists.length < 10) return;
+                                      if (bloc.emergencyLists.length < 10)
+                                        return;
                                       bloc.loadMoreData();
                                     }
                                   }),

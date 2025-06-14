@@ -4,7 +4,7 @@ import 'package:tmsmobile/pages/auth/login_page.dart';
 
 import '../utils/colors.dart';
 import '../utils/dimens.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 class ErrorDialogView extends StatelessWidget {
   final String? errorMessage;

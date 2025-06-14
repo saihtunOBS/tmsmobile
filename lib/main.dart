@@ -21,13 +21,13 @@ import 'package:tmsmobile/bloc/service_request_bloc.dart';
 import 'package:tmsmobile/bloc/tabbar_bloc.dart';
 import 'package:tmsmobile/data/app_data/app_data.dart';
 import 'package:tmsmobile/data/persistance_data/persistence_data.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 import 'package:tmsmobile/network/notification_service.dart';
 import 'package:tmsmobile/pages/auth/splash_screen_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'bloc/invoice_detai_bloc.dart';
 import 'firebase_options.dart';
 import 'utils/dimens.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'utils/route_observer.dart';
 

@@ -22,7 +22,7 @@ import 'package:tmsmobile/widgets/owner_nrc_view.dart';
 import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
 import '../../widgets/gradient_button.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 class HouseholdRegistrationPage extends StatefulWidget {
   const HouseholdRegistrationPage({super.key});

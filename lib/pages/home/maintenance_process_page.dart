@@ -12,7 +12,7 @@ import 'package:tmsmobile/pages/home/maintenance_quotation_page.dart';
 import 'package:tmsmobile/utils/date_formatter.dart';
 import 'package:tmsmobile/utils/strings.dart';
 import 'package:tmsmobile/widgets/loading_view.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 import '../../data/vos/pending_vo.dart';
 import '../../extension/text_ext.dart';

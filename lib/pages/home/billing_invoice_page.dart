@@ -7,7 +7,7 @@ import 'package:tmsmobile/pages/home/invoice_detail_page.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
 import 'package:tmsmobile/widgets/gradient_button.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 import '../../data/app_data/app_data.dart';
 import '../../widgets/appbar.dart';

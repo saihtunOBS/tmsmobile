@@ -10,7 +10,7 @@ import 'package:tmsmobile/widgets/empty_view.dart';
 import '../../utils/images.dart';
 import '../../widgets/appbar.dart';
 import '../../widgets/loading_view.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 class CarParkingPage extends StatefulWidget {
   const CarParkingPage({super.key});

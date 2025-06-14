@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tmsmobile/data/vos/complaint_vo.dart';
 import 'package:tmsmobile/utils/colors.dart';
 import 'package:tmsmobile/utils/dimens.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 class ComplainListItem extends StatelessWidget {
   const ComplainListItem({
@@ -26,8 +25,8 @@ class ComplainListItem extends StatelessWidget {
         children: [
           Text(
             AppLocalizations.of(context)?.kCompliantLabel ?? '',
-            style: TextStyle(
-                fontSize: kTextRegular, fontWeight: FontWeight.w700),
+            style:
+                TextStyle(fontSize: kTextRegular, fontWeight: FontWeight.w700),
           ),
           Text(
             data?.complaint ?? '',

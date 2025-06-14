@@ -17,7 +17,7 @@ import '../../data/app_data/app_data.dart';
 import '../../utils/images.dart';
 import '../../widgets/appbar_back_view.dart';
 import 'package:pinput/pinput.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 class OTPPage extends StatefulWidget {
   const OTPPage({super.key, this.phone, this.token});
@@ -163,15 +163,11 @@ class _OTPPageState extends State<OTPPage> {
                             children: [
                               Text(
                                 AppLocalizations.of(context)?.kExpireIn ?? '',
-                                style: TextStyle(
-                                    fontSize:
-                                        kTextRegular),
+                                style: TextStyle(fontSize: kTextRegular),
                               ),
                               Text(
                                 timerText,
-                                style: TextStyle(
-                                    fontSize:
-                                        kTextRegular),
+                                style: TextStyle(fontSize: kTextRegular),
                               )
                             ],
                           ),
@@ -203,8 +199,8 @@ class _OTPPageState extends State<OTPPage> {
                           bloc
                               .verifyOtp(pinController.text, token)
                               .then((response) {
-                                _start = 300;
-                                _timer?.cancel();
+                            _start = 300;
+                            _timer?.cancel();
                             PageNavigator(ctx: context).nextPage(
                                 page: ChangePasswordPage(
                               isChangePassword: false,
@@ -226,8 +222,7 @@ class _OTPPageState extends State<OTPPage> {
                           Text(
                             AppLocalizations.of(context)?.kDidNotReceiveCode ??
                                 '',
-                            style: TextStyle(
-                                fontSize: kTextRegular),
+                            style: TextStyle(fontSize: kTextRegular),
                           ),
                           TextButton(
                               onPressed: () {

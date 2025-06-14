@@ -18,7 +18,7 @@ import '../../utils/images.dart';
 import '../../widgets/common_dialog.dart';
 import '../../widgets/error_dialog_view.dart';
 import '../../widgets/loading_view.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tmsmobile/l10n/app_localizations.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage(
@@ -228,8 +228,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           Text(
             title,
             style: GoogleFonts.nunito(
-                fontSize: kTextRegular,
-                fontWeight: FontWeight.w600),
+                fontSize: kTextRegular, fontWeight: FontWeight.w600),
           ),
           const SizedBox(
             height: 4,
@@ -256,8 +255,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: title,
-                            hintStyle: TextStyle(
-                                fontSize: kTextRegular)))),
+                            hintStyle: TextStyle(fontSize: kTextRegular)))),
                 const SizedBox(
                   width: kMargin5,
                 ),
