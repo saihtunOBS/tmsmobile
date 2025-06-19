@@ -10,7 +10,6 @@ import 'package:tmsmobile/extension/route_navigator.dart';
 import 'package:tmsmobile/pages/auth/login_page.dart';
 import 'package:tmsmobile/pages/profile/account_change_language_page.dart';
 import 'package:tmsmobile/pages/profile/account_change_password_page.dart';
-import 'package:tmsmobile/pages/profile/account_term_and_condition_page.dart';
 import 'package:tmsmobile/pages/profile/change_profile_page.dart';
 import 'package:tmsmobile/pages/profile/emergency_contact_page.dart';
 import 'package:tmsmobile/pages/profile/household_registration_page.dart';
@@ -215,7 +214,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
                   switch (entry.key) {
-                    case 5:
+                    case 4:
                       showModalBottomSheet(
                           context: context,
                           builder: (_) => _buildLogoutBottomSheet(
@@ -233,10 +232,10 @@ class _ProfilePageState extends State<ProfilePage> {
                           .nextPage(page: HouseholdRegistrationPage());
                     case 3:
                       PageNavigator(ctx: context)
-                          .nextPage(page: AccountTermAndConditionPage());
-                    case 4:
-                      PageNavigator(ctx: context)
                           .nextPage(page: AccountChangeLanguagePage());
+                      // case 4:
+                      //   PageNavigator(ctx: context)
+                      //       .nextPage(page: AccountChangeLanguagePage());
                       break;
 
                     default:
