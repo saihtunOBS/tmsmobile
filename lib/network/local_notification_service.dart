@@ -1,11 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:tmsmobile/main.dart';
-import 'package:tmsmobile/pages/home/announcement_page.dart';
-import 'package:tmsmobile/utils/html_text.dart';
-import 'package:tmsmobile/utils/route_observer.dart';
-
 import '../utils/colors.dart';
 
 class LocalNotificationService {
@@ -15,16 +10,16 @@ class LocalNotificationService {
   Future<void> initialize() async {
     const DarwinInitializationSettings iosSettings =
         DarwinInitializationSettings(
-          requestAlertPermission: true,
-          requestBadgePermission: true,
-          requestSoundPermission: true,
-        );
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+    );
 
     const InitializationSettings initializationSettings =
         InitializationSettings(
-          android: AndroidInitializationSettings('@drawable/noti_icon'),
-          iOS: iosSettings,
-        );
+      android: AndroidInitializationSettings('@drawable/noti_icon'),
+      iOS: iosSettings,
+    );
 
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
@@ -61,8 +56,7 @@ class LocalNotificationService {
 
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-          IOSFlutterLocalNotificationsPlugin
-        >()
+            IOSFlutterLocalNotificationsPlugin>()
         ?.requestPermissions(alert: true, badge: true, sound: true);
   }
 
@@ -82,14 +76,13 @@ class LocalNotificationService {
           // IMPORTANT: Create channel for Android
           await flutterLocalNotificationsPlugin
               .resolvePlatformSpecificImplementation<
-                AndroidFlutterLocalNotificationsPlugin
-              >()
+                  AndroidFlutterLocalNotificationsPlugin>()
               ?.createNotificationChannel(channel);
 
           await flutterLocalNotificationsPlugin.show(
             message.hashCode,
-            title,
-            body,
+            message.notification?.title ?? '',
+            message.notification?.body ?? '',
             NotificationDetails(
               iOS: const DarwinNotificationDetails(
                 presentAlert: true,
