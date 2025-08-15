@@ -38,6 +38,7 @@ class NotificationService {
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
     listenIncomingMessage();
+    getFCMToken();
   }
 
   listenIncomingMessage() {
@@ -97,4 +98,5 @@ class NotificationService {
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
+  print('get initial message......');
 }

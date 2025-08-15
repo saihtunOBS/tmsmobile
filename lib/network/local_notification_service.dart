@@ -15,16 +15,16 @@ class LocalNotificationService {
   Future<void> initialize() async {
     const DarwinInitializationSettings iosSettings =
         DarwinInitializationSettings(
-      requestAlertPermission: true,
-      requestBadgePermission: true,
-      requestSoundPermission: true,
-    );
+          requestAlertPermission: true,
+          requestBadgePermission: true,
+          requestSoundPermission: true,
+        );
 
     const InitializationSettings initializationSettings =
         InitializationSettings(
-      android: AndroidInitializationSettings('@drawable/noti_icon'),
-      iOS: iosSettings,
-    );
+          android: AndroidInitializationSettings('@drawable/noti_icon'),
+          iOS: iosSettings,
+        );
 
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
@@ -61,12 +61,9 @@ class LocalNotificationService {
 
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-            IOSFlutterLocalNotificationsPlugin>()
-        ?.requestPermissions(
-          alert: true,
-          badge: true,
-          sound: true,
-        );
+          IOSFlutterLocalNotificationsPlugin
+        >()
+        ?.requestPermissions(alert: true, badge: true, sound: true);
   }
 
   Future<void> displayNotification(RemoteMessage message) async {
@@ -82,13 +79,11 @@ class LocalNotificationService {
     Future.delayed(Duration(milliseconds: 100), () async {
       try {
         if (message.notification != null) {
-          final title = removeAllHtmlTags(message.notification!.title ?? '');
-          final body = removeAllHtmlTags(message.notification!.body ?? '');
-
           // IMPORTANT: Create channel for Android
           await flutterLocalNotificationsPlugin
               .resolvePlatformSpecificImplementation<
-                  AndroidFlutterLocalNotificationsPlugin>()
+                AndroidFlutterLocalNotificationsPlugin
+              >()
               ?.createNotificationChannel(channel);
 
           await flutterLocalNotificationsPlugin.show(

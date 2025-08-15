@@ -46,6 +46,7 @@ void main() async {
   }
   NotificationService().requestPermission();
   LocalNotificationService().initialize();
+
   await GetStorage.init();
 
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
