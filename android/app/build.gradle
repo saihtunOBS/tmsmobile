@@ -16,8 +16,8 @@ def keystoreProperties = new Properties()
 
 android {
     namespace = "com.obs.tmsmobile"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    compileSdk 36
+    ndkVersion = '29.0.13846066 rc3'
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -35,7 +35,7 @@ android {
         applicationId = "com.obs.tmsmobile"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = 21
+        minSdkVersion = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -44,7 +44,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("/Users/admin/Desktop/alay/tmsmobile/tms.jks")
+            storeFile file("/Users/saixtun/Desktop/tmsmobile/tms.jks")
             storePassword "123456"
             keyAlias "key"
             keyPassword "123456"
@@ -55,6 +55,10 @@ android {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
+            ndk {
+                debugSymbolLevel 'SYMBOL_TABLE'
+                // or 'FULL' if you want complete debug info
+            }
             signingConfig signingConfigs.release
             minifyEnabled true
             shrinkResources true
@@ -62,7 +66,7 @@ android {
     }
 }
 dependencies {
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
 }
 
 flutter {
